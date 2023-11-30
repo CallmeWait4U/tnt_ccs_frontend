@@ -22,6 +22,7 @@ import {
   Avatar,
   Typography,
 } from "antd";
+import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 
 import { ToTopOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -39,6 +40,7 @@ import face4 from "../assets/images/face-4.jpg";
 import face5 from "../assets/images/face-5.jpeg";
 import face6 from "../assets/images/face-6.jpeg";
 import pencil from "../assets/images/pencil.svg";
+import BaseTable from "../components/table/BaseTable";
 
 const { Title } = Typography;
 
@@ -83,6 +85,17 @@ const columns = [
     key: "employed",
     dataIndex: "employed",
   },
+  {
+    title: "Action",
+    dataIndex: "",
+    key: "x",
+    render: () => (
+      <>
+        <HiOutlineTrash size={24} />
+        <HiInformationCircle size={24} />
+      </>
+    ),
+  },
 ];
 
 const data = [
@@ -124,7 +137,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>23/04/18</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -166,7 +178,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>23/12/20</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -210,7 +221,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>03/04/21</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -253,7 +263,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>03/04/21</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -294,7 +303,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>23/03/20</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -336,7 +344,6 @@ const data = [
       <>
         <div className="ant-employed">
           <span>14/04/17</span>
-          <a href="#pablo">Edit</a>
         </div>
       </>
     ),
@@ -608,10 +615,9 @@ function Tables() {
               }
             >
               <div className="table-responsive">
-                <Table
+                <BaseTable
                   columns={columns}
-                  dataSource={data}
-                  pagination={false}
+                  data={data}
                   className="ant-border-space"
                 />
               </div>
