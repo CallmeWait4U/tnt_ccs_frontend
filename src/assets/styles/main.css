@@ -9,6 +9,9 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
   padding: 0 0 30px 0;
   background-color: #fafafa;
