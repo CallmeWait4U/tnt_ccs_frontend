@@ -155,7 +155,7 @@ const AdditionalInformation = () => {
             </div>
           </Col>
         </Row>
-        <Row gutter={12}>
+        <Row gutter={12} style={{ marginBottom: "16px" }}>
           <Col span={20}>
             {" "}
             <h1>Danh sách Báo giá</h1>
@@ -165,7 +165,7 @@ const AdditionalInformation = () => {
           </Col>
         </Row>
         <Table columns={columns1} dataSource={data} />
-        <Row gutter={12}>
+        <Row gutter={12} style={{ marginBottom: "16px" }}>
           <Col span={20}>
             {" "}
             <h1>Danh sách Hóa đơn</h1>

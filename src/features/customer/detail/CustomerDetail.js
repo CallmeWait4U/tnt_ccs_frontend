@@ -7,6 +7,11 @@ import { message } from "antd";
 import { Form } from "antd";
 import { Card, Col, Collapse, Row, Tabs, theme } from "antd";
 import AdditionalInformation from "../moreData/AdditionalInformation";
+import ActivityHistory from "../moreData/ActivityHistory";
+import {
+  StyledDatepicker,
+  StyledSelect,
+} from "../../component/ComponentOfForm";
 
 const CustomerDetail = () => {
   const items = [
@@ -18,7 +23,7 @@ const CustomerDetail = () => {
     {
       label: "Hoạt động",
       key: "2",
-      children: `Content of Tab Pane`,
+      children: <ActivityHistory />,
     },
     {
       label: "Gửi tin nhắn",
@@ -44,7 +49,7 @@ const CustomerDetail = () => {
         <Card title={"Thông tin chi tiết"}>
           <Form>
             <>
-              <Flex wrap="wrap" gap="small">
+              <Row gutter={16}>
                 <Col span={8}>
                   <Form.Item
                     label={"Loại khách hàng"}
@@ -86,17 +91,17 @@ const CustomerDetail = () => {
                     <Input />
                   </Form.Item>
                 </Col>
-              </Flex>
+              </Row>
 
               <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item label={"Tên công ty"}>
-                    <Select />
+                <Col span={8}>
+                  <Form.Item label={"Nguồn khách hàng"}>
+                    <StyledSelect />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label={"Ngày tạo"}>
-                    <DatePicker />
+                    <StyledDatepicker />
                   </Form.Item>
                 </Col>
               </Row>
@@ -130,7 +135,7 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <Select />
+                      <StyledSelect />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -173,7 +178,7 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <Select />
+                      <StyledSelect />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -216,7 +221,7 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <Select />
+                      <StyledSelect />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
