@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import Main from "../components/layout/Main";
 import Customer from "../pages/Customer";
+import CustomerDetail from "../features/customer/detail/CustomerDetail";
 // const withPrivateRoute = (Component: any) => {
 //   return () => (
 //     <PrivateRoute>
@@ -47,4 +48,8 @@ export const routes_layout = [
     element: <Main children={<Billing />} />,
   },
   { path: PATH.TABLE, element: <Main children={<Tables />} /> },
+  {
+    path: PATH.CUSTOMERDETAIL,
+    element: <Main children={<CustomerDetail />} />,
+  },
 ];
