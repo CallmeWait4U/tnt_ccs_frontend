@@ -39,8 +39,8 @@ const CustomerDetail = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Row gutter={16} style={{ minWidth: "1000px" }}>
-      <Col span={14}>
+    <Row gutter={[8, 16]}>
+      <Col xs={24} lg={24} xl={24} xxl={14}>
         <Card title={"Thông tin chi tiết"}>
           <Form>
             <>
@@ -103,7 +103,7 @@ const CustomerDetail = () => {
             </>
           </Form>
           <Row>
-            <Card>
+            <Card style={{ width: "100%" }}>
               <Form layout="vertical">
                 <Row gutter={16}>
                   <Col span={8}>
@@ -239,13 +239,13 @@ const CustomerDetail = () => {
           </Row>
         </Card>
       </Col>
-      <Col span={10}>
+      <Col xs={24} sm={24} xl={24} xxl={10}>
         <Tabs
           defaultActiveKey="1"
           items={items}
           style={{
             background: "#ffffff",
-            padding: "5px",
+            padding: "15px",
             borderRadius: "10px",
           }}
         />
