@@ -1,16 +1,19 @@
 import { Input } from "antd";
 import { Select } from "antd";
+import { DatePicker } from "antd";
+import { Flex } from "antd";
 import { Carousel } from "antd";
 import { message } from "antd";
 import { Form } from "antd";
 import { Card, Col, Collapse, Row, Tabs, theme } from "antd";
+import AdditionalInformation from "../moreData/AdditionalInformation";
 
 const CustomerDetail = () => {
   const items = [
     {
       label: "Thông tin bổ sung",
       key: "1",
-      children: `Content of Tab Pane 1`,
+      children: <AdditionalInformation />,
     },
     {
       label: "Hoạt động",
@@ -40,50 +43,200 @@ const CustomerDetail = () => {
       <Col span={14}>
         <Card title={"Thông tin chi tiết"}>
           <Form>
-            <Row gutter={16}>
-              <Col span={8}>
-                <Form.Item
-                  label={"Loại khách hàng"}
-                  rules={[
-                    {
-                      require: true,
-                      message: "this field is required!",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                {" "}
-                <Form.Item
-                  label={"Giai đoạn"}
-                  rules={[
-                    {
-                      require: true,
-                      message: "this field is required!",
-                    },
-                  ]}
-                >
-                  <Select />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                {" "}
-                <Form.Item
-                  label={"Mã khách hàng"}
-                  rules={[
-                    {
-                      require: true,
-                      message: "this field is required!",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
+            <>
+              <Flex wrap="wrap" gap="small">
+                <Col span={8}>
+                  <Form.Item
+                    label={"Loại khách hàng"}
+                    rules={[
+                      {
+                        require: true,
+                        message: "this field is required!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  {" "}
+                  <Form.Item
+                    label={"Giai đoạn"}
+                    rules={[
+                      {
+                        require: true,
+                        message: "this field is required!",
+                      },
+                    ]}
+                  >
+                    <Select />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  {" "}
+                  <Form.Item
+                    label={"Mã khách hàng"}
+                    rules={[
+                      {
+                        require: true,
+                        message: "this field is required!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Flex>
+
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item label={"Tên công ty"}>
+                    <Select />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item label={"Ngày tạo"}>
+                    <DatePicker />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </>
           </Form>
+          <Row>
+            <Card>
+              <Form layout="vertical">
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item
+                      label={"Mã số thuế"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Số ĐKKD"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Select />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Quốc gia"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item
+                      label={"Lĩnh vực kinh doang"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Giai đoạn"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Select />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Mã khách hàng"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item
+                      label={"Loại khách hàng"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Giai đoạn"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Select />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Mã khách hàng"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
+            </Card>
+          </Row>
         </Card>
       </Col>
       <Col span={10}>
