@@ -4,8 +4,7 @@ import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 import { FiPlus, FiShare2 } from "react-icons/fi";
 import QuoteForm from "../form/QuoteForm";
 import { useState } from "react";
-const AdditionalInformation = () => {
-  const [isShowQuoteForm, setIsShowQuoteForm] = useState(false);
+const AdditionalInformation = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
   const data = [
     { code: "HT-0001", date: "23-11-2023", status: "Đã gửi" },
     { code: "HT-0001", date: "23-11-2023", status: "Đã gửi" },
@@ -161,7 +160,7 @@ const AdditionalInformation = () => {
             <h1>Danh sách Báo giá</h1>
           </Col>
           <Col span={5}>
-            <Button icon={<FiPlus />} onClick={setIsShowQuoteForm(true)}>
+            <Button icon={<FiPlus />} onClick={() => setIsShowQuoteForm(true)}>
               Thêm mới
             </Button>
           </Col>
@@ -172,12 +171,14 @@ const AdditionalInformation = () => {
             <h1>Danh sách Hóa đơn</h1>
           </Col>
           <Col span={5}>
-            <Button icon={<FiPlus />}>Thêm mới</Button>
+            <Button icon={<FiPlus />} onClick={() => setIsShowBillForm(true)}>
+              Thêm mới
+            </Button>
           </Col>
         </Row>
         <Table columns={columns1} dataSource={data} />
       </Form>
-      <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} />
+      {/* <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} /> */}
     </>
   );
 };

@@ -13,7 +13,7 @@ import {
   StyledSelect,
 } from "../../component/ComponentOfForm";
 import CompanyInformation from "./CompanyInformation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PersonalInformation from "./PersonalInformation";
 import ChatBox from "../../../components/boxChat/BoxChat";
 import BaseModal from "../../../components/modal/BaseModel";
@@ -21,12 +21,18 @@ import QuoteForm from "../form/QuoteForm";
 
 const CustomerDetail = () => {
   const [typeCustomer, setTypeCustomer] = useState(1);
-
+  const [isShowQuoteForm, setIsShowQuoteForm] = useState(false);
+  const [isShowBillForm, setIsShowBillForm] = useState(false);
   const items = [
     {
       label: "Thông tin bổ sung",
       key: "1",
-      children: <AdditionalInformation />,
+      children: (
+        <AdditionalInformation
+          setIsShowQuoteForm={setIsShowQuoteForm}
+          setIsShowBillForm={setIsShowBillForm}
+        />
+      ),
     },
     {
       label: "Hoạt động",
@@ -40,6 +46,9 @@ const CustomerDetail = () => {
     },
   ];
 
+  useEffect(() => {
+    console.log("is show", isShowQuoteForm);
+  }, [isShowQuoteForm]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -136,6 +145,7 @@ const CustomerDetail = () => {
           />
         </Col>
       </Row>
+      <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} />
     </>
   );
 };
