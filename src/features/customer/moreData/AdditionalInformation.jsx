@@ -2,7 +2,10 @@ import { Button, Input, Table } from "antd";
 import { Form, Card, Row, Col } from "antd";
 import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 import { FiPlus, FiShare2 } from "react-icons/fi";
+import QuoteForm from "../form/QuoteForm";
+import { useState } from "react";
 const AdditionalInformation = () => {
+  const [isShowQuoteForm, setIsShowQuoteForm] = useState(false);
   const data = [
     { code: "HT-0001", date: "23-11-2023", status: "Đã gửi" },
     { code: "HT-0001", date: "23-11-2023", status: "Đã gửi" },
@@ -158,7 +161,9 @@ const AdditionalInformation = () => {
             <h1>Danh sách Báo giá</h1>
           </Col>
           <Col span={5}>
-            <Button icon={<FiPlus />}>Thêm mới</Button>
+            <Button icon={<FiPlus />} onClick={setIsShowQuoteForm(true)}>
+              Thêm mới
+            </Button>
           </Col>
         </Row>
         <Table columns={columns1} dataSource={data} />
@@ -172,6 +177,7 @@ const AdditionalInformation = () => {
         </Row>
         <Table columns={columns1} dataSource={data} />
       </Form>
+      <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} />
     </>
   );
 };

@@ -16,9 +16,12 @@ import CompanyInformation from "./CompanyInformation";
 import { useState } from "react";
 import PersonalInformation from "./PersonalInformation";
 import ChatBox from "../../../components/boxChat/BoxChat";
+import BaseModal from "../../../components/modal/BaseModel";
+import QuoteForm from "../form/QuoteForm";
 
 const CustomerDetail = () => {
   const [typeCustomer, setTypeCustomer] = useState(1);
+
   const items = [
     {
       label: "Thông tin bổ sung",
@@ -41,97 +44,99 @@ const CustomerDetail = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Row gutter={[8, 16]}>
-      <Col xs={24} lg={24} xl={24} xxl={14}>
-        <Card title={"Thông tin chi tiết"}>
-          <Form>
-            <>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Form.Item
-                    label={"Loại khách hàng"}
-                    rules={[
-                      {
-                        require: true,
-                        message: "this field is required!",
-                      },
-                    ]}
-                  >
-                    <StyledSelect
-                      value={typeCustomer}
-                      onChange={setTypeCustomer}
-                      options={[
-                        { value: 1, label: "Công ty" },
-                        { value: 2, label: "Cá nhân" },
+    <>
+      <Row gutter={[8, 16]}>
+        <Col xs={24} lg={24} xl={24} xxl={14}>
+          <Card title={"Thông tin chi tiết"}>
+            <Form>
+              <>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item
+                      label={"Loại khách hàng"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
                       ]}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  {" "}
-                  <Form.Item
-                    label={"Giai đoạn"}
-                    rules={[
-                      {
-                        require: true,
-                        message: "this field is required!",
-                      },
-                    ]}
-                  >
-                    <Select />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  {" "}
-                  <Form.Item
-                    label={"Mã khách hàng"}
-                    rules={[
-                      {
-                        require: true,
-                        message: "this field is required!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
+                    >
+                      <StyledSelect
+                        value={typeCustomer}
+                        onChange={setTypeCustomer}
+                        options={[
+                          { value: 1, label: "Công ty" },
+                          { value: 2, label: "Cá nhân" },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Giai đoạn"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Select />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Form.Item
+                      label={"Mã khách hàng"}
+                      rules={[
+                        {
+                          require: true,
+                          message: "this field is required!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Form.Item label={"Nguồn khách hàng"}>
-                    <StyledSelect />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item label={"Ngày tạo"}>
-                    <StyledDatepicker />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </>
-          </Form>
-          <Row>
-            {typeCustomer === 1 ? (
-              <CompanyInformation />
-            ) : (
-              <PersonalInformation />
-            )}
-          </Row>
-        </Card>
-      </Col>
-      <Col xs={24} sm={24} xl={24} xxl={10}>
-        <Tabs
-          defaultActiveKey="1"
-          items={items}
-          style={{
-            background: "#ffffff",
-            padding: "15px",
-            borderRadius: "10px",
-          }}
-        />
-      </Col>
-    </Row>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item label={"Nguồn khách hàng"}>
+                      <StyledSelect />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label={"Ngày tạo"}>
+                      <StyledDatepicker />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </>
+            </Form>
+            <Row>
+              {typeCustomer === 1 ? (
+                <CompanyInformation />
+              ) : (
+                <PersonalInformation />
+              )}
+            </Row>
+          </Card>
+        </Col>
+        <Col xs={24} sm={24} xl={24} xxl={10}>
+          <Tabs
+            defaultActiveKey="1"
+            items={items}
+            style={{
+              background: "#ffffff",
+              padding: "15px",
+              borderRadius: "10px",
+            }}
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 export default CustomerDetail;

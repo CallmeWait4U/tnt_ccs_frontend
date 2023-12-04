@@ -29,7 +29,7 @@ function Sidenav() {
             color: selectedKey === "dashboard" ? "#fff" : "",
           }}
         >
-          <NavLink to="/dashboard">Quản lý khách hàng</NavLink>
+          <NavLink to="/customers">Quản lý khách hàng</NavLink>
         </Menu.Item>
         <Menu.Item
           key="tables"
