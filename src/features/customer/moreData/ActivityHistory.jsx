@@ -2,7 +2,7 @@ import { Tag } from "antd";
 import { Button, Col, Row, Table } from "antd";
 import { FiPlus, FiTrash2, FiInfo } from "react-icons/fi";
 
-const ActivityHistory = () => {
+const ActivityHistory = ({ setIsShowActivityForm }) => {
   const data = [
     {
       name: "HT-0001",
@@ -69,7 +69,9 @@ const ActivityHistory = () => {
           <h1>Hoạt động sắp tới</h1>
         </Col>
         <Col span={5}>
-          <Button icon={<FiPlus />}>Thêm mới</Button>
+          <Button icon={<FiPlus />} onClick={() => setIsShowActivityForm(true)}>
+            Thêm mới
+          </Button>
         </Col>
       </Row>
       <Table columns={columns1} dataSource={data} />

@@ -1,4 +1,5 @@
 import { DatePicker } from "antd";
+import { Modal } from "antd";
 import { Select } from "antd";
 import styled from "styled-components";
 
@@ -9,4 +10,7 @@ export const StyledSelect = styled(Select)`
 export const StyledDatepicker = styled(DatePicker)`
   height: 40px;
   width: 100%;
+`;
+export const StyledModal = styled(Modal)`
+  width: 800px !important;
 `;
