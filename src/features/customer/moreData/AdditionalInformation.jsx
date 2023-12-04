@@ -122,9 +122,7 @@ const AdditionalInformation = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-          {" "}
           <Col span={10}>
-            {" "}
             <Form.Item label={"Mã nhân viên"}>
               <Input />
             </Form.Item>
@@ -156,21 +154,19 @@ const AdditionalInformation = () => {
           </Col>
         </Row>
         <Row gutter={12} style={{ marginBottom: "16px" }}>
-          <Col span={20}>
-            {" "}
+          <Col span={19}>
             <h1>Danh sách Báo giá</h1>
           </Col>
-          <Col span={4}>
+          <Col span={5}>
             <Button icon={<FiPlus />}>Thêm mới</Button>
           </Col>
         </Row>
         <Table columns={columns1} dataSource={data} />
         <Row gutter={12} style={{ marginBottom: "16px" }}>
-          <Col span={20}>
-            {" "}
+          <Col span={19}>
             <h1>Danh sách Hóa đơn</h1>
           </Col>
-          <Col span={4}>
+          <Col span={5}>
             <Button icon={<FiPlus />}>Thêm mới</Button>
           </Col>
         </Row>
