@@ -10,6 +10,8 @@ import SignIn from "../pages/SignIn";
 import Main from "../components/layout/Main";
 import Customer from "../pages/Customer";
 import CustomerDetail from "../features/customer/detail";
+import LandingPage from "../features/landingPage";
+import BusinessRegister from "../features/businessRegister/BusinessRegister";
 // const withPrivateRoute = (Component: any) => {
 //   return () => (
 //     <PrivateRoute>
@@ -19,6 +21,8 @@ import CustomerDetail from "../features/customer/detail";
 // };
 
 export const routes_layout = [
+  { path: PATH.LANDINGPAGE, element: <LandingPage /> },
+  { path: PATH.BUSSINESSREGISTER, element: <BusinessRegister /> },
   {
     path: PATH.SIGNIN,
     element: <SignIn />,
