@@ -1,10 +1,10 @@
-import { Modal } from "antd";
 import { Button, Col, Form, Input, Row, Table } from "antd";
 import { useState } from "react";
 import { FiInfo, FiPlus, FiTrash2 } from "react-icons/fi";
+import { Modal } from "antd";
 import { StyledModal } from "../../component/ComponentOfForm";
 
-const QuoteForm = ({ visible, setVisible }) => {
+const BillForm = ({ visible, setVisible }) => {
   const [tableData, setTableData] = useState([
     {
       index: 1,
@@ -118,7 +118,7 @@ const QuoteForm = ({ visible, setVisible }) => {
           style={{ display: "flex", gap: "5px", alignContent: "space-between" }}
         >
           <div style={{ width: "80%" }}>
-            <h2>Thêm báo giá</h2>
+            <h2>Thêm Hóa đơn</h2>
           </div>
           <div style={{ display: "flex", gap: "5px" }}>
             <Button onClick={() => setVisible(false)}>Hủy </Button>
@@ -167,4 +167,4 @@ const QuoteForm = ({ visible, setVisible }) => {
   );
 };
 
-export default QuoteForm;
+export default BillForm;

@@ -16,13 +16,15 @@ import CompanyInformation from "./CompanyInformation";
 import { useEffect, useState } from "react";
 import PersonalInformation from "./PersonalInformation";
 import ChatBox from "../../../components/boxChat/BoxChat";
-import BaseModal from "../../../components/modal/BaseModel";
 import QuoteForm from "../form/QuoteForm";
+import ActivityForm from "../form/ActivityForm";
+import BillForm from "../form/BillForm";
 
 const CustomerDetail = () => {
   const [typeCustomer, setTypeCustomer] = useState(1);
   const [isShowQuoteForm, setIsShowQuoteForm] = useState(false);
   const [isShowBillForm, setIsShowBillForm] = useState(false);
+  const [isShowActivityForm, setIsShowActivityForm] = useState(false);
   const items = [
     {
       label: "Thông tin bổ sung",
@@ -37,7 +39,9 @@ const CustomerDetail = () => {
     {
       label: "Hoạt động",
       key: "2",
-      children: <ActivityHistory />,
+      children: (
+        <ActivityHistory setIsShowActivityForm={setIsShowActivityForm} />
+      ),
     },
     {
       label: "Gửi tin nhắn",
@@ -146,6 +150,11 @@ const CustomerDetail = () => {
         </Col>
       </Row>
       <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} />
+      <BillForm visible={isShowBillForm} setVisible={setIsShowBillForm} />
+      <ActivityForm
+        visible={isShowActivityForm}
+        setVisible={setIsShowActivityForm}
+      />
     </>
   );
 };
