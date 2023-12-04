@@ -9,7 +9,7 @@ import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import Main from "../components/layout/Main";
 import Customer from "../pages/Customer";
-import CustomerDetail from "../features/customer/detail/CustomerDetail";
+import CustomerDetail from "../features/customer/detail";
 // const withPrivateRoute = (Component: any) => {
 //   return () => (
 //     <PrivateRoute>

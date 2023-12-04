@@ -24,7 +24,7 @@ function Footer() {
             © 2021, made with
             {<HeartFilled />} by
             <a href="#pablo" className="font-weight-bold" target="_blank">
-              Creative Tim
+              TNT Team
             </a>
             for a better web.
           </div>
@@ -38,7 +38,7 @@ function Footer() {
                   className="nav-link text-muted"
                   target="_blank"
                 >
-                  Creative Tim
+                  TNT Team
                 </a>
               </li>
               <li className="nav-item">
