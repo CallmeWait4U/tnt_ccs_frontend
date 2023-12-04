@@ -46,10 +46,28 @@ function Main({ children }) {
     <Layout
       className={`layout-dashboard ${
         pathname === "profile" ? "layout-profile" : ""
-      } ${pathname === "rtl" ? "layout-dashboard-rtl" : ""}`}
+      }`}
     >
-        <Sidenav/>
-      <Layout>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}
+        trigger={null}
+        width={250}
+        theme="light"
+        className={` ant-layout-sider-primary ${
+          sidenavType === "#fff" ? "active-route" : ""
+        }`}
+      >
+        <Sidenav />
+      </Sider>
+      <Layout
+        style={{
+          marginLeft: 0,
+        }}
+      >
         {fixed ? (
           <Affix>
             <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>

@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
+import { Menu } from "antd";
 import {
   BarsOutlined,
   FileOutlined,
@@ -7,46 +8,75 @@ import {
   PieChartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { useState } from "react";
 function Sidenav() {
+  const { pathname } = useLocation();
+  const page = pathname.replace("/", "");
+  const [selectedKey, setSelectedKey] = useState("dashboard");
   return (
-    <div className="fixed top-0 left-0 z-40 w-50 h-screen pl-2 py-2">
+    <>
       <div className="flex flex-row items-center border-b-2 border-slate-300 p-4">
         <img src={logo} alt="logo" width={60} />
         <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
       </div>
-      <ul className="text-black flex flex-col w-42 py-2 ">
-        <li className="hover:text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:text-white p-2 rounded-md">
-          <Link className="hover:text-white" to="/customers">
-            <UserOutlined style={{ fontSize: "24px" }} />
-            <span className="px-2">Quản lý khách hàng</span>
-          </Link>
-        </li>
-        <li className="hover:text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:text-white p-2 rounded-md">
-          <Link className="hover:text-white" to="/tables">
-            <PieChartOutlined style={{ fontSize: "24px" }} />
-            <span className="px-2">Thống kê - báo cáo</span>
-          </Link>
-        </li>
-        <li className="hover:text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:text-white p-2 rounded-md">
-          <Link className="hover:text-white" to="/billing">
-            <BarsOutlined style={{ fontSize: "24px" }} />
-            <span className="px-2">Quản lý hoạt động</span>
-          </Link>
-        </li>
-        <li className="hover:text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:text-white p-2 rounded-md">
-          <Link className="hover:text-white" to="/profile">
-            <FileOutlined style={{ fontSize: "24px" }} />
-            <span className="px-2">Quản lý tổ chức</span>
-          </Link>
-        </li>
-        <li className="hover:text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:text-white p-2 rounded-md">
-          <Link className="hover:text-white" to="/profile">
-            <InfoCircleOutlined style={{ fontSize: "24px" }} />
-            <span className="px-2">Quản lý khiếu nại</span>
-          </Link>
-        </li>
-      </ul>
-    </div>
+      <Menu mode="inline" theme="light">
+        <Menu.Item
+          key="dashboard"
+          icon={<UserOutlined />}
+          onClick={() => setSelectedKey("dashboard")}
+          style={{
+            backgroundColor: selectedKey === "dashboard" ? "#7364ff" : "",
+            color: selectedKey === "dashboard" ? "#fff" : "",
+          }}
+        >
+          <NavLink to="/dashboard">Quản lý khách hàng</NavLink>
+        </Menu.Item>
+        <Menu.Item
+          key="tables"
+          icon={<PieChartOutlined />}
+          onClick={() => setSelectedKey("tables")}
+          style={{
+            backgroundColor: selectedKey === "tables" ? "#7364ff" : "",
+            color: selectedKey === "tables" ? "#fff" : "",
+          }}
+        >
+          <NavLink to="/tables">Thống kê - báo cáo</NavLink>
+        </Menu.Item>
+        <Menu.Item
+          key="billing"
+          icon={<BarsOutlined />}
+          onClick={() => setSelectedKey("billing")}
+          style={{
+            backgroundColor: selectedKey === "billing" ? "#7364ff" : "",
+            color: selectedKey === "billing" ? "#fff" : "",
+          }}
+        >
+          <NavLink to="/billing">Quản lý hoạt động</NavLink>
+        </Menu.Item>
+        <Menu.Item
+          key="profile"
+          icon={<FileOutlined />}
+          onClick={() => setSelectedKey("profile")}
+          style={{
+            backgroundColor: selectedKey === "profile" ? "#7364ff" : "",
+            color: selectedKey === "profile" ? "#fff" : "",
+          }}
+        >
+          <NavLink to="/profile">Quản lý tổ chức</NavLink>
+        </Menu.Item>
+        <Menu.Item
+          key="customers"
+          icon={<InfoCircleOutlined />}
+          onClick={() => setSelectedKey("customers")}
+          style={{
+            backgroundColor: selectedKey === "customers" ? "#7364ff" : "",
+            color: selectedKey === "customers" ? "#fff" : "",
+          }}
+        >
+          <NavLink to="/customers">Quản lý khiếu nại</NavLink>
+        </Menu.Item>
+      </Menu>
+    </>
   );
 }
 
