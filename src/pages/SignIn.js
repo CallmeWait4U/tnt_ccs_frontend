@@ -165,14 +165,14 @@ const CustomerLanding = () => {
                   block="true"
                   htmlType="submit"
                   style={{ background: "#1677ff", color: "white" }}
-                  onClick={() => navigate(PATH.DASHBOARD)}
+                  onClick={() => navigate(PATH.CUSTOMER)}
                 >
                   Log in
                 </Button>
-                <div style={styles.footer}>
+                {/* <div style={styles.footer}>
                   <Text style={styles.text}>Don't have an account?</Text>{" "}
                   <Link href="http://localhost:3000/sign-up">Sign up now</Link>
-                </div>
+                </div> */}
               </Form.Item>
             </Form>
           </div>

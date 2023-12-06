@@ -76,20 +76,18 @@ const AdditionalInformation = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
           <Col span={12}>
             {" "}
             <Form.Item label={"Số điện thoại"}>
-              <Input />
+              <Input value={"TNT"} />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label={"Email"}>
-              <Input />
+              <Input value={"tnt@gmail.com"} />
             </Form.Item>
           </Col>
         </Row>
         <h3>Thông tin Nhân viên</h3>
         <Row gutter={16}>
-          {" "}
           <Col span={10}>
-            {" "}
             <Form.Item label={"Mã nhân viên"}>
               <Input />
             </Form.Item>

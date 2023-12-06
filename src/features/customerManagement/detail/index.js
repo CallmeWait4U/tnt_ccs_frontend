@@ -15,6 +15,7 @@ import ChatBox from "../../../components/boxChat/BoxChat";
 import QuoteForm from "../form/QuoteForm";
 import ActivityForm from "../form/ActivityForm";
 import BillForm from "../form/BillForm";
+import dayjs from "dayjs";
 
 const CustomerDetail = () => {
   const [typeCustomer, setTypeCustomer] = useState(1);
@@ -95,7 +96,14 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <StyledSelect />
+                      <StyledSelect
+                        options={[
+                          { value: 1, label: "Tiềm năng" },
+                          { value: 2, label: "Báo giá" },
+                          { value: 3, label: "Thân thiết" },
+                        ]}
+                        value={1}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -109,7 +117,7 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <Input />
+                      <Input disabled value={"#KH123"} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -117,12 +125,19 @@ const CustomerDetail = () => {
                 <Row gutter={16}>
                   <Col span={8}>
                     <Form.Item label={"Nguồn khách hàng"}>
-                      <StyledSelect />
+                      <StyledSelect
+                        options={[
+                          { value: 1, label: "Landing page" },
+                          { value: 2, label: "Facebook" },
+                          { value: 3, label: "Tiktok" },
+                        ]}
+                        value={1}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
                     <Form.Item label={"Ngày tạo"}>
-                      <StyledDatepicker />
+                      <StyledDatepicker value={dayjs()} />
                     </Form.Item>
                   </Col>
                 </Row>
