@@ -23,31 +23,10 @@ import face2 from "../../assets/images/face-2.jpg";
 import { AiFillFilter } from "react-icons/ai";
 import BaseTable from "../../components/table/BaseTable";
 import { useNavigate } from "react-router-dom";
-import { Input } from "antd";
 import { Flex } from "antd";
 import CustomToggleButton from "../component/CustomToggleButton";
 import FilterColumn from "../../components/filterColumn/FilterColumn";
 
-const { Title } = Typography;
-
-const formProps = {
-  name: "file",
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  headers: {
-    authorization: "authorization-text",
-  },
-  onChange(info) {
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
-// table code start
 const columns = [
   {
     title: "MÃ KHÁCH HÀNG",
@@ -348,6 +327,13 @@ const CustomerManagement = () => {
                     </Button>
                     <Button type="primary" danger style={{ height: "40px" }}>
                       Xóa
+                    </Button>
+                    <Button
+                      type="primary"
+                      style={{ height: "40px", background: "blue" }}
+                      onClick={() => navigate("/new-customer")}
+                    >
+                      Tạo mới
                     </Button>
                   </Flex>
                 </>

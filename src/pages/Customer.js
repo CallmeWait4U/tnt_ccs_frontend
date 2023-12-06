@@ -1,4 +1,4 @@
-import CustomerManagement from "../features/customer";
+import CustomerManagement from "../features/customerManagement";
 
 const Customer = () => {
   return <CustomerManagement />;

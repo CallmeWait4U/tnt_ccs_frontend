@@ -9,6 +9,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
+import { PATH } from "../../contants/common";
 function Sidenav() {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
@@ -29,7 +30,7 @@ function Sidenav() {
             color: selectedKey === "dashboard" ? "#fff" : "",
           }}
         >
-          <NavLink to="/customers">Quản lý khách hàng</NavLink>
+          <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>
         </Menu.Item>
         <Menu.Item
           key="tables"
@@ -40,7 +41,7 @@ function Sidenav() {
             color: selectedKey === "tables" ? "#fff" : "",
           }}
         >
-          <NavLink to="/tables">Thống kê - báo cáo</NavLink>
+          <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>
         </Menu.Item>
         <Menu.Item
           key="billing"
@@ -51,7 +52,7 @@ function Sidenav() {
             color: selectedKey === "billing" ? "#fff" : "",
           }}
         >
-          <NavLink to="/billing">Quản lý hoạt động</NavLink>
+          <NavLink to={PATH.ACTIVITYMANAGEMENT}>Quản lý hoạt động</NavLink>
         </Menu.Item>
         <Menu.Item
           key="profile"

@@ -1717,6 +1717,9 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
 .h-full {
   height: 100%;
 }
+.h-80{
+  height :80%;
+}
 @media (min-width: 1200px) {
   .ant-col.col-img img {
     height: 196px;
@@ -1849,10 +1852,7 @@ body {
 .sign-up-header * {
   color: #fff;
 }
-.sign-up-header .content h1 {
-  font-size: 48px;
-  color: #fff;
-}
+
 .text-lg {
   font-size: 16px;
 }
@@ -2114,11 +2114,7 @@ body {
 .font-regular {
   font-weight: 400;
 }
-.signin h1 {
-  font-size: 48px;
-  font-weight: 700;
-  color: #141414;
-}
+
 
 .signin h5 {
   font-weight: 400;

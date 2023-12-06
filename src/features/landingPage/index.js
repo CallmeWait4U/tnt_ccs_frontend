@@ -1,10 +1,9 @@
 import React from "react";
-import { Layout, Menu, theme, Button, Row, Col } from "antd";
-import { AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { Layout, theme, Button, Row, Col } from "antd";
 import logo from "../../assets/images/logo.jpg"; // Đường dẫn đến hình ảnh logo
 import { Image } from "antd";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const LandingPage = () => {
   const {
@@ -39,7 +38,7 @@ const LandingPage = () => {
           </Button>
         </div>
       </Header>
-      <Content style={{ flex: 1 }}>
+      <Content>
         <Row
           style={{
             padding: 24,

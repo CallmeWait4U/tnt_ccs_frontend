@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "antd";
-import "antd/dist/reset.css"; // Import stylesheet
 
 const CustomToggleButton = () => {
   const [selectedTag, setSelectedTag] = useState("option1");
