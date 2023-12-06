@@ -2,7 +2,7 @@ const eChart = {
   series: [
     {
       name: "Sales",
-      data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+      data: [450, 200, 100, 220, 500],
       color: "#fff",
     },
   ],
@@ -39,15 +39,11 @@ const eChart = {
     },
     xaxis: {
       categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
+        "Landing page",
+        "Facebook",
+        "Tik tok",
+        "Tự khai thác",
+        "Khác",
       ],
       labels: {
         show: true,

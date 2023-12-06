@@ -117,7 +117,7 @@ const BillForm = ({ visible, setVisible }) => {
         <div
           style={{ display: "flex", gap: "5px", alignContent: "space-between" }}
         >
-          <div style={{ width: "80%" }}>
+          <div style={{ width: "90%" }}>
             <h2>Thêm Hóa đơn</h2>
           </div>
           <div style={{ display: "flex", gap: "5px" }}>

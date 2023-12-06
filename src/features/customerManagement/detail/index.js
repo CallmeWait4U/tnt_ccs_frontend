@@ -1,11 +1,7 @@
 import { Input } from "antd";
 import { Select } from "antd";
-import { DatePicker } from "antd";
-import { Flex } from "antd";
-import { Carousel } from "antd";
-import { message } from "antd";
 import { Form } from "antd";
-import { Card, Col, Collapse, Row, Tabs, theme } from "antd";
+import { Card, Col, Row, Tabs, theme } from "antd";
 import AdditionalInformation from "../moreData/AdditionalInformation";
 import ActivityHistory from "../moreData/ActivityHistory";
 import {
@@ -58,8 +54,12 @@ const CustomerDetail = () => {
   } = theme.useToken();
   return (
     <>
+      <Row style={{ margin: "10px 0 ", paddingLeft: "10px" }}>
+        <h3>Quản lý khách hàng &gt; Thông tin chi tiết</h3>
+      </Row>
+
       <Row gutter={[8, 16]}>
-        <Col xs={24} lg={24} xl={24} xxl={14}>
+        <Col xl={24} xxl={14}>
           <Card title={"Thông tin chi tiết"}>
             <Form>
               <>
@@ -95,7 +95,7 @@ const CustomerDetail = () => {
                         },
                       ]}
                     >
-                      <Select />
+                      <StyledSelect />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -120,7 +120,7 @@ const CustomerDetail = () => {
                       <StyledSelect />
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
+                  <Col span={8}>
                     <Form.Item label={"Ngày tạo"}>
                       <StyledDatepicker />
                     </Form.Item>

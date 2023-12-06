@@ -19,7 +19,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children }) {
+function Main({ children, namePage }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -57,9 +57,6 @@ function Main({ children }) {
         trigger={null}
         width={250}
         theme="light"
-        className={` ant-layout-sider-primary ${
-          sidenavType === "#fff" ? "active-route" : ""
-        }`}
       >
         <Sidenav />
       </Sider>
@@ -70,10 +67,17 @@ function Main({ children }) {
       >
         {fixed ? (
           <Affix>
-            <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>
+            <AntHeader
+              className={`${fixed ? "ant-header-fixed" : ""}`}
+              style={{
+                background: "white",
+                marginTop: "unset",
+                borderRadius: "0px 0px 8px 8px",
+              }}
+            >
               <Header
                 onPress={openDrawer}
-                name={pathname}
+                name={namePage}
                 subName={pathname}
                 handleSidenavColor={handleSidenavColor}
                 handleSidenavType={handleSidenavType}
@@ -82,10 +86,17 @@ function Main({ children }) {
             </AntHeader>
           </Affix>
         ) : (
-          <AntHeader className={`${fixed ? "ant-header-fixed" : ""}`}>
+          <AntHeader
+            className={`${fixed ? "ant-header-fixed" : ""}`}
+            style={{
+              background: "white",
+              marginTop: "unset",
+              borderRadius: "0px 0px 8px 8px",
+            }}
+          >
             <Header
               onPress={openDrawer}
-              name={pathname}
+              name={namePage}
               subName={pathname}
               handleSidenavColor={handleSidenavColor}
               handleSidenavType={handleSidenavType}

@@ -3,26 +3,23 @@ import { useState, useEffect } from "react";
 import {
   Row,
   Col,
-  Breadcrumb,
   Badge,
   Dropdown,
   Button,
   List,
   Avatar,
-  Input,
   Drawer,
   Typography,
   Switch,
 } from "antd";
 
 import {
-  SearchOutlined,
   StarOutlined,
   TwitterOutlined,
   FacebookFilled,
 } from "@ant-design/icons";
 
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
 
@@ -240,7 +237,6 @@ const setting = [
 function Header({
   placement,
   name,
-  subName,
   onPress,
   handleSidenavColor,
   handleSidenavType,
@@ -258,26 +254,10 @@ function Header({
 
   return (
     <>
-      <div className="setting-drwer" onClick={showDrawer}>
-        {setting}
-      </div>
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <NavLink to="/">Pages</NavLink>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
-              {name.replace("/", "")}
-            </Breadcrumb.Item>
-          </Breadcrumb>
           <div className="ant-page-header-heading">
-            <span
-              className="ant-page-header-heading-title"
-              style={{ textTransform: "capitalize" }}
-            >
-              {subName.replace("/", "")}
-            </span>
+            <p style={{ fontSize: 25, fontWeight: "bold" }}>{name}</p>
           </div>
         </Col>
         <Col span={24} md={18} className="header-control">
