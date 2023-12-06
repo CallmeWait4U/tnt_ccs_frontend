@@ -31,7 +31,7 @@ export const routes_layout = [
   },
   {
     path: PATH.HOME,
-    element: <Navigate to={PATH.CUSTOMER} />,
+    element: <Navigate to={PATH.SIGNIN} />,
   },
   {
     path: PATH.CUSTOMER,

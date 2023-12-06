@@ -13,6 +13,8 @@ import logo from "../assets/images/logo.jpg";
 import Card from "antd/lib/card/Card";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Image } from "antd";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../contants/common";
 
 const { Header, Content, Footer } = Layout;
 
@@ -65,6 +67,7 @@ const CustomerLanding = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const navigate = useNavigate();
   return (
     <Layout
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
@@ -158,12 +161,17 @@ const CustomerLanding = () => {
                 </a>
               </Form.Item>
               <Form.Item style={{ marginBottom: "0px" }}>
-                <Button block="true" htmlType="submit">
+                <Button
+                  block="true"
+                  htmlType="submit"
+                  style={{ background: "#1677ff", color: "white" }}
+                  onClick={() => navigate(PATH.DASHBOARD)}
+                >
                   Log in
                 </Button>
                 <div style={styles.footer}>
                   <Text style={styles.text}>Don't have an account?</Text>{" "}
-                  <Link href="">Sign up now</Link>
+                  <Link href="http://localhost:3000/sign-up">Sign up now</Link>
                 </div>
               </Form.Item>
             </Form>

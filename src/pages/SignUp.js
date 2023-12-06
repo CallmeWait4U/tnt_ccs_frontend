@@ -3,13 +3,11 @@ import { Form } from "antd";
 
 import logo from "../assets/images/logo.jpg";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   return (
     <div>
-      <div className={this.isLoggedIn() ? " " : " hidden"}>
-        Successfully logged in...
-      </div>
-      <div className={"lContainer" + (this.isLoggedIn() ? " hidden" : " ")}>
+      <div className={"lContainer" }>
         <div className="lItem">
           <div className="loginImage">
             <img
@@ -21,7 +19,7 @@ export default () => {
           </div>
           <div className="loginForm">
             <h2>Login</h2>
-            <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form className="login-form">
               <Form.Item>
                 <Input placeholder="Username" />
               </Form.Item>
@@ -32,7 +30,7 @@ export default () => {
                 <Checkbox>Remember me</Checkbox>
                 <Button
                   type="primary"
-                  htmlType="submit"
+  
                   className="login-form-button"
                 >
                   Log in
