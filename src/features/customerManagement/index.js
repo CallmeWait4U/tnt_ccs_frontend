@@ -1,31 +1,23 @@
 import {
-  Row,
-  Col,
-  Card,
-  Radio,
-  Table,
-  Upload,
-  message,
-  Progress,
-  Button,
   Avatar,
-  Typography,
+  Button,
+  Card,
+  Col,
+  Row
 } from "antd";
 import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
 
-import { SearchOutlined, ToTopOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 
 // Images
 
 import face2 from "../../assets/images/face-2.jpg";
 
-import { AiFillFilter } from "react-icons/ai";
-import BaseTable from "../../components/table/BaseTable";
-import { useNavigate } from "react-router-dom";
 import { Flex } from "antd";
-import CustomToggleButton from "../component/CustomToggleButton";
+import { AiFillFilter } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import FilterColumn from "../../components/filterColumn/FilterColumn";
+import BaseTable from "../../components/table/BaseTable";
+import CustomToggleButton from "../component/CustomToggleButton";
 
 const columns = [
   {
@@ -259,7 +251,7 @@ const data = dataCustomer.map((item) => {
       <>
         <Avatar.Group>
           <Avatar className="shape-avatar" size={40} src={face2}></Avatar>
-          <div className="avatar-info" avatar-info style={{ color: "#726BEA" }}>
+          <div className="avatar-info" style={{ color: "#726BEA" }}>
             {item.code}
           </div>
         </Avatar.Group>
@@ -300,7 +292,7 @@ const data = dataCustomer.map((item) => {
 });
 
 const CustomerManagement = () => {
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const navigate = useNavigate();
   return (
     <>

@@ -1,21 +1,21 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-import { PATH } from "../contants/common";
-import Dashboard from "../pages/Dashboard";
-import Tables from "../pages/Tables";
-import Billing from "../pages/Billing";
-import Profile from "../pages/Profile";
-import SignUp from "../pages/SignUp";
-import SignIn from "../pages/SignIn";
 import Main from "../components/layout/Main";
-import Customer from "../pages/Customer";
-import CustomerDetail from "../features/customerManagement/detail";
-import LandingPage from "../features/landingPage";
-import BusinessRegister from "../features/businessRegister/BusinessRegister";
-import CustomerLanding from "../features/pageForCustomer/CustomerLanding";
-import CustomerForm from "../features/customerManagement/form/CustomerForm";
+import { PATH } from "../contants/common";
 import ActivityManagement from "../features/activityManagement";
 import ActivityDetail from "../features/activityManagement/detail";
+import BusinessRegister from "../features/businessRegister/BusinessRegister";
+import CustomerDetail from "../features/customerManagement/detail";
+import CustomerForm from "../features/customerManagement/form/CustomerForm";
+import LandingPage from "../features/landingPage";
+import CustomerLanding from "../features/pageForCustomer/CustomerLanding";
+import Billing from "../pages/Billing";
+import Customer from "../pages/Customer";
+import Dashboard from "../pages/Dashboard";
+import Profile from "../pages/Profile";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import Tables from "../pages/Tables";
 
 export const routes_layout = [
   { path: PATH.LANDINGPAGE, element: <LandingPage /> },
@@ -63,11 +63,11 @@ export const routes_layout = [
   },
   {
     path: PATH.DASHBOARD,
-    element: <Main children={<Dashboard />} />,
+    element: <Main children={<Dashboard />} namePage={"Thống kê - báo cáo"} />,
   },
   {
     path: PATH.PROFILE,
-    element: <Main children={<Profile />} />,
+    element: <Main children={<Profile />} namePage={"Thông tin cá nhân"} />,
   },
   {
     path: PATH.BILLING,

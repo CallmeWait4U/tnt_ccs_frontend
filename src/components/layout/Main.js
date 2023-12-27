@@ -10,12 +10,12 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import { Affix, Layout } from "antd";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Layout, Drawer, Affix } from "antd";
-import Sidenav from "./Sidenav";
-import Header from "./Header";
 import Footer from "./Footer";
+import Header from "./Header";
+import Sidenav from "./Sidenav";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
@@ -33,6 +33,7 @@ function Main({ children, namePage }) {
 
   let { pathname } = useLocation();
   pathname = pathname.replace("/", "");
+  document.title = namePage;
 
   useEffect(() => {
     if (pathname === "rtl") {
