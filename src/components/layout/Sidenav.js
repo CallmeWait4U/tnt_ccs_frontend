@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { PATH } from "../../contants/common";
-function Sidenav() {
+function Sidenav({ index }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
   const [selectedKey, setSelectedKey] = useState("dashboard");

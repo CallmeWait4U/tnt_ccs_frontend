@@ -19,7 +19,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children, namePage }) {
+function Main({ children, namePage, index }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -58,7 +58,7 @@ function Main({ children, namePage }) {
         width={250}
         theme="light"
       >
-        <Sidenav />
+        <Sidenav index={index} />
       </Sider>
       <Layout
         style={{

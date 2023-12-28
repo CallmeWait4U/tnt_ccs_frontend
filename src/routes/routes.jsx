@@ -35,18 +35,28 @@ export const routes_layout = [
   },
   {
     path: PATH.CUSTOMER,
-    element: <Main children={<Customer />} namePage={"Quản lý khách hàng"} />,
+    element: (
+      <Main children={<Customer />} namePage={"Quản lý khách hàng"} index={1} />
+    ),
   },
   {
     path: PATH.CUSTOMERDETAIL,
     element: (
-      <Main children={<CustomerDetail />} namePage={"Quản lý khách hàng"} />
+      <Main
+        children={<CustomerDetail />}
+        namePage={"Quản lý khách hàng"}
+        index={2}
+      />
     ),
   },
   {
     path: PATH.ACTIVITYMANAGEMENT,
     element: (
-      <Main children={<ActivityManagement />} namePage={"Quản lý hoạt động"} />
+      <Main
+        children={<ActivityManagement />}
+        namePage={"Quản lý hoạt động"}
+        index={3}
+      />
     ),
   },
   {
