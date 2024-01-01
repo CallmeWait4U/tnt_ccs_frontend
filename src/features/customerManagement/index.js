@@ -20,16 +20,13 @@ import { Link } from "react-router-dom";
 // Images
 
 import face2 from "../../assets/images/face-2.jpg";
-
-import { AiFillFilter } from "react-icons/ai";
 import BaseTable from "../../components/table/BaseTable";
 import { useNavigate } from "react-router-dom";
 import { Flex } from "antd";
 import CustomToggleButton from "../component/CustomToggleButton";
 import FilterColumn from "../../components/filterColumn/FilterColumn";
 import { useRef, useState } from "react";
-import { Input } from "antd";
-import { Space } from "antd";
+import { FiPlus } from "react-icons/fi";
 
 const dataCustomer = [
   {
@@ -238,12 +235,9 @@ const CustomerManagement = () => {
       dataIndex: "code",
       key: "code",
       render: (code) => (
-        <Avatar.Group>
-          <Avatar className="shape-avatar" size={40} src={face2}></Avatar>
-          <div className="avatar-info" avatar-info style={{ color: "#726BEA" }}>
-            {code}
-          </div>
-        </Avatar.Group>
+        <div className="avatar-info" avatar-info style={{ color: "#726BEA" }}>
+          {code}
+        </div>
       ),
     },
     {
@@ -292,11 +286,36 @@ const CustomerManagement = () => {
       ),
     },
   ];
+  const { Title } = Typography;
 
   const navigate = useNavigate();
   return (
     <>
       <div className="tabled">
+        <Row gutter={[24, 0]}>
+          <Col xs="24" xl={24}>
+            <Typography>Home {">"} Quản lý khách hàng</Typography>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={21}>
+            <Title level={3}>Danh sách khách hàng</Title>
+          </Col>
+          <Col span={3}>
+            <Button
+              type="primary"
+              style={{
+                background: "blue",
+                display: "flex",
+                alignItems: "center",
+              }}
+              onClick={() => navigate("/new-customer")}
+            >
+              <FiPlus />
+              Tạo mới
+            </Button>
+          </Col>
+        </Row>
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24}>
             <Card
@@ -306,26 +325,8 @@ const CustomerManagement = () => {
               extra={
                 <>
                   <Flex wrap="wrap" gap="small">
-                    <Button
-                      type="primary"
-                      style={{
-                        height: "40px",
-
-                        border: "green",
-                        background: "green",
-                      }}
-                    >
-                      Thêm hoạt động
-                    </Button>
-                    <Button type="primary" danger style={{ height: "40px" }}>
+                    <Button type="primary" danger>
                       Xóa
-                    </Button>
-                    <Button
-                      type="primary"
-                      style={{ height: "40px", background: "blue" }}
-                      onClick={() => navigate("/new-customer")}
-                    >
-                      Tạo mới
                     </Button>
                   </Flex>
                 </>
