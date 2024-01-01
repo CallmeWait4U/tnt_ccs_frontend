@@ -1,122 +1,122 @@
-import React from "react";
+import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import {
-  Layout,
-  theme,
   Button,
   Checkbox,
   Form,
   Grid,
+  Image,
   Input,
+  Layout,
   Typography,
-} from "antd";
-import logo from "../assets/images/logo.jpg";
-import Card from "antd/lib/card/Card";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { Image } from "antd";
+  theme
+} from 'antd'
+import Card from 'antd/lib/card/Card'
+import React from 'react'
+import logo from '../assets/images/logo.jpg'
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, Footer } = Layout
 
-const { useToken } = theme;
-const { useBreakpoint } = Grid;
-const { Text, Title, Link } = Typography;
+const { useToken } = theme
+const { useBreakpoint } = Grid
+const { Text, Link } = Typography
 const CustomerLanding = () => {
-  const { token } = useToken();
-  const screens = useBreakpoint();
+  const { token } = useToken()
+  const screens = useBreakpoint()
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-  };
+    console.log('Received values of form: ', values)
+  }
 
   const styles = {
     container: {
-      margin: "0 auto",
+      margin: '0 auto',
       padding: screens.md
         ? `${token.paddingXL}px`
         : `${token.sizeXXL}px ${token.padding}px`,
-      width: "380px",
+      width: '380px'
     },
     footer: {
       marginTop: token.marginLG,
-      textAlign: "center",
-      width: "100%",
+      textAlign: 'center',
+      width: '100%'
     },
     forgotPassword: {
-      float: "right",
+      float: 'right'
     },
     header: {
       marginBottom: token.marginXL,
-      display: "flex",
-      justifyContent: "center",
+      display: 'flex',
+      justifyContent: 'center'
     },
     section: {
-      alignItems: "center",
+      alignItems: 'center',
       backgroundColor: token.colorBgContainer,
-      display: "flex",
-      height: screens.sm ? "100vh" : "auto",
-      padding: screens.md ? `${token.sizeXXL}px 0px` : "0px",
+      display: 'flex',
+      height: screens.sm ? '100vh' : 'auto',
+      padding: screens.md ? `${token.sizeXXL}px 0px` : '0px'
     },
     text: {
-      color: token.colorTextSecondary,
+      color: token.colorTextSecondary
     },
     title: {
-      fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3,
-    },
-  };
+      fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3
+    }
+  }
   const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+    token: { colorBgContainer }
+  } = theme.useToken()
   return (
     <Layout
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
     >
       <Header
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: 0,
           background: colorBgContainer,
-          height: "10vh",
+          height: '10vh'
         }}
       >
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            paddingLeft: "10px",
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '10px'
           }}
         >
-          <img src={logo} alt="Logo" style={{ width: "40px" }} />
+          <img src={logo} alt="Logo" style={{ width: '40px' }} />
           <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
         </div>
-        <div style={{ paddingRight: "20px" }}>
-          <Button style={{ background: "#7364FF", color: "white" }}>
+        <div style={{ paddingRight: '20px' }}>
+          <Button style={{ background: '#7364FF', color: 'white' }}>
             Đăng nhập
           </Button>
         </div>
       </Header>
       <Content
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#E2E8F0",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#E2E8F0'
         }}
       >
         <Card
           style={{
-            width: "500px",
-            height: "530px",
+            width: '500px',
+            height: '530px'
           }}
         >
           <div style={styles.container}>
             <div style={styles.header}>
-              <Image src={logo} style={{ width: "100px" }} />
+              <Image src={logo} style={{ width: '100px' }} />
             </div>
             <Form
               name="normal_login"
               initialValues={{
-                remember: true,
+                remember: true
               }}
               onFinish={onFinish}
               layout="vertical"
@@ -126,10 +126,10 @@ const CustomerLanding = () => {
                 name="email"
                 rules={[
                   {
-                    type: "email",
+                    type: 'email',
                     required: true,
-                    message: "Please input your Email!",
-                  },
+                    message: 'Please input your Email!'
+                  }
                 ]}
               >
                 <Input prefix={<MailOutlined />} placeholder="Email" />
@@ -139,8 +139,8 @@ const CustomerLanding = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your Password!",
-                  },
+                    message: 'Please input your Password!'
+                  }
                 ]}
               >
                 <Input.Password
@@ -157,12 +157,12 @@ const CustomerLanding = () => {
                   Forgot password?
                 </a>
               </Form.Item>
-              <Form.Item style={{ marginBottom: "0px" }}>
+              <Form.Item style={{ marginBottom: '0px' }}>
                 <Button block="true" htmlType="submit">
                   Log in
                 </Button>
                 <div style={styles.footer}>
-                  <Text style={styles.text}>Don't have an account?</Text>{" "}
+                  <Text style={styles.text}>Do not have an account?</Text>{' '}
                   <Link href="">Sign up now</Link>
                 </div>
               </Form.Item>
@@ -170,11 +170,11 @@ const CustomerLanding = () => {
           </div>
         </Card>
       </Content>
-      <Footer style={{ textAlign: "center", height: "5vh" }}>
+      <Footer style={{ textAlign: 'center', height: '5vh' }}>
         Made with TNT CCS. All Rights Reserved © 2023
       </Footer>
     </Layout>
-  );
-};
+  )
+}
 
-export default CustomerLanding;
+export default CustomerLanding

@@ -1,48 +1,48 @@
-import { Input } from "antd";
-import { Form, Card, Row, Col } from "antd";
-import { StyledSelect } from "../../component/ComponentOfForm";
+import { Card, Col, Form, Input, Row } from 'antd'
+
+import { StyledSelect } from '../../component/ComponentOfForm'
 
 const CompanyInformation = () => {
   return (
-    <Card style={{ width: "100%" }}>
+    <Card style={{ width: '100%' }}>
       <Form layout="vertical">
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
-              label={"Tên công ty"}
+              label={'Tên công ty'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input />
             </Form.Item>
           </Col>
           <Col span={8}>
-            {" "}
+            {' '}
             <Form.Item
-              label={"Mã số thuế"}
+              label={'Mã số thuế'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <StyledSelect />
             </Form.Item>
           </Col>
           <Col span={8}>
-            {" "}
+            {' '}
             <Form.Item
-              label={"Số ĐKKD"}
+              label={'Số ĐKKD'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input />
@@ -52,40 +52,40 @@ const CompanyInformation = () => {
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
-              label={"Quốc gia"}
+              label={'Quốc gia'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input />
             </Form.Item>
           </Col>
           <Col span={8}>
-            {" "}
+            {' '}
             <Form.Item
-              label={"Lĩnh vực kinh doanh"}
+              label={'Lĩnh vực kinh doanh'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <StyledSelect />
             </Form.Item>
           </Col>
           <Col span={8}>
-            {" "}
+            {' '}
             <Form.Item
-              label={"Ghi chú"}
+              label={'Ghi chú'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input.TextArea />
@@ -95,12 +95,12 @@ const CompanyInformation = () => {
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
-              label={"Địa chỉ"}
+              label={'Địa chỉ'}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input />
@@ -108,12 +108,12 @@ const CompanyInformation = () => {
           </Col>
           <Col span={8}>
             <Form.Item
-              label={" "}
+              label={' '}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
               <Input />
@@ -121,20 +121,20 @@ const CompanyInformation = () => {
           </Col>
           <Col span={8}>
             <Form.Item
-              label={" "}
+              label={' '}
               rules={[
                 {
                   require: true,
-                  message: "this field is required!",
-                },
+                  message: 'this field is required!'
+                }
               ]}
             >
-              <Input style={{ width: "100%" }} />
+              <Input style={{ width: '100%' }} />
             </Form.Item>
           </Col>
         </Row>
       </Form>
     </Card>
-  );
-};
-export default CompanyInformation;
+  )
+}
+export default CompanyInformation

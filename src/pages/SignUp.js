@@ -1,21 +1,22 @@
-import { Button, Input, Checkbox } from "antd";
-import { Form } from "antd";
+import { Button, Checkbox, Form, Input } from 'antd'
 
-import logo from "../assets/images/logo.jpg";
+import React from 'react'
 
-export default () => {
+import logo from '../assets/images/logo.jpg'
+
+const SignUp = () => {
   return (
     <div>
-      <div className={this.isLoggedIn() ? " " : " hidden"}>
+      <div className={this.isLoggedIn() ? ' ' : ' hidden'}>
         Successfully logged in...
       </div>
-      <div className={"lContainer" + (this.isLoggedIn() ? " hidden" : " ")}>
+      <div className={'lContainer' + (this.isLoggedIn() ? ' hidden' : ' ')}>
         <div className="lItem">
           <div className="loginImage">
             <img
               src={logo}
               width="300"
-              style={{ position: "relative" }}
+              style={{ position: 'relative' }}
               alt="login"
             />
           </div>
@@ -53,5 +54,7 @@ export default () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+
+export default SignUp

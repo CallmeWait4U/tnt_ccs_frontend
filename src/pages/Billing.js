@@ -11,49 +11,50 @@
 */
 
 import {
-  Row,
-  Col,
-  Card,
-  Statistic,
-  Button,
-  List,
-  Descriptions,
   Avatar,
-} from "antd";
+  Button,
+  Card,
+  Col,
+  Descriptions,
+  List,
+  Row,
+  Statistic
+} from 'antd'
+import React from 'react'
 
-import { PlusOutlined, ExclamationOutlined } from "@ant-design/icons";
-import mastercard from "../assets/images/mastercard-logo.png";
-import paypal from "../assets/images/paypal-logo-2.png";
-import visa from "../assets/images/visa-logo.png";
+import { ExclamationOutlined, PlusOutlined } from '@ant-design/icons'
+import mastercard from '../assets/images/mastercard-logo.png'
+import paypal from '../assets/images/paypal-logo-2.png'
+import visa from '../assets/images/visa-logo.png'
 
-function Billing() {
+function Billing () {
   const data = [
     {
-      title: "March, 01, 2021",
-      description: "#MS-415646",
-      amount: "$180",
+      title: 'March, 01, 2021',
+      description: '#MS-415646',
+      amount: '$180'
     },
     {
-      title: "February, 12, 2021",
-      description: "#RV-126749",
-      amount: "$250",
+      title: 'February, 12, 2021',
+      description: '#RV-126749',
+      amount: '$250'
     },
     {
-      title: "April, 05, 2020",
-      description: "#FB-212562",
-      amount: "$550",
+      title: 'April, 05, 2020',
+      description: '#FB-212562',
+      amount: '$550'
     },
     {
-      title: "June, 25, 2019",
-      description: "#QW-103578",
-      amount: "$400",
+      title: 'June, 25, 2019',
+      description: '#QW-103578',
+      amount: '$400'
     },
     {
-      title: "March, 03, 2019",
-      description: "#AR-803481",
-      amount: "$700",
-    },
-  ];
+      title: 'March, 03, 2019',
+      description: '#AR-803481',
+      amount: '$700'
+    }
+  ]
 
   const wifi = [
     <svg
@@ -61,7 +62,7 @@ function Billing() {
       width="25"
       height="25"
       viewBox="0 0 22.5 20.625"
-      key={0}
+      key="wifi"
     >
       <g id="wifi" transform="translate(0.75 0.75)">
         <circle
@@ -107,8 +108,8 @@ function Billing() {
           strokeWidth="1.5"
         ></path>
       </g>
-    </svg>,
-  ];
+    </svg>
+  ]
 
   const angle = [
     <svg
@@ -116,7 +117,7 @@ function Billing() {
       width="22"
       height="22"
       viewBox="0 0 22 22"
-      key={0}
+      key="angle"
     >
       <g id="bank" transform="translate(0.75 0.75)">
         <path
@@ -152,8 +153,8 @@ function Billing() {
           strokeWidth="1.5"
         ></path>
       </g>
-    </svg>,
-  ];
+    </svg>
+  ]
 
   const pencil = [
     <svg
@@ -162,7 +163,7 @@ function Billing() {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key="pencil"
     >
       <path
         d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z"
@@ -172,8 +173,8 @@ function Billing() {
         d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z"
         className="fill-gray-7"
       ></path>
-    </svg>,
-  ];
+    </svg>
+  ]
   const download = [
     <svg
       width="15"
@@ -181,7 +182,7 @@ function Billing() {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key="0"
+      key="download"
     >
       <path
         fillRule="evenodd"
@@ -189,8 +190,8 @@ function Billing() {
         d="M3 17C3 16.4477 3.44772 16 4 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H4C3.44772 18 3 17.5523 3 17ZM6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289L9 10.5858L9 3C9 2.44772 9.44771 2 10 2C10.5523 2 11 2.44771 11 3L11 10.5858L12.2929 9.29289C12.6834 8.90237 13.3166 8.90237 13.7071 9.29289C14.0976 9.68342 14.0976 10.3166 13.7071 10.7071L10.7071 13.7071C10.5196 13.8946 10.2652 14 10 14C9.73478 14 9.48043 13.8946 9.29289 13.7071L6.29289 10.7071C5.90237 10.3166 5.90237 9.68342 6.29289 9.29289Z"
         fill="#111827"
       ></path>
-    </svg>,
-  ];
+    </svg>
+  ]
   const deletebtn = [
     <svg
       width="16"
@@ -198,7 +199,7 @@ function Billing() {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key="deletebtn"
     >
       <path
         fillRule="evenodd"
@@ -207,28 +208,28 @@ function Billing() {
         fill="#111827"
         className="fill-danger"
       ></path>
-    </svg>,
-  ];
+    </svg>
+  ]
 
   const information = [
     {
-      title: "Oliver Liam",
-      description: "Viking Burrito",
-      address: "oliver@burrito.com",
-      vat: "FRB1235476",
+      title: 'Oliver Liam',
+      description: 'Viking Burrito',
+      address: 'oliver@burrito.com',
+      vat: 'FRB1235476'
     },
     {
-      title: "Lucas Harper",
-      description: "Stone Tech Zone",
-      address: "lucas@syone-tech.com",
-      vat: "FRB1235476",
+      title: 'Lucas Harper',
+      description: 'Stone Tech Zone',
+      address: 'lucas@syone-tech.com',
+      vat: 'FRB1235476'
     },
     {
-      title: "Oliver Liam",
-      description: "ethan@fiber.com",
-      vat: "NumberFRB1235476",
-    },
-  ];
+      title: 'Oliver Liam',
+      description: 'ethan@fiber.com',
+      vat: 'NumberFRB1235476'
+    }
+  ]
   const calender = [
     <svg
       width="18"
@@ -236,7 +237,7 @@ function Billing() {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key="calender"
     >
       <path
         fillRule="evenodd"
@@ -245,8 +246,8 @@ function Billing() {
         fill="#111827"
         className="fill-muted"
       ></path>
-    </svg>,
-  ];
+    </svg>
+  ]
   const mins = [
     <svg
       width="10"
@@ -254,7 +255,7 @@ function Billing() {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key="mins"
     >
       <path
         fillRule="evenodd"
@@ -262,61 +263,61 @@ function Billing() {
         d="M5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11C5.44772 11 5 10.5523 5 10Z"
         className="fill-danger"
       ></path>
-    </svg>,
-  ];
+    </svg>
+  ]
   const newest = [
     {
       headding: <h6>NEWEST</h6>,
       avatar: mins,
-      title: "Netflix",
-      description: "27 March 2021, at 12:30 PM",
-      amount: "- $2,500",
-      textclass: "text-light-danger",
-      amountcolor: "text-danger",
+      title: 'Netflix',
+      description: '27 March 2021, at 12:30 PM',
+      amount: '- $2,500',
+      textclass: 'text-light-danger',
+      amountcolor: 'text-danger'
     },
     {
       avatar: <PlusOutlined style={{ fontSize: 10 }} />,
-      title: "Apple",
-      description: "27 March 2021, at 04:30 AM",
-      amount: "+ $2,000",
-      textclass: "text-fill",
-      amountcolor: "text-success",
-    },
-  ];
+      title: 'Apple',
+      description: '27 March 2021, at 04:30 AM',
+      amount: '+ $2,000',
+      textclass: 'text-fill',
+      amountcolor: 'text-success'
+    }
+  ]
   const yesterday = [
     {
       avatar: <PlusOutlined style={{ fontSize: 10 }} />,
-      title: "Stripe",
-      description: "26 March 2021, at 12:30 AM",
-      amount: "+ $750",
-      textclass: "text-fill",
-      amountcolor: "text-success",
+      title: 'Stripe',
+      description: '26 March 2021, at 12:30 AM',
+      amount: '+ $750',
+      textclass: 'text-fill',
+      amountcolor: 'text-success'
     },
     {
       avatar: <PlusOutlined style={{ fontSize: 10 }} />,
-      title: "HubSpot",
-      description: "26 March 2021, at 11:30 AM",
-      amount: "+ $1,050",
-      textclass: "text-fill",
-      amountcolor: "text-success",
+      title: 'HubSpot',
+      description: '26 March 2021, at 11:30 AM',
+      amount: '+ $1,050',
+      textclass: 'text-fill',
+      amountcolor: 'text-success'
     },
     {
       avatar: <PlusOutlined style={{ fontSize: 10 }} />,
-      title: "Creative Tim",
-      description: "26 March 2021, at 07:30 AM",
-      amount: "+ $2,400",
-      textclass: "text-fill",
-      amountcolor: "text-success",
+      title: 'Creative Tim',
+      description: '26 March 2021, at 07:30 AM',
+      amount: '+ $2,400',
+      textclass: 'text-fill',
+      amountcolor: 'text-success'
     },
     {
       avatar: <ExclamationOutlined style={{ fontSize: 10 }} />,
-      title: "Webflow",
-      description: "26 March 2021, at 04:00 AM",
-      amount: "Pending",
-      textclass: "text-warning",
-      amountcolor: "text-warning-b",
-    },
-  ];
+      title: 'Webflow',
+      description: '26 March 2021, at 04:00 AM',
+      amount: 'Pending',
+      textclass: 'text-warning',
+      amountcolor: 'text-warning-b'
+    }
+  ]
 
   return (
     <>
@@ -356,7 +357,7 @@ function Billing() {
                       <p>Belong Interactive</p>
                     </>
                   }
-                  value={"$2,000"}
+                  value={'$2,000'}
                   prefix={<PlusOutlined />}
                 />
               </Card>
@@ -373,7 +374,7 @@ function Billing() {
                       <p>Freelance Paymente</p>
                     </>
                   }
-                  value={"$49,000"}
+                  value={'$49,000'}
                   prefix={<PlusOutlined />}
                 />
               </Card>
@@ -425,11 +426,11 @@ function Billing() {
           <Card
             bordered={false}
             className="header-solid h-full ant-invoice-card"
-            title={[<h6 className="font-semibold m-0">Invoices</h6>]}
+            title={[<h6 key="invoices" className="font-semibold m-0">Invoices</h6>]}
             extra={[
-              <Button type="primary">
+              <Button key="viewAll" type="primary">
                 <span>VIEW ALL</span>
-              </Button>,
+              </Button>
             ]}
           >
             <List
@@ -438,7 +439,7 @@ function Billing() {
               dataSource={data}
               renderItem={(item) => (
                 <List.Item
-                  actions={[<Button type="link">{download} PDF</Button>]}
+                  actions={[<Button key="download" type="link">{download} PDF</Button>]}
                 >
                   <List.Item.Meta
                     title={item.title}
@@ -456,8 +457,8 @@ function Billing() {
           <Card
             className="header-solid h-full"
             bordered={false}
-            title={[<h6 className="font-semibold m-0">Billing Information</h6>]}
-            bodyStyle={{ paddingTop: "0" }}
+            title={[<h6 key="billInfo" className="font-semibold m-0">Billing Information</h6>]}
+            bodyStyle={{ paddingTop: '0' }}
           >
             <Row gutter={[24, 24]}>
               {information.map((i, index) => (
@@ -553,7 +554,7 @@ function Billing() {
         </Col>
       </Row>
     </>
-  );
+  )
 }
 
-export default Billing;
+export default Billing

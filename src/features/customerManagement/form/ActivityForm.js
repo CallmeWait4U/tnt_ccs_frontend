@@ -1,112 +1,110 @@
-import { Button, Card, Col, Modal, Row, Table } from "antd";
+import { Button, Card, Col, Form, Input, Modal, Row, Table } from 'antd'
 import {
   StyledDatepicker,
-  StyledModal,
-  StyledSelect,
-} from "../../component/ComponentOfForm";
-import { Form } from "antd";
-import { Input } from "antd";
-import styled from "styled-components";
-import { useState } from "react";
-import { FiPlus, FiTrash2 } from "react-icons/fi";
+  StyledSelect
+} from '../../component/ComponentOfForm'
+
+import { useState } from 'react'
+import { FiPlus, FiTrash2 } from 'react-icons/fi'
+import styled from 'styled-components'
 const ActivityForm = ({ visible, setVisible }) => {
   const [tableData, setTableData] = useState([
     {
       index: 1,
-      name: "Lê Huy Ngọ",
-      code: "SP-001",
+      name: 'Lê Huy Ngọ',
+      code: 'SP-001'
     },
     {
       index: 2,
-      name: "Lê Huy Ngọ",
-      code: "SP-001",
-    },
-  ]);
+      name: 'Lê Huy Ngọ',
+      code: 'SP-001'
+    }
+  ])
 
   const addRow = () => {
     const maxIndex = tableData.reduce(
       (max, item) => (item.index > max ? item.index : max),
       0
-    );
+    )
     const newItem = {
       index: maxIndex + 1,
-      name: "",
-      code: "",
-    };
+      name: '',
+      code: ''
+    }
 
-    setTableData([...tableData, newItem]);
-    console.log("table", tableData);
-  };
+    setTableData([...tableData, newItem])
+    console.log('table', tableData)
+  }
 
   const columns = [
     {
-      title: "Mã Nhân viên",
-      dataIndex: "code",
-      key: "code",
-      width: "15%",
+      title: 'Mã Nhân viên',
+      dataIndex: 'code',
+      key: 'code',
+      width: '15%',
       render: (item, record, index) => (
         <Input
           defaultValue={item}
-          onChange={(e) => handleCellChange(index, "code", e.target.value)}
+          onChange={(e) => handleCellChange(index, 'code', e.target.value)}
         />
-      ),
+      )
     },
     {
-      title: "Tên Nhân viên",
-      dataIndex: "name",
-      key: "name",
-      width: "30%",
+      title: 'Tên Nhân viên',
+      dataIndex: 'name',
+      key: 'name',
+      width: '30%',
       render: (item, record, index) => (
         <Input
           defaultValue={item}
-          onChange={(e) => handleCellChange(index, "name", e.target.value)}
+          onChange={(e) => handleCellChange(index, 'name', e.target.value)}
         />
-      ),
+      )
     },
 
     {
-      title: "Action",
-      width: "7%",
+      title: 'Action',
+      width: '7%',
       render: (item) => (
         <Button
           type="link"
           icon={<FiTrash2 size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
-      ),
-    },
-  ];
+      )
+    }
+  ]
 
   const handleCellChange = (index, field, value) => {
-    const updatedTableData = [...tableData];
-    updatedTableData[index][field] = value;
-    setTableData(updatedTableData);
-  };
+    const updatedTableData = [...tableData]
+    updatedTableData[index][field] = value
+    setTableData(updatedTableData)
+  }
   const handleDeleteRow = (index) => {
-    const updatedData = tableData.filter((item) => item.index !== index);
-    setTableData(updatedData);
-    console.log("table", tableData);
-  };
+    const updatedData = tableData.filter((item) => item.index !== index)
+    setTableData(updatedData)
+    console.log('table', tableData)
+  }
   return (
     <ModalStyle
-      style={{ width: "1000px" }}
+      style={{ width: '1000px' }}
       title={
         <div
-          style={{ display: "flex", gap: "5px", alignContent: "space-between" }}
+          style={{ display: 'flex', gap: '5px', alignContent: 'space-between' }}
         >
-          <div style={{ width: "90%" }}>
+          <div style={{ width: '90%' }}>
             <h2>Thêm Hoạt động mới</h2>
           </div>
-          <div style={{ display: "flex", gap: "5px" }}>
+          <div style={{ display: 'flex', gap: '5px' }}>
             <Button onClick={() => setVisible(false)}>Hủy </Button>
-            <Button style={{ background: "#F58220" }}>Thêm </Button>
+            <Button style={{ background: '#F58220' }}>Thêm </Button>
           </div>
         </div>
       }
       closeIcon={<></>}
       open={visible}
       onCancel={() => {
-        setVisible(false);
+        setVisible(false)
       }}
       footer={<></>}
     >
@@ -127,7 +125,7 @@ const ActivityForm = ({ visible, setVisible }) => {
                 </Col>
               </Row>
               <Row>
-                <Form.Item label={"Ghi chú"}>
+                <Form.Item label={'Ghi chú'}>
                   <Input.TextArea />
                 </Form.Item>
               </Row>
@@ -165,10 +163,10 @@ const ActivityForm = ({ visible, setVisible }) => {
         </Col>
       </Row>
     </ModalStyle>
-  );
-};
+  )
+}
 const ModalStyle = styled(Modal)`
   width: 70vw !important;
-`;
+`
 
-export default ActivityForm;
+export default ActivityForm

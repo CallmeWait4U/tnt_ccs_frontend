@@ -1,50 +1,41 @@
 import {
-  Row,
-  Col,
-  Card,
-  Radio,
-  Table,
-  Upload,
-  message,
-  Progress,
   Button,
-  Avatar,
-  Typography,
-} from "antd";
-import { HiInformationCircle, HiOutlineTrash } from "react-icons/hi";
+  Card,
+  Col,
+  Flex, Form, Input,
+  Row
+} from 'antd'
+import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 
 // Images
 
-import { AiFillFilter } from "react-icons/ai";
+import { AiFillFilter } from 'react-icons/ai'
 
-import { useNavigate } from "react-router-dom";
-import { Flex } from "antd";
+import { useNavigate } from 'react-router-dom'
 
-import { Form } from "antd";
-import { Input } from "antd";
-import CustomToggleButton from "../../component/CustomToggleButton";
-import BaseTable from "../../../components/table/BaseTable";
-import FilterColumn from "../../../components/filterColumn/FilterColumn";
-import ActivityDetailForm from "../form/ActivityDetailForm";
-import { useState } from "react";
+import { useState } from 'react'
+import FilterColumn from '../../../components/filterColumn/FilterColumn'
+import BaseTable from '../../../components/table/BaseTable'
+import CustomToggleButton from '../../component/CustomToggleButton'
+import ActivityDetailForm from '../form/ActivityDetailForm'
 
 const columns = [
   {
-    title: "NGÀY TẠO",
-    dataIndex: "createdAt",
-    key: "createdAt",
+    title: 'NGÀY TẠO',
+    dataIndex: 'createdAt',
+    key: 'createdAt'
   },
   {
-    title: "KHÁCH HÀNG CHĂM SÓC",
-    dataIndex: "name",
-    key: "name",
-    width: "25%",
+    title: 'KHÁCH HÀNG CHĂM SÓC',
+    dataIndex: 'name',
+    key: 'name',
+    width: '25%',
     onFilter: (value, record) => record.address.indexOf(value) === 0,
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
       confirm,
-      clearFilters,
+      clearFilters
     }) => (
       <FilterColumn
         selectedKeys={selectedKeys}
@@ -54,110 +45,110 @@ const columns = [
       />
     ),
     filterIcon: (filtered) => (
-      <AiFillFilter style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
+      <AiFillFilter style={{ color: filtered ? '#1890ff' : undefined }} />
+    )
   },
 
   {
-    title: "NHÂN VIÊN PHỤ TRÁCH",
-    key: "employee",
-    dataIndex: "employee",
+    title: 'NHÂN VIÊN PHỤ TRÁCH',
+    key: 'employee',
+    dataIndex: 'employee'
   },
   {
-    title: "NGÀY BẮT ĐẦU",
-    key: "startAt",
-    dataIndex: "startAt",
+    title: 'NGÀY BẮT ĐẦU',
+    key: 'startAt',
+    dataIndex: 'startAt'
   },
   {
-    title: "NGÀY KẾT THÚC",
-    key: "finishAt",
-    dataIndex: "finishAt",
+    title: 'NGÀY KẾT THÚC',
+    key: 'finishAt',
+    dataIndex: 'finishAt'
   },
   {
-    title: "TRẠNG THÁI",
-    key: "status",
-    dataIndex: "status",
+    title: 'TRẠNG THÁI',
+    key: 'status',
+    dataIndex: 'status'
   },
 
   {
-    title: "THAO TÁC",
-    dataIndex: "",
-    key: "x",
-    width: "7%",
+    title: 'THAO TÁC',
+    dataIndex: '',
+    key: 'x',
+    width: '7%',
     render: () => (
-      <div style={{ gap: "15px", display: "flex" }}>
+      <div style={{ gap: '15px', display: 'flex' }}>
         <HiOutlineTrash size={24} />
         <HiInformationCircle size={24} />
       </div>
-    ),
-  },
-];
+    )
+  }
+]
 const dataCustomer = [
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
   },
 
   {
-    id: "1",
-    createdAt: "20/11/2022",
-    name: "Lê Huy Ngọ",
-    employee: "Phạm Nhật Thịnh",
-    startAt: "21/11/2022",
-    finishAt: "30/11/2022",
-    status: "Cần làm",
-  },
-];
+    id: '1',
+    createdAt: '20/11/2022',
+    name: 'Lê Huy Ngọ',
+    employee: 'Phạm Nhật Thịnh',
+    startAt: '21/11/2022',
+    finishAt: '30/11/2022',
+    status: 'Cần làm'
+  }
+]
 
 // const data = dataCustomer.map((item) => {
 //   return {
@@ -206,15 +197,15 @@ const dataCustomer = [
 // });
 
 const ActivityDetail = () => {
-  const [isShowFormDetail, setIsShowFormDetail] = useState(false);
-  const navigate = useNavigate();
+  const [isShowFormDetail, setIsShowFormDetail] = useState(false)
+  const navigate = useNavigate()
   return (
     <>
       <div className="tabled">
         <Form layout="vertical">
-          {" "}
+          {' '}
           <Row gutter={[24, 0]}>
-            {" "}
+            {' '}
             <Col span={8}>
               <Form.Item label="Tên hoạt động">
                 <Input />
@@ -222,7 +213,7 @@ const ActivityDetail = () => {
             </Col>
             <Col span={16}>
               <Form.Item label="Mô tả hoạt động">
-                <Input.TextArea style={{ width: "100%" }} />
+                <Input.TextArea style={{ width: '100%' }} />
               </Form.Item>
             </Col>
           </Row>
@@ -237,13 +228,13 @@ const ActivityDetail = () => {
               extra={
                 <>
                   <Flex wrap="wrap" gap="small">
-                    <Button type="primary" danger style={{ height: "40px" }}>
+                    <Button type="primary" danger style={{ height: '40px' }}>
                       Xóa
                     </Button>
                     <Button
                       type="primary"
-                      style={{ height: "40px", background: "blue" }}
-                      onClick={() => navigate("/new-customer")}
+                      style={{ height: '40px', background: 'blue' }}
+                      onClick={() => navigate('/new-customer')}
                     >
                       Tạo mới
                     </Button>
@@ -259,9 +250,9 @@ const ActivityDetail = () => {
                   onRow={(record, rowIndex) => {
                     return {
                       onClick: () => {
-                        setIsShowFormDetail(true);
-                      },
-                    };
+                        setIsShowFormDetail(true)
+                      }
+                    }
                   }}
                   className="ant-border-space"
                 />
@@ -275,6 +266,6 @@ const ActivityDetail = () => {
         setVisible={setIsShowFormDetail}
       />
     </>
-  );
-};
-export default ActivityDetail;
+  )
+}
+export default ActivityDetail

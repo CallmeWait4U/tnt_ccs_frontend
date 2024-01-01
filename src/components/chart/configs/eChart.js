@@ -1,102 +1,102 @@
 const eChart = {
   series: [
     {
-      name: "Sales",
+      name: 'Sales',
       data: [450, 200, 100, 220, 500],
-      color: "#fff",
-    },
+      color: '#fff'
+    }
   ],
 
   options: {
     chart: {
-      type: "bar",
-      width: "100%",
-      height: "auto",
+      type: 'bar',
+      width: '100%',
+      height: 'auto',
 
       toolbar: {
-        show: false,
-      },
+        show: false
+      }
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
-        borderRadius: 5,
-      },
+        columnWidth: '55%',
+        borderRadius: 5
+      }
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     stroke: {
       show: true,
       width: 1,
-      colors: ["transparent"],
+      colors: ['transparent']
     },
     grid: {
       show: true,
-      borderColor: "#ccc",
-      strokeDashArray: 2,
+      borderColor: '#ccc',
+      strokeDashArray: 2
     },
     xaxis: {
       categories: [
-        "Landing page",
-        "Facebook",
-        "Tik tok",
-        "Tự khai thác",
-        "Khác",
+        'Landing page',
+        'Facebook',
+        'Tik tok',
+        'Tự khai thác',
+        'Khác'
       ],
       labels: {
         show: true,
-        align: "right",
+        align: 'right',
         minWidth: 0,
         maxWidth: 160,
         style: {
           colors: [
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-          ],
-        },
-      },
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff'
+          ]
+        }
+      }
     },
     yaxis: {
       labels: {
         show: true,
-        align: "right",
+        align: 'right',
         minWidth: 0,
         maxWidth: 160,
         style: {
           colors: [
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-          ],
-        },
-      },
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff'
+          ]
+        }
+      }
     },
 
     tooltip: {
       y: {
         formatter: function (val) {
-          return "$ " + val + " thousands";
-        },
-      },
-    },
-  },
-};
+          return '$ ' + val + ' thousands'
+        }
+      }
+    }
+  }
+}
 
-export default eChart;
+export default eChart

@@ -1,1 +1,3 @@
-export * from "./routes";
+import routesLayout from './routes'
+
+export default routesLayout

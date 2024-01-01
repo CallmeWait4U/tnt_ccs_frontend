@@ -10,50 +10,53 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { Affix, Layout } from "antd";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Footer from "./Footer";
-import Header from "./Header";
-import Sidenav from "./Sidenav";
+import { Affix, Layout } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+// import BreadCrumb from './BreadCrumb'
+import Footer from './Footer'
+import Header from './Header'
+import Sidenav from './Sidenav'
 
-const { Header: AntHeader, Content, Sider } = Layout;
+const { Header: AntHeader, Content, Sider } = Layout
 
-function Main({ children, namePage }) {
-  const [visible, setVisible] = useState(false);
-  const [placement, setPlacement] = useState("right");
-  const [sidenavColor, setSidenavColor] = useState("#1890ff");
-  const [sidenavType, setSidenavType] = useState("transparent");
-  const [fixed, setFixed] = useState(false);
+function Main ({ children, namePage }) {
+  const [visible, setVisible] = useState(false)
+  const [placement, setPlacement] = useState('right')
+  const [sidenavColor, setSidenavColor] = useState('#1890ff')
+  const [sidenavType, setSidenavType] = useState('transparent')
+  const [fixed, setFixed] = useState(false)
 
-  const openDrawer = () => setVisible(!visible);
-  const handleSidenavType = (type) => setSidenavType(type);
-  const handleSidenavColor = (color) => setSidenavColor(color);
-  const handleFixedNavbar = (type) => setFixed(type);
+  console.log(placement, sidenavColor, sidenavType)
 
-  let { pathname } = useLocation();
-  pathname = pathname.replace("/", "");
-  document.title = namePage;
+  const openDrawer = () => setVisible(!visible)
+  const handleSidenavType = (type) => setSidenavType(type)
+  const handleSidenavColor = (color) => setSidenavColor(color)
+  const handleFixedNavbar = (type) => setFixed(type)
+
+  let { pathname } = useLocation()
+  pathname = pathname.replace('/', '')
+  document.title = namePage
 
   useEffect(() => {
-    if (pathname === "rtl") {
-      setPlacement("left");
+    if (pathname === 'rtl') {
+      setPlacement('left')
     } else {
-      setPlacement("right");
+      setPlacement('right')
     }
-  }, [pathname]);
+  }, [pathname])
 
   return (
     <Layout
       className={`layout-dashboard ${
-        pathname === "profile" ? "layout-profile" : ""
+        pathname === 'profile' ? 'layout-profile' : ''
       }`}
     >
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
         onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
+          console.log(collapsed, type)
         }}
         trigger={null}
         width={250}
@@ -63,17 +66,38 @@ function Main({ children, namePage }) {
       </Sider>
       <Layout
         style={{
-          marginLeft: 0,
+          marginLeft: 0
         }}
       >
-        {fixed ? (
-          <Affix>
+        {fixed
+          ? (
+            <Affix>
+              <AntHeader
+                className={`${fixed ? 'ant-header-fixed' : ''}`}
+                style={{
+                  background: 'white',
+                  marginTop: 'unset',
+                  borderRadius: '0px 0px 8px 8px'
+                }}
+              >
+                <Header
+                  onPress={openDrawer}
+                  name={namePage}
+                  subName={pathname}
+                  handleSidenavColor={handleSidenavColor}
+                  handleSidenavType={handleSidenavType}
+                  handleFixedNavbar={handleFixedNavbar}
+                />
+              </AntHeader>
+            </Affix>
+          )
+          : (
             <AntHeader
-              className={`${fixed ? "ant-header-fixed" : ""}`}
+              className={`${fixed ? 'ant-header-fixed' : ''}`}
               style={{
-                background: "white",
-                marginTop: "unset",
-                borderRadius: "0px 0px 8px 8px",
+                background: 'white',
+                marginTop: 'unset',
+                borderRadius: '0px 0px 8px 8px'
               }}
             >
               <Header
@@ -85,31 +109,13 @@ function Main({ children, namePage }) {
                 handleFixedNavbar={handleFixedNavbar}
               />
             </AntHeader>
-          </Affix>
-        ) : (
-          <AntHeader
-            className={`${fixed ? "ant-header-fixed" : ""}`}
-            style={{
-              background: "white",
-              marginTop: "unset",
-              borderRadius: "0px 0px 8px 8px",
-            }}
-          >
-            <Header
-              onPress={openDrawer}
-              name={namePage}
-              subName={pathname}
-              handleSidenavColor={handleSidenavColor}
-              handleSidenavType={handleSidenavType}
-              handleFixedNavbar={handleFixedNavbar}
-            />
-          </AntHeader>
-        )}
+          )}
+        {/* <BreadCrumb></BreadCrumb> */}
         <Content className="content-ant">{children}</Content>
         <Footer />
       </Layout>
     </Layout>
-  );
+  )
 }
 
-export default Main;
+export default Main

@@ -1,9 +1,9 @@
-import ReactApexChart from "react-apexcharts";
-import { Row, Col, Typography } from "antd";
-import eChart from "./configs/eChart";
+import { Typography } from 'antd'
+import ReactApexChart from 'react-apexcharts'
+import eChart from './configs/eChart'
 
-function EChart() {
-  const { Title, Paragraph } = Typography;
+function EChart () {
+  const { Title } = Typography
 
   return (
     <>
@@ -18,7 +18,7 @@ function EChart() {
         />
       </div>
     </>
-  );
+  )
 }
 
-export default EChart;
+export default EChart
