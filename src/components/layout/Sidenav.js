@@ -3,6 +3,7 @@ import {
   FileOutlined,
   InfoCircleOutlined,
   PieChartOutlined,
+<<<<<<< HEAD
   UserOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
@@ -14,6 +15,16 @@ function Sidenav () {
   // const { pathname } = useLocation()
   // const page = pathname.replace('/', '')
   const [selectedKey, setSelectedKey] = useState('dashboard')
+=======
+  UserOutlined,
+} from "@ant-design/icons";
+import { useState } from "react";
+import { PATH } from "../../contants/common";
+function Sidenav({ index }) {
+  const { pathname } = useLocation();
+  const page = pathname.replace("/", "");
+  const [selectedKey, setSelectedKey] = useState("dashboard");
+>>>>>>> feat/customer-detail
   return (
     <>
       <div className="flex flex-row items-center border-b-2 border-slate-300 p-4">

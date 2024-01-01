@@ -9,7 +9,7 @@ const FilterColumn = ({
   return (
     <div style={{ padding: 8 }}>
       <Input
-        placeholder="Search address"
+        placeholder="Input key..."
         value={selectedKeys[0]}
         onChange={(e) =>
           setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -18,16 +18,23 @@ const FilterColumn = ({
         style={{ marginBottom: 8, display: 'block' }}
       />
       <Button
-        type="primary"
         onClick={confirm}
         size="small"
         style={{
           width: 90,
           marginRight: 8,
           height: 35,
+<<<<<<< HEAD
           justifyContent: 'center',
           alignItems: 'center',
           display: 'inline-flex' // Sử dụng inline-flex thay vì flex
+=======
+          background: "#1677ff",
+          color: "white",
+          justifyContent: "center",
+          alignItems: "center",
+          display: "inline-flex", // Sử dụng inline-flex thay vì flex
+>>>>>>> feat/customer-detail
         }}
       >
         Search

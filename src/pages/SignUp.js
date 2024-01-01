@@ -2,6 +2,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 
 import React from 'react'
 
+<<<<<<< HEAD
 import logo from '../assets/images/logo.jpg'
 
 const SignUp = () => {
@@ -11,6 +12,13 @@ const SignUp = () => {
         Successfully logged in...
       </div>
       <div className={'lContainer' + (this.isLoggedIn() ? ' hidden' : ' ')}>
+=======
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => {
+  return (
+    <div>
+      <div className={"lContainer" }>
+>>>>>>> feat/customer-detail
         <div className="lItem">
           <div className="loginImage">
             <img
@@ -22,7 +30,7 @@ const SignUp = () => {
           </div>
           <div className="loginForm">
             <h2>Login</h2>
-            <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form className="login-form">
               <Form.Item>
                 <Input placeholder="Username" />
               </Form.Item>
@@ -33,7 +41,7 @@ const SignUp = () => {
                 <Checkbox>Remember me</Checkbox>
                 <Button
                   type="primary"
-                  htmlType="submit"
+  
                   className="login-form-button"
                 >
                   Log in

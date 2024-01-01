@@ -17,7 +17,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input value={"TNT"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -30,8 +30,9 @@ const CompanyInformation = () => {
                   message: 'this field is required!'
                 }
               ]}
+              value={"tnt@gmail.com"}
             >
-              <StyledSelect />
+              <Input value={"333333"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -45,7 +46,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input value={"33333333333"} />
             </Form.Item>
           </Col>
         </Row>
@@ -60,7 +61,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <StyledSelect value={"Việt Nam"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -74,7 +75,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <StyledSelect />
+              <StyledSelect value={"Bán hàng"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -88,7 +89,9 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea
+                value={"Công ty này đã có doanh thu trên 2 tỷ trong năm 2022"}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -103,7 +106,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <StyledSelect value={"TP.Hồ Chí Minh"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -116,7 +119,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <StyledSelect value={"Thủ Đức"} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -129,7 +132,11 @@ const CompanyInformation = () => {
                 }
               ]}
             >
+<<<<<<< HEAD
               <Input style={{ width: '100%' }} />
+=======
+              <StyledSelect value={"Linh Đông"} />
+>>>>>>> feat/customer-detail
             </Form.Item>
           </Col>
         </Row>

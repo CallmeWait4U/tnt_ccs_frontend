@@ -10,8 +10,11 @@ import Chart from 'react-apexcharts'
 import Echart from '../components/chart/EChart'
 import LineChart from '../components/chart/LineChart'
 
+<<<<<<< HEAD
 function Dashboard () {
   const { Title } = Typography
+=======
+>>>>>>> feat/customer-detail
 
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`)
 

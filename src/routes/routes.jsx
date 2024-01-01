@@ -31,23 +31,51 @@ const routesLayout = [
   },
   {
     path: PATH.HOME,
+<<<<<<< HEAD
     element: <Navigate to={PATH.CUSTOMER} />
   },
   {
     path: PATH.CUSTOMER,
     element: <Main namePage={'Quản lý khách hàng'}><Customer /></Main>
+=======
+    element: <Navigate to={PATH.SIGNIN} />,
+  },
+  {
+    path: PATH.CUSTOMER,
+    element: (
+      <Main children={<Customer />} namePage={"Quản lý khách hàng"} index={1} />
+    ),
+>>>>>>> feat/customer-detail
   },
   {
     path: PATH.CUSTOMERDETAIL,
     element: (
+<<<<<<< HEAD
       <Main namePage={'Quản lý khách hàng'}><CustomerDetail /></Main>
     )
+=======
+      <Main
+        children={<CustomerDetail />}
+        namePage={"Quản lý khách hàng"}
+        index={2}
+      />
+    ),
+>>>>>>> feat/customer-detail
   },
   {
     path: PATH.ACTIVITYMANAGEMENT,
     element: (
+<<<<<<< HEAD
       <Main namePage={'Quản lý hoạt động'}><ActivityManagement /></Main>
     )
+=======
+      <Main
+        children={<ActivityManagement />}
+        namePage={"Quản lý hoạt động"}
+        index={3}
+      />
+    ),
+>>>>>>> feat/customer-detail
   },
   {
     path: PATH.ACTIVITYDETAIL,

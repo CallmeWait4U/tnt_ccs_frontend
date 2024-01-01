@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*!
   =========================================================
   * Muse Ant Design Dashboard - v1.0.0
@@ -10,6 +11,9 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import React, { useState } from 'react'
+=======
+import { useState } from "react";
+>>>>>>> feat/customer-detail
 
 import {
   Avatar,

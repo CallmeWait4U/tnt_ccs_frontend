@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import ChatBox from '../../../components/boxChat/BoxChat'
 import {
   StyledDatepicker,
+<<<<<<< HEAD
   StyledSelect
 } from '../../component/ComponentOfForm'
 import ActivityForm from '../form/ActivityForm'
@@ -13,6 +14,18 @@ import ActivityHistory from '../moreData/ActivityHistory'
 import AdditionalInformation from '../moreData/AdditionalInformation'
 import CompanyInformation from './CompanyInformation'
 import PersonalInformation from './PersonalInformation'
+=======
+  StyledSelect,
+} from "../../component/ComponentOfForm";
+import CompanyInformation from "./CompanyInformation";
+import { useEffect, useState } from "react";
+import PersonalInformation from "./PersonalInformation";
+import ChatBox from "../../../components/boxChat/BoxChat";
+import QuoteForm from "../form/QuoteForm";
+import ActivityForm from "../form/ActivityForm";
+import BillForm from "../form/BillForm";
+import dayjs from "dayjs";
+>>>>>>> feat/customer-detail
 
 const CustomerDetail = () => {
   const [typeCustomer, setTypeCustomer] = useState(1)
@@ -93,7 +106,14 @@ const CustomerDetail = () => {
                         }
                       ]}
                     >
-                      <StyledSelect />
+                      <StyledSelect
+                        options={[
+                          { value: 1, label: "Tiềm năng" },
+                          { value: 2, label: "Báo giá" },
+                          { value: 3, label: "Thân thiết" },
+                        ]}
+                        value={1}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -107,13 +127,14 @@ const CustomerDetail = () => {
                         }
                       ]}
                     >
-                      <Input />
+                      <Input disabled value={"#KH123"} />
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={16}>
                   <Col span={8}>
+<<<<<<< HEAD
                     <Form.Item label={'Nguồn khách hàng'}>
                       <StyledSelect />
                     </Form.Item>
@@ -121,6 +142,22 @@ const CustomerDetail = () => {
                   <Col span={8}>
                     <Form.Item label={'Ngày tạo'}>
                       <StyledDatepicker />
+=======
+                    <Form.Item label={"Nguồn khách hàng"}>
+                      <StyledSelect
+                        options={[
+                          { value: 1, label: "Landing page" },
+                          { value: 2, label: "Facebook" },
+                          { value: 3, label: "Tiktok" },
+                        ]}
+                        value={1}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label={"Ngày tạo"}>
+                      <StyledDatepicker value={dayjs()} />
+>>>>>>> feat/customer-detail
                     </Form.Item>
                   </Col>
                 </Row>

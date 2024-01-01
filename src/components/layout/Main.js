@@ -20,12 +20,21 @@ import Sidenav from './Sidenav'
 
 const { Header: AntHeader, Content, Sider } = Layout
 
+<<<<<<< HEAD
 function Main ({ children, namePage }) {
   const [visible, setVisible] = useState(false)
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
   const [sidenavType, setSidenavType] = useState('transparent')
   const [fixed, setFixed] = useState(false)
+=======
+function Main({ children, namePage, index }) {
+  const [visible, setVisible] = useState(false);
+  const [placement, setPlacement] = useState("right");
+  const [sidenavColor, setSidenavColor] = useState("#1890ff");
+  const [sidenavType, setSidenavType] = useState("transparent");
+  const [fixed, setFixed] = useState(false);
+>>>>>>> feat/customer-detail
 
   console.log(placement, sidenavColor, sidenavType)
 
@@ -62,7 +71,7 @@ function Main ({ children, namePage }) {
         width={250}
         theme="light"
       >
-        <Sidenav />
+        <Sidenav index={index} />
       </Sider>
       <Layout
         style={{

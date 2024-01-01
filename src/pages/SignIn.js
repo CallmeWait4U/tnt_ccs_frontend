@@ -8,11 +8,21 @@ import {
   Input,
   Layout,
   Typography,
+<<<<<<< HEAD
   theme
 } from 'antd'
 import Card from 'antd/lib/card/Card'
 import React from 'react'
 import logo from '../assets/images/logo.jpg'
+=======
+} from "antd";
+import logo from "../assets/images/logo.jpg";
+import Card from "antd/lib/card/Card";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Image } from "antd";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../contants/common";
+>>>>>>> feat/customer-detail
 
 const { Header, Content, Footer } = Layout
 
@@ -63,8 +73,14 @@ const CustomerLanding = () => {
     }
   }
   const {
+<<<<<<< HEAD
     token: { colorBgContainer }
   } = theme.useToken()
+=======
+    token: { colorBgContainer },
+  } = theme.useToken();
+  const navigate = useNavigate();
+>>>>>>> feat/customer-detail
   return (
     <Layout
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
@@ -157,6 +173,7 @@ const CustomerLanding = () => {
                   Forgot password?
                 </a>
               </Form.Item>
+<<<<<<< HEAD
               <Form.Item style={{ marginBottom: '0px' }}>
                 <Button block="true" htmlType="submit">
                   Log in
@@ -165,6 +182,21 @@ const CustomerLanding = () => {
                   <Text style={styles.text}>Do not have an account?</Text>{' '}
                   <Link href="">Sign up now</Link>
                 </div>
+=======
+              <Form.Item style={{ marginBottom: "0px" }}>
+                <Button
+                  block="true"
+                  htmlType="submit"
+                  style={{ background: "#1677ff", color: "white" }}
+                  onClick={() => navigate(PATH.CUSTOMER)}
+                >
+                  Log in
+                </Button>
+                {/* <div style={styles.footer}>
+                  <Text style={styles.text}>Don't have an account?</Text>{" "}
+                  <Link href="http://localhost:3000/sign-up">Sign up now</Link>
+                </div> */}
+>>>>>>> feat/customer-detail
               </Form.Item>
             </Form>
           </div>

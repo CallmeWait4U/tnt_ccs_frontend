@@ -72,6 +72,7 @@ const AdditionalInformation = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       <Form layout="vertical">
         <Row gutter={16}>
           <Col span={12}>
+<<<<<<< HEAD
             {' '}
             <Form.Item label={'Số điện thoại'}>
               <Input />
@@ -80,15 +81,30 @@ const AdditionalInformation = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
           <Col span={12}>
             <Form.Item label={'Email'}>
               <Input />
+=======
+            {" "}
+            <Form.Item label={"Số điện thoại"}>
+              <Input value={"TNT"} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label={"Email"}>
+              <Input value={"tnt@gmail.com"} />
+>>>>>>> feat/customer-detail
             </Form.Item>
           </Col>
         </Row>
         <h3>Thông tin Nhân viên</h3>
         <Row gutter={16}>
+<<<<<<< HEAD
           {' '}
           <Col span={10}>
             {' '}
             <Form.Item label={'Mã nhân viên'}>
+=======
+          <Col span={10}>
+            <Form.Item label={"Mã nhân viên"}>
+>>>>>>> feat/customer-detail
               <Input />
             </Form.Item>
           </Col>
