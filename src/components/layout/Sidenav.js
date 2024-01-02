@@ -81,8 +81,8 @@ function Sidenav() {
         style={{
           width: 256
         }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={['customer']}
+        defaultOpenKeys={['customer']}
         mode='inline'
         items={menuItems}
       />
