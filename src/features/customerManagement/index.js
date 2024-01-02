@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, Col, Flex, Row } from 'antd'
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Flex,
+  Row,
+  Typography
+} from 'antd'
 import React from 'react'
 import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 
@@ -7,7 +16,9 @@ import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 import face2 from '../../assets/images/face-2.jpg'
 
 import { AiFillFilter } from 'react-icons/ai'
+import { FiPlus } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { ButtonOk } from '../../assets/styles/button.style'
 import FilterColumn from '../../components/filterColumn/FilterColumn'
 import BaseTable from '../../components/table/BaseTable'
 import CustomToggleButton from '../component/CustomToggleButton'
@@ -285,11 +296,36 @@ const data = dataCustomer.map((item, index) => {
 })
 
 const CustomerManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  const { Title } = Typography
   const navigate = useNavigate()
   return (
     <>
       <div className='tabled'>
+        <Row gutter={[24, 0]}>
+          <Breadcrumb
+            style={{ margin: '5px 0px 5px 24px ' }}
+            separator='>'
+            items={[
+              {
+                title: 'Home'
+              },
+              {
+                title: 'Quản lý khách hàng',
+                href: ''
+              }
+            ]}
+          />
+        </Row>
+        <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+          <Col md={20}>
+            <Title level={4}> Danh sách khách hàng</Title>
+          </Col>
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            <ButtonOk type='primary' icon={<FiPlus />}>
+              Thêm mới
+            </ButtonOk>
+          </Col>
+        </Row>
         <Row gutter={[24, 0]}>
           <Col xs='24' xl={24}>
             <Card
@@ -299,26 +335,8 @@ const CustomerManagement = () => {
               extra={
                 <>
                   <Flex wrap='wrap' gap='small'>
-                    <Button
-                      type='primary'
-                      style={{
-                        height: '40px',
-
-                        border: 'green',
-                        background: 'green'
-                      }}
-                    >
-                      Thêm hoạt động
-                    </Button>
-                    <Button type='primary' danger style={{ height: '40px' }}>
+                    <Button type='primary' danger>
                       Xóa
-                    </Button>
-                    <Button
-                      type='primary'
-                      style={{ height: '40px', background: 'blue' }}
-                      onClick={() => navigate('/new-customer')}
-                    >
-                      Tạo mới
                     </Button>
                   </Flex>
                 </>
