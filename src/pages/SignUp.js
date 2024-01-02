@@ -11,30 +11,30 @@ const SignUp = () => {
         Successfully logged in...
       </div>
       <div className={'lContainer' + (this.isLoggedIn() ? ' hidden' : ' ')}>
-        <div className="lItem">
-          <div className="loginImage">
+        <div className='lItem'>
+          <div className='loginImage'>
             <img
               src={logo}
-              width="300"
+              width='300'
               style={{ position: 'relative' }}
-              alt="login"
+              alt='login'
             />
           </div>
-          <div className="loginForm">
+          <div className='loginForm'>
             <h2>Login</h2>
-            <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form onSubmit={this.handleSubmit} className='login-form'>
               <Form.Item>
-                <Input placeholder="Username" />
+                <Input placeholder='Username' />
               </Form.Item>
               <Form.Item>
-                <Input type="password" placeholder="Password" />
+                <Input type='password' placeholder='Password' />
               </Form.Item>
               <Form.Item>
                 <Checkbox>Remember me</Checkbox>
                 <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
+                  type='primary'
+                  htmlType='submit'
+                  className='login-form-button'
                 >
                   Log in
                 </Button>
@@ -42,12 +42,12 @@ const SignUp = () => {
             </Form>
           </div>
         </div>
-        <div className="footer">
+        <div className='footer'>
           <a
-            href=""
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footerLink"
+            href=''
+            target='_blank'
+            rel='noopener noreferrer'
+            className='footerLink'
           >
             Powered by React
           </a>

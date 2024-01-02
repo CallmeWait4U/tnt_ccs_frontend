@@ -10,19 +10,17 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
-function Sidenav () {
-  // const { pathname } = useLocation()
-  // const page = pathname.replace('/', '')
+function Sidenav() {
   const [selectedKey, setSelectedKey] = useState('dashboard')
   return (
     <>
-      <div className="flex flex-row items-center border-b-2 border-slate-300 p-4">
-        <img src={logo} alt="logo" width={60} />
-        <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
+      <div className='flex flex-row items-center border-b-2 border-slate-300 p-4'>
+        <img src={logo} alt='logo' width={60} />
+        <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
       </div>
-      <Menu mode="inline" theme="light">
+      <Menu mode='inline' theme='light'>
         <Menu.Item
-          key="dashboard"
+          key='dashboard'
           icon={<UserOutlined />}
           onClick={() => setSelectedKey('dashboard')}
           style={{
@@ -33,7 +31,7 @@ function Sidenav () {
           <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>
         </Menu.Item>
         <Menu.Item
-          key="tables"
+          key='tables'
           icon={<PieChartOutlined />}
           onClick={() => setSelectedKey('tables')}
           style={{
@@ -44,7 +42,7 @@ function Sidenav () {
           <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>
         </Menu.Item>
         <Menu.Item
-          key="billing"
+          key='billing'
           icon={<BarsOutlined />}
           onClick={() => setSelectedKey('billing')}
           style={{
@@ -55,7 +53,7 @@ function Sidenav () {
           <NavLink to={PATH.ACTIVITYMANAGEMENT}>Quản lý hoạt động</NavLink>
         </Menu.Item>
         <Menu.Item
-          key="profile"
+          key='profile'
           icon={<FileOutlined />}
           onClick={() => setSelectedKey('profile')}
           style={{
@@ -63,10 +61,10 @@ function Sidenav () {
             color: selectedKey === 'profile' ? '#fff' : ''
           }}
         >
-          <NavLink to="/profile">Quản lý tổ chức</NavLink>
+          <NavLink to='/profile'>Quản lý tổ chức</NavLink>
         </Menu.Item>
         <Menu.Item
-          key="customers"
+          key='customers'
           icon={<InfoCircleOutlined />}
           onClick={() => setSelectedKey('customers')}
           style={{
@@ -74,7 +72,7 @@ function Sidenav () {
             color: selectedKey === 'customers' ? '#fff' : ''
           }}
         >
-          <NavLink to="/customers">Quản lý khiếu nại</NavLink>
+          <NavLink to='/customers'>Quản lý khiếu nại</NavLink>
         </Menu.Item>
       </Menu>
     </>

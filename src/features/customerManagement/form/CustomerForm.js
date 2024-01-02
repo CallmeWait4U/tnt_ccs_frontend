@@ -2,10 +2,7 @@ import { Button, Card, Col, Form, Input, Row, Table } from 'antd'
 import { useState } from 'react'
 
 import { FiPlus, FiTrash } from 'react-icons/fi'
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 const CustomerForm = () => {
   const [typeCustomer, setTypeCustomer] = useState(1)
@@ -68,7 +65,7 @@ const CustomerForm = () => {
       width: '7%',
       render: (item) => (
         <Button
-          type="link"
+          type='link'
           icon={<FiTrash size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
@@ -177,8 +174,8 @@ const CustomerForm = () => {
         </Form>
         <Row gutter={16}>
           <Col span={12}>
-            <Card title="Thông tin chung của khách hàng">
-              <Form layout="vertical">
+            <Card title='Thông tin chung của khách hàng'>
+              <Form layout='vertical'>
                 <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item label={'Tên khách hàng'}>
@@ -219,8 +216,8 @@ const CustomerForm = () => {
             </Card>
           </Col>
           <Col span={12} gutter={16}>
-            <Card title="Thông tin liên lạc của khách hàng">
-              <Form layout="vertical">
+            <Card title='Thông tin liên lạc của khách hàng'>
+              <Form layout='vertical'>
                 <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item label={'Số điện thoại'}>
@@ -252,13 +249,13 @@ const CustomerForm = () => {
                 </Row>
               </Form>
             </Card>
-            <Card title="Nhân viên phụ trách" style={{ marginTop: '16px' }}>
+            <Card title='Nhân viên phụ trách' style={{ marginTop: '16px' }}>
               <Table
                 columns={columns}
                 dataSource={tableData}
                 pagination={false}
               />
-              <Button type="dashed" onClick={addRow} block icon={<FiPlus />}>
+              <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
                 Thêm sản phẩm
               </Button>
             </Card>

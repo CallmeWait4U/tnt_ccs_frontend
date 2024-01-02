@@ -3,10 +3,7 @@ import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 const ActivityDetailForm = ({ visible, setVisible }) => {
   const [tableData, setTableData] = useState([
@@ -68,7 +65,7 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
       width: '7%',
       render: (item) => (
         <Button
-          type="link"
+          type='link'
           icon={<FiTrash2 size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
@@ -120,10 +117,10 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
       <Row gutter={[16, 16]}>
         <Col xl={24} xxl={12}>
           <Card title={null}>
-            <Form layout="vertical">
+            <Form layout='vertical'>
               <Row gutter={16}>
                 <Col span={12}>
-                  <Form.Item label="Kiểu hoạt động">
+                  <Form.Item label='Kiểu hoạt động'>
                     <StyledSelect
                       value={'Kiểm tra báo giá'}
                       disabled={!isCanUpdate}
@@ -131,7 +128,7 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="Mô tả">
+                  <Form.Item label='Mô tả'>
                     <Input.TextArea
                       value={
                         'Kiểm tra các mail trả lời của khách hàng về báo giá và trả lời cho họ.'
@@ -150,17 +147,17 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
               </Row>
               <Row gutter={16}>
                 <Col span={8}>
-                  <Form.Item label="Ngày tạo">
+                  <Form.Item label='Ngày tạo'>
                     <StyledDatepicker value={today} disabled={!isCanUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Ngày bắt đầu">
+                  <Form.Item label='Ngày bắt đầu'>
                     <StyledDatepicker value={today} disabled={!isCanUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Ngày kết thúc">
+                  <Form.Item label='Ngày kết thúc'>
                     <StyledDatepicker value={today} disabled={!isCanUpdate} />
                   </Form.Item>
                 </Col>
@@ -176,7 +173,7 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
               pagination={false}
             />
             <Button
-              type="dashed"
+              type='dashed'
               onClick={addRow}
               block
               icon={<FiPlus />}

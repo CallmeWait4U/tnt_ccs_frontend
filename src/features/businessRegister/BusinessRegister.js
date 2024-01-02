@@ -32,8 +32,8 @@ const BusinessRegister = () => {
             paddingLeft: '10px'
           }}
         >
-          <img src={logo} alt="Logo" style={{ width: '40px' }} />
-          <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
+          <img src={logo} alt='Logo' style={{ width: '40px' }} />
+          <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
           <Button style={{ background: '#7364FF', color: 'white' }}>
@@ -50,7 +50,7 @@ const BusinessRegister = () => {
         }}
       >
         <Card style={{ width: '80vw' }}>
-          <Form layout="vertical">
+          <Form layout='vertical'>
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label={'Tên doanh nghiệp'}>

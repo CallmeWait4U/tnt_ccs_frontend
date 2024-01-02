@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-  Flex, Form, Input,
-  Row
-} from 'antd'
+import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 
 // Images
@@ -201,18 +195,18 @@ const ActivityDetail = () => {
   const navigate = useNavigate()
   return (
     <>
-      <div className="tabled">
-        <Form layout="vertical">
+      <div className='tabled'>
+        <Form layout='vertical'>
           {' '}
           <Row gutter={[24, 0]}>
             {' '}
             <Col span={8}>
-              <Form.Item label="Tên hoạt động">
+              <Form.Item label='Tên hoạt động'>
                 <Input />
               </Form.Item>
             </Col>
             <Col span={16}>
-              <Form.Item label="Mô tả hoạt động">
+              <Form.Item label='Mô tả hoạt động'>
                 <Input.TextArea style={{ width: '100%' }} />
               </Form.Item>
             </Col>
@@ -220,19 +214,19 @@ const ActivityDetail = () => {
         </Form>
 
         <Row gutter={[24, 0]}>
-          <Col xs="24" xl={24}>
+          <Col xs='24' xl={24}>
             <Card
               bordered={false}
-              className="criclebox tablespace mb-24"
+              className='criclebox tablespace mb-24'
               title={<CustomToggleButton />}
               extra={
                 <>
-                  <Flex wrap="wrap" gap="small">
-                    <Button type="primary" danger style={{ height: '40px' }}>
+                  <Flex wrap='wrap' gap='small'>
+                    <Button type='primary' danger style={{ height: '40px' }}>
                       Xóa
                     </Button>
                     <Button
-                      type="primary"
+                      type='primary'
                       style={{ height: '40px', background: 'blue' }}
                       onClick={() => navigate('/new-customer')}
                     >
@@ -242,7 +236,7 @@ const ActivityDetail = () => {
                 </>
               }
             >
-              <div className="table-responsive">
+              <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
                   data={dataCustomer}
@@ -254,7 +248,7 @@ const ActivityDetail = () => {
                       }
                     }
                   }}
-                  className="ant-border-space"
+                  className='ant-border-space'
                 />
               </div>
             </Card>

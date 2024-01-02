@@ -1,15 +1,3 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { Affix, Layout } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -20,7 +8,7 @@ import Sidenav from './Sidenav'
 
 const { Header: AntHeader, Content, Sider } = Layout
 
-function Main ({ children, namePage }) {
+function Main({ children, namePage }) {
   const [visible, setVisible] = useState(false)
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
@@ -53,14 +41,14 @@ function Main ({ children, namePage }) {
       }`}
     >
       <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
+        breakpoint='lg'
+        collapsedWidth='0'
         onCollapse={(collapsed, type) => {
           console.log(collapsed, type)
         }}
         trigger={null}
         width={250}
-        theme="light"
+        theme='light'
       >
         <Sidenav />
       </Sider>
@@ -69,29 +57,8 @@ function Main ({ children, namePage }) {
           marginLeft: 0
         }}
       >
-        {fixed
-          ? (
-            <Affix>
-              <AntHeader
-                className={`${fixed ? 'ant-header-fixed' : ''}`}
-                style={{
-                  background: 'white',
-                  marginTop: 'unset',
-                  borderRadius: '0px 0px 8px 8px'
-                }}
-              >
-                <Header
-                  onPress={openDrawer}
-                  name={namePage}
-                  subName={pathname}
-                  handleSidenavColor={handleSidenavColor}
-                  handleSidenavType={handleSidenavType}
-                  handleFixedNavbar={handleFixedNavbar}
-                />
-              </AntHeader>
-            </Affix>
-          )
-          : (
+        {fixed ? (
+          <Affix>
             <AntHeader
               className={`${fixed ? 'ant-header-fixed' : ''}`}
               style={{
@@ -109,9 +76,28 @@ function Main ({ children, namePage }) {
                 handleFixedNavbar={handleFixedNavbar}
               />
             </AntHeader>
-          )}
+          </Affix>
+        ) : (
+          <AntHeader
+            className={`${fixed ? 'ant-header-fixed' : ''}`}
+            style={{
+              background: 'white',
+              marginTop: 'unset',
+              borderRadius: '0px 0px 8px 8px'
+            }}
+          >
+            <Header
+              onPress={openDrawer}
+              name={namePage}
+              subName={pathname}
+              handleSidenavColor={handleSidenavColor}
+              handleSidenavType={handleSidenavType}
+              handleFixedNavbar={handleFixedNavbar}
+            />
+          </AntHeader>
+        )}
         {/* <BreadCrumb></BreadCrumb> */}
-        <Content className="content-ant">{children}</Content>
+        <Content className='content-ant'>{children}</Content>
         <Footer />
       </Layout>
     </Layout>

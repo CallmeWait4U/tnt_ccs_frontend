@@ -1,14 +1,11 @@
 import { Card, Col, Form, Input, Row } from 'antd'
 
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 const PersonalInformation = () => {
   return (
     <Card style={{ width: '100%' }}>
-      <Form layout="vertical">
+      <Form layout='vertical'>
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
@@ -112,7 +109,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input type="email" />
+              <Input type='email' />
             </Form.Item>
           </Col>
         </Row>

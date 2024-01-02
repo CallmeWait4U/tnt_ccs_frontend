@@ -5,7 +5,7 @@ import { StyledSelect } from '../../component/ComponentOfForm'
 const CompanyInformation = () => {
   return (
     <Card style={{ width: '100%' }}>
-      <Form layout="vertical">
+      <Form layout='vertical'>
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
