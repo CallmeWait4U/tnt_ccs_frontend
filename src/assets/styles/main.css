@@ -1,14 +1,4 @@
-/*!
-=========================================================
-* Muse Ant Design Dashboard - v1.0.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-* Coded by Creative Tim
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,6 +25,42 @@ body {
   .layout-dashboard {
     overflow: auto;
   }
+}
+.ant-menu .ant-menu-item {
+  width: 90%;
+  border-radius: 4px;
+  display: flex;
+  margin: auto;
+  padding-left: 10px !important;
+}
+.ant-menu .ant-menu-item a {
+  font-size: 18px;
+}
+.ant-menu .ant-menu-submenu  a {
+  font-size: 18px;
+}
+.ant-menu .ant-menu-submenu .ant-menu-item {
+  width: 80%;
+  border-radius: 4px;
+  display: flex;
+  margin-right:0px ;
+  padding-left: 10px !important;
+ 
+}
+  /* width: 90%;
+  height: 40px;
+  border-radius: 4px;
+  margin: auto;
+  padding-left: 10px !important; */
+
+
+.ant-menu .ant-menu-item-selected {
+  background-color: #7364ff;
+  color: #fff;
+}
+.ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open .ant-menu-submenu-selected .ant-menu-submenu-title{
+  background-color: #7364ff;
+  color: #fff;
 }
 .layout-dashboard .ant-layout-sider.sider-primary {
   width: 250px;
@@ -661,6 +687,7 @@ hr:not([size]) {
 ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav {
   background: transparent;
 }
+
 
 ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav li {
   padding: 10px 16px !important;
