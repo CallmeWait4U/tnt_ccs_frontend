@@ -69,7 +69,7 @@ const AdditionalInformation = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
   // ]
   return (
     <>
-      <Form layout="vertical">
+      <Form layout='vertical'>
         <Row gutter={16}>
           <Col span={12}>
             {' '}
