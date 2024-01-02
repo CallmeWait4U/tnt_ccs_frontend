@@ -329,14 +329,7 @@ body {
   font-weight: 600;
 }
 
-.layout-dashboard
-  .ant-layout-sider.sider-primary.ant-layout-sider-primary
-  .footer-box
-  button {
-  background-color: #fff;
-  border-color: #f0f0f0;
-  color: #141414;
-}
+
 
 .layout-dashboard .ant-layout-sider.sider-primary .footer-box button {
   margin: 0;
@@ -855,7 +848,7 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
   background: transparent;
   border: 0px;
   box-shadow: none;
-}
+} 
 button.ant-btn.bell {
   padding: 0px;
   border: 0px;

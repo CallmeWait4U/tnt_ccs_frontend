@@ -11,6 +11,8 @@ import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
 function Sidenav() {
+  // const { pathname } = useLocation()
+  // const page = pathname.replace('/', '')
   const [selectedKey, setSelectedKey] = useState('dashboard')
   return (
     <>
