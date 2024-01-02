@@ -20,7 +20,7 @@ const ChatBox = () => {
     }
   ])
 
-  function handleSend (type, val) {
+  function handleSend(type, val) {
     if (type === 'text' && val.trim()) {
       appendMsg({
         type: 'text',
@@ -39,14 +39,14 @@ const ChatBox = () => {
     }
   }
 
-  function renderMessageContent (msg) {
+  function renderMessageContent(msg) {
     const { content } = msg
     return <Bubble content={content.text} />
   }
 
   return (
     <Chat
-      placeholder="Type your message..."
+      placeholder='Type your message...'
       style={{ width: '100%' }}
       navbar={{
         title: (
@@ -59,7 +59,7 @@ const ChatBox = () => {
       messages={messages}
       renderMessageContent={renderMessageContent}
       onSend={handleSend}
-      sendButtonText="Gửi"
+      sendButtonText='Gửi'
     />
   )
 }

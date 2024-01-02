@@ -12,6 +12,7 @@ import {
 } from 'antd'
 import Card from 'antd/lib/card/Card'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import logo from '../assets/images/logo.jpg'
 
 const { Header, Content, Footer } = Layout
@@ -21,10 +22,11 @@ const { useBreakpoint } = Grid
 const { Text, Link } = Typography
 const CustomerLanding = () => {
   const { token } = useToken()
+  const navigate = useNavigate()
   const screens = useBreakpoint()
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values)
+    navigate('/customers')
   }
 
   const styles = {
@@ -86,8 +88,8 @@ const CustomerLanding = () => {
             paddingLeft: '10px'
           }}
         >
-          <img src={logo} alt="Logo" style={{ width: '40px' }} />
-          <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
+          <img src={logo} alt='Logo' style={{ width: '40px' }} />
+          <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
           <Button style={{ background: '#7364FF', color: 'white' }}>
@@ -114,16 +116,16 @@ const CustomerLanding = () => {
               <Image src={logo} style={{ width: '100px' }} />
             </div>
             <Form
-              name="normal_login"
+              name='normal_login'
               initialValues={{
                 remember: true
               }}
               onFinish={onFinish}
-              layout="vertical"
-              requiredMark="optional"
+              layout='vertical'
+              requiredMark='optional'
             >
               <Form.Item
-                name="email"
+                name='email'
                 rules={[
                   {
                     type: 'email',
@@ -132,10 +134,10 @@ const CustomerLanding = () => {
                   }
                 ]}
               >
-                <Input prefix={<MailOutlined />} placeholder="Email" />
+                <Input prefix={<MailOutlined />} placeholder='Email' />
               </Form.Item>
               <Form.Item
-                name="password"
+                name='password'
                 rules={[
                   {
                     required: true,
@@ -145,25 +147,25 @@ const CustomerLanding = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  type="password"
-                  placeholder="Password"
+                  type='password'
+                  placeholder='Password'
                 />
               </Form.Item>
               <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Form.Item name='remember' valuePropName='checked' noStyle>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-                <a style={styles.forgotPassword} href="">
+                <a style={styles.forgotPassword} href=''>
                   Forgot password?
                 </a>
               </Form.Item>
               <Form.Item style={{ marginBottom: '0px' }}>
-                <Button block="true" htmlType="submit">
+                <Button block='true' htmlType='submit'>
                   Log in
                 </Button>
                 <div style={styles.footer}>
                   <Text style={styles.text}>Do not have an account?</Text>{' '}
-                  <Link href="">Sign up now</Link>
+                  <Link href=''>Sign up now</Link>
                 </div>
               </Form.Item>
             </Form>

@@ -5,9 +5,9 @@ import './assets/styles/responsive.css'
 
 import routesLayout from './routes'
 
-function App () {
+function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Routes>
         {routesLayout.map((route, index) => (
           <Route key={index} path={route.path} element={route.element} />

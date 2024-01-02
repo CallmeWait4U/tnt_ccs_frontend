@@ -27,7 +27,7 @@ const CustomToggleButton = () => {
       }}
     >
       <Button
-        type="primary"
+        type='primary'
         style={{
           borderRadius: '20px',
           flex: 1,
@@ -40,7 +40,7 @@ const CustomToggleButton = () => {
         Tất cả
       </Button>
       <Button
-        type="primary"
+        type='primary'
         style={{
           borderRadius: '20px',
           flex: 1,

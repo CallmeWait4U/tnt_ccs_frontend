@@ -26,8 +26,8 @@ const LandingPage = () => {
         <div
           style={{ display: 'flex', alignItems: 'center', paddingLeft: '10px' }}
         >
-          <img src={logo} alt="Logo" style={{ width: '40px' }} />
-          <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
+          <img src={logo} alt='Logo' style={{ width: '40px' }} />
+          <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
           <Button style={{ marginRight: '16px' }} danger>
@@ -82,7 +82,7 @@ const LandingPage = () => {
             </div>
           </Col>
           <Col span={12} style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="https://fastwork.vn/wp-content/uploads/2020/11/Thi%E1%BA%BFt-k%E1%BA%BF-kh%C3%B4ng-t%C3%AAn-39.png" />
+            <Image src='https://fastwork.vn/wp-content/uploads/2020/11/Thi%E1%BA%BFt-k%E1%BA%BF-kh%C3%B4ng-t%C3%AAn-39.png' />
           </Col>
         </Row>
       </Content>

@@ -92,7 +92,7 @@ const BillForm = ({ visible, setVisible }) => {
       width: '7%',
       render: (item) => (
         <Button
-          type="link"
+          type='link'
           icon={<FiTrash2 size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
@@ -133,7 +133,7 @@ const BillForm = ({ visible, setVisible }) => {
       }}
       footer={<></>}
     >
-      <Form layout="vertical">
+      <Form layout='vertical'>
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item label={'Mã Báo giá'}>
@@ -160,7 +160,7 @@ const BillForm = ({ visible, setVisible }) => {
         </Row>
       </Form>
       <Table columns={columns} dataSource={tableData} pagination={false} />
-      <Button type="dashed" onClick={addRow} block icon={<FiPlus />}>
+      <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
         Thêm sản phẩm
       </Button>
     </StyledModal>

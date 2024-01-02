@@ -4,7 +4,7 @@ import lineChart from './configs/lineChart'
 
 import { useState } from 'react'
 
-function LineChart () {
+function LineChart() {
   const { Title } = Typography
   const options = [
     'Tất cả',
@@ -43,10 +43,10 @@ function LineChart () {
       </div>
 
       <ReactApexChart
-        className="full-width"
+        className='full-width'
         options={lineChart.options}
         series={lineChart.series}
-        type="area"
+        type='area'
         height={350}
         width={'100%'}
       />

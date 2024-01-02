@@ -1,8 +1,5 @@
 import { Button, Card, Col, Form, Input, Modal, Row, Table } from 'antd'
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 import { useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
@@ -67,7 +64,7 @@ const ActivityForm = ({ visible, setVisible }) => {
       width: '7%',
       render: (item) => (
         <Button
-          type="link"
+          type='link'
           icon={<FiTrash2 size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
@@ -111,15 +108,15 @@ const ActivityForm = ({ visible, setVisible }) => {
       <Row gutter={[16, 16]}>
         <Col xl={24} xxl={12}>
           <Card title={null}>
-            <Form layout="vertical">
+            <Form layout='vertical'>
               <Row gutter={16}>
                 <Col span={12}>
-                  <Form.Item label="Kiểu hoạt động">
+                  <Form.Item label='Kiểu hoạt động'>
                     <StyledSelect />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="Mô tả">
+                  <Form.Item label='Mô tả'>
                     <Input.TextArea />
                   </Form.Item>
                 </Col>
@@ -131,17 +128,17 @@ const ActivityForm = ({ visible, setVisible }) => {
               </Row>
               <Row gutter={16}>
                 <Col span={8}>
-                  <Form.Item label="Ngày tạo">
+                  <Form.Item label='Ngày tạo'>
                     <StyledDatepicker />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Ngày bắt đầu">
+                  <Form.Item label='Ngày bắt đầu'>
                     <StyledDatepicker />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item label="Ngày kết thúc">
+                  <Form.Item label='Ngày kết thúc'>
                     <StyledDatepicker />
                   </Form.Item>
                 </Col>
@@ -156,7 +153,7 @@ const ActivityForm = ({ visible, setVisible }) => {
               dataSource={tableData}
               pagination={false}
             />
-            <Button type="dashed" onClick={addRow} block icon={<FiPlus />}>
+            <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
               Thêm sản phẩm
             </Button>
           </Card>

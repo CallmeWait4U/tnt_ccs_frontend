@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Flex,
-  Row
-} from 'antd'
+import { Avatar, Button, Card, Col, Flex, Row } from 'antd'
 import React from 'react'
 import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 
@@ -250,8 +243,8 @@ const data = dataCustomer.map((item, index) => {
     code: (
       <>
         <Avatar.Group>
-          <Avatar className="shape-avatar" size={40} src={face2}></Avatar>
-          <div className="avatar-info" style={{ color: '#726BEA' }}>
+          <Avatar className='shape-avatar' size={40} src={face2}></Avatar>
+          <div className='avatar-info' style={{ color: '#726BEA' }}>
             {item.code}
           </div>
         </Avatar.Group>
@@ -259,33 +252,33 @@ const data = dataCustomer.map((item, index) => {
     ),
     name: (
       <>
-        <div className="avatar-info">{item.name}</div>
+        <div className='avatar-info'>{item.name}</div>
       </>
     ),
 
     email: (
       <>
-        <div className="avatar-info">{item.email}</div>
+        <div className='avatar-info'>{item.email}</div>
       </>
     ),
     number: (
       <>
-        <div className="avatar-info">{item.number}</div>
+        <div className='avatar-info'>{item.number}</div>
       </>
     ),
     employee: (
       <>
-        <div className="avatar-info">{item.employee}</div>
+        <div className='avatar-info'>{item.employee}</div>
       </>
     ),
     source: (
       <>
-        <div className="avatar-info">{item.source}</div>
+        <div className='avatar-info'>{item.source}</div>
       </>
     ),
     phase: (
       <>
-        <div className="avatar-info">{item.phase}</div>
+        <div className='avatar-info'>{item.phase}</div>
       </>
     )
   }
@@ -296,18 +289,18 @@ const CustomerManagement = () => {
   const navigate = useNavigate()
   return (
     <>
-      <div className="tabled">
+      <div className='tabled'>
         <Row gutter={[24, 0]}>
-          <Col xs="24" xl={24}>
+          <Col xs='24' xl={24}>
             <Card
               bordered={false}
-              className="criclebox tablespace mb-24"
+              className='criclebox tablespace mb-24'
               title={<CustomToggleButton />}
               extra={
                 <>
-                  <Flex wrap="wrap" gap="small">
+                  <Flex wrap='wrap' gap='small'>
                     <Button
-                      type="primary"
+                      type='primary'
                       style={{
                         height: '40px',
 
@@ -317,11 +310,11 @@ const CustomerManagement = () => {
                     >
                       Thêm hoạt động
                     </Button>
-                    <Button type="primary" danger style={{ height: '40px' }}>
+                    <Button type='primary' danger style={{ height: '40px' }}>
                       Xóa
                     </Button>
                     <Button
-                      type="primary"
+                      type='primary'
                       style={{ height: '40px', background: 'blue' }}
                       onClick={() => navigate('/new-customer')}
                     >
@@ -331,7 +324,7 @@ const CustomerManagement = () => {
                 </>
               }
             >
-              <div className="table-responsive">
+              <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
                   data={data}
@@ -347,7 +340,7 @@ const CustomerManagement = () => {
                       }
                     }
                   }}
-                  className="ant-border-space"
+                  className='ant-border-space'
                 />
               </div>
             </Card>

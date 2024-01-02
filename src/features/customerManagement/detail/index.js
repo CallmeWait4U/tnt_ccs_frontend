@@ -2,10 +2,7 @@ import { Card, Col, Form, Input, Row, Tabs } from 'antd'
 
 import { useEffect, useState } from 'react'
 import ChatBox from '../../../components/boxChat/BoxChat'
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import ActivityForm from '../form/ActivityForm'
 import BillForm from '../form/BillForm'
 import QuoteForm from '../form/QuoteForm'
@@ -127,19 +124,17 @@ const CustomerDetail = () => {
               </>
             </Form>
             <Row>
-              {typeCustomer === 1
-                ? (
-                  <CompanyInformation />
-                )
-                : (
-                  <PersonalInformation />
-                )}
+              {typeCustomer === 1 ? (
+                <CompanyInformation />
+              ) : (
+                <PersonalInformation />
+              )}
             </Row>
           </Card>
         </Col>
         <Col xs={24} sm={24} xl={24} xxl={10}>
           <Tabs
-            defaultActiveKey="1"
+            defaultActiveKey='1'
             items={items}
             style={{
               background: '#ffffff',

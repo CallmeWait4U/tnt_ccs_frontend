@@ -28,8 +28,8 @@ const CustomerLanding = () => {
             paddingLeft: '10px'
           }}
         >
-          <img src={logo} alt="Logo" style={{ width: '40px' }} />
-          <h1 className="font-bold text-black p-2 text-2xl">TNT CCS</h1>
+          <img src={logo} alt='Logo' style={{ width: '40px' }} />
+          <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
           <Button style={{ background: '#7364FF', color: 'white' }}>
@@ -101,7 +101,7 @@ const CustomerLanding = () => {
                   <FiPhone /> <span>1900 1800</span>
                 </div>
               </div>
-              <Divider type="vertical" />
+              <Divider type='vertical' />
               <div
                 style={{
                   display: 'flex',

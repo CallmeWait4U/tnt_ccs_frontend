@@ -161,21 +161,21 @@ const ActivityManagement = () => {
 
   return (
     <>
-      <div className="tabled">
+      <div className='tabled'>
         <Row gutter={[24, 0]}>
-          <Col xs="24" xl={24}>
+          <Col xs='24' xl={24}>
             <Card
               bordered={false}
-              className="criclebox tablespace mb-24"
+              className='criclebox tablespace mb-24'
               title={<CustomToggleButton />}
               extra={
                 <>
-                  <Flex wrap="wrap" gap="small">
-                    <Button type="primary" danger style={{ height: '40px' }}>
+                  <Flex wrap='wrap' gap='small'>
+                    <Button type='primary' danger style={{ height: '40px' }}>
                       Xóa
                     </Button>
                     <Button
-                      type="primary"
+                      type='primary'
                       style={{ height: '40px', background: 'blue' }}
                       onClick={() => navigate('/new-customer')}
                     >
@@ -185,7 +185,7 @@ const ActivityManagement = () => {
                 </>
               }
             >
-              <div className="table-responsive">
+              <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
                   data={dataActivity}
@@ -201,7 +201,7 @@ const ActivityManagement = () => {
                       }
                     }
                   }}
-                  className="ant-border-space"
+                  className='ant-border-space'
                 />
               </div>
             </Card>

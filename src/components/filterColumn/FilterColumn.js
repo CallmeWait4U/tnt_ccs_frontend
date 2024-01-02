@@ -9,7 +9,7 @@ const FilterColumn = ({
   return (
     <div style={{ padding: 8 }}>
       <Input
-        placeholder="Search address"
+        placeholder='Search address'
         value={selectedKeys[0]}
         onChange={(e) =>
           setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -18,9 +18,9 @@ const FilterColumn = ({
         style={{ marginBottom: 8, display: 'block' }}
       />
       <Button
-        type="primary"
+        type='primary'
         onClick={confirm}
-        size="small"
+        size='small'
         style={{
           width: 90,
           marginRight: 8,
@@ -34,7 +34,7 @@ const FilterColumn = ({
       </Button>
       <Button
         onClick={clearFilters}
-        size="small"
+        size='small'
         style={{
           width: 90,
           height: 35,

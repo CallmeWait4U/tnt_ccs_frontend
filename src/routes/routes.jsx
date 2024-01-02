@@ -31,49 +31,80 @@ const routesLayout = [
   },
   {
     path: PATH.HOME,
-    element: <Navigate to={PATH.CUSTOMER} />
+    element: <Navigate to={PATH.SIGNIN} />
   },
   {
     path: PATH.CUSTOMER,
-    element: <Main namePage={'Quản lý khách hàng'}><Customer /></Main>
+    element: (
+      <Main namePage={'Quản lý khách hàng'}>
+        <Customer />
+      </Main>
+    )
   },
   {
     path: PATH.CUSTOMERDETAIL,
     element: (
-      <Main namePage={'Quản lý khách hàng'}><CustomerDetail /></Main>
+      <Main namePage={'Quản lý khách hàng'}>
+        <CustomerDetail />
+      </Main>
     )
   },
   {
     path: PATH.ACTIVITYMANAGEMENT,
     element: (
-      <Main namePage={'Quản lý hoạt động'}><ActivityManagement /></Main>
+      <Main namePage={'Quản lý hoạt động'}>
+        <ActivityManagement />
+      </Main>
     )
   },
   {
     path: PATH.ACTIVITYDETAIL,
     element: (
-      <Main namePage={'Quản lý hoạt động'}><ActivityDetail /></Main>
+      <Main namePage={'Quản lý hoạt động'}>
+        <ActivityDetail />
+      </Main>
     )
   },
   {
     path: PATH.NEWCUSTOMER,
     element: (
-      <Main namePage={'Quản lý khách hàng'}><CustomerForm /></Main>
+      <Main namePage={'Quản lý khách hàng'}>
+        <CustomerForm />
+      </Main>
     )
   },
   {
     path: PATH.DASHBOARD,
-    element: <Main namePage={'Thống kê - báo cáo'}><Dashboard /></Main>
+    element: (
+      <Main namePage={'Thống kê - báo cáo'}>
+        <Dashboard />
+      </Main>
+    )
   },
   {
     path: PATH.PROFILE,
-    element: <Main namePage={'Thông tin cá nhân'}><Profile /></Main>
+    element: (
+      <Main namePage={'Thông tin cá nhân'}>
+        <Profile />
+      </Main>
+    )
   },
   {
     path: PATH.BILLING,
-    element: <Main><Billing /></Main>
+    element: (
+      <Main>
+        <Billing />
+      </Main>
+    )
   },
-  { path: PATH.TABLE, element: <Main><Tables /></Main> }
+  {
+    path: PATH.TABLE,
+    element: (
+      <Main>
+        <Tables />
+      </Main>
+    )
+  }
 ]
 
 export default routesLayout
