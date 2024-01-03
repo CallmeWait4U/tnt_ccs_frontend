@@ -1,7 +1,8 @@
+import { Breadcrumb, Row } from 'antd'
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
-const BreadCrumb = () => {
+const CutomBreadCrumb = ({ breadcumbItems }) => {
   const location = useLocation()
   console.log(location)
   // const breadCrumbView = () => {
@@ -9,37 +10,17 @@ const BreadCrumb = () => {
   const pathnames = pathname.split('/').filter((item) => item)
   console.log(pathnames)
   return (
-    <div>
-      <BreadCrumb>
-        <Link to='/'>Home</Link>
-        {/* {pathname.length > 0
-            ? (
-              <BreadCrumb.Item>
-                <Link to="/">Home</Link>
-              </BreadCrumb.Item>
-            )
-            : (
-              <BreadCrumb.Item>Home</BreadCrumb.Item>
-            )}
-          {pathnames.map((name, index) => {
-            const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
-            const isLast = index === pathnames.length - 1
-            return isLast
-              ? (
-                <BreadCrumb.Item>{name}</BreadCrumb.Item>
-              )
-              : (
-                <BreadCrumb.Item>
-                  <Link to={`${routeTo}`}>{name}</Link>
-                </BreadCrumb.Item>
-              )
-          })} */}
-      </BreadCrumb>
-    </div>
+    <Row gutter={[24, 0]} style={{ background: 'inherit', marginLeft: '5px' }}>
+      <Breadcrumb
+        style={{ margin: '5px 0px 5px 24px ' }}
+        separator='>'
+        items={breadcumbItems}
+      />
+    </Row>
   )
   // }
 
   // return <>{breadCrumbView()}</>
 }
 
-export default BreadCrumb
+export default CutomBreadCrumb
