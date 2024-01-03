@@ -2,18 +2,20 @@ import { Affix, Layout } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import BreadCrumb from './BreadCrumb'
+import CutomBreadCrumb from './BreadCrumb'
 import Footer from './Footer'
 import Header from './Header'
 import Sidenav from './Sidenav'
 
 const { Header: AntHeader, Content, Sider } = Layout
 
-function Main({ children, namePage }) {
+function Main({ children, pageProps }) {
   const [visible, setVisible] = useState(false)
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
   const [sidenavType, setSidenavType] = useState('transparent')
 
+  const { namePage, breadcumbItems } = pageProps
   console.log(placement, sidenavColor, sidenavType)
 
   const openDrawer = () => setVisible(!visible)
@@ -79,6 +81,7 @@ function Main({ children, namePage }) {
               handleSidenavType={handleSidenavType}
             />
           </AntHeader>
+          <CutomBreadCrumb breadcumbItems={breadcumbItems} />
         </Affix>
 
         <Content className='content-ant'>{children}</Content>
