@@ -1375,6 +1375,7 @@ span.ismobile {
 
   main.ant-layout-content.content-ant {
     padding-left: 0px !important;
+    min-height: 80vh !important;
   }
 
   .ant-row {
@@ -2297,6 +2298,7 @@ small.redtext {
 
 section.ant-layout.layout-content .ant-layout-content.content-ant {
   padding: 0px !important;
+  min-height: 80vh !important;
 }
 
 .layout-dashboard .ant-card {
