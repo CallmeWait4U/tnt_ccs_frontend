@@ -13,14 +13,12 @@ function Main({ children, namePage }) {
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
   const [sidenavType, setSidenavType] = useState('transparent')
-  const [fixed, setFixed] = useState(false)
 
   console.log(placement, sidenavColor, sidenavType)
 
   const openDrawer = () => setVisible(!visible)
   const handleSidenavType = (type) => setSidenavType(type)
   const handleSidenavColor = (color) => setSidenavColor(color)
-  const handleFixedNavbar = (type) => setFixed(type)
 
   let { pathname } = useLocation()
   pathname = pathname.replace('/', '')
@@ -49,37 +47,24 @@ function Main({ children, namePage }) {
         trigger={null}
         width={250}
         theme='light'
+        style={{
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0
+        }}
       >
         <Sidenav />
       </Sider>
       <Layout
         style={{
-          marginLeft: 0
+          marginLeft: 250
         }}
       >
-        {fixed ? (
-          <Affix>
-            <AntHeader
-              className={`${fixed ? 'ant-header-fixed' : ''}`}
-              style={{
-                background: 'white',
-                marginTop: 'unset',
-                borderRadius: '0px 0px 8px 8px'
-              }}
-            >
-              <Header
-                onPress={openDrawer}
-                name={namePage}
-                subName={pathname}
-                handleSidenavColor={handleSidenavColor}
-                handleSidenavType={handleSidenavType}
-                handleFixedNavbar={handleFixedNavbar}
-              />
-            </AntHeader>
-          </Affix>
-        ) : (
+        <Affix>
           <AntHeader
-            className={`${fixed ? 'ant-header-fixed' : ''}`}
+            className={`ant-header-fixed`}
             style={{
               background: 'white',
               marginTop: 'unset',
@@ -92,11 +77,10 @@ function Main({ children, namePage }) {
               subName={pathname}
               handleSidenavColor={handleSidenavColor}
               handleSidenavType={handleSidenavType}
-              handleFixedNavbar={handleFixedNavbar}
             />
           </AntHeader>
-        )}
-        {/* <BreadCrumb></BreadCrumb> */}
+        </Affix>
+
         <Content className='content-ant'>{children}</Content>
         <Footer />
       </Layout>
