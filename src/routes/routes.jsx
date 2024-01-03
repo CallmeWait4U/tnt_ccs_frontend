@@ -36,7 +36,15 @@ const routesLayout = [
   {
     path: PATH.CUSTOMER,
     element: (
-      <Main namePage={'Quản lý khách hàng'}>
+      <Main
+        pageProps={{
+          namePage: 'Quản lý khách hàng',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Quản lý khách hàng', path: '/customer' }
+          ]
+        }}
+      >
         <Customer />
       </Main>
     )
@@ -44,7 +52,15 @@ const routesLayout = [
   {
     path: PATH.CUSTOMERDETAIL,
     element: (
-      <Main namePage={'Quản lý khách hàng'}>
+      <Main
+        pageProps={{
+          namePage: 'Quản lý khách hàng',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Quản lý khách hàng', path: '/customer' }
+          ]
+        }}
+      >
         <CustomerDetail />
       </Main>
     )
@@ -52,7 +68,15 @@ const routesLayout = [
   {
     path: PATH.ACTIVITYMANAGEMENT,
     element: (
-      <Main namePage={'Quản lý hoạt động'}>
+      <Main
+        pageProps={{
+          namePage: 'Quản lý hoạt động',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Quản lý hoạt động' }
+          ]
+        }}
+      >
         <ActivityManagement />
       </Main>
     )
@@ -60,7 +84,16 @@ const routesLayout = [
   {
     path: PATH.ACTIVITYDETAIL,
     element: (
-      <Main namePage={'Quản lý hoạt động'}>
+      <Main
+        pageProps={{
+          namePage: 'Quản lý hoạt động',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Quản lý hoạt động', path: '/activity' },
+            { title: 'Chi tiết hoạt động' }
+          ]
+        }}
+      >
         <ActivityDetail />
       </Main>
     )
@@ -68,7 +101,15 @@ const routesLayout = [
   {
     path: PATH.NEWCUSTOMER,
     element: (
-      <Main namePage={'Quản lý khách hàng'}>
+      <Main
+        pageProps={{
+          namePage: 'Quản lý khách hàng',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Khách hàng mới' }
+          ]
+        }}
+      >
         <CustomerForm />
       </Main>
     )
@@ -76,7 +117,15 @@ const routesLayout = [
   {
     path: PATH.DASHBOARD,
     element: (
-      <Main namePage={'Thống kê - báo cáo'}>
+      <Main
+        pageProps={{
+          namePage: 'Báo cáo - thống kê',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Báo cáo - thống kê' }
+          ]
+        }}
+      >
         <Dashboard />
       </Main>
     )
@@ -84,7 +133,15 @@ const routesLayout = [
   {
     path: PATH.PROFILE,
     element: (
-      <Main namePage={'Thông tin cá nhân'}>
+      <Main
+        pageProps={{
+          namePage: 'Thông tin cá nhân',
+          breadcumbItems: [
+            { title: 'Trang chủ', path: '/' },
+            { title: 'Thông tin cá nhân' }
+          ]
+        }}
+      >
         <Profile />
       </Main>
     )
