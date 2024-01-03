@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import 'ag-grid-community/styles/ag-grid.css' // Core CSS
 import 'ag-grid-community/styles/ag-theme-quartz.css' // Theme
-import { AgGridReact } from 'ag-grid-react' // React Grid Logic
 import face2 from '../../assets/images/face-2.jpg'
 
 import { AiFillFilter } from 'react-icons/ai'
@@ -384,19 +383,23 @@ const CustomerManagement = () => {
               </>
             }
           >
-            <div
-              className={'ag-theme-quartz'}
-              style={{ width: '100%', height: '70vh' }}
-            >
-              <AgGridReact
-                rowData={dataCustomer}
-                columnDefs={columns}
-                defaultColDef={defaultColDef}
-                pagination={true}
-                rowSelection='multiple'
-                onRowClicked={() => {
-                  navigate('/customers/1')
+            <div className='table-responsive'>
+              <BaseTable
+                columns={columns}
+                data={data}
+                rowKey={(record) => record.id}
+                onRow={(record, rowIndex) => {
+                  return {
+                    onClick: () => {
+                      console.log('bam')
+                      navigate('/customers/1', {
+                        state: { page: 'detail' },
+                        replace: true
+                      })
+                    }
+                  }
                 }}
+                className='ant-border-space'
               />
             </div>
           </Card>
