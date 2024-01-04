@@ -1,18 +1,177 @@
-import { Avatar, Button, Card, Col, Flex, Row, Typography } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import { SearchOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Flex, Row } from 'antd'
+import React, { useRef, useState } from 'react'
 
-import 'ag-grid-community/styles/ag-grid.css' // Core CSS
-import 'ag-grid-community/styles/ag-theme-quartz.css' // Theme
+import { Input, Space } from 'antd'
+import Highlighter from 'react-highlight-words'
+// Images
+import { FiFilter, FiInfo, FiPlus, FiTrash } from 'react-icons/fi'
 import face2 from '../../assets/images/face-2.jpg'
 
-import { AiFillFilter } from 'react-icons/ai'
-import { FiInfo, FiPlus, FiTrash } from 'react-icons/fi'
+import { Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
-import FilterColumn from '../../components/filterColumn/FilterColumn'
+import BaseTable from '../../components/table/BaseTable'
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
+  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  const [searchText, setSearchText] = useState('')
+  const [searchedColumn, setSearchedColumn] = useState('')
+  const searchInput = useRef(null)
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm()
+    setSearchText(selectedKeys[0])
+    setSearchedColumn(dataIndex)
+  }
+  const handleReset = (clearFilters) => {
+    clearFilters()
+    setSearchText('')
+  }
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close
+    }) => (
+      <div
+        style={{
+          padding: 8
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block'
+          }}
+        />
+        <Space>
+          <ButtonOk
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size='small'
+            style={{
+              width: 90
+            }}
+          >
+            Search
+          </ButtonOk>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size='small'
+            style={{
+              width: 90
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <FiFilter
+        style={{
+          color: filtered ? '#1677ff' : undefined
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100)
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      )
+  })
+  const navigate = useNavigate()
+  const { Title } = Typography
+  const columns = [
+    {
+      title: 'MÃ KHÁCH HÀNG',
+      dataIndex: 'code',
+      key: 'code'
+    },
+    {
+      title: 'TÊN KHÁCH HÀNG',
+      dataIndex: 'name',
+      key: 'name',
+      width: '25%',
+      ...getColumnSearchProps('name')
+    },
+
+    {
+      title: 'EMAIL',
+      key: 'email',
+      dataIndex: 'email',
+      ...getColumnSearchProps('email')
+    },
+    {
+      title: 'SỐ ĐIỆN THOẠI',
+      key: 'number',
+      dataIndex: 'number',
+      ...getColumnSearchProps('employee')
+    },
+    {
+      title: 'NHÂN VIÊN CHĂM SÓC',
+      key: 'employee',
+      dataIndex: 'employee',
+      ...getColumnSearchProps('employee')
+    },
+    {
+      title: 'NGUỒN',
+      key: 'source',
+      dataIndex: 'source',
+      ...getColumnSearchProps('employee')
+    },
+    {
+      title: 'GIAI ĐOẠN',
+      key: 'phase',
+      dataIndex: 'phase',
+      ...getColumnSearchProps('employee')
+    },
+    {
+      title: 'THAO TÁC',
+      dataIndex: '',
+      key: 'x',
+      width: '7%',
+      fixed: 'right',
+      render: () => (
+        <div style={{ gap: '15px', display: 'flex' }}>
+          <FiTrash
+            color='red'
+            backgroundColor='red'
+            size={24}
+            onClick={() => console.log('trash')}
+          />
+          <FiInfo color='blue' size={24} onClick={() => console.log('info')} />
+        </div>
+      )
+    }
+  ]
   const dataCustomer = [
     {
       id: '1',
@@ -29,7 +188,7 @@ const CustomerManagement = () => {
       id: '1',
       avatar: face2,
       code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
+      name: 'Lê huy ngọ',
       email: 'ny@thinhpham.com',
       number: '0122323233',
       employee: 'Phạm Nhật Thịnh',
@@ -40,10 +199,10 @@ const CustomerManagement = () => {
       id: '1',
       avatar: face2,
       code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
+      name: 'Lê huy ngọ',
       email: 'ny@thinhpham.com',
       number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
+      employee: 'Phạm Nhật',
       source: 'Landing Page',
       phase: 'Tiềm năng'
     },
@@ -169,243 +328,79 @@ const CustomerManagement = () => {
       phase: 'Tiềm năng'
     }
   ]
-
-  const [dataFilter, setDataFilter] = useState([])
-  useEffect(() => {
-    setDataFilter(dataCustomer)
-  }, [])
-  const ActionRenderer = ({ value }) => (
-    <div style={{ gap: '15px', display: 'flex' }}>
-      <FiTrash
-        size={24}
-        onClick={() => console.log(value)} // Thay handleDelete bằng hàm xử lý xóa phù hợp
-      />
-      <FiInfo
-        size={24}
-        onClick={() => console.log(value)} // Thay handleInfo bằng hàm xử lý thông tin phù hợp
-      />
-    </div>
-  )
-  const columns = [
-    {
-      field: '',
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      filter: false,
-      sort: false,
-      width: 50,
-      pinned: 'left'
-    },
-    {
-      headerName: 'MÃ KHÁCH HÀNG',
-      dataIndex: 'code',
-      field: 'code',
-      width: 100,
-      render: (code) => (
-        <Avatar.Group>
-          <Avatar className='shape-avatar' size={40} src={face2}></Avatar>
-          <div className='avatar-info' style={{ color: '#726BEA' }}>
-            {code}
-          </div>
-        </Avatar.Group>
-      )
-    },
-    {
-      headerName: 'TÊN KHÁCH HÀNG',
-      dataIndex: 'name',
-      field: 'name',
-      width: 200,
-      onFilter: (value, record) => record.address.indexOf(value) === 0,
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters
-      }) => (
-        <FilterColumn
-          selectedKeys={selectedKeys}
-          setSelectedKeys={setSelectedKeys}
-          confirm={() => {}}
-          clearFilters={clearFilters}
-        />
-      ),
-      filterIcon: (filtered) => (
-        <AiFillFilter style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
-      render: (name) => <div className='avatar-info'>{name}</div>
-    },
-
-    {
-      headerName: 'EMAIL',
-      field: 'email',
-      dataIndex: 'email',
-      render: (email) => <div className='avatar-info'>{email}</div>
-    },
-    {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
-      dataIndex: 'number',
-      render: (number) => <div className='avatar-info'>{number}</div>
-    },
-    {
-      headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
-      dataIndex: 'employee',
-      render: (employee) => <div className='avatar-info'>{employee}</div>
-    },
-    {
-      headerName: 'NGUỒN',
-      field: 'source',
-      dataIndex: 'source',
-      render: (source) => <div className='avatar-info'>{source}</div>
-    },
-    {
-      headerName: 'GIAI ĐOẠN',
-      field: 'phase',
-      dataIndex: 'phase',
-      render: (phase) => <div className='avatar-info'>{phase}</div>
-    },
-    {
-      headerName: 'THAO TÁC',
-      field: 'x',
-      pinned: 'right',
-      width: 100,
-      filter: false,
-      sort: false,
-      cellRenderer: ActionRenderer
-    }
-  ]
-
-  const MissionResultRenderer = ({ value }) => (
-    <span
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        height: '100%',
-        alignItems: 'center'
-      }}
-    >
-      {
-        <img
-          alt={`${value}`}
-          src={`https://www.ag-grid.com/example-assets/icons/${
-            value ? 'tick-in-circle' : 'cross-in-circle'
-          }.png`}
-          style={{ width: 'auto', height: 'auto' }}
-        />
-      }
-    </span>
-  )
-
-  /* Format Date Cells */
-  const dateFormatter = (params) => {
-    return new Date(params.value).toLocaleDateString('en-us', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    })
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [loading, setLoading] = useState(false)
+  const start = () => {
+    setLoading(true)
+    // ajax request after empty completing
+    setTimeout(() => {
+      setSelectedRowKeys([])
+      setLoading(false)
+    }, 1000)
   }
-  const [rowData, setRowData] = useState([])
-  const [colDefs] = useState([
-    {
-      field: 'mission',
-      width: 150,
-      checkboxSelection: true
-    },
-    {
-      field: 'company',
-      width: 130,
-      cellRenderer: ActionRenderer
-    },
-    {
-      field: 'location',
-      width: 225
-    },
-    {
-      field: 'date',
-      valueFormatter: dateFormatter
-    },
-    {
-      field: 'price',
-      width: 130,
-      valueFormatter: (params) => {
-        return '£' + params.value.toLocaleString()
-      }
-    },
-    {
-      field: 'successful',
-      width: 120,
-      cellRenderer: MissionResultRenderer
-    },
-    { field: 'rocket' }
-  ])
-
-  // Fetch data & update rowData state
-  useEffect(() => {
-    fetch('https://www.ag-grid.com/example-assets/space-mission-data.json')
-      .then((result) => result.json())
-      .then((rowData) => setRowData(rowData))
-  }, [])
-
-  // Apply settings across all columns
-  const defaultColDef = useMemo(() => ({
-    filter: true,
-    editable: true
-  }))
-  const { Title } = Typography
-  const navigate = useNavigate()
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys)
+    setSelectedRowKeys(newSelectedRowKeys)
+  }
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
+  const hasSelected = selectedRowKeys.length > 0
   return (
-    <div className='tabled'>
-      <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
-        <Col md={20}>
-          <Title level={4}> Danh sách khách hàng</Title>
-        </Col>
-        <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-          <ButtonOk type='primary' icon={<FiPlus />}>
-            Thêm mới
-          </ButtonOk>
-        </Col>
-      </Row>
-      <Row gutter={[24, 0]}>
-        <Col xs='24' xl={24}>
-          <Card
-            bordered={false}
-            className='criclebox tablespace mb-24'
-            title={<CustomToggleButton />}
-            extra={
-              <>
-                <Flex wrap='wrap' gap='small'>
+    <>
+      <div className='tabled'>
+        <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+          <Col md={20}>
+            <Title level={4}> Danh sách khách hàng</Title>
+          </Col>
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            <ButtonOk type='primary' icon={<FiPlus />}>
+              Thêm mới
+            </ButtonOk>
+          </Col>
+        </Row>
+        <Row gutter={[24, 0]}>
+          <Col xs='24' xl={24}>
+            <Card
+              bordered={false}
+              className='criclebox tablespace mb-24'
+              title={<CustomToggleButton />}
+              extra={
+                <>
                   <Button type='primary' danger>
-                    Xóa
+                    <Flex wrap='wrap' gap='small'>
+                      {selectedRowKeys.length}
+                      Xóa
+                    </Flex>
                   </Button>
-                </Flex>
-              </>
-            }
-          >
-            <div className='table-responsive'>
-              <BaseTable
-                columns={columns}
-                data={data}
-                rowKey={(record) => record.id}
-                onRow={(record, rowIndex) => {
-                  return {
-                    onClick: () => {
-                      console.log('bam')
-                      navigate('/customers/1', {
-                        state: { page: 'detail' },
-                        replace: true
-                      })
+                </>
+              }
+            >
+              <div className='table-responsive'>
+                <BaseTable
+                  columns={columns}
+                  data={dataCustomer}
+                  rowKey={(record) => record.id}
+                  onRow={(record, rowIndex) => {
+                    return {
+                      onClick: () => {
+                        console.log('bam')
+                        navigate('/customers/1', {
+                          state: { page: 'detail' },
+                          replace: true
+                        })
+                      }
                     }
-                  }
-                }}
-                className='ant-border-space'
-              />
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+                  }}
+                  className='ant-border-space'
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </>
   )
 }
 export default CustomerManagement
