@@ -170,13 +170,13 @@ const Header = ({ name }) => {
   return (
     <>
       <Row gutter={[24, 0]}>
-        <Col span={24} md={6}>
+        <Col span={24} md={16}>
           <div className='ant-page-header-heading'>
             <p style={{ fontSize: 25, fontWeight: 'bold' }}>{name}</p>
           </div>
         </Col>
 
-        <Col span={24} md={17} className='header-control'>
+        <Col span={24} md={8} className='header-control'>
           <div
             className='btn-sign-in'
             style={{ display: 'flex', gap: '5px', alignItems: 'center' }}
