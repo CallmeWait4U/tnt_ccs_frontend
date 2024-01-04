@@ -2,8 +2,8 @@ import { Card, Col, Row, Typography } from 'antd'
 import React from 'react'
 import Chart from 'react-apexcharts'
 
-import Echart from '../components/chart/EChart'
-import LineChart from '../components/chart/LineChart'
+import Echart from '../../components/chart/EChart'
+import LineChart from '../../components/chart/LineChart'
 
 function Dashboard() {
   const { Title } = Typography

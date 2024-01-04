@@ -25,3 +25,7 @@ export const PATH = Object.freeze({
   TABLE: '/tables',
   BILLING: '/billing'
 })
+export const LOCAL_STORAGE_ITEM = Object.freeze({
+  TOKEN: 'tnt.token',
+  REFRESH_TOKEN: 'tnt.refresh_token'
+})
