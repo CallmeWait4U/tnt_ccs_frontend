@@ -18,5 +18,14 @@ const useRegister = async (data) => {
     throw error
   }
 }
+const useSignOut = async () => {
+  try {
+    const response = await api.post(`${BASE_URL}/signout`)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 
-export { useRegister, useSignin }
+export { useRegister, useSignOut, useSignin }
+
