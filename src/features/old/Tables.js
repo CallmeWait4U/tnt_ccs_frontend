@@ -29,6 +29,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // Images
+import BaseTable from '../../components/table/BaseTable'
 import face from '../assets/images/face-1.jpg'
 import face2 from '../assets/images/face-2.jpg'
 import face3 from '../assets/images/face-3.jpg'
@@ -41,7 +42,6 @@ import ava5 from '../assets/images/logo-jira.svg'
 import ava1 from '../assets/images/logo-shopify.svg'
 import ava3 from '../assets/images/logo-slack.svg'
 import pencil from '../assets/images/pencil.svg'
-import BaseTable from '../components/table/BaseTable'
 
 const { Title } = Typography
 
