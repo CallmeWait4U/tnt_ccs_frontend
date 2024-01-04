@@ -70,11 +70,12 @@ const SignIn = () => {
   const { mutate } = useMutation({ mutationFn: useSignin })
   const onFinish = (values) => {
     setLoading(true)
-    console.log('data:', values)
+
     const data = {
-      username: toString(values.username),
-      password: toString(values.password)
+      username: values.username,
+      password: values.password
     }
+    console.log('data', data)
     mutate(data, {
       onSuccess: (res) => {
         if (res.accessToken) {
