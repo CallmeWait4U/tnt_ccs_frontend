@@ -5,9 +5,10 @@ import React, { useRef, useState } from 'react'
 import { Input, Space } from 'antd'
 import Highlighter from 'react-highlight-words'
 // Images
-import { FiFilter, FiInfo, FiPlus, FiTrash } from 'react-icons/fi'
-
 import { Typography } from 'antd'
+import { FiFilter, FiPlus } from 'react-icons/fi'
+import { RiInformationFill } from 'react-icons/ri'
+import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
 import BaseTable from '../../components/table/BaseTable'
@@ -134,7 +135,7 @@ const CustomerManagement = () => {
       title: 'SỐ ĐIỆN THOẠI',
       key: 'number',
       dataIndex: 'number',
-      ...getColumnSearchProps('employee')
+      ...getColumnSearchProps('number')
     },
     {
       title: 'NHÂN VIÊN CHĂM SÓC',
@@ -146,13 +147,13 @@ const CustomerManagement = () => {
       title: 'NGUỒN',
       key: 'source',
       dataIndex: 'source',
-      ...getColumnSearchProps('employee')
+      ...getColumnSearchProps('source')
     },
     {
       title: 'GIAI ĐOẠN',
       key: 'phase',
       dataIndex: 'phase',
-      ...getColumnSearchProps('employee')
+      ...getColumnSearchProps('phase')
     },
     {
       title: 'THAO TÁC',
@@ -162,20 +163,49 @@ const CustomerManagement = () => {
       fixed: 'right',
       render: () => (
         <div style={{ gap: '15px', display: 'flex' }}>
-          <FiTrash
+          <TbTrashFilled
             color='red'
             backgroundColor='red'
             size={24}
             onClick={() => console.log('trash')}
           />
-          <FiInfo color='blue' size={24} onClick={() => console.log('info')} />
+          <RiInformationFill
+            color='blue'
+            size={24}
+            onClick={() => console.log('info')}
+          />
         </div>
       )
     }
   ]
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
+  const itemsTypeCustomer = [
+    {
+      key: '1',
+      label: (
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href={`${PATH.NEWCUSTOMER}`}
+        >
+          Cá nhân
+        </a>
+      )
+    },
+    {
+      key: '2',
+      label: (
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href={`${PATH.NEWCUSTOMER}`}
+        >
+          Doanh nghiệp
+        </a>
+      )
+    }
+  ]
   return (
     <>
       <div className='tabled'>
@@ -184,9 +214,15 @@ const CustomerManagement = () => {
             <Title level={4}> Danh sách khách hàng</Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <ButtonOk type='primary' icon={<FiPlus />}>
+            {/* <Dropdown menu={{ itemsTypeCustomer }} placement='bottomLeft'> */}
+            <ButtonOk
+              type='primary'
+              icon={<FiPlus />}
+              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+            >
               Thêm mới
             </ButtonOk>
+            {/* </Dropdown> */}
           </Col>
         </Row>
         <Row gutter={[24, 0]}>
@@ -217,7 +253,7 @@ const CustomerManagement = () => {
                   rowKey={(record) => record.id}
                   onRow={(record, rowIndex) => {
                     return {
-                      onClick: () => {
+                      onDoubleClick: (event) => {
                         console.log('bam')
                         navigate(`${PATH.CUSTOMER}/1`)
                       }
