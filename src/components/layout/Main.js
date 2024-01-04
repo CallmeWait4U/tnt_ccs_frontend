@@ -34,11 +34,7 @@ function Main({ children, pageProps }) {
   }, [pathname])
 
   return (
-    <Layout
-      className={`layout-dashboard ${
-        pathname === 'profile' ? 'layout-profile' : ''
-      }`}
-    >
+    <Layout className={`layout-dashboard `}>
       <Sider
         breakpoint='lg'
         collapsedWidth='0'
@@ -58,11 +54,7 @@ function Main({ children, pageProps }) {
       >
         <Sidenav />
       </Sider>
-      <Layout
-        style={{
-          marginLeft: 250
-        }}
-      >
+      <Layout className={`layout-dashboard `}>
         <Affix>
           <AntHeader
             className={`ant-header-fixed`}
