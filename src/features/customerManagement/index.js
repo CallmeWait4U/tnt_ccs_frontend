@@ -165,10 +165,10 @@ const CustomerManagement = () => {
           <FiTrash
             color='red'
             backgroundColor='red'
-            size={24}
+            size={20}
             onClick={() => console.log('trash')}
           />
-          <FiInfo color='blue' size={24} onClick={() => console.log('info')} />
+          <FiInfo color='blue' size={20} onClick={() => console.log('info')} />
         </div>
       )
     }
