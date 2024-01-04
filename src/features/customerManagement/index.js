@@ -6,13 +6,14 @@ import { Input, Space } from 'antd'
 import Highlighter from 'react-highlight-words'
 // Images
 import { FiFilter, FiInfo, FiPlus, FiTrash } from 'react-icons/fi'
-import face2 from '../../assets/images/face-2.jpg'
 
 import { Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
 import BaseTable from '../../components/table/BaseTable'
+import { PATH } from '../../contants/common'
 import CustomToggleButton from '../component/CustomToggleButton'
+import { dataCustomer } from './data/DataCustomer'
 
 const CustomerManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
@@ -172,181 +173,9 @@ const CustomerManagement = () => {
       )
     }
   ]
-  const dataCustomer = [
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Lê huy ngọ',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Lê huy ngọ',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    },
-    {
-      id: '1',
-      avatar: face2,
-      code: '#1234',
-      name: 'Nguyễn Hà Yến Nhi',
-      email: 'ny@thinhpham.com',
-      number: '0122323233',
-      employee: 'Phạm Nhật Thịnh',
-      source: 'Landing Page',
-      phase: 'Tiềm năng'
-    }
-  ]
+
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [loading, setLoading] = useState(false)
-  const start = () => {
-    setLoading(true)
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([])
-      setLoading(false)
-    }, 1000)
-  }
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys)
-    setSelectedRowKeys(newSelectedRowKeys)
-  }
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  }
-  const hasSelected = selectedRowKeys.length > 0
+
   return (
     <>
       <div className='tabled'>
@@ -370,7 +199,11 @@ const CustomerManagement = () => {
                 <>
                   <Button type='primary' danger>
                     <Flex wrap='wrap' gap='small'>
-                      {selectedRowKeys.length}
+                      {selectedRowKeys.length > 0 ? (
+                        <span>({selectedRowKeys.length})</span>
+                      ) : (
+                        ''
+                      )}
                       Xóa
                     </Flex>
                   </Button>
@@ -386,13 +219,12 @@ const CustomerManagement = () => {
                     return {
                       onClick: () => {
                         console.log('bam')
-                        navigate('/customers/1', {
-                          state: { page: 'detail' },
-                          replace: true
-                        })
+                        navigate(`${PATH.CUSTOMER}/1`)
                       }
                     }
                   }}
+                  selectedRowKeys={selectedRowKeys}
+                  setSelectedRowKeys={setSelectedRowKeys}
                   className='ant-border-space'
                 />
               </div>
