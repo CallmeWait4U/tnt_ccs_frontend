@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import BreadCrumb from './BreadCrumb'
 import CutomBreadCrumb from './BreadCrumb'
-import Footer from './Footer'
 import Header from './Header'
 import Sidenav from './Sidenav'
 
@@ -85,7 +84,6 @@ function Main({ children, pageProps }) {
         </Affix>
 
         <Content className='content-ant'>{children}</Content>
-        <Footer />
       </Layout>
     </Layout>
   )

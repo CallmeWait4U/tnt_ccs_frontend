@@ -35,9 +35,21 @@ body {
 }
 .ant-menu .ant-menu-item a {
   font-size: 18px;
+    color: #3B424A;
+
+font-family: inherit;
+font-size: 18px;
+font-style: normal;
+font-weight: 450;
 }
 .ant-menu .ant-menu-submenu  a {
-  font-size: 18px;
+
+  color: #3B424A;
+
+font-family: inherit;
+font-size: 18px;
+font-style: normal;
+font-weight: 450;
 }
 .ant-menu .ant-menu-submenu .ant-menu-item {
   width: 80%;
@@ -1363,6 +1375,7 @@ span.ismobile {
 
   main.ant-layout-content.content-ant {
     padding-left: 0px !important;
+    min-height: 80vh !important;
   }
 
   .ant-row {
@@ -1949,7 +1962,9 @@ body {
 .ant-radio-group .ant-radio-button-wrapper {
   font-weight: 600;
   font-size: 12px;
-  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 15px;
   line-height: 40px;
 }
@@ -2283,6 +2298,7 @@ small.redtext {
 
 section.ant-layout.layout-content .ant-layout-content.content-ant {
   padding: 0px !important;
+  min-height: 80vh !important;
 }
 
 .layout-dashboard .ant-card {

@@ -32,18 +32,32 @@ const BaseTable = ({ data, columns, onRow }) => {
 
     // `dataSource` is useless since `pageSize` changed
   }
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [loading, setLoading] = useState(false)
+  const start = () => {
+    setLoading(true)
+    // ajax request after empty completing
+    setTimeout(() => {
+      setSelectedRowKeys([])
+      setLoading(false)
+    }, 1000)
+  }
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys)
+    setSelectedRowKeys(newSelectedRowKeys)
+  }
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
   return (
     <Table
-      rowSelection={{
-        // type: selectionType,
-        type: 'checkbox',
-        ...rowSelection
-      }}
+      rowSelection={rowSelection}
       onRow={onRow}
       columns={columns}
       dataSource={data}
       pagination={tableParams.pagination}
-      className="ant-border-space"
+      className='ant-border-space'
       onChange={handleTableChange}
     />
   )

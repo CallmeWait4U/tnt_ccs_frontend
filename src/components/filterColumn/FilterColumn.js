@@ -1,4 +1,5 @@
 import { Button, Input } from 'antd'
+import { ButtonOk } from '../../assets/styles/button.style'
 
 const FilterColumn = ({
   setSelectedKeys,
@@ -17,7 +18,7 @@ const FilterColumn = ({
         onPressEnter={confirm}
         style={{ marginBottom: 8, display: 'block' }}
       />
-      <Button
+      <ButtonOk
         type='primary'
         onClick={confirm}
         size='small'
@@ -31,10 +32,11 @@ const FilterColumn = ({
         }}
       >
         Search
-      </Button>
+      </ButtonOk>
       <Button
         onClick={clearFilters}
         size='small'
+        danger
         style={{
           width: 90,
           height: 35,
