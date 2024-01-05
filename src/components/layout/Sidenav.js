@@ -9,7 +9,7 @@ import {
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
-function Sidenav() {
+const Sidenav = ({ keySideNav }) => {
   // const { pathname } = useLocation()
   // const page = pathname.replace('/', '')
   // const [selectedKey, setSelectedKey] = useState('dashboard')
@@ -22,6 +22,16 @@ function Sidenav() {
       type
     }
   }
+  const mapMenuItem = [
+    { 1: 'customer' },
+    { 2: 'dashboard' },
+    { 3: 'activity' },
+    { 4: 'employee' },
+    { 5: 'product' },
+    { 6: 'phase' },
+    { 7: 'complain-list' },
+    { 8: 'complain-classify' }
+  ]
   const menuItems = [
     getItem(
       <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>,
@@ -81,8 +91,8 @@ function Sidenav() {
         style={{
           width: 256
         }}
-        defaultSelectedKeys={['customer']}
-        defaultOpenKeys={['customer']}
+        defaultSelectedKeys={[keySideNav]}
+        defaultOpenKeys={[keySideNav]}
         mode='inline'
         items={menuItems}
       />

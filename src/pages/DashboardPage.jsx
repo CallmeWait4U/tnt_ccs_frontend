@@ -5,6 +5,7 @@ const DashboardPage = () => {
   return (
     <Main
       pageProps={{
+        keySideNav: 'dashboard',
         namePage: 'Báo cáo - thống kê',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
