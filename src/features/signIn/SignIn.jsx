@@ -1,40 +1,38 @@
-import { LockOutlined, MailOutlined } from '@ant-design/icons'
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
-  Checkbox,
   Form,
   Grid,
   Image,
   Input,
   Layout,
   Typography,
+  message,
   theme
 } from 'antd'
+import { useForm } from 'antd/es/form/Form'
 import Card from 'antd/lib/card/Card'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import logo from '../assets/images/logo.jpg'
+import { useSignin } from '../../api/auth'
+import logo from '../../assets/images/logo.jpg'
+import { ButtonOk } from '../../assets/styles/button.style'
+import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 
 const { Header, Content, Footer } = Layout
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
 const { Text, Link } = Typography
-const CustomerLanding = () => {
+const SignIn = () => {
   const { token } = useToken()
   const navigate = useNavigate()
   const screens = useBreakpoint()
 
-  const onFinish = (values) => {
-    navigate('/customers')
-  }
-
   const styles = {
     container: {
       margin: '0 auto',
-      padding: screens.md
-        ? `${token.paddingXL}px`
-        : `${token.sizeXXL}px ${token.padding}px`,
+      padding: '0px',
       width: '380px'
     },
     footer: {
@@ -67,6 +65,36 @@ const CustomerLanding = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
+  const [loading, setLoading] = useState(false)
+  const { form } = useForm()
+  const { mutate } = useMutation({ mutationFn: useSignin })
+  const onFinish = (values) => {
+    setLoading(true)
+
+    const data = {
+      username: values.username,
+      password: values.password
+    }
+    console.log('data', data)
+    mutate(data, {
+      onSuccess: (res) => {
+        if (res.accessToken) {
+          message.success('Đăng nhập thành công')
+          setLoading(false)
+          navigate(`${PATH.HOME}`)
+          localStorage.setItem(LOCAL_STORAGE_ITEM.TOKEN, res.accessToken)
+        }
+        setLoading(false)
+      },
+      onError: (err) => {
+        let msg = err?.message
+        console.log('Error sigin', err)
+        message.error(msg || 'Đăng nhập thất bại')
+        setLoading(false)
+      }
+    })
+  }
+
   return (
     <Layout
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
@@ -108,7 +136,8 @@ const CustomerLanding = () => {
         <Card
           style={{
             width: '500px',
-            height: '530px'
+            height: '500px',
+            padding: '0px'
           }}
         >
           <div style={styles.container}>
@@ -116,6 +145,7 @@ const CustomerLanding = () => {
               <Image src={logo} style={{ width: '100px' }} />
             </div>
             <Form
+              style={{ marginBottom: '0px' }}
               name='normal_login'
               initialValues={{
                 remember: true
@@ -123,21 +153,23 @@ const CustomerLanding = () => {
               onFinish={onFinish}
               layout='vertical'
               requiredMark='optional'
+              form={form}
             >
               <Form.Item
-                name='email'
+                name='username'
+                label='Tên đăng nhập'
                 rules={[
                   {
-                    type: 'email',
                     required: true,
-                    message: 'Please input your Email!'
+                    message: 'Hãy nhập tên đăng nhập'
                   }
                 ]}
               >
-                <Input prefix={<MailOutlined />} placeholder='Email' />
+                <Input placeholder='Email' />
               </Form.Item>
               <Form.Item
                 name='password'
+                label='Mật khẩu'
                 rules={[
                   {
                     required: true,
@@ -145,25 +177,28 @@ const CustomerLanding = () => {
                   }
                 ]}
               >
-                <Input.Password
-                  prefix={<LockOutlined />}
-                  type='password'
-                  placeholder='Password'
-                />
+                <Input.Password type='password' placeholder='Password' />
               </Form.Item>
-              <Form.Item>
-                <Form.Item name='remember' valuePropName='checked' noStyle>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <a href=''>Forgot password?</a>
+
+              <Form.Item
+                style={{
+                  display: 'flex',
+                  marginBottom: '0px',
+                  justifyContent: 'center'
+                }}
+              >
+                <ButtonOk
+                  block='true'
+                  style={{ width: '130px', height: '40px', fontSize: '16px' }}
+                  htmlType='submit'
+                  loading={loading}
+                >
+                  Đăng nhập
+                </ButtonOk>
               </Form.Item>
               <Form.Item style={{ marginBottom: '0px' }}>
-                <Button block='true' htmlType='submit'>
-                  Log in
-                </Button>
                 <div style={styles.footer}>
-                  <Text style={styles.text}>Do not have an account?</Text>{' '}
-                  <Link href=''>Sign up now</Link>
+                  <a href=''>Quên mật khẩu</a>
                 </div>
               </Form.Item>
             </Form>
@@ -177,4 +212,4 @@ const CustomerLanding = () => {
   )
 }
 
-export default CustomerLanding
+export default SignIn

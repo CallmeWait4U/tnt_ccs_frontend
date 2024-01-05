@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 
 import { Avatar, Badge, Col, Divider, Dropdown, Row } from 'antd'
 import { FiBell, FiChevronDown } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -105,36 +107,6 @@ const clockicon = [
   </svg>
 ]
 
-const data = [
-  {
-    title: 'New message from Sophie',
-    description: <>{clockicon} 2 days ago</>,
-
-    avatar: <Avatar shape='square'>{wifi}</Avatar>
-  },
-  {
-    title: 'New album by Travis Scott',
-    description: <>{clockicon} 2 days ago</>,
-
-    avatar: <Avatar shape='square'>{wifi}</Avatar>
-  },
-  {
-    title: 'Payment completed',
-    description: <>{clockicon} 2 days ago</>,
-    avatar: <Avatar shape='square'>{credit}</Avatar>
-  }
-]
-
-const items = data.map((item) => ({
-  label: (
-    <div>
-      <span style={{ fontWeight: 'bold' }}>{item.title}</span>
-      {item.description}
-    </div>
-  ),
-  icon: item.avatar
-}))
-
 const logsetting = [
   <svg
     width='20'
@@ -166,6 +138,70 @@ const toggler = [
 ]
 const Header = ({ name }) => {
   useEffect(() => window.scrollTo(0, 0))
+  const navigate = useNavigate()
+  const onSignout = () => {
+    localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
+    navigate(`${PATH.SIGNIN}`)
+  }
+
+  const data = [
+    {
+      title: 'Đăng xuất',
+      description: <>{clockicon} 2 days ago</>,
+
+      avatar: <Avatar shape='square'>{wifi}</Avatar>
+    }
+  ]
+
+  const dataSignout = [
+    {
+      title: 'Đăng xuất'
+    }
+  ]
+
+  const items = data.map((item) => ({
+    label: (
+      <div onClick={onSignout}>
+        <span style={{ fontWeight: 'bold' }}>{item.title}</span>
+      </div>
+    )
+  }))
+  const itemSignout = dataSignout.map((item) => ({
+    label: (
+      <div>
+        <span style={{ fontWeight: 'bold' }}>{item.title}</span>
+      </div>
+    )
+  }))
+  const dataNotify = [
+    {
+      title: 'New message from Sophie',
+      description: <>{clockicon} 2 days ago</>,
+
+      avatar: <Avatar shape='square'>{wifi}</Avatar>
+    },
+    {
+      title: 'New album by Travis Scott',
+      description: <>{clockicon} 2 days ago</>,
+
+      avatar: <Avatar shape='square'>{wifi}</Avatar>
+    },
+    {
+      title: 'Payment completed',
+      description: <>{clockicon} 2 days ago</>,
+      avatar: <Avatar shape='square'>{credit}</Avatar>
+    }
+  ]
+
+  const itemsNoty = dataNotify.map((item) => ({
+    label: (
+      <div>
+        <span style={{ fontWeight: 'bold' }}>{item.title}</span>
+        {item.description}
+      </div>
+    ),
+    icon: item.avatar
+  }))
 
   return (
     <>
@@ -183,14 +219,16 @@ const Header = ({ name }) => {
           >
             <Avatar size='small' src='' />
             <span>Admin</span>
-            <FiChevronDown />
+            <Dropdown menu={{ items }} trigger={['click']}>
+              <FiChevronDown />
+            </Dropdown>
           </div>
           <Divider
             type='vertical'
             style={{ height: '20px', margin: '0 10px' }}
           />
           <Badge size='small' count={4}>
-            <Dropdown menu={{ items }} trigger={['click']}>
+            <Dropdown trigger={['click']}>
               <a
                 href='#pablo'
                 className='ant-dropdown-link'
