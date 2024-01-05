@@ -4,11 +4,9 @@ import { useLocation } from 'react-router-dom'
 
 const CutomBreadCrumb = ({ breadcumbItems }) => {
   const location = useLocation()
-  console.log(location)
   // const breadCrumbView = () => {
   const { pathname } = location
   const pathnames = pathname.split('/').filter((item) => item)
-  console.log(pathnames)
   return (
     <Row gutter={[24, 0]} style={{ background: 'inherit', marginLeft: '5px' }}>
       <Breadcrumb

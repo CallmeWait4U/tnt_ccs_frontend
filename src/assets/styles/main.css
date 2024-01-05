@@ -69,6 +69,10 @@ font-weight: 450;
 .ant-menu .ant-menu-item-selected {
   background-color: #7364ff;
   color: #fff;
+  a {
+    color: #fff;
+  }
+  
 }
 .ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open .ant-menu-submenu-selected .ant-menu-submenu-title{
   background-color: #7364ff;

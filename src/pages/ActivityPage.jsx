@@ -5,6 +5,7 @@ const ActivityPage = () => {
   return (
     <Main
       pageProps={{
+        keySideNav: 'activity',
         namePage: 'Quản lý hoạt động',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },

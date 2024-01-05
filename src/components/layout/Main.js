@@ -1,5 +1,5 @@
 import { Affix, Layout } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import BreadCrumb from './BreadCrumb'
 import CutomBreadCrumb from './BreadCrumb'
@@ -8,14 +8,13 @@ import Sidenav from './Sidenav'
 
 const { Header: AntHeader, Content, Sider } = Layout
 
-function Main({ children, pageProps }) {
+const Main = ({ children, pageProps }) => {
   const [visible, setVisible] = useState(false)
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
   const [sidenavType, setSidenavType] = useState('transparent')
 
-  const { namePage, breadcumbItems } = pageProps
-  console.log(placement, sidenavColor, sidenavType)
+  const { keySideNav, namePage, breadcumbItems } = pageProps
 
   const openDrawer = () => setVisible(!visible)
   const handleSidenavType = (type) => setSidenavType(type)
@@ -25,13 +24,7 @@ function Main({ children, pageProps }) {
   pathname = pathname.replace('/', '')
   document.title = namePage
 
-  useEffect(() => {
-    if (pathname === 'rtl') {
-      setPlacement('left')
-    } else {
-      setPlacement('right')
-    }
-  }, [pathname])
+  console.log('keySideNav', keySideNav)
 
   return (
     <Layout className={`layout-dashboard `}>
@@ -52,7 +45,7 @@ function Main({ children, pageProps }) {
           bottom: 0
         }}
       >
-        <Sidenav />
+        <Sidenav keySideNav={keySideNav} />
       </Sider>
       <Layout className={`layout-dashboard `}>
         <Affix>
