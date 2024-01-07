@@ -49,10 +49,6 @@ const CustomerDetail = () => {
   // } = theme.useToken()
   return (
     <>
-      <Row style={{ margin: '10px 0 ', paddingLeft: '10px' }}>
-        <h3>Quản lý khách hàng &gt; Thông tin chi tiết</h3>
-      </Row>
-
       <Row gutter={[8, 16]}>
         <Col xl={24} xxl={14}>
           <Card title={'Thông tin chi tiết'}>
