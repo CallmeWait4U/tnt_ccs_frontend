@@ -1,4 +1,4 @@
-import face2 from '../../../assets/images/face-2.jpg'
+import face2 from '../assets/images/face-2.jpg'
 export const dataCustomer = [
   {
     id: '1',
