@@ -2,7 +2,7 @@ import { Card, Col, Form, Input, Row } from 'antd'
 
 import { StyledSelect } from '../../component/ComponentOfForm'
 
-const CompanyInformation = () => {
+const CompanyInformation = ({ isUpdate }) => {
   return (
     <Card style={{ width: '100%' }}>
       <Form layout='vertical'>
@@ -17,7 +17,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -31,7 +31,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <StyledSelect />
+              <StyledSelect disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -45,7 +45,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>
@@ -60,7 +60,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -74,7 +74,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <StyledSelect />
+              <StyledSelect disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -88,7 +88,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>
@@ -103,7 +103,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -116,7 +116,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -129,7 +129,7 @@ const CompanyInformation = () => {
                 }
               ]}
             >
-              <Input style={{ width: '100%' }} />
+              <Input style={{ width: '100%' }} disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>

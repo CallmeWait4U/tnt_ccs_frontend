@@ -2,7 +2,7 @@ import { Card, Col, Form, Input, Row } from 'antd'
 
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
-const PersonalInformation = () => {
+const PersonalInformation = ({ isUpdate }) => {
   return (
     <Card style={{ width: '100%' }}>
       <Form layout='vertical'>
@@ -17,7 +17,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -31,7 +31,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <StyledSelect />
+              <StyledSelect disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -45,7 +45,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <StyledDatepicker />
+              <StyledDatepicker disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>
@@ -60,7 +60,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -74,7 +74,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <StyledSelect />
+              <StyledSelect disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -88,14 +88,14 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item label={'Số điện thoại'}>
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -109,7 +109,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input type='email' />
+              <Input type='email' disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>
@@ -124,7 +124,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -137,7 +137,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={!isUpdate} />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -150,7 +150,7 @@ const PersonalInformation = () => {
                 }
               ]}
             >
-              <Input style={{ width: '100%' }} />
+              <Input style={{ width: '100%' }} disabled={!isUpdate} />
             </Form.Item>
           </Col>
         </Row>

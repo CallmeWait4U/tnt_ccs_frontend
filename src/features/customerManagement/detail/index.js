@@ -1,8 +1,11 @@
-import { Card, Col, Form, Input, Row, Tabs } from 'antd'
+import { Button, Card, Col, Form, Input, Row, Tabs } from 'antd'
 
+import { Flex } from 'antd'
 import { useEffect, useState } from 'react'
+import { ButtonOk } from '../../../assets/styles/button.style'
 import ChatBox from '../../../components/boxChat/BoxChat'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
+import CustomerComplaint from '../complaint'
 import ActivityForm from '../form/ActivityForm'
 import BillForm from '../form/BillForm'
 import QuoteForm from '../form/QuoteForm'
@@ -17,6 +20,7 @@ const CustomerDetail = () => {
   const [isShowQuoteForm, setIsShowQuoteForm] = useState(false)
   const [isShowBillForm, setIsShowBillForm] = useState(false)
   const [isShowActivityForm, setIsShowActivityForm] = useState(false)
+  const [isUpdate, setIsUpdate] = useState(false)
   const items = [
     {
       label: 'Thông tin bổ sung',
@@ -49,7 +53,7 @@ const CustomerDetail = () => {
     {
       label: 'Khiếu nại',
       key: 'complain',
-      children: <></>
+      children: <CustomerComplaint />
     },
     {
       label: 'Gửi tin nhắn',
@@ -68,7 +72,33 @@ const CustomerDetail = () => {
     <>
       <Row gutter={[8, 16]}>
         <Col xl={24} xxl={14}>
-          <Card title={'Thông tin chi tiết'}>
+          <Card
+            title={'Thông tin chi tiết'}
+            extra={
+              isUpdate ? (
+                <Flex gap='small' align='flex-start' vertical>
+                  <Flex gap='small' wrap='wrap'>
+                    <Button
+                      size={40}
+                      style={{ borderColor: '#F58220', color: '#F58220' }}
+                      onClick={() => setIsUpdate(false)}
+                    >
+                      Hủy
+                    </Button>
+                    <Button
+                      style={{ background: '#F58220', color: 'white' }}
+                      onClick={() => setIsUpdate(false)}
+                      size={40}
+                    >
+                      Lưu
+                    </Button>
+                  </Flex>
+                </Flex>
+              ) : (
+                <ButtonOk onClick={() => setIsUpdate(true)}>Chỉnh sửa</ButtonOk>
+              )
+            }
+          >
             <Form>
               <Row gutter={16}>
                 <Col span={8}>
@@ -82,6 +112,7 @@ const CustomerDetail = () => {
                     ]}
                   >
                     <StyledSelect
+                      disabled={!isUpdate}
                       value={typeCustomer}
                       onChange={setTypeCustomer}
                       options={[
@@ -102,7 +133,7 @@ const CustomerDetail = () => {
                       }
                     ]}
                   >
-                    <StyledSelect />
+                    <StyledSelect disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -116,7 +147,7 @@ const CustomerDetail = () => {
                       }
                     ]}
                   >
-                    <Input />
+                    <Input disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -124,21 +155,21 @@ const CustomerDetail = () => {
               <Row gutter={16}>
                 <Col span={8}>
                   <Form.Item label={'Nguồn khách hàng'}>
-                    <StyledSelect />
+                    <StyledSelect disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label={'Ngày tạo'}>
-                    <StyledDatepicker />
+                    <StyledDatepicker disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
               </Row>
             </Form>
             <Row>
               {typeCustomer === 1 ? (
-                <CompanyInformation />
+                <CompanyInformation isUpdate={isUpdate} />
               ) : (
-                <PersonalInformation />
+                <PersonalInformation isUpdate={isUpdate} />
               )}
             </Row>
           </Card>
