@@ -49,19 +49,19 @@ const Sidenav = ({ keySideNav }) => {
       <FiRefreshCw size={25} />
     ),
     getItem(
-      <NavLink to={PATH.PROFILE}>Quản lý tổ chức</NavLink>,
+      <NavLink>Quản lý tổ chức</NavLink>,
       'organization',
       <FiFolder size={25} />,
       [
         getItem(
-          <NavLink to={PATH.PROFILE}>Quản lý nhân viên</NavLink>,
+          <NavLink to={PATH.EMPLOYEE}>Quản lý nhân viên</NavLink>,
           'employee'
         ),
         getItem(
-          <NavLink to={PATH.PROFILE}>Quản lý sản phẩm</NavLink>,
+          <NavLink to={PATH.PRODUCT}>Quản lý sản phẩm</NavLink>,
           'product'
         ),
-        getItem(<NavLink to={PATH.PROFILE}>Quản lý giai đoạn</NavLink>, 'phase')
+        getItem(<NavLink to={PATH.PHASE}>Quản lý giai đoạn</NavLink>, 'phase')
       ]
     ),
     getItem(

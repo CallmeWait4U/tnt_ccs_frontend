@@ -1,7 +1,6 @@
 import { Button, Card, Col, Flex, Row } from 'antd'
 
-import CustomToggleButton from '../component/CustomToggleButton'
-
+import { Typography } from 'antd'
 import { FiFilter, FiInfo, FiTrash2 } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import FilterColumn from '../../components/filterColumn/FilterColumn'
@@ -158,7 +157,7 @@ const ActivityManagement = () => {
   //       ),
   //     };
   //   });
-
+  const { Title } = Typography
   return (
     <>
       <div className='tabled'>
@@ -167,19 +166,12 @@ const ActivityManagement = () => {
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={<CustomToggleButton />}
+              title={<Title level={3}>Danh sách loại hoạt động</Title>}
               extra={
                 <>
                   <Flex wrap='wrap' gap='small'>
                     <Button type='primary' danger style={{ height: '40px' }}>
                       Xóa
-                    </Button>
-                    <Button
-                      type='primary'
-                      style={{ height: '40px', background: 'blue' }}
-                      onClick={() => navigate('/new-customer')}
-                    >
-                      Tạo mới
                     </Button>
                   </Flex>
                 </>

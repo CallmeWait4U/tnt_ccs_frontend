@@ -13,10 +13,9 @@ import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
 import BaseTable from '../../components/table/BaseTable'
 import { PATH } from '../../contants/common'
-import { dataCustomer } from '../../dataMock/DataCustomer'
-import CustomToggleButton from '../component/CustomToggleButton'
+import { dataEmployee } from '../../dataMock/DataEmployee'
 
-const CustomerManagement = () => {
+const EmployeeManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -209,53 +208,42 @@ const CustomerManagement = () => {
   return (
     <>
       <div className='tabled'>
-        <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
-          <Col md={20}>
-            <Title level={4}> Danh sách khách hàng</Title>
-          </Col>
-          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            {/* <Dropdown menu={{ itemsTypeCustomer }} placement='bottomLeft'> */}
-            <ButtonOk
-              type='primary'
-              icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
-            >
-              Thêm mới
-            </ButtonOk>
-            {/* </Dropdown> */}
-          </Col>
-        </Row>
         <Row gutter={[24, 0]}>
           <Col xs='24' xl={24}>
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={<CustomToggleButton />}
+              title={<Title level={4}> Danh sách nhân viên</Title>}
               extra={
-                <>
-                  <Button type='primary' danger>
-                    <Flex wrap='wrap' gap='small'>
-                      {selectedRowKeys.length > 0 ? (
-                        <span>({selectedRowKeys.length})</span>
-                      ) : (
-                        ''
-                      )}
-                      Xóa
-                    </Flex>
+                <Flex wrap='wrap' gap='small'>
+                  <Button type='primary' danger style={{ height: '35px' }}>
+                    {selectedRowKeys.length > 0 ? (
+                      <span>({selectedRowKeys.length})</span>
+                    ) : (
+                      ''
+                    )}
+                    Xóa
                   </Button>
-                </>
+                  <ButtonOk
+                    type='primary'
+                    icon={<FiPlus />}
+                    onClick={(id) => navigate(`${PATH.NEWEMPLOYEE}`)}
+                  >
+                    Thêm mới
+                  </ButtonOk>
+                </Flex>
               }
             >
               <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
-                  data={dataCustomer}
+                  data={dataEmployee}
                   rowKey={(record) => record.id}
                   onRow={(record, rowIndex) => {
                     return {
                       onDoubleClick: (event) => {
                         console.log('bam')
-                        navigate(`${PATH.CUSTOMER}/1`)
+                        navigate(`${PATH.EMPLOYEE}/1`)
                       }
                     }
                   }}
@@ -271,4 +259,4 @@ const CustomerManagement = () => {
     </>
   )
 }
-export default CustomerManagement
+export default EmployeeManagement

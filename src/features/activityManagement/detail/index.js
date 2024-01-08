@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
+import { Button, Card, Col, Form, Input, Row } from 'antd'
 import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
 
 // Images
@@ -7,10 +7,12 @@ import { AiFillFilter } from 'react-icons/ai'
 
 import { useNavigate } from 'react-router-dom'
 
+import { Typography } from 'antd'
 import { useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
+import { ButtonOk } from '../../../assets/styles/button.style'
 import FilterColumn from '../../../components/filterColumn/FilterColumn'
 import BaseTable from '../../../components/table/BaseTable'
-import CustomToggleButton from '../../component/CustomToggleButton'
 import ActivityDetailForm from '../form/ActivityDetailForm'
 
 const columns = [
@@ -193,49 +195,51 @@ const dataCustomer = [
 const ActivityDetail = () => {
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
   const navigate = useNavigate()
+  const { Title } = Typography
   return (
     <>
       <div className='tabled'>
-        <Form layout='vertical'>
-          {' '}
-          <Row gutter={[24, 0]}>
-            {' '}
-            <Col span={8}>
-              <Form.Item label='Tên hoạt động'>
-                <Input />
-              </Form.Item>
+        <Card>
+          <Form layout='vertical'>
+            <Row gutter={[24, 0]}>
+              <Col span={8}>
+                <Form.Item label='Tên hoạt động'>
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={16}>
+                <Form.Item label='Mô tả hoạt động'>
+                  <Input.TextArea style={{ width: '100%' }} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+          <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+            <Col md={20}>
+              <Title level={4}> Danh sách khách hàng</Title>
             </Col>
-            <Col span={16}>
-              <Form.Item label='Mô tả hoạt động'>
-                <Input.TextArea style={{ width: '100%' }} />
-              </Form.Item>
+            <Col
+              md={4}
+              style={{ display: 'flex', justifyContent: 'right', gap: '12px' }}
+            >
+              <ButtonOk
+                type='primary'
+                icon={<FiPlus />}
+                onClick={() => setIsShowFormDetail(true)}
+              >
+                Thêm mới
+              </ButtonOk>
+              <Button
+                danger
+                style={{ height: '35px', background: 'red', color: 'white' }}
+              >
+                Xóa
+              </Button>
             </Col>
           </Row>
-        </Form>
 
-        <Row gutter={[24, 0]}>
-          <Col xs='24' xl={24}>
-            <Card
-              bordered={false}
-              className='criclebox tablespace mb-24'
-              title={<CustomToggleButton />}
-              extra={
-                <>
-                  <Flex wrap='wrap' gap='small'>
-                    <Button type='primary' danger style={{ height: '40px' }}>
-                      Xóa
-                    </Button>
-                    <Button
-                      type='primary'
-                      style={{ height: '40px', background: 'blue' }}
-                      onClick={() => navigate('/new-customer')}
-                    >
-                      Tạo mới
-                    </Button>
-                  </Flex>
-                </>
-              }
-            >
+          <Row gutter={[24, 0]}>
+            <Col xs='24' xl={24}>
               <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
@@ -251,9 +255,9 @@ const ActivityDetail = () => {
                   className='ant-border-space'
                 />
               </div>
-            </Card>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </Card>
       </div>
       <ActivityDetailForm
         visible={isShowFormDetail}
