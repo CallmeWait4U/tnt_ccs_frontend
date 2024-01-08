@@ -8,6 +8,7 @@ import BillForm from '../form/BillForm'
 import QuoteForm from '../form/QuoteForm'
 import ActivityHistory from '../moreData/ActivityHistory'
 import AdditionalInformation from '../moreData/AdditionalInformation'
+import CustomerQuoteBill from '../quote-bill'
 import CompanyInformation from './CompanyInformation'
 import PersonalInformation from './PersonalInformation'
 
@@ -22,6 +23,7 @@ const CustomerDetail = () => {
       key: 'additionalInfo',
       children: (
         <AdditionalInformation
+          typeCustomer={typeCustomer}
           setIsShowQuoteForm={setIsShowQuoteForm}
           setIsShowBillForm={setIsShowBillForm}
         />
@@ -33,6 +35,21 @@ const CustomerDetail = () => {
       children: (
         <ActivityHistory setIsShowActivityForm={setIsShowActivityForm} />
       )
+    },
+    {
+      label: 'Báo giá - Hóa đơn',
+      key: 'quote-bill',
+      children: (
+        <CustomerQuoteBill
+          setIsShowBillForm={setIsShowBillForm}
+          setIsShowQuoteForm={setIsShowQuoteForm}
+        />
+      )
+    },
+    {
+      label: 'Khiếu nại',
+      key: 'complain',
+      children: <></>
     },
     {
       label: 'Gửi tin nhắn',
@@ -49,79 +66,73 @@ const CustomerDetail = () => {
   // } = theme.useToken()
   return (
     <>
-      <Row style={{ margin: '10px 0 ', paddingLeft: '10px' }}>
-        <h3>Quản lý khách hàng &gt; Thông tin chi tiết</h3>
-      </Row>
-
       <Row gutter={[8, 16]}>
         <Col xl={24} xxl={14}>
           <Card title={'Thông tin chi tiết'}>
             <Form>
-              <>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item
-                      label={'Loại khách hàng'}
-                      rules={[
-                        {
-                          require: true,
-                          message: 'this field is required!'
-                        }
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item
+                    label={'Loại khách hàng'}
+                    rules={[
+                      {
+                        require: true,
+                        message: 'this field is required!'
+                      }
+                    ]}
+                  >
+                    <StyledSelect
+                      value={typeCustomer}
+                      onChange={setTypeCustomer}
+                      options={[
+                        { value: 1, label: 'Công ty' },
+                        { value: 2, label: 'Cá nhân' }
                       ]}
-                    >
-                      <StyledSelect
-                        value={typeCustomer}
-                        onChange={setTypeCustomer}
-                        options={[
-                          { value: 1, label: 'Công ty' },
-                          { value: 2, label: 'Cá nhân' }
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    {' '}
-                    <Form.Item
-                      label={'Giai đoạn'}
-                      rules={[
-                        {
-                          require: true,
-                          message: 'this field is required!'
-                        }
-                      ]}
-                    >
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    {' '}
-                    <Form.Item
-                      label={'Mã khách hàng'}
-                      rules={[
-                        {
-                          require: true,
-                          message: 'this field is required!'
-                        }
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  {' '}
+                  <Form.Item
+                    label={'Giai đoạn'}
+                    rules={[
+                      {
+                        require: true,
+                        message: 'this field is required!'
+                      }
+                    ]}
+                  >
+                    <StyledSelect />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  {' '}
+                  <Form.Item
+                    label={'Mã khách hàng'}
+                    rules={[
+                      {
+                        require: true,
+                        message: 'this field is required!'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item label={'Nguồn khách hàng'}>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label={'Ngày tạo'}>
-                      <StyledDatepicker />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item label={'Nguồn khách hàng'}>
+                    <StyledSelect />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label={'Ngày tạo'}>
+                    <StyledDatepicker />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Form>
             <Row>
               {typeCustomer === 1 ? (

@@ -1,7 +1,9 @@
 import { Button, Card, Col, Form, Input, Row, Table } from 'antd'
 import { useState } from 'react'
 
-import { FiPlus, FiTrash } from 'react-icons/fi'
+import { Select, Switch, Typography } from 'antd'
+import { FiPlus } from 'react-icons/fi'
+import { TbTrashFilled } from 'react-icons/tb'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 const CustomerForm = () => {
@@ -66,7 +68,14 @@ const CustomerForm = () => {
       render: (item) => (
         <Button
           type='link'
-          icon={<FiTrash size={24} />}
+          icon={
+            <TbTrashFilled
+              color='red'
+              backgroundColor='red'
+              size={24}
+              onClick={() => console.log('trash')}
+            />
+          }
           onClick={() => handleDeleteRow(item.index)}
         />
       )
@@ -84,183 +93,339 @@ const CustomerForm = () => {
     console.log('table', tableData)
   }
 
+  const { Title } = Typography
   return (
     <>
-      <Row style={{ margin: '10px 0 ', paddingLeft: '10px' }}>
-        <h3>Quản lý khách hàng &gt; Thêm khách hàng mới</h3>
+      <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+        <Col md={20}>
+          <Title level={4}> Thêm khách hàng mới</Title>
+        </Col>
       </Row>
-
-      <Card title={'Thông tin chi tiết'}>
+      <Card>
         <Form>
-          <Row gutter={[16, 16]}>
-            <Col xl={24} xxl={12}>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item
-                    label={'Loại khách hàng'}
-                    rules={[
-                      {
-                        require: true,
-                        message: 'this field is required!'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      value={typeCustomer}
-                      onChange={setTypeCustomer}
-                      options={[
-                        { value: 1, label: 'Công ty' },
-                        { value: 2, label: 'Cá nhân' }
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  {' '}
-                  <Form.Item
-                    label={'Giai đoạn'}
-                    rules={[
-                      {
-                        require: true,
-                        message: 'this field is required!'
-                      }
-                    ]}
-                  >
-                    <StyledSelect />
-                  </Form.Item>
-                </Col>
-              </Row>
+          <Row gutter={16}>
+            <Col span={12} xl={8}>
+              <Form.Item
+                label={'Loại khách hàng'}
+                rules={[
+                  {
+                    require: true,
+                    message: 'this field is required!'
+                  }
+                ]}
+              >
+                <StyledSelect
+                  value={typeCustomer}
+                  onChange={setTypeCustomer}
+                  options={[
+                    { value: 1, label: 'Công ty' },
+                    { value: 2, label: 'Cá nhân' }
+                  ]}
+                />
+              </Form.Item>
             </Col>
+            <Col span={12} xl={8}>
+              <Form.Item
+                label={'Giai đoạn'}
+                rules={[
+                  {
+                    require: true,
+                    message: 'this field is required!'
+                  }
+                ]}
+              >
+                <StyledSelect />
+              </Form.Item>
+            </Col>
+          </Row>
 
-            <Col xl={24} xxl={12}>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item
-                    label={'Nguồn khách hàng'}
-                    rules={[
-                      {
-                        require: true,
-                        message: 'this field is required!'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      value={typeCustomer}
-                      onChange={setTypeCustomer}
-                      options={[
-                        { value: 1, label: 'Công ty' },
-                        { value: 2, label: 'Cá nhân' }
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  {' '}
-                  <Form.Item
-                    label={'Ngày tạo'}
-                    rules={[
-                      {
-                        require: true,
-                        message: 'this field is required!'
-                      }
-                    ]}
-                  >
-                    <StyledDatepicker />
-                  </Form.Item>
-                </Col>
-              </Row>
+          <Row gutter={16}>
+            <Col span={12} xl={8}>
+              <Form.Item
+                label={'Nguồn khách hàng'}
+                rules={[
+                  {
+                    require: true,
+                    message: 'this field is required!'
+                  }
+                ]}
+              >
+                <StyledSelect
+                  value={typeCustomer}
+                  onChange={setTypeCustomer}
+                  options={[
+                    { value: 1, label: 'Công ty' },
+                    { value: 2, label: 'Cá nhân' }
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12} xl={8}>
+              {' '}
+              <Form.Item
+                label={'Ngày tạo'}
+                rules={[
+                  {
+                    require: true,
+                    message: 'this field is required!'
+                  }
+                ]}
+              >
+                <StyledDatepicker />
+              </Form.Item>
+            </Col>
+            <Col span={12} xl={8}>
+              {' '}
+              <Form.Item
+                label={'Tài khoản'}
+                rules={[
+                  {
+                    require: true,
+                    message: 'this field is required!'
+                  }
+                ]}
+              >
+                <Switch />
+              </Form.Item>
             </Col>
           </Row>
         </Form>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Card title='Thông tin chung của khách hàng'>
-              <Form layout='vertical'>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item label={'Tên khách hàng'}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label={'Giới tính'}>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item label={'Ngày sinh'}>
-                      <StyledDatepicker />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label={'CCCD'}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item label={'Quốc tịch'}>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label={'Ghi chú'}>
-                      <Input.TextArea />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
-          </Col>
-          <Col span={12} gutter={16}>
-            <Card title='Thông tin liên lạc của khách hàng'>
-              <Form layout='vertical'>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item label={'Số điện thoại'}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label={'Email'}>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item label={'Địa chỉ'}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label={' '}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label={' '}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
-            <Card title='Nhân viên phụ trách' style={{ marginTop: '16px' }}>
-              <Table
-                columns={columns}
-                dataSource={tableData}
-                pagination={false}
-              />
-              <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
-                Thêm sản phẩm
-              </Button>
-            </Card>
-          </Col>
-        </Row>
+        {typeCustomer === 2 && (
+          <div>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Card title='Thông tin chung của khách hàng'>
+                  <Form layout='vertical'>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label={'Tên khách hàng'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label={'Giới tính'}>
+                          <StyledSelect />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label={'Ngày sinh'}>
+                          <StyledDatepicker />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label={'CCCD'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label={'Quốc tịch'}>
+                          <StyledSelect />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label={'Ghi chú'}>
+                          <Input.TextArea />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card>
+                <Card title='Nhân viên phụ trách' style={{ marginTop: '16px' }}>
+                  <Table
+                    columns={columns}
+                    dataSource={tableData}
+                    pagination={false}
+                  />
+                  <Button
+                    type='dashed'
+                    onClick={addRow}
+                    block
+                    icon={<FiPlus />}
+                  >
+                    Thêm nhân viên
+                  </Button>
+                </Card>
+              </Col>
+              <Col span={12} gutter={16}>
+                <Card title='Thông tin liên lạc của khách hàng'>
+                  <Form layout='vertical'>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label={'Số điện thoại'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label={'Email'}>
+                          <StyledSelect />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={8}>
+                        <Form.Item label={'Địa chỉ'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8}>
+                        <Form.Item label={' '}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8}>
+                        <Form.Item label={' '}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        )}
+        {typeCustomer === 1 && (
+          <div>
+            <Row gutter={16}>
+              <Col xl={12}>
+                <Card
+                  title='Thông tin doanh nghiệp'
+                  style={{ marginTop: '16px' }}
+                >
+                  <Form layout='vertical'>
+                    <Row gutter={16}>
+                      <Col xl={8}>
+                        <Form.Item label={'Tên doanh nghiệp'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label={'Mã số thuế'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label={'Số ĐKKD'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col xl={8}>
+                        <Form.Item label={'Quốc gia'}>
+                          <Select />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label={'Lĩnh vực kinh doanh'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label={'Ghi chú'}>
+                          <Input.TextArea />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col xl={8}>
+                        <Form.Item label={'Địa chỉ'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label=' '>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={8}>
+                        <Form.Item label={' '}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card>
+                <Card title='Nhân viên phụ trách' style={{ marginTop: '16px' }}>
+                  <Table
+                    columns={columns}
+                    dataSource={tableData}
+                    pagination={false}
+                  />
+                  <Button
+                    type='dashed'
+                    onClick={addRow}
+                    block
+                    icon={<FiPlus />}
+                  >
+                    Thêm nhân viên
+                  </Button>
+                </Card>
+              </Col>
+              <Col xl={12}>
+                <Card
+                  title='Thông tin người đại diện'
+                  style={{ marginTop: '16px' }}
+                >
+                  <Form layout='vertical'>
+                    <Row gutter={16}>
+                      <Col xl={12}>
+                        <Form.Item label={'Tên người đại diện'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={12}>
+                        <Form.Item label={'Giới tính'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col xl={12}>
+                        <Form.Item label={'Ngày sinh'}>
+                          <StyledDatepicker />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={12}>
+                        <Form.Item label={'CCCD'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col xl={12}>
+                        <Form.Item label={'Quốc tịch'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={12}>
+                        <Form.Item label={'Chức vụ'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col xl={12}>
+                        <Form.Item label={'Số điện thoại'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                      <Col xl={12}>
+                        <Form.Item label={'Email'}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        )}
       </Card>
     </>
   )
