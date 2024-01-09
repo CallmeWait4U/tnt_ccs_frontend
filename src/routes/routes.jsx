@@ -16,7 +16,9 @@ import BussinessRegisterPage from '../pages/BusinessRegisterPage'
 import EmployeeDetailPage from '../pages/EmployeeDetailPage'
 import EmpployeesPage from '../pages/EmployeesPage'
 import NewEmployeePage from '../pages/NewEmployeePage'
+import NewProductPage from '../pages/NewProductPage'
 import PhasePage from '../pages/PhasePage'
+import ProductDetailPage from '../pages/ProductDetailPage'
 import ProductsPage from '../pages/ProductPage'
 import SignInPage from '../pages/SignInPage'
 import PrivateRoute from './PrivateRoute'
@@ -73,6 +75,15 @@ const routesLayout = [
     path: PATH.PRODUCT,
     element: withPrivateRoute(ProductsPage)()
   },
+  {
+    path: PATH.PRODUCTDETAIL,
+    element: withPrivateRoute(ProductDetailPage)()
+  },
+  {
+    path: PATH.NEWPRODUCT,
+    element: withPrivateRoute(NewProductPage)()
+  },
+
   {
     path: PATH.PHASE,
     element: withPrivateRoute(PhasePage)()
