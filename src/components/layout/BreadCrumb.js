@@ -2,7 +2,7 @@ import { Breadcrumb, Row } from 'antd'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
-const CutomBreadCrumb = ({ breadcumbItems }) => {
+const CustomBreadCrumb = ({ breadcumbItems }) => {
   const location = useLocation()
   // const breadCrumbView = () => {
   const { pathname } = location
@@ -21,4 +21,4 @@ const CutomBreadCrumb = ({ breadcumbItems }) => {
   // return <>{breadCrumbView()}</>
 }
 
-export default CutomBreadCrumb
+export default CustomBreadCrumb

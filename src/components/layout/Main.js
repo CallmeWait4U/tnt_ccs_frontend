@@ -2,7 +2,7 @@ import { Affix, Layout } from 'antd'
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import BreadCrumb from './BreadCrumb'
-import CutomBreadCrumb from './BreadCrumb'
+import CustomBreadCrumb from './BreadCrumb'
 import Header from './Header'
 import Sidenav from './Sidenav'
 
@@ -65,7 +65,7 @@ const Main = ({ children, pageProps }) => {
               handleSidenavType={handleSidenavType}
             />
           </AntHeader>
-          <CutomBreadCrumb breadcumbItems={breadcumbItems} />
+          <CustomBreadCrumb breadcumbItems={breadcumbItems} />
         </Affix>
 
         <Content className='content-ant'>{children}</Content>
