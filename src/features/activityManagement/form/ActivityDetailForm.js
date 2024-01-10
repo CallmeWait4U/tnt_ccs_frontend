@@ -5,7 +5,7 @@ import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
-const ActivityDetailForm = ({ visible, setVisible }) => {
+const ActivityDetailForm = ({ visible, setVisible, isUpdate }) => {
   const [tableData, setTableData] = useState([
     {
       index: 1,
@@ -118,6 +118,28 @@ const ActivityDetailForm = ({ visible, setVisible }) => {
         <Col xl={24} xxl={12}>
           <Card title={null}>
             <Form layout='vertical'>
+              <Row gutter={[16, 16]}>
+                <Col span={6}>
+                  <Form.Item label='Mã khách hàng'>
+                    <Input value={'KH-001'} disabled={!isCanUpdate} />
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Form.Item label='Tên khách hàng'>
+                    <Input value={'Lê Huy Ngọ'} disabled={!isCanUpdate} />
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Form.Item label='Trạng thái'>
+                    <Input value={'Đang hoạt động'} disabled={!isCanUpdate} />
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Form.Item label='Ngày hoàn thành'>
+                    <StyledDatepicker value={today} disabled={!isCanUpdate} />
+                  </Form.Item>
+                </Col>
+              </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label='Kiểu hoạt động'>

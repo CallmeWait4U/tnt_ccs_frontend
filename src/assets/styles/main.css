@@ -2179,6 +2179,9 @@ body {
 .signin .ant-form-item-control-input button.ant-switch {
   margin-right: 5px;
 }
+.ant-switch .ant-switch-inner {
+  background-color: blue !important;
+}
 .text-dark {
   color: #141414;
 }

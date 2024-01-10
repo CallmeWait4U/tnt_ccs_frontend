@@ -12,8 +12,8 @@ import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
+import { dataCustomer } from '../../dataMock/DataCustomer'
 import CustomToggleButton from '../component/CustomToggleButton'
-import { dataCustomer } from './data/DataCustomer'
 
 const CustomerManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);

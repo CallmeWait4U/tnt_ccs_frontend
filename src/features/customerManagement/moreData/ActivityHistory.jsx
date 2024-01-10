@@ -1,4 +1,4 @@
-import { Button, Col, Row, Table, Tag } from 'antd'
+import { Button, Col, Row, Table, Tag, Typography } from 'antd'
 
 import { FiInfo, FiPlus, FiTrash2 } from 'react-icons/fi'
 
@@ -62,13 +62,14 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       )
     }
   ]
+  const { Title } = Typography
   return (
     <>
       <Row gutter={12} style={{ marginBottom: '16px' }}>
         <Col span={19}>
-          <h1>Hoạt động sắp tới</h1>
+          <Title level={3}>Hoạt động sắp tới</Title>
         </Col>
-        <Col span={5}>
+        <Col span={5} style={{ display: 'flex', justifyContent: 'right' }}>
           <Button icon={<FiPlus />} onClick={() => setIsShowActivityForm(true)}>
             Thêm mới
           </Button>

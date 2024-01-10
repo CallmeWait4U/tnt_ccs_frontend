@@ -16,7 +16,12 @@ export const PATH = Object.freeze({
   CUSTOMER: '/customers',
   CUSTOMERDETAIL: '/customers/:id',
   EMPLOYEE: '/employees',
+  NEWEMPLOYEE: '/new-emplyee',
   EMPLOYEEDETAIL: '/employees/:id',
+  PRODUCT: '/products',
+  PRODUCTDETAIL: '/products/:id',
+  NEWPRODUCT: '/new-product',
+  PHASE: '/phases',
   BOARD: '/board',
 
   ORGANIZATION: '/organization',

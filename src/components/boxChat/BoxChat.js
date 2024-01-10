@@ -6,6 +6,7 @@ const ChatBox = () => {
   const { messages, appendMsg, setTyping } = useMessages([
     {
       type: 'text',
+      hasTime: true,
       content: { text: 'Chào cô' },
       position: 'right'
     },
@@ -41,7 +42,12 @@ const ChatBox = () => {
 
   function renderMessageContent(msg) {
     const { content } = msg
-    return <Bubble content={content.text} />
+    return (
+      <Bubble
+        content={content.text}
+        style={{ background: '#5E9CFF', color: 'white' }}
+      />
+    )
   }
 
   return (
@@ -59,7 +65,7 @@ const ChatBox = () => {
       messages={messages}
       renderMessageContent={renderMessageContent}
       onSend={handleSend}
-      sendButtonText='Gửi'
+      locale='vietnamese'
     />
   )
 }
