@@ -236,9 +236,19 @@ const CustomerManagement = () => {
   return (
     <>
       <div className='tabled'>
-        <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+        <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
-            <Title level={4}> Danh sách khách hàng</Title>
+            <Title
+              level={4}
+              style={{
+                marginLeft: '10px',
+                marginTop: '4px',
+                fontWeight: '700'
+              }}
+            >
+              {' '}
+              Danh sách khách hàng
+            </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
             {/* <Dropdown menu={{ itemsTypeCustomer }} placement='bottomLeft'> */}
@@ -246,6 +256,7 @@ const CustomerManagement = () => {
               type='primary'
               icon={<FiPlus />}
               onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+              style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
             </ButtonOk>
@@ -260,14 +271,14 @@ const CustomerManagement = () => {
               title={<CustomToggleButton />}
               extra={
                 <>
-                  <Button type='primary' danger>
-                    <Flex wrap='wrap' gap='small'>
+                  <Button type='primary' danger className='customDeleteButton'>
+                    <Flex wrap='wrap' gap={3}>
+                      Xóa
                       {selectedRowKeys.length > 0 ? (
                         <span>({selectedRowKeys.length})</span>
                       ) : (
                         ''
                       )}
-                      Xóa
                     </Flex>
                   </Button>
                 </>

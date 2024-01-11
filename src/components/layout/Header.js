@@ -208,7 +208,11 @@ const Header = ({ name }) => {
       <Row gutter={[24, 0]}>
         <Col span={24} md={16}>
           <div className='ant-page-header-heading'>
-            <p style={{ fontSize: 25, fontWeight: 'bold' }}>{name}</p>
+            <p
+              style={{ fontSize: 22, fontWeight: 'bold', paddingLeft: '20px' }}
+            >
+              {name}
+            </p>
           </div>
         </Col>
 

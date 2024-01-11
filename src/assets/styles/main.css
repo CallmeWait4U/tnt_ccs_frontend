@@ -14,6 +14,14 @@ body {
 }
 .ant-layout.ant-layout-has-sider {
   flex-direction: row;
+  background: #F2EDEF;
+}
+.tabled .customDeleteButton {
+  background-color: #FFCECE;
+  color: #F43F5E;
+  height: 42px;
+  width: 112px;
+  font-weight: 700;
 }
 .layout-dashboard {
   background: transparent;
@@ -429,6 +437,14 @@ font-weight: 450;
   line-height: inherit;
   border-radius: 12px;
   transition: 0.2s;
+}
+
+.layout-dashboard .ant-breadcrumb a.ant-breadcrumb-link {
+  color: rgba(0, 0, 0, 1)
+}
+
+.layout-dashboard .ant-breadcrumb li.ant-breadcrumb-separator {
+  color: rgba(0, 0, 0, 1)
 }
 
 .layout-dashboard .ant-breadcrumb > span .ant-breadcrumb-link a {

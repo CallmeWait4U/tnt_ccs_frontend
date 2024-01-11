@@ -15,7 +15,7 @@ const CustomToggleButton = () => {
         gap: '16px',
         height: '40px',
         borderRadius: '20px',
-        background: '#f5f5f5',
+        background: '#F2F2F2',
         padding: '5px',
         width: '350px'
       }}
@@ -25,10 +25,10 @@ const CustomToggleButton = () => {
         style={{
           borderRadius: '20px',
           flex: 1,
-          background: selectedTag === 'option1' ? 'white' : '#f5f5f5',
-          color: selectedTag === 'option1' ? 'blue' : '#f5f5f5',
+          background: selectedTag === 'option1' ? 'white' : '#f2f2f2',
+          color: selectedTag === 'option1' ? '#00aeef' : '#999999',
           fontSize: '13px',
-          width: '100px'
+          width: '150px'
         }}
         onClick={() => handleTagChange('option1')}
       >
@@ -39,10 +39,10 @@ const CustomToggleButton = () => {
         style={{
           borderRadius: '20px',
           flex: 1,
-          background: selectedTag === 'option2' ? 'white' : '#f5f5f5',
-          color: selectedTag === 'option2' ? 'blue' : '#f5f5f5',
+          background: selectedTag === 'option2' ? 'white' : '#f2f2f2',
+          color: selectedTag === 'option2' ? '#00aeef' : '#999999',
           fontSize: '13px',
-          width: '200px'
+          width: '150px'
         }}
         onClick={() => handleTagChange('option2')}
       >
