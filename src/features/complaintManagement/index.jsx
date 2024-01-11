@@ -1,12 +1,12 @@
 import { SearchOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Flex, Row } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
 import React, { useRef, useState } from 'react'
 
 import { Input, Space } from 'antd'
 import Highlighter from 'react-highlight-words'
 // Images
 import { Typography } from 'antd'
-import { FiFilter, FiPlus } from 'react-icons/fi'
+import { FiFilter } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ import BaseTable from '../../components/table/BaseTable'
 import { PATH } from '../../contants/common'
 import { dataEmployee } from '../../dataMock/DataEmployee'
 
-const ProductManagement = () => {
+const ComplaintManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -179,61 +179,16 @@ const ProductManagement = () => {
   ]
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
+
   return (
     <>
       <div className='tabled'>
+        <Row>
+          <Title level={4}> Danh sách khiếu nại</Title>
+        </Row>
         <Row gutter={[24, 0]}>
           <Col xs='24' xl={24}>
-            <Card
-              bordered={false}
-              className='criclebox tablespace mb-24'
-              title={<Title level={4}> Danh sách sản phẩm</Title>}
-              extra={
-                <Flex wrap='wrap' gap='small'>
-                  <Button type='primary' danger style={{ height: '35px' }}>
-                    {selectedRowKeys.length > 0 ? (
-                      <span>({selectedRowKeys.length})</span>
-                    ) : (
-                      ''
-                    )}
-                    Xóa
-                  </Button>
-                  <ButtonOk
-                    type='primary'
-                    icon={<FiPlus />}
-                    onClick={(id) => navigate(`${PATH.NEWPRODUCT}`)}
-                  >
-                    Thêm mới
-                  </ButtonOk>
-                </Flex>
-              }
-            >
+            <Card bordered={false} className='criclebox tablespace mb-24'>
               <div className='table-responsive'>
                 <BaseTable
                   columns={columns}
@@ -242,8 +197,7 @@ const ProductManagement = () => {
                   onRow={(record, rowIndex) => {
                     return {
                       onDoubleClick: (event) => {
-                        console.log('bam')
-                        navigate(`${PATH.PRODUCT}/1`)
+                        navigate(`${PATH.COMPLAINT}/1`, { replace: true })
                       }
                     }
                   }}
@@ -259,4 +213,4 @@ const ProductManagement = () => {
     </>
   )
 }
-export default ProductManagement
+export default ComplaintManagement
