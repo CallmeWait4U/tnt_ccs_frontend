@@ -74,11 +74,11 @@ const Sidenav = ({ keySideNav }) => {
       <FiAlertCircle size={25} />,
       [
         getItem(
-          <NavLink to={PATH.CUSTOMER}>Danh sách khiếu nại</NavLink>,
+          <NavLink to={PATH.COMPLAINT}>Danh sách khiếu nại</NavLink>,
           'complain-list'
         ),
         getItem(
-          <NavLink to={PATH.CUSTOMER}>Phân loại khiếu nại</NavLink>,
+          <NavLink to={PATH.TYPECOMPLAINT}>Phân loại khiếu nại</NavLink>,
           'complain-classify'
         )
       ]

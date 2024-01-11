@@ -25,8 +25,10 @@ export const PATH = Object.freeze({
   BOARD: '/board',
 
   ORGANIZATION: '/organization',
-  COMPLAIN: '/complains',
-  COMPLAINDETAIL: 'complains/:id',
+  COMPLAINT: '/complaints',
+
+  COMPLAINTDETAIL: 'complaints/:id',
+  TYPECOMPLAINT: '/type-complaints',
   TABLE: '/tables',
   BILLING: '/billing'
 })
