@@ -13,6 +13,8 @@ import NewCustomerPage from '../pages/NewCustomerPage'
 import ProfilePage from '../pages/ProfilePage'
 
 import BussinessRegisterPage from '../pages/BusinessRegisterPage'
+import ComplaintDetailPage from '../pages/ComplaintDetailPage'
+import ComplaintPage from '../pages/ComplaintPage'
 import EmployeeDetailPage from '../pages/EmployeeDetailPage'
 import EmpployeesPage from '../pages/EmployeesPage'
 import NewEmployeePage from '../pages/NewEmployeePage'
@@ -82,6 +84,14 @@ const routesLayout = [
   {
     path: PATH.NEWPRODUCT,
     element: withPrivateRoute(NewProductPage)()
+  },
+  {
+    path: PATH.COMPLAINT,
+    element: withPrivateRoute(ComplaintPage)()
+  },
+  {
+    path: PATH.COMPLAINTDETAIL,
+    element: withPrivateRoute(ComplaintDetailPage)()
   },
 
   {
