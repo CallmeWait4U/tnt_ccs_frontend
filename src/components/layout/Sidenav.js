@@ -1,4 +1,5 @@
 import { Menu } from 'antd'
+import { useState } from 'react'
 import {
   FiAlertCircle,
   FiFileMinus,
@@ -12,6 +13,7 @@ import {
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
+
 const Sidenav = ({ keySideNav }) => {
   // const { pathname } = useLocation()
   // const page = pathname.replace('/', '')
@@ -36,6 +38,17 @@ const Sidenav = ({ keySideNav }) => {
   //   { 8: 'complain-classify' }
   // ]
   const role = 'admin'
+  const rootSubmenuKeys = ['organization', 'complain']
+  const [openKeys, setOpenKeys] = useState(['organization'])
+
+  const onOpenChange = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+    if (rootSubmenuKeys.indexOf(latestOpenKey) !== -1) {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
+    } else {
+      setOpenKeys(keys)
+    }
+  }
   const menuItems = [
     getItem(
       <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>,
@@ -69,7 +82,7 @@ const Sidenav = ({ keySideNav }) => {
       ]
     ),
     getItem(
-      <NavLink to={PATH.CUSTOMER}>Quản lý khiếu nại</NavLink>,
+      <NavLink>Quản lý khiếu nại</NavLink>,
       'complain',
       <FiAlertCircle size={25} />,
       [
@@ -117,6 +130,8 @@ const Sidenav = ({ keySideNav }) => {
           style={{
             width: 256
           }}
+          // openKeys={openKeys}
+          // onOpenChange={onOpenChange}
           defaultSelectedKeys={[keySideNav]}
           defaultOpenKeys={[keySideNav]}
           mode='inline'
