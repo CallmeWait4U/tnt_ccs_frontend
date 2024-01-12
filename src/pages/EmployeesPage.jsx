@@ -9,7 +9,7 @@ const EmpployeesPage = () => {
         namePage: 'Quản lý nhân viên',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách khách hàng' }
+          { title: 'Quản lý nhân viên' }
         ]
       }}
     >

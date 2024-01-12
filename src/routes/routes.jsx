@@ -46,7 +46,7 @@ const routesLayout = [
     element: withPrivateRoute(CustomerDetailPage)()
   },
   {
-    path: PATH.ACTIVITYMANAGEMENT,
+    path: PATH.ACTIVITY,
     element: withPrivateRoute(ActivityPage)()
   },
   {

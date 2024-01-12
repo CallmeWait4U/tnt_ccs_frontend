@@ -1,204 +1,180 @@
-import { Button, Card, Col, Form, Input, Row } from 'antd'
-import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
+import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 
 // Images
-
-import { AiFillFilter } from 'react-icons/ai'
-
-import { useNavigate } from 'react-router-dom'
 
 import { Typography } from 'antd'
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
+import { RiInformationFill } from 'react-icons/ri'
+import { TbTrashFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../../assets/styles/button.style'
-import FilterColumn from '../../../components/filterColumn/FilterColumn'
-import BaseTable from '../../../components/table/BaseTable'
+import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
+import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
+import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
+import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { dataActivityDetail } from '../../../dataMock/DataActivity'
 import ActivityDetailForm from '../form/ActivityDetailForm'
-
-const columns = [
-  {
-    title: 'NGÀY TẠO',
-    dataIndex: 'createdAt',
-    key: 'createdAt'
-  },
-  {
-    title: 'KHÁCH HÀNG CHĂM SÓC',
-    dataIndex: 'name',
-    key: 'name',
-    width: '25%',
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters
-    }) => (
-      <FilterColumn
-        selectedKeys={selectedKeys}
-        setSelectedKeys={setSelectedKeys}
-        confirm={confirm}
-        clearFilters={clearFilters}
-      />
-    ),
-    filterIcon: (filtered) => (
-      <AiFillFilter style={{ color: filtered ? '#1890ff' : undefined }} />
-    )
-  },
-
-  {
-    title: 'NHÂN VIÊN PHỤ TRÁCH',
-    key: 'employee',
-    dataIndex: 'employee'
-  },
-  {
-    title: 'NGÀY BẮT ĐẦU',
-    key: 'startAt',
-    dataIndex: 'startAt'
-  },
-  {
-    title: 'NGÀY KẾT THÚC',
-    key: 'finishAt',
-    dataIndex: 'finishAt'
-  },
-  {
-    title: 'TRẠNG THÁI',
-    key: 'status',
-    dataIndex: 'status'
-  },
-
-  {
-    title: 'THAO TÁC',
-    dataIndex: '',
-    key: 'x',
-    width: '7%',
-    render: () => (
-      <div style={{ gap: '15px', display: 'flex' }}>
-        <HiOutlineTrash size={24} />
-        <HiInformationCircle size={24} />
-      </div>
-    )
-  }
-]
-const dataCustomer = [
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  },
-
-  {
-    id: '1',
-    createdAt: '20/11/2022',
-    name: 'Lê Huy Ngọ',
-    employee: 'Phạm Nhật Thịnh',
-    startAt: '21/11/2022',
-    finishAt: '30/11/2022',
-    status: 'Cần làm'
-  }
-]
-
-// const data = dataCustomer.map((item) => {
-//   return {
-//     key: "1",
-//     code: (
-//       <>
-//         <Avatar.Group>
-//           <div className="avatar-info" avatar-info style={{ color: "#726BEA" }}>
-//             {item.code}
-//           </div>
-//         </Avatar.Group>
-//       </>
-//     ),
-//     name: (
-//       <>
-//         <div className="avatar-info">{item.name}</div>
-//       </>
-//     ),
-
-//     email: (
-//       <>
-//         <div className="avatar-info">{item.email}</div>
-//       </>
-//     ),
-//     number: (
-//       <>
-//         <div className="avatar-info">{item.number}</div>
-//       </>
-//     ),
-//     employee: (
-//       <>
-//         <div className="avatar-info">{item.employee}</div>
-//       </>
-//     ),
-//     source: (
-//       <>
-//         <div className="avatar-info">{item.source}</div>
-//       </>
-//     ),
-//     phase: (
-//       <>
-//         <div className="avatar-info">{item.phase}</div>
-//       </>
-//     ),
-//   };
-// });
 
 const ActivityDetail = () => {
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
+  const [skip, setSkip] = useState(0)
+  const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
+  const ActionComponent = (data) => {
+    return (
+      <div style={{ gap: '15px', display: 'flex' }}>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(255,225,225)' }}
+        >
+          <TbTrashFilled
+            color='red'
+            size={18}
+            onClick={() => console.log('trash')}
+          />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
+        >
+          <RiInformationFill color='00AEEF' size={24} />
+        </Button>
+      </div>
+    )
+  }
+
+  const colDefs = [
+    {
+      headerName: 'STT',
+      valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
+      minWidth: 120,
+      width: 120,
+      sortable: false,
+      filter: false,
+      checkboxSelection: true,
+      headerCheckboxSelection: true,
+      pinned: 'left',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'NGÀY TẠO',
+      field: 'createdDate',
+      minWidth: 200,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomDateFilter
+    },
+    {
+      headerName: 'KHÁCH HÀNG CHĂM SÓC',
+      field: 'customerName',
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
+      field: 'employeeName',
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'NGÀY BẮT ĐẦU',
+      field: 'startDate',
+      minWidth: 200,
+      filter: AgGridCustomDateFilter,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'NGÀY KẾT THÚC',
+      field: 'endDate',
+      minWidth: 200,
+      filter: AgGridCustomDateFilter,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      minWidth: 200,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            value: 'Cần làm',
+            label: 'Cần làm'
+          },
+          {
+            id: '2',
+            value: 'Đang trễ',
+            label: 'Đang trễ'
+          },
+          {
+            id: '3',
+            value: 'Hoàn thành',
+            label: 'Hoàn thành'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'THAO TÁC',
+      field: 'action',
+      cellRenderer: (p) => ActionComponent(p.data),
+      minWidth: 150,
+      width: 150,
+      pinned: 'right',
+      cellStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  ]
+
   return (
     <>
       <div className='tabled'>
+        <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
+          <Col md={20}>
+            <Title
+              level={4}
+              style={{
+                marginLeft: '10px',
+                marginTop: '4px',
+                fontWeight: '700'
+              }}
+            >
+              {' '}
+              Chi tiết loại hoạt động Chiến dịch quảng cáo qua mail
+            </Title>
+          </Col>
+        </Row>
         <Card>
           <Form layout='vertical'>
             <Row gutter={[24, 0]}>
@@ -214,9 +190,11 @@ const ActivityDetail = () => {
               </Col>
             </Row>
           </Form>
-          <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+          <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
             <Col md={20}>
-              <Title level={4}> Danh sách khách hàng</Title>
+              <Title level={4} style={{ paddingLeft: '20px' }}>
+                Danh sách hoạt động
+              </Title>
             </Col>
             <Col
               md={4}
@@ -226,14 +204,19 @@ const ActivityDetail = () => {
                 type='primary'
                 icon={<FiPlus />}
                 onClick={() => setIsShowFormDetail(true)}
+                style={{ fontSize: '14px', width: '120px', height: '42px' }}
               >
                 Thêm mới
               </ButtonOk>
-              <Button
-                danger
-                style={{ height: '35px', background: 'red', color: 'white' }}
-              >
-                Xóa
+              <Button type='primary' danger className='customDeleteButton'>
+                <Flex wrap='wrap' gap={3}>
+                  Xóa
+                  {selectedRowKeys.length > 0 ? (
+                    <span>({selectedRowKeys.length})</span>
+                  ) : (
+                    ''
+                  )}
+                </Flex>
               </Button>
             </Col>
           </Row>
@@ -241,18 +224,14 @@ const ActivityDetail = () => {
           <Row gutter={[24, 0]}>
             <Col xs='24' xl={24}>
               <div className='table-responsive'>
-                <BaseTable
-                  columns={columns}
-                  data={dataCustomer}
-                  rowKey={(record) => record.id}
-                  onRow={(record, rowIndex) => {
-                    return {
-                      onClick: () => {
-                        setIsShowFormDetail(true)
-                      }
-                    }
-                  }}
-                  className='ant-border-space'
+                <AgGridTable
+                  colDefs={colDefs}
+                  rowData={dataActivityDetail}
+                  skip={skip}
+                  take={take}
+                  setTake={setTake}
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  height='415px'
                 />
               </div>
             </Col>

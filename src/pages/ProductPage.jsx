@@ -8,7 +8,7 @@ const ProductsPage = () => {
         namePage: 'Quản lý sản phẩm',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách sản phẩm' }
+          { title: 'Quản lý sản phẩm' }
         ]
       }}
     >

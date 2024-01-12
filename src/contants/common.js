@@ -8,7 +8,7 @@ export const PATH = Object.freeze({
   BUSSINESSREGISTER: '/bussiness-register',
   CUSTOMERLANDINGPAGE: '/customer-landing-page',
   NEWCUSTOMER: '/new-customer',
-  ACTIVITYMANAGEMENT: '/activity',
+  ACTIVITY: '/activity',
   ACTIVITYDETAIL: '/activity/:id',
   ABOUT: '/about',
   PROFILE: '/profile',
@@ -30,7 +30,9 @@ export const PATH = Object.freeze({
   COMPLAINTDETAIL: 'complaints/:id',
   TYPECOMPLAINT: '/type-complaints',
   TABLE: '/tables',
-  BILLING: '/billing'
+  BILLING: '/billing',
+
+  HOST: 'http://localhost:3000'
 })
 export const LOCAL_STORAGE_ITEM = Object.freeze({
   TOKEN: 'tnt.token',

@@ -13,7 +13,9 @@ const AgGridTable = ({
   selectedRow,
   take,
   setTake,
-  showPagination = true
+  showPagination = true,
+  width = '100%',
+  height = '530px'
 }) => {
   const [gridApi, setGridApi] = useState()
   const [currentPage, setCurrentPage] = useState(1)
@@ -23,18 +25,20 @@ const AgGridTable = ({
   const onGridReady = (params) => {
     setGridApi(params)
     setFirstIndex(1)
-    setLastIndex(take)
+    take > rowData.length ? setLastIndex(rowData.length) : setLastIndex(take)
   }
 
   const onFirstDataRendered = (params) => {
-    params.columnApi.autoSizeAllColumns()
+    params.api.autoSizeAllColumns()
   }
 
   const onChangePageSize = (pageSize) => {
     gridApi.api.updateGridOptions({ paginationPageSize: Number(pageSize) })
     setCurrentPage(1)
     setFirstIndex(1)
-    setLastIndex(pageSize)
+    pageSize > rowData.length
+      ? setLastIndex(rowData.length)
+      : setLastIndex(pageSize)
     setTake(pageSize)
   }
 
@@ -49,7 +53,10 @@ const AgGridTable = ({
 
   return (
     <>
-      <div className='ag-theme-quartz custom-ag-grid'>
+      <div
+        className='ag-theme-quartz'
+        style={{ width: `${width}`, height: `${height}` }}
+      >
         <AgGridReact
           rowHeight={50}
           animateRows={true}

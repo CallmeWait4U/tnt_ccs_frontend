@@ -1,5 +1,5 @@
 import Main from '../components/layout/Main'
-import PhaseManagement from '../features/phase'
+import PhaseManagement from '../features/phaseManagement'
 
 const PhasePage = () => {
   return (

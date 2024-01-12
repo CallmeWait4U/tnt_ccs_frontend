@@ -48,7 +48,7 @@ const Sidenav = ({ keySideNav }) => {
       <FiPieChart size={25} />
     ),
     getItem(
-      <NavLink to={PATH.ACTIVITYMANAGEMENT}>Quản lý hoạt động</NavLink>,
+      <NavLink to={PATH.ACTIVITY}>Quản lý hoạt động</NavLink>,
       'activity',
       <FiRefreshCw size={25} />
     ),
@@ -96,16 +96,15 @@ const Sidenav = ({ keySideNav }) => {
       <FiFileText size={25} />
     ),
     getItem(
-      <NavLink to={PATH.ACTIVITYMANAGEMENT}>Danh sách báo giá</NavLink>,
+      <NavLink to={PATH.ACTIVITY}>Danh sách báo giá</NavLink>,
       'pricequote',
       <FiFileMinus size={25} />
     ),
     getItem(
-      <NavLink to={PATH.ACTIVITYMANAGEMENT}>Tin nhắn</NavLink>,
+      <NavLink to={PATH.ACTIVITY}>Tin nhắn</NavLink>,
       'message',
       <FiMessageSquare size={25} />
     )
-    
   ]
   return (
     <>
@@ -114,15 +113,15 @@ const Sidenav = ({ keySideNav }) => {
         <h1 className='font-bold text-black p-2 pl-4 text-2xl'>TNT CCS</h1>
       </div>
       <div className='my-8'>
-      <Menu
-        style={{
-          width: 256,
-        }}
-        defaultSelectedKeys={[keySideNav]}
-        defaultOpenKeys={[keySideNav]}
-        mode='inline'
-        items={role === 'admin' ? menuItems : menuItemsForCustomer}
-      />
+        <Menu
+          style={{
+            width: 256
+          }}
+          defaultSelectedKeys={[keySideNav]}
+          defaultOpenKeys={[keySideNav]}
+          mode='inline'
+          items={role === 'admin' ? menuItems : menuItemsForCustomer}
+        />
       </div>
     </>
   )

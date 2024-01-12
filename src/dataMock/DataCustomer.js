@@ -3,7 +3,7 @@ export const dataCustomer = [
   {
     id: '1',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -14,7 +14,7 @@ export const dataCustomer = [
   {
     id: '2',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -25,7 +25,7 @@ export const dataCustomer = [
   {
     id: '3',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -36,7 +36,7 @@ export const dataCustomer = [
   {
     id: '4',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -47,7 +47,7 @@ export const dataCustomer = [
   {
     id: '5',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -58,7 +58,7 @@ export const dataCustomer = [
   {
     id: '6',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -69,7 +69,7 @@ export const dataCustomer = [
   {
     id: '7',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -80,7 +80,7 @@ export const dataCustomer = [
   {
     id: '8',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -91,7 +91,7 @@ export const dataCustomer = [
   {
     id: '9',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -102,7 +102,7 @@ export const dataCustomer = [
   {
     id: '10',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -113,7 +113,7 @@ export const dataCustomer = [
   {
     id: '11',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -124,7 +124,7 @@ export const dataCustomer = [
   {
     id: '12',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -135,7 +135,7 @@ export const dataCustomer = [
   {
     id: '13',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -146,7 +146,7 @@ export const dataCustomer = [
   {
     id: '14',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -158,7 +158,7 @@ export const dataCustomer = [
   {
     id: '15',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -169,28 +169,28 @@ export const dataCustomer = [
   {
     id: '16',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   },
   {
     id: '17',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   },
   {
     id: '18',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   },
   {
     id: '1',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -201,7 +201,7 @@ export const dataCustomer = [
   {
     id: '2',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -212,7 +212,7 @@ export const dataCustomer = [
   {
     id: '3',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -223,7 +223,7 @@ export const dataCustomer = [
   {
     id: '4',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -234,7 +234,7 @@ export const dataCustomer = [
   {
     id: '5',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -245,7 +245,7 @@ export const dataCustomer = [
   {
     id: '6',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -256,7 +256,7 @@ export const dataCustomer = [
   {
     id: '7',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -267,7 +267,7 @@ export const dataCustomer = [
   {
     id: '8',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -278,7 +278,7 @@ export const dataCustomer = [
   {
     id: '9',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -289,7 +289,7 @@ export const dataCustomer = [
   {
     id: '10',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -300,7 +300,7 @@ export const dataCustomer = [
   {
     id: '11',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -311,7 +311,7 @@ export const dataCustomer = [
   {
     id: '12',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -322,7 +322,7 @@ export const dataCustomer = [
   {
     id: '13',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -333,7 +333,7 @@ export const dataCustomer = [
   {
     id: '14',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -345,7 +345,7 @@ export const dataCustomer = [
   {
     id: '15',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Lê huy ngọ',
     email: 'ny@thinhpham.com',
     number: '0122323233',
@@ -356,21 +356,21 @@ export const dataCustomer = [
   {
     id: '16',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   },
   {
     id: '17',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   },
   {
     id: '18',
     avatar: face2,
-    code: '#1234',
+    code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
     email: 'ny@thinhpham.com'
   }

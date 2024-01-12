@@ -8,14 +8,12 @@ import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataCustomer } from '../../dataMock/DataCustomer'
-import CustomToggleButton from '../component/CustomToggleButton'
+import { dataProduct } from '../../dataMock/DataProduct'
 
-const CustomerManagement = () => {
+const ProductManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -23,34 +21,7 @@ const CustomerManagement = () => {
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
-
-  const ActionComponent = (data) => {
+  const ActionComponent = () => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
@@ -72,7 +43,7 @@ const CustomerManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.CUSTOMER}/${data.code}`)}
+            onClick={() => navigate(`${PATH.PRODUCT}/1`)}
           />
         </Button>
       </div>
@@ -96,8 +67,8 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'code',
+      headerName: 'MÃ SẢN PHẨM',
+      field: 'productCode',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -109,17 +80,21 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'TÊN KHÁCH HÀNG',
-      field: 'name',
-      minWidth: 300,
+      headerName: 'TÊN SẢN PHẨM',
+      field: 'productName',
+      minWidth: 450,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
     },
     {
-      headerName: 'EMAIL',
-      field: 'email',
+      headerName: 'ĐƠN VỊ',
+      field: 'unit',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
       minWidth: 250,
       filter: AgGridCustomTextFilter,
       filterParams: {
@@ -127,102 +102,43 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      headerName: 'GIÁ TIỀN',
+      field: 'price',
+      valueGetter: (p) =>
+        Math.floor(p.data.price)
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
       minWidth: 300,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'number'
       }
     },
     {
-      headerName: 'NGUỒN',
-      field: 'source',
-      minWidth: 150,
+      headerName: 'SỐ LƯỢNG',
+      field: 'quantity',
+      valueGetter: (p) =>
+        Math.floor(p.data.quantity)
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomSetFilter,
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Landing Page',
-            value: 'Landing Page'
-          },
-          {
-            id: '2',
-            label: 'Tự khai thác',
-            value: 'Tự khai thác'
-          },
-          {
-            id: '3',
-            label: 'Khác',
-            value: 'Khác'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'GIAI ĐOẠN',
-      field: 'phase',
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Tiềm năng',
-            value: 'Tiềm năng'
-          },
-          {
-            id: '2',
-            label: 'Đang liên hệ',
-            value: 'Đang liên hệ'
-          },
-          {
-            id: '3',
-            label: 'Đã báo giá',
-            value: 'Đã báo giá'
-          },
-          {
-            id: '4',
-            label: 'Chính thức',
-            value: 'Chính thức'
-          },
-          {
-            id: '5',
-            label: 'Thân thiết',
-            value: 'Thân thiết'
-          }
-        ]
+        type: 'number'
       }
     },
     {
       headerName: 'THAO TÁC',
       field: 'action',
-      cellRenderer: (p) => ActionComponent(p.data),
+      cellRenderer: ActionComponent,
       minWidth: 150,
       width: 150,
       pinned: 'right',
@@ -248,11 +164,10 @@ const CustomerManagement = () => {
               }}
             >
               {' '}
-              Danh sách khách hàng
+              Danh sách sản phẩm
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            {/* <Dropdown menu={{ itemsTypeCustomer }} placement='bottomLeft'> */}
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
@@ -261,7 +176,6 @@ const CustomerManagement = () => {
             >
               Thêm mới
             </ButtonOk>
-            {/* </Dropdown> */}
           </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
@@ -269,7 +183,6 @@ const CustomerManagement = () => {
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={<CustomToggleButton />}
               extra={
                 <>
                   <Button type='primary' danger className='customDeleteButton'>
@@ -288,7 +201,7 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataCustomer}
+                  rowData={dataProduct}
                   skip={skip}
                   take={take}
                   setTake={setTake}
@@ -302,4 +215,4 @@ const CustomerManagement = () => {
     </>
   )
 }
-export default CustomerManagement
+export default ProductManagement

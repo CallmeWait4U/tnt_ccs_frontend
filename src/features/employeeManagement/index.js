@@ -1,255 +1,235 @@
-import { SearchOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Flex, Row } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 
-import { Input, Space } from 'antd'
-import Highlighter from 'react-highlight-words'
 // Images
 import { Typography } from 'antd'
-import { FiFilter, FiPlus } from 'react-icons/fi'
+import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
-import BaseTable from '../../components/table/BaseTable'
+import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
+import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
+import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
+import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import { dataEmployee } from '../../dataMock/DataEmployee'
 
 const EmployeeManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-  const [searchText, setSearchText] = useState('')
-  const [searchedColumn, setSearchedColumn] = useState('')
-  const searchInput = useRef(null)
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-    setSearchedColumn(dataIndex)
-  }
-  const handleReset = (clearFilters) => {
-    clearFilters()
-    setSearchText('')
-  }
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close
-    }) => (
-      <div
-        style={{
-          padding: 8
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: 'block'
-          }}
-        />
-        <Space>
-          <ButtonOk
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size='small'
-            style={{
-              width: 90
-            }}
-          >
-            Search
-          </ButtonOk>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size='small'
-            style={{
-              width: 90
-            }}
-          >
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <FiFilter
-        style={{
-          color: filtered ? '#1677ff' : undefined
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100)
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{
-            backgroundColor: '#ffc069',
-            padding: 0
-          }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      )
-  })
+  const [skip, setSkip] = useState(0)
+  const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
-  const columns = [
-    {
-      title: 'MÃ KHÁCH HÀNG',
-      dataIndex: 'code',
-      key: 'code'
-    },
-    {
-      title: 'TÊN KHÁCH HÀNG',
-      dataIndex: 'name',
-      key: 'name',
-      width: '25%',
-      ...getColumnSearchProps('name')
-    },
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    {
-      title: 'EMAIL',
-      key: 'email',
-      dataIndex: 'email',
-      ...getColumnSearchProps('email')
-    },
-    {
-      title: 'SỐ ĐIỆN THOẠI',
-      key: 'number',
-      dataIndex: 'number',
-      ...getColumnSearchProps('number')
-    },
-    {
-      title: 'NHÂN VIÊN CHĂM SÓC',
-      key: 'employee',
-      dataIndex: 'employee',
-      ...getColumnSearchProps('employee')
-    },
-    {
-      title: 'NGUỒN',
-      key: 'source',
-      dataIndex: 'source',
-      ...getColumnSearchProps('source')
-    },
-    {
-      title: 'GIAI ĐOẠN',
-      key: 'phase',
-      dataIndex: 'phase',
-      ...getColumnSearchProps('phase')
-    },
-    {
-      title: 'THAO TÁC',
-      dataIndex: '',
-      key: 'x',
-      width: '7%',
-      fixed: 'right',
-      render: () => (
-        <div style={{ gap: '15px', display: 'flex' }}>
+  const ActionComponent = () => {
+    return (
+      <div style={{ gap: '15px', display: 'flex' }}>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(255,225,225)' }}
+        >
           <TbTrashFilled
             color='red'
-            backgroundColor='red'
-            size={24}
+            size={18}
             onClick={() => console.log('trash')}
           />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
+        >
           <RiInformationFill
-            color='blue'
+            color='00AEEF'
             size={24}
-            onClick={() => console.log('info')}
+            onClick={() => navigate(`${PATH.EMPLOYEE}/1`)}
           />
-        </div>
-      )
+        </Button>
+      </div>
+    )
+  }
+
+  const colDefs = [
+    {
+      headerName: 'STT',
+      valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
+      minWidth: 120,
+      width: 120,
+      sortable: false,
+      filter: false,
+      checkboxSelection: true,
+      headerCheckboxSelection: true,
+      pinned: 'left',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'MÃ NHÂN VIÊN',
+      field: 'code',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TÊN NHÂN VIÊN',
+      field: 'name',
+      minWidth: 300,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'GIỚI TÍNH',
+      field: 'gender',
+      minWidth: 100,
+      valueGetter: (p) => (p.data.gender == 0 ? 'Nam' : 'Nữ'),
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            value: 0,
+            label: 'Nam'
+          },
+          {
+            id: '2',
+            value: 1,
+            label: 'Nữ'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'VỊ TRÍ',
+      field: 'position',
+      minWidth: 250,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'NGÀY SINH',
+      field: 'dayOfBirth',
+      minWidth: 200,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomDateFilter
+    },
+    {
+      headerName: 'EMAIL',
+      field: 'email',
+      minWidth: 250,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'SỐ ĐIỆN THOẠI',
+      field: 'phoneNumber',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'THAO TÁC',
+      field: 'action',
+      cellRenderer: ActionComponent,
+      minWidth: 150,
+      width: 150,
+      pinned: 'right',
+      cellStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
     }
   ]
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
   return (
     <>
       <div className='tabled'>
-        <Row gutter={[24, 0]}>
-          <Col xs='24' xl={24}>
+        <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
+          <Col md={20}>
+            <Title
+              level={4}
+              style={{
+                marginLeft: '10px',
+                marginTop: '4px',
+                fontWeight: '700'
+              }}
+            >
+              {' '}
+              Danh sách nhân viên
+            </Title>
+          </Col>
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            <ButtonOk
+              type='primary'
+              icon={<FiPlus />}
+              onClick={() => navigate(`${PATH.NEWEMPLOYEE}`)}
+              style={{ fontSize: '14px', width: '120px', height: '42px' }}
+            >
+              Thêm mới
+            </ButtonOk>
+          </Col>
+        </Row>
+        <Row gutter={[24, 0]} style={{ height: '650px' }}>
+          <Col xs='24' xl={24} style={{ height: '650px' }}>
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={<Title level={4}> Danh sách nhân viên</Title>}
               extra={
-                <Flex wrap='wrap' gap='small'>
-                  <Button type='primary' danger style={{ height: '35px' }}>
-                    {selectedRowKeys.length > 0 ? (
-                      <span>({selectedRowKeys.length})</span>
-                    ) : (
-                      ''
-                    )}
-                    Xóa
+                <>
+                  <Button type='primary' danger className='customDeleteButton'>
+                    <Flex wrap='wrap' gap={3}>
+                      Xóa
+                      {selectedRowKeys.length > 0 ? (
+                        <span>({selectedRowKeys.length})</span>
+                      ) : (
+                        ''
+                      )}
+                    </Flex>
                   </Button>
-                  <ButtonOk
-                    type='primary'
-                    icon={<FiPlus />}
-                    onClick={(id) => navigate(`${PATH.NEWEMPLOYEE}`)}
-                  >
-                    Thêm mới
-                  </ButtonOk>
-                </Flex>
+                </>
               }
             >
               <div className='table-responsive'>
-                <BaseTable
-                  columns={columns}
-                  data={dataEmployee}
-                  rowKey={(record) => record.id}
-                  onRow={(record, rowIndex) => {
-                    return {
-                      onDoubleClick: (event) => {
-                        console.log('bam')
-                        navigate(`${PATH.EMPLOYEE}/1`)
-                      }
-                    }
-                  }}
-                  selectedRowKeys={selectedRowKeys}
-                  setSelectedRowKeys={setSelectedRowKeys}
-                  className='ant-border-space'
+                <AgGridTable
+                  colDefs={colDefs}
+                  rowData={dataEmployee}
+                  skip={skip}
+                  take={take}
+                  setTake={setTake}
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
                 />
               </div>
             </Card>
