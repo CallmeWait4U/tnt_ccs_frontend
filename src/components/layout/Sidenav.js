@@ -97,6 +97,17 @@ const Sidenav = ({ keySideNav }) => {
       ]
     )
   ]
+  const openKey =
+    keySideNav === 'customer' ||
+    keySideNav === 'dashboard' ||
+    keySideNav === 'activity' ||
+    keySideNav === 'message'
+      ? keySideNav
+      : keySideNav === 'employee' ||
+          keySideNav === 'product' ||
+          keySideNav === 'phase'
+        ? 'organization'
+        : 'complain'
   const menuItemsForCustomer = [
     getItem(
       <NavLink to={PATH.CUSTOMER}>Danh sách khiếu nại</NavLink>,
@@ -133,7 +144,7 @@ const Sidenav = ({ keySideNav }) => {
           // openKeys={openKeys}
           // onOpenChange={onOpenChange}
           defaultSelectedKeys={[keySideNav]}
-          defaultOpenKeys={[keySideNav]}
+          defaultOpenKeys={[openKey]}
           mode='inline'
           items={role === 'admin' ? menuItems : menuItemsForCustomer}
         />

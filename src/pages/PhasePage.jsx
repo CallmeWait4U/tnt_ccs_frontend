@@ -5,6 +5,7 @@ const PhasePage = () => {
   return (
     <Main
       pageProps={{
+        keySideNav: 'phase',
         namePage: 'Quản lý giai đoạn',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },

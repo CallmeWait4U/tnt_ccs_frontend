@@ -5,7 +5,7 @@ const ComplaintPage = () => {
   return (
     <Main
       pageProps={{
-        keySideNav: 'complaint',
+        keySideNav: 'complain-list',
         namePage: 'Quản lý khiếu nại',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },

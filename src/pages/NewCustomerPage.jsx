@@ -5,6 +5,7 @@ const NewCustomerPage = () => {
   return (
     <Main
       pageProps={{
+        keyNavbar: 'customer',
         namePage: 'Quản lý khách hàng',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },

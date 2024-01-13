@@ -5,6 +5,7 @@ const ProductsPage = () => {
   return (
     <Main
       pageProps={{
+        keyNavbar: 'product',
         namePage: 'Quản lý sản phẩm',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
