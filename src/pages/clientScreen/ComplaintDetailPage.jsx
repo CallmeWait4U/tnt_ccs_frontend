@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import Main from '../components/layout/Main'
-import { PATH, ROLE } from '../contants/common'
+import { PATH, ROLE } from '../../contants/common'
 
-import ComplaintDetail from '../features/complaintManagement/detail'
+import Main from '../../components/layout/Main'
 
-const ComplaintDetailPage = () => {
+const ClientComplaintDetailPage = () => {
   const location = useLocation()
   const getCode = () => {
     return location.pathname.split('/')[2]
@@ -12,25 +11,25 @@ const ComplaintDetailPage = () => {
 
   return (
     <Main
-      role={ROLE.ADMIN}
+      role={ROLE.CUSTOMER}
       pageProps={{
-        keySideNav: 'complaint',
         namePage: 'Quản lý khiếu nại',
+        keySideNav: 'complaint',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           {
             title: (
-              <a href={PATH.COMPLAINT} style={{ color: 'black' }}>
+              <a href={PATH.ACTIVITY} style={{ color: 'black' }}>
                 Quản lý khiếu nại
               </a>
             )
           },
-          { title: getCode() }
+          { title: `Chi tiết khiếu nại${getCode()}` }
         ]
       }}
     >
-      <ComplaintDetail />
+      <div>Chi tiết khiếu nại</div>
     </Main>
   )
 }
-export default ComplaintDetailPage
+export default ClientComplaintDetailPage

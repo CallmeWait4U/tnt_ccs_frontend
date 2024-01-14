@@ -1,11 +1,13 @@
 import Main from '../components/layout/Main'
+import { ROLE } from '../contants/common'
 import ComplaintManagement from '../features/complaintManagement'
 
 const ComplaintPage = () => {
   return (
     <Main
+      role={ROLE.ADMIN}
       pageProps={{
-        keySideNav: 'complaint',
+        keySideNav: 'complain-list',
         namePage: 'Quản lý khiếu nại',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
