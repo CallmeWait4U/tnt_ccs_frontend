@@ -8,7 +8,7 @@ import Sidenav from './Sidenav'
 
 const { Header: AntHeader, Content, Sider } = Layout
 
-const Main = ({ children, pageProps }) => {
+const Main = ({ children, pageProps, role }) => {
   const [visible, setVisible] = useState(false)
   const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
@@ -45,7 +45,7 @@ const Main = ({ children, pageProps }) => {
           bottom: 0
         }}
       >
-        <Sidenav keySideNav={keySideNav} />
+        <Sidenav keySideNav={keySideNav} role={role} />
       </Sider>
       <Layout className={`layout-dashboard `}>
         <Affix>

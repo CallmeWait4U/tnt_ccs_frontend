@@ -23,6 +23,12 @@ import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import ProductsPage from '../pages/ProductPage'
 import SignInPage from '../pages/SignInPage'
+import ClientBillDetailPage from '../pages/clientScreen/BillDetailPage'
+import ClientBillPage from '../pages/clientScreen/BillPage'
+import ClientComplaintPage from '../pages/clientScreen/ComplaintPage'
+import ClientProfilePage from '../pages/clientScreen/ProfilePage'
+import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
+import ClientQuotePage from '../pages/clientScreen/QuotePage'
 import PrivateRoute from './PrivateRoute'
 
 const withPrivateRoute = (Component) => {
@@ -101,6 +107,34 @@ const routesLayout = [
   {
     path: PATH.PROFILE,
     element: withPrivateRoute(ProfilePage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.COMPLAINT,
+    element: withPrivateRoute(ClientComplaintPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.COMPLAINTDETAIL,
+    element: withPrivateRoute(ActivityPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.BILL,
+    element: withPrivateRoute(ClientBillPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.BILLDETAIL,
+    element: withPrivateRoute(ClientBillDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.QUOTE,
+    element: withPrivateRoute(ClientQuotePage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.QUOTEDETAIL,
+    element: withPrivateRoute(ClientQuoteDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.PROFILE,
+    element: withPrivateRoute(ClientProfilePage)()
   }
 ]
 

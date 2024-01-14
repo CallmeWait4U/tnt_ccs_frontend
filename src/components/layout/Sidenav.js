@@ -12,9 +12,9 @@ import {
 } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
-import { PATH } from '../../contants/common'
+import { PATH, ROLE } from '../../contants/common'
 
-const Sidenav = ({ keySideNav }) => {
+const Sidenav = ({ keySideNav, role }) => {
   // const { pathname } = useLocation()
   // const page = pathname.replace('/', '')
   // const [selectedKey, setSelectedKey] = useState('dashboard')
@@ -27,17 +27,7 @@ const Sidenav = ({ keySideNav }) => {
       type
     }
   }
-  // const mapMenuItem = [
-  //   { 1: 'customer' },
-  //   { 2: 'dashboard' },
-  //   { 3: 'activity' },
-  //   { 4: 'employee' },
-  //   { 5: 'product' },
-  //   { 6: 'phase' },
-  //   { 7: 'complain-list' },
-  //   { 8: 'complain-classify' }
-  // ]
-  const role = 'admin'
+
   const rootSubmenuKeys = ['organization', 'complain']
   const [openKeys, setOpenKeys] = useState(['organization'])
 
@@ -49,7 +39,7 @@ const Sidenav = ({ keySideNav }) => {
       setOpenKeys(keys)
     }
   }
-  const menuItems = [
+  const menuItemsForAdmin = [
     getItem(
       <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>,
       'customer',
@@ -97,6 +87,68 @@ const Sidenav = ({ keySideNav }) => {
       ]
     )
   ]
+  const menuItemsEmployee = [
+    getItem(
+      <NavLink to={PATH.CUSTOMER}>Quản lý khách hàng</NavLink>,
+      'customer',
+      <FiUsers size={25} />
+    ),
+    getItem(
+      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
+      'dashboard',
+      <FiPieChart size={25} />
+    ),
+    getItem(
+      <NavLink to={PATH.ACTIVITY}>Quản lý hoạt động</NavLink>,
+      'activity',
+      <FiRefreshCw size={25} />
+    ),
+
+    getItem(
+      <NavLink>Quản lý khiếu nại</NavLink>,
+      'complain',
+      <FiAlertCircle size={25} />,
+      [
+        getItem(
+          <NavLink to={PATH.COMPLAINT}>Danh sách khiếu nại</NavLink>,
+          'complain-list'
+        ),
+        getItem(
+          <NavLink to={PATH.TYPECOMPLAINT}>Phân loại khiếu nại</NavLink>,
+          'complain-classify'
+        )
+      ]
+    )
+  ]
+
+  const menuItemsForCustomer = [
+    getItem(
+      <NavLink to={PATH.CUSTOME_URL.COMPLAINT}>Danh sách khiếu nại</NavLink>,
+      'complaint',
+      <FiAlertCircle size={25} />
+    ),
+    getItem(
+      <NavLink to={PATH.CUSTOME_URL.BILL}>Danh sách hóa đơn</NavLink>,
+      'bill',
+      <FiFileText size={25} />
+    ),
+    getItem(
+      <NavLink to={PATH.CUSTOME_URL.QUOTE}>Danh sách báo giá</NavLink>,
+      'quote',
+      <FiFileMinus size={25} />
+    ),
+    getItem(
+      <NavLink to={PATH.CUSTOME_URL.MESSAGE}>Tin nhắn</NavLink>,
+      'message',
+      <FiMessageSquare size={25} />
+    )
+  ]
+  const menuItems =
+    role === ROLE.ADMIN
+      ? menuItemsForAdmin
+      : role === ROLE.EMPLOYEE
+        ? menuItemsEmployee
+        : menuItemsForCustomer
   const openKey =
     keySideNav === 'customer' ||
     keySideNav === 'dashboard' ||
@@ -108,28 +160,6 @@ const Sidenav = ({ keySideNav }) => {
           keySideNav === 'phase'
         ? 'organization'
         : 'complain'
-  const menuItemsForCustomer = [
-    getItem(
-      <NavLink to={PATH.CUSTOMER}>Danh sách khiếu nại</NavLink>,
-      'complaint',
-      <FiAlertCircle size={25} />
-    ),
-    getItem(
-      <NavLink to={PATH.DASHBOARD}>Danh sách hóa đơn</NavLink>,
-      'bill',
-      <FiFileText size={25} />
-    ),
-    getItem(
-      <NavLink to={PATH.ACTIVITY}>Danh sách báo giá</NavLink>,
-      'pricequote',
-      <FiFileMinus size={25} />
-    ),
-    getItem(
-      <NavLink to={PATH.ACTIVITY}>Tin nhắn</NavLink>,
-      'message',
-      <FiMessageSquare size={25} />
-    )
-  ]
   return (
     <>
       <div className='flex flex-row items-center border-b-2 border-slate-300 p-4'>

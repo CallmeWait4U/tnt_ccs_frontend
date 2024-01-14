@@ -1,9 +1,11 @@
 import Main from '../components/layout/Main'
+import { ROLE } from '../contants/common'
 import EmployeeDetail from '../features/employeeManagement/detail/EmployeeDetail'
 
 const EmployeeDetailPage = () => {
   return (
     <Main
+      role={ROLE.ADMIN}
       pageProps={{
         keySideNav: 'employee',
         namePage: 'Quản lý tổ chức',
