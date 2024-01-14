@@ -13,6 +13,7 @@ import NewCustomerPage from '../pages/NewCustomerPage'
 import ProfilePage from '../pages/ProfilePage'
 
 import BussinessRegisterPage from '../pages/BusinessRegisterPage'
+import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
 import EmployeeDetailPage from '../pages/EmployeeDetailPage'
@@ -99,7 +100,10 @@ const routesLayout = [
     path: PATH.COMPLAINTDETAIL,
     element: withPrivateRoute(ComplaintDetailPage)()
   },
-
+  {
+    path: PATH.COMPLAINTCLASSIFY,
+    element: withPrivateRoute(ComplaintClassifyPage)()
+  },
   {
     path: PATH.PHASE,
     element: withPrivateRoute(PhasePage)()
