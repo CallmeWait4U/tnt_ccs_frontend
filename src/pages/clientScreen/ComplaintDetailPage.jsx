@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
-import { PATH, ROLE } from '../../contants/common'
-
 import Main from '../../components/layout/Main'
+import { PATH, ROLE } from '../../contants/common'
+import ClientComplaintDetail from '../../features/clientScreen/complaintManagement/detail'
 
 const ClientComplaintDetailPage = () => {
   const location = useLocation()
@@ -28,7 +28,7 @@ const ClientComplaintDetailPage = () => {
         ]
       }}
     >
-      <div>Chi tiết khiếu nại</div>
+      <ClientComplaintDetail />
     </Main>
   )
 }

@@ -255,7 +255,9 @@ const ClientComplaintManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) =>
+                    navigate(`${PATH.CUSTOME_URL.COMPLAINT}/1`, { state: rows })
+                  }
                 />
               </div>
             </Card>

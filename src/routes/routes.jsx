@@ -25,6 +25,7 @@ import ProductsPage from '../pages/ProductPage'
 import SignInPage from '../pages/SignInPage'
 import ClientBillDetailPage from '../pages/clientScreen/BillDetailPage'
 import ClientBillPage from '../pages/clientScreen/BillPage'
+import ClientComplaintDetailPage from '../pages/clientScreen/ComplaintDetailPage'
 import ClientComplaintPage from '../pages/clientScreen/ComplaintPage'
 import ClientProfilePage from '../pages/clientScreen/ProfilePage'
 import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
@@ -114,7 +115,7 @@ const routesLayout = [
   },
   {
     path: PATH.CUSTOME_URL.COMPLAINTDETAIL,
-    element: withPrivateRoute(ActivityPage)()
+    element: withPrivateRoute(ClientComplaintDetailPage)()
   },
   {
     path: PATH.CUSTOME_URL.BILL,
