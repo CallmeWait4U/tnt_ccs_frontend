@@ -11,7 +11,7 @@ const ComplaintClassifyPage = () => {
         namePage: 'Quản lý khiếu nại',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Quản lý khiếu nại' }
+          { title: 'Phân loại khiếu nại' }
         ]
       }}
     >
