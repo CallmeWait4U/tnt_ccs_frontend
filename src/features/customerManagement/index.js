@@ -247,12 +247,10 @@ const CustomerManagement = () => {
                 fontWeight: '700'
               }}
             >
-              {' '}
               Danh sách khách hàng
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            {/* <Dropdown menu={{ itemsTypeCustomer }} placement='bottomLeft'> */}
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
@@ -261,7 +259,6 @@ const CustomerManagement = () => {
             >
               Thêm mới
             </ButtonOk>
-            {/* </Dropdown> */}
           </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>

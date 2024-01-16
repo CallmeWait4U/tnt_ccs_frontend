@@ -1,39 +1,34 @@
-import { Button, Card, Col, Flex, Row } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 
 // Images
-import { Typography } from 'antd'
-import { FiPlus } from 'react-icons/fi'
-import { RiInformationFill } from 'react-icons/ri'
+import { AndroidOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Input, Row, Tabs, Typography } from 'antd'
+import { FiCheckSquare } from 'react-icons/fi'
+import { MdModeEditOutline } from 'react-icons/md'
 import { TbTrashFilled } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
-import AgGridTable from '../../components/aggrid/AgGridTable'
-import { PATH } from '../../contants/common'
-import { dataComplaint } from '../../dataMock/DataComlaint'
+const problems = [
+  'Sản phẩm bị lỗi',
+  'Sản phẩm không đúng mô tả',
+  'Sản phẩm không đúng kích thước',
+  'Sản phẩm không đúng màu sắc',
+  'Sản phẩm không đúng số lượng',
+  'Sản phẩm không đúng chất lượng'
+]
 
-const ComplaintClassifytManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-  const [skip, setSkip] = useState(0)
-  const [take, setTake] = useState(10)
-  const navigate = useNavigate()
-  const { Title } = Typography
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
-  const ActionComponent = (data) => {
-    return (
+const ActionComponent = (data) => {
+  return (
+    <Col span={4}>
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
           type='primary'
           shape='circle'
           style={{ backgroundColor: 'rgb(255,225,225)' }}
+          size='small'
         >
           <TbTrashFilled
             color='red'
-            size={18}
+            size={14}
             onClick={() => console.log('trash')}
           />
         </Button>
@@ -41,228 +36,174 @@ const ComplaintClassifytManagement = () => {
           type='primary'
           shape='circle'
           style={{ backgroundColor: 'rgb(220,245,255)' }}
+          size='small'
         >
-          <RiInformationFill
-            color='00AEEF'
-            size={24}
-            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
-          />
+          <MdModeEditOutline color='00AEEF' size={16} />
         </Button>
       </div>
-    )
-  }
+    </Col>
+  )
+}
 
-  const colDefs = [
+const ChildrenComponent = () => {
+  return (
+    <div>
+      <Form>
+        <Row gutter={16} style={{ marginBottom: '30px' }}>
+          <Col span={3} style={{ textAlign: 'right' }}>
+            Loại khiếu nại
+          </Col>
+          <Col span={4}>
+            <Input />
+          </Col>
+          <Col span={3}>
+            <ActionComponent />
+          </Col>
+        </Row>
+
+        <Row gutter={40}>
+          <Col span={12}>
+            <Row>
+              <Col span={20}>
+                <span>Những vấn đề bạn gặp với sản phẩm?</span>
+              </Col>
+              <ActionComponent />
+            </Row>
+            {problems.map((item, index) => (
+              <Col span={24} key={index}>
+                <div style={{ display: 'flex', marginLeft: 10 }}>
+                  <FiCheckSquare />{' '}
+                  <span style={{ marginLeft: 10 }}>{item}</span>
+                </div>
+              </Col>
+            ))}
+            <Row style={{ marginTop: '20px' }}>
+              <Col span={20}>
+                <span>Hình ảnh minh họa</span>
+              </Col>
+              <ActionComponent />
+            </Row>
+            <Col span={24}>
+              <div>
+                <button
+                  style={{
+                    marginLeft: 10,
+                    border: '1px',
+                    border: '2px solid black',
+                    borderRadius: '5px',
+                    background: '#8b8989',
+                    padding: '2px 5px'
+                  }}
+                >
+                  Tải hình ảnh xuống
+                </button>
+              </div>
+            </Col>
+
+            <Row style={{ margin: '20px 0 5px 0' }}>
+              <Col span={20}>
+                <span>Mô tả chi tiết</span>
+              </Col>
+              <ActionComponent />
+            </Row>
+
+            <Col span={24}>
+              <Input.TextArea style={{ height: '100px' }}></Input.TextArea>
+            </Col>
+
+            <Row style={{ marginTop: '20px' }}>
+              <Col span={24}>
+                <div>
+                  <button
+                    style={{
+                      marginLeft: 10,
+                      border: '2px solid black',
+                      borderRadius: '5px',
+                      background: '#8b8989',
+                      padding: '2px 5px'
+                    }}
+                  >
+                    Thêm mục
+                  </button>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={12}>
+            <Row style={{ marginBottom: '5px' }}>
+              <Col span={20}>
+                <span>Ghi chú</span>
+              </Col>
+              <ActionComponent />
+            </Row>
+            <Col span={24}>
+              <Input.TextArea style={{ height: '100px' }}></Input.TextArea>
+            </Col>
+          </Col>
+        </Row>
+      </Form>
+    </div>
+  )
+}
+const ComplaintClassifytManagement = () => {
+  const items = [
     {
-      headerName: 'STT',
-      valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
-      minWidth: 120,
-      width: 120,
-      sortable: false,
-      filter: false,
-      checkboxSelection: true,
-      headerCheckboxSelection: true,
-      pinned: 'left',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      }
+      key: '1',
+      label: <h3>Sản phẩm</h3>,
+      children: <ChildrenComponent />
     },
     {
-      headerName: 'MÃ KHIẾU NẠI',
-      field: 'complaintCode',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      key: '2',
+      label: <h3>Nhân viên</h3>,
+      children: <ChildrenComponent />,
+      icon: <AndroidOutlined />
     },
     {
-      headerName: 'TÊN KHÁCH HÀNG',
-      field: 'customerName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'customerCode',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'LOẠI KHIẾU NẠI',
-      field: 'typeComplaint',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 250,
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Sản phẩm',
-            label: 'Sản phẩm'
-          },
-          {
-            id: '2',
-            value: 'Nhân viên',
-            label: 'Nhân viên'
-          },
-          {
-            id: '3',
-            value: 'Vận chuyển',
-            label: 'Vận chuyển'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'NGÀY GỬI',
-      field: 'date',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 200,
-      filter: AgGridCustomDateFilter
-    },
-    {
-      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
-      field: 'employeeName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'TRẠNG THÁI',
-      field: 'status',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 250,
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Chưa xử lí',
-            label: 'Chưa xử lí'
-          },
-          {
-            id: '2',
-            value: 'Đang xử lí',
-            label: 'Đang xử lí'
-          },
-          {
-            id: '3',
-            value: 'Đã xử lí',
-            label: 'Đã xử lí'
-          },
-          {
-            id: '4',
-            value: 'Xử lí lại',
-            label: 'Xử lí lại'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'THAO TÁC',
-      field: 'action',
-      cellRenderer: (p) => ActionComponent(p.data),
-      minWidth: 150,
-      width: 150,
-      pinned: 'right',
-      cellStyle: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }
+      key: '3',
+      label: <h3>Vận chuyển</h3>,
+      children: <ChildrenComponent />,
+      icon: <AndroidOutlined />
     }
   ]
-
+  const { Title } = Typography
   return (
-    <>
-      <div className='tabled'>
-        <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
-          <Col md={20}>
-            <Title
-              level={4}
-              style={{
-                marginLeft: '10px',
-                marginTop: '4px',
-                fontWeight: '700'
-              }}
-            >
-              {' '}
-              Danh sách khiếu nại
-            </Title>
-          </Col>
-          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <ButtonOk
-              type='primary'
-              icon={<FiPlus />}
-              onClick={() => navigate('')}
-              style={{ fontSize: '14px', width: '120px', height: '42px' }}
-            >
-              Thêm mới
-            </ButtonOk>
-          </Col>
-        </Row>
-        <Row gutter={[24, 0]} style={{ height: '650px' }}>
-          <Col xs='24' xl={24} style={{ height: '650px' }}>
-            <Card
-              bordered={false}
-              className='criclebox tablespace mb-24'
-              extra={
-                <>
-                  <Button type='primary' danger className='customDeleteButton'>
-                    <Flex wrap='wrap' gap={3}>
-                      Xóa
-                      {selectedRowKeys.length > 0 ? (
-                        <span>({selectedRowKeys.length})</span>
-                      ) : (
-                        ''
-                      )}
-                    </Flex>
-                  </Button>
-                </>
-              }
-            >
-              <div className='table-responsive'>
-                <AgGridTable
-                  colDefs={colDefs}
-                  rowData={dataComplaint}
-                  skip={skip}
-                  take={take}
-                  setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </>
+    <div className='tabled'>
+      <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
+        <Title level={4}>Phân loại khiếu nại</Title>
+      </Row>
+      <Card>
+        <Tabs defaultActiveKey='2' items={items} title='ngọ' />
+        <ButtonOk
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 240
+          }}
+        >
+          Chỉnh sửa
+        </ButtonOk>
+        <ButtonOk
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 90,
+            background: '#F58220'
+          }}
+        >
+          Phân loại khiếu nại
+        </ButtonOk>
+        <ButtonOk
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+            background: '#F43F5E'
+          }}
+        >
+          Xóa
+        </ButtonOk>
+      </Card>
+    </div>
   )
 }
 export default ComplaintClassifytManagement
