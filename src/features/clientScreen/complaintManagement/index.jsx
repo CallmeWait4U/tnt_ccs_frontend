@@ -16,7 +16,6 @@ import { PATH } from '../../../contants/common'
 import { dataComplaint } from '../../../dataMock/DataComlaint'
 
 const ClientComplaintManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
@@ -255,7 +254,9 @@ const ClientComplaintManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) =>
+                    navigate(`${PATH.CUSTOME_URL.COMPLAINT}/1`, { state: rows })
+                  }
                 />
               </div>
             </Card>

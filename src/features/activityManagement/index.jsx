@@ -1,4 +1,5 @@
-import { Button, Card, Col, Flex, Row, Typography } from 'antd'
+import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
@@ -113,6 +114,7 @@ const ActivityManagement = () => {
     }
   ]
 
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       <div className='tabled'>
@@ -134,7 +136,7 @@ const ActivityManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.ACTIVITY}`)}
+              onClick={() => setIsOpen(true)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -168,13 +170,55 @@ const ActivityManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) => navigate(`${PATH.ACTIVITY}/1`)}
                 />
               </div>
             </Card>
           </Col>
         </Row>
       </div>
+      {isOpen && (
+        <Modal
+          open={isOpen}
+          footer={null}
+          closeIcon={null}
+          title={
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px',
+                alignContent: 'space-between'
+              }}
+            >
+              <div style={{ width: '90%' }}>
+                <h2>Thêm loại hoạt động</h2>
+              </div>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <Button onClick={() => setIsOpen(false)}>Hủy </Button>
+
+                <Button style={{ background: '#F58220' }}>Thêm</Button>
+              </div>
+            </div>
+          }
+        >
+          <Form layout='vertical'>
+            <Row style={{ width: '100%' }}>
+              <Col span={24}>
+                <Form.Item label='Tên loại hoạt động'>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item label='Mô tả hoạt động'>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </Modal>
+      )}
     </>
   )
 }

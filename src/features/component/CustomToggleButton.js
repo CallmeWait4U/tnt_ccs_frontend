@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import React, { useState } from 'react'
 
-const CustomToggleButton = () => {
+const CustomToggleButton = ({ options }) => {
   const [selectedTag, setSelectedTag] = useState('option1')
 
   const handleTagChange = (tag) => {
@@ -32,7 +32,7 @@ const CustomToggleButton = () => {
         }}
         onClick={() => handleTagChange('option1')}
       >
-        Tất cả
+        {options[0]}
       </Button>
       <Button
         type='primary'
@@ -46,7 +46,7 @@ const CustomToggleButton = () => {
         }}
         onClick={() => handleTagChange('option2')}
       >
-        Khách hàng của tôi
+        {options[1]}
       </Button>
     </div>
   )

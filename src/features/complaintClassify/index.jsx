@@ -15,7 +15,7 @@ import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import { dataComplaint } from '../../dataMock/DataComlaint'
 
-const ComplaintManagement = () => {
+const ComplaintClassifytManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -213,6 +213,7 @@ const ComplaintManagement = () => {
                 fontWeight: '700'
               }}
             >
+              {' '}
               Danh sách khiếu nại
             </Title>
           </Col>
@@ -254,9 +255,7 @@ const ComplaintManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) =>
-                    navigate(`${PATH.COMPLAINT}/1`, { state: rows })
-                  }
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
                 />
               </div>
             </Card>
@@ -266,4 +265,4 @@ const ComplaintManagement = () => {
     </>
   )
 }
-export default ComplaintManagement
+export default ComplaintClassifytManagement

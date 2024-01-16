@@ -81,7 +81,7 @@ const Sidenav = ({ keySideNav, role }) => {
           'complain-list'
         ),
         getItem(
-          <NavLink to={PATH.TYPECOMPLAINT}>Phân loại khiếu nại</NavLink>,
+          <NavLink to={PATH.COMPLAINTCLASSIFY}>Phân loại khiếu nại</NavLink>,
           'complain-classify'
         )
       ]
