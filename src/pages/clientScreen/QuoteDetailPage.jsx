@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
+import ClientQuoteDetail from '../../features/clientScreen/quoteManagement/detail'
 
 const ClientQuoteDetailPage = () => {
   const location = useLocation()
@@ -28,7 +29,7 @@ const ClientQuoteDetailPage = () => {
         ]
       }}
     >
-      <div>Chi tiết báo giá</div>
+      <ClientQuoteDetail />
     </Main>
   )
 }

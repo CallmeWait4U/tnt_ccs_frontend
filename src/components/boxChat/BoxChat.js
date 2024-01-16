@@ -53,7 +53,7 @@ const ChatBox = () => {
   return (
     <Chat
       placeholder='Type your message...'
-      style={{ width: '100%' }}
+      style={{ width: '100%', hight: '100%', background: 'white' }}
       navbar={{
         title: (
           <div style={{ display: 'flex', alignItems: 'center' }}>

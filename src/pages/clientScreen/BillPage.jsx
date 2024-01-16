@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
+import ClientBillManagement from '../../features/clientScreen/billManagement'
 
 const ClientBillPage = () => {
   const location = useLocation()
@@ -28,7 +29,7 @@ const ClientBillPage = () => {
         ]
       }}
     >
-      <div>Danh sách hóa đơn</div>
+      <ClientBillManagement />
     </Main>
   )
 }

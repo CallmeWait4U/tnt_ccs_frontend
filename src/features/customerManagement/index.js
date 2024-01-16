@@ -269,7 +269,11 @@ const CustomerManagement = () => {
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={<CustomToggleButton />}
+              title={
+                <CustomToggleButton
+                  options={['Tất cả', 'Khách hàng của tôi']}
+                />
+              }
               extra={
                 <>
                   <Button type='primary' danger className='customDeleteButton'>
@@ -292,7 +296,7 @@ const CustomerManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) => navigate(`${PATH.CUSTOMER}/1`)}
                 />
               </div>
             </Card>
