@@ -77,8 +77,9 @@ const CustomerLanding = () => {
                 color: 'white',
                 fontSize: 20
               }}
+              onClick={() => navigate(`${PATH.SIGNIN}`)}
             >
-              Đăng ký{' '}
+              Đăng nhập
             </Button>
             <br />
             <div
