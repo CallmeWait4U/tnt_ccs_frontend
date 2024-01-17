@@ -1,12 +1,15 @@
 import { Button, Divider, Layout, theme } from 'antd'
 import React from 'react'
 import { FiMail, FiPhone } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
+import { PATH } from '../../contants/common'
 const { Header, Content, Footer } = Layout
 const CustomerLanding = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
+  const navigate = useNavigate()
   return (
     <Layout
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
@@ -32,7 +35,10 @@ const CustomerLanding = () => {
           <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
-          <Button style={{ background: '#7364FF', color: 'white' }}>
+          <Button
+            style={{ background: '#7364FF', color: 'white' }}
+            onClick={() => navigate(`${PATH.SIGNIN}`)}
+          >
             Đăng nhập
           </Button>
         </div>
