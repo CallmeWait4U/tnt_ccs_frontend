@@ -1,15 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import {
-  Button,
-  Form,
-  Grid,
-  Image,
-  Input,
-  Layout,
-  Typography,
-  message,
-  theme
-} from 'antd'
+import { Button, Form, Grid, Image, Input, Layout, message, theme } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import Card from 'antd/lib/card/Card'
 import React, { useState } from 'react'
@@ -23,7 +13,7 @@ const { Header, Content, Footer } = Layout
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
-const { Text, Link } = Typography
+// const { Text, Link } = Typography
 const SignIn = () => {
   const { token } = useToken()
   const navigate = useNavigate()

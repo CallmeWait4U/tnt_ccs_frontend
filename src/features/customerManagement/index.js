@@ -72,7 +72,9 @@ const CustomerManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.CUSTOMER}/${data.code}`)}
+            onClick={() =>
+              navigate(`${PATH.CUSTOMER}/${data.code}&${data.isBusiness}`)
+            }
           />
         </Button>
       </div>

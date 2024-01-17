@@ -1,0 +1,42 @@
+.detailCustomer {
+    height: 90%;
+    /* overflow-y: scroll; */
+}
+
+.detailCustomer .ant-card-head-title {
+    color: #00AEEF;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.detailCustomer .ant-tabs-tab-btn {
+    padding-left: 17px;
+    padding-right: 17px;
+    color: #BFBFBF;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.detailCustomer .ant-tabs-tab .ant-tabs-tab-btn:active {
+    color: #00AEEF;
+}
+
+.detailCustomer .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #00AEEF;
+}
+
+.detailCustomer .ant-tabs-ink-bar {
+    border-bottom: 2px solid #00AEEF;
+}
+
+.detailCustomer .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+    margin: 0px;
+}
+
+.detailCustomer .ant-tabs .ant-tabs-content-holder {
+    padding-left: 20px;
+    padding-right: 20px;
+}

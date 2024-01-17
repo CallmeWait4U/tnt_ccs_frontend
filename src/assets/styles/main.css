@@ -2195,9 +2195,6 @@ body {
 .signin .ant-form-item-control-input button.ant-switch {
   margin-right: 5px;
 }
-.ant-switch .ant-switch-inner {
-  background-color: blue !important;
-}
 .text-dark {
   color: #141414;
 }
@@ -3103,4 +3100,24 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   svg
   path {
   fill: #8c8c8c;
+}
+
+.ant-select-disabled.ant-select .ant-select-selector {
+  cursor: default !important;
+}
+
+.ant-select-disabled.ant-select .ant-select-selector input {
+  cursor: default !important;
+}
+
+.ant-input-disabled.ant-input {
+  cursor: default !important;
+}
+
+.ant-picker .ant-picker-input input {
+  cursor: default !important;
+}
+
+.ant-picker.ant-picker-disabled {
+  cursor: default;
 }

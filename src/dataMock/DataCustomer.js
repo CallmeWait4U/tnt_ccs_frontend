@@ -9,7 +9,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '2',
@@ -20,7 +21,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '3',
@@ -31,7 +33,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '4',
@@ -42,7 +45,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '5',
@@ -53,7 +57,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '6',
@@ -64,7 +69,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '7',
@@ -75,7 +81,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '8',
@@ -86,7 +93,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '9',
@@ -97,7 +105,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '10',
@@ -108,7 +117,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '11',
@@ -119,7 +129,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '12',
@@ -130,7 +141,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '13',
@@ -141,7 +153,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '14',
@@ -152,7 +165,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
 
   {
@@ -164,28 +178,44 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '16',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '17',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '18',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '1',
@@ -196,7 +226,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '2',
@@ -207,7 +238,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '3',
@@ -218,7 +250,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '4',
@@ -229,7 +262,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '5',
@@ -240,7 +274,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '6',
@@ -251,7 +286,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '7',
@@ -262,7 +298,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '8',
@@ -273,7 +310,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '9',
@@ -284,7 +322,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '10',
@@ -295,7 +334,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '11',
@@ -306,7 +346,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '12',
@@ -317,7 +358,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '13',
@@ -328,7 +370,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '14',
@@ -339,7 +382,8 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật Thịnh',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
 
   {
@@ -351,27 +395,43 @@ export const dataCustomer = [
     number: '0122323233',
     employee: 'Phạm Nhật',
     source: 'Landing Page',
-    phase: 'Tiềm năng'
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '16',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: false
   },
   {
     id: '17',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: true
   },
   {
     id: '18',
     avatar: face2,
     code: '1234',
     name: 'Nguyễn Hà Yến Nhi',
-    email: 'ny@thinhpham.com'
+    email: 'ny@thinhpham.com',
+    number: '0122323233',
+    employee: 'Phạm Nhật',
+    source: 'Landing Page',
+    phase: 'Tiềm năng',
+    isBusiness: false
   }
 ]

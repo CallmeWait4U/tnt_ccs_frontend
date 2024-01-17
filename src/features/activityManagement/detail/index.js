@@ -1,9 +1,9 @@
 import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 
 // Images
-
 import { Typography } from 'antd'
 import { useState } from 'react'
+import { AiOutlineCheck } from 'react-icons/ai'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
@@ -43,7 +43,14 @@ const ActivityDetail = () => {
           shape='circle'
           style={{ backgroundColor: 'rgb(220,245,255)' }}
         >
-          <RiInformationFill color='00AEEF' size={24} />
+          <RiInformationFill color='#00AEEF' size={24} />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: '#FEF3E9' }}
+        >
+          <AiOutlineCheck color='#EBB425' size={24} />
         </Button>
       </div>
     )

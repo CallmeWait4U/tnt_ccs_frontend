@@ -5,8 +5,11 @@ import CustomerDetail from '../features/customerManagement/detail'
 
 const CustomerDetailPage = () => {
   const location = useLocation()
+  let isBusiness
   const getCode = () => {
-    return location.pathname.split('/')[2]
+    const info = location.pathname.split('/')[2].split('&')
+    isBusiness = info[1] === 'true' ? true : false
+    return info[0]
   }
 
   return (
@@ -27,7 +30,7 @@ const CustomerDetailPage = () => {
         ]
       }}
     >
-      <CustomerDetail />
+      <CustomerDetail isBusiness={isBusiness} />
     </Main>
   )
 }

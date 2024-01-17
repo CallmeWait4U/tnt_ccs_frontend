@@ -82,7 +82,7 @@ const ProductManagement = () => {
     {
       headerName: 'TÊN SẢN PHẨM',
       field: 'productName',
-      minWidth: 450,
+      minWidth: 400,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -95,7 +95,7 @@ const ProductManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 250,
+      minWidth: 230,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'

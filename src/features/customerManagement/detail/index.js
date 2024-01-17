@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, Row, Tabs } from 'antd'
 
-import { Flex } from 'antd'
+import { Flex, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import ChatBox from '../../../components/boxChat/BoxChat'
@@ -13,14 +13,17 @@ import ActivityHistory from '../moreData/ActivityHistory'
 import AdditionalInformation from '../moreData/AdditionalInformation'
 import CustomerQuoteBill from '../quote-bill'
 import CompanyInformation from './CompanyInformation'
+import './DetailCustomer.css'
 import PersonalInformation from './PersonalInformation'
 
-const CustomerDetail = () => {
-  const [typeCustomer, setTypeCustomer] = useState(1)
+const CustomerDetail = ({ isBusiness }) => {
+  const [typeCustomer, setTypeCustomer] = useState(isBusiness ? 1 : 2)
   const [isShowQuoteForm, setIsShowQuoteForm] = useState(false)
   const [isShowBillForm, setIsShowBillForm] = useState(false)
   const [isShowActivityForm, setIsShowActivityForm] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
+  const { Title } = Typography
+
   const items = [
     {
       label: 'Thông tin bổ sung',
@@ -70,23 +73,50 @@ const CustomerDetail = () => {
   // } = theme.useToken()
   return (
     <>
-      <Row gutter={[8, 16]}>
-        <Col xl={24} xxl={14}>
+      <div className='tabled'>
+        <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
+          <Col md={20}>
+            <Title
+              level={4}
+              style={{
+                marginLeft: '10px',
+                marginTop: '4px',
+                fontWeight: '700'
+              }}
+            >
+              {' '}
+              Chi tiết khách hàng
+            </Title>
+          </Col>
+        </Row>
+      </div>
+      <Row gutter={[8, 16]} className='detailCustomer'>
+        <Col xl={24} xxl={13}>
           <Card
-            title={'Thông tin chi tiết'}
+            title={isBusiness ? 'Thông tin Doanh nghiệp' : 'Thông tin Cá nhân'}
             extra={
               isUpdate ? (
                 <Flex gap='small' align='flex-start' vertical>
                   <Flex gap='small' wrap='wrap'>
                     <Button
                       size={40}
-                      style={{ borderColor: '#F58220', color: '#F58220' }}
+                      style={{
+                        borderColor: '#F58220',
+                        color: '#F58220',
+                        width: '80px',
+                        height: '40px'
+                      }}
                       onClick={() => setIsUpdate(false)}
                     >
                       Hủy
                     </Button>
                     <Button
-                      style={{ background: '#F58220', color: 'white' }}
+                      style={{
+                        background: '#F58220',
+                        color: 'white',
+                        width: '80px',
+                        height: '40px'
+                      }}
                       onClick={() => setIsUpdate(false)}
                       size={40}
                     >
@@ -95,7 +125,22 @@ const CustomerDetail = () => {
                   </Flex>
                 </Flex>
               ) : (
-                <ButtonOk onClick={() => setIsUpdate(true)}>Chỉnh sửa</ButtonOk>
+                <Flex gap='small' align='flex-start' vertical>
+                  <Flex gap='small' wrap='wrap'>
+                    <div style={{ width: '80px' }}></div>
+                    <ButtonOk
+                      onClick={() => setIsUpdate(true)}
+                      style={{
+                        background: '#F58220',
+                        color: 'white',
+                        width: '80px',
+                        height: '40px'
+                      }}
+                    >
+                      Chỉnh sửa
+                    </ButtonOk>
+                  </Flex>
+                </Flex>
               )
             }
           >
@@ -112,7 +157,7 @@ const CustomerDetail = () => {
                     ]}
                   >
                     <StyledSelect
-                      disabled={!isUpdate}
+                      disabled={true}
                       value={typeCustomer}
                       onChange={setTypeCustomer}
                       options={[
@@ -147,7 +192,7 @@ const CustomerDetail = () => {
                       }
                     ]}
                   >
-                    <Input disabled={!isUpdate} />
+                    <Input disabled={true} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -174,13 +219,12 @@ const CustomerDetail = () => {
             </Row>
           </Card>
         </Col>
-        <Col xs={24} sm={24} xl={24} xxl={10}>
+        <Col xs={24} sm={24} xl={24} xxl={11}>
           <Tabs
             defaultActiveKey='1'
             items={items}
             style={{
               background: '#ffffff',
-              padding: '15px',
               borderRadius: '10px'
             }}
           />
