@@ -295,7 +295,12 @@ const CustomerManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => navigate(`${PATH.CUSTOMER}/1`)}
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    navigate(
+                      `${PATH.CUSTOMER}/${params.data.code}&${params.data.isBusiness}`
+                    )
+                  }}
                 />
               </div>
             </Card>

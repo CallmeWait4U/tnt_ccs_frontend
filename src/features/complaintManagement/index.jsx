@@ -254,9 +254,10 @@ const ComplaintManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) =>
-                    navigate(`${PATH.COMPLAINT}/1`, { state: rows })
-                  }
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    navigate(`${PATH.COMPLAINT}/1`, { state: params.data })
+                  }}
                 />
               </div>
             </Card>

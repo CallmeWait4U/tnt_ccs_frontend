@@ -230,6 +230,9 @@ const EmployeeManagement = () => {
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    //
+                  }}
                 />
               </div>
             </Card>

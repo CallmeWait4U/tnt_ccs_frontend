@@ -206,6 +206,9 @@ const ProductManagement = () => {
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    navigate(`${PATH.PRODUCT}/1`)
+                  }}
                 />
               </div>
             </Card>

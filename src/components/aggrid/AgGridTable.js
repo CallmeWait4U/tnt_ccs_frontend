@@ -13,6 +13,7 @@ const AgGridTable = ({
   selectedRow,
   take,
   setTake,
+  onDoubleClicked,
   showPagination = true,
   width = '100%',
   height = '530px'
@@ -71,6 +72,7 @@ const AgGridTable = ({
           onSelectionChanged={(params) =>
             selectedRow(params.api.getSelectedRows())
           }
+          onRowDoubleClicked={(params) => onDoubleClicked(params)}
           pagination={true}
           suppressPaginationPanel={true}
           paginationPageSize={take}

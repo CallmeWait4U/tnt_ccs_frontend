@@ -237,7 +237,10 @@ const ActivityDetail = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setIsShowFormDetail(true)}
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    //
+                  }}
                   height='415px'
                 />
               </div>

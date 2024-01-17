@@ -190,6 +190,9 @@ const PhaseManagement = () => {
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(params) => {
+                    navigate(`${PATH.PHASE}`)
+                  }}
                 />
               </div>
             </Card>
