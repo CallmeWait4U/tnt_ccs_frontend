@@ -1,21 +1,27 @@
-import { Button, Card, Col, Flex, Row, Typography } from 'antd'
+import { Button, Card, Col, Flex, Row } from 'antd'
 import React, { useState } from 'react'
+
+// Images
+import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
+import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
+import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataActivity } from '../../dataMock/DataActivity'
+import { dataComplaint } from '../../dataMock/DataComlaint'
 
-const ActivityManagement = () => {
+const ComplaintManagement = () => {
+  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const navigate = useNavigate()
   const { Title } = Typography
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const ActionComponent = (data) => {
     return (
@@ -39,7 +45,7 @@ const ActivityManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.ACTIVITY}/${data.id}`)}
+            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
           />
         </Button>
       </div>
@@ -63,40 +69,120 @@ const ActivityManagement = () => {
       }
     },
     {
-      headerName: 'TÊN LOẠI HOẠT ĐỘNG',
-      field: 'nameActivity',
-      minWidth: 350,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'MÔ TẢ HOẠT ĐỘNG',
-      field: 'description',
-      maxWidth: 770,
-      wrapText: true,
-      autoHeight: true,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'SỐ LƯỢNG HOẠT ĐỘNG',
-      field: 'total',
-      valueGetter: (p) =>
-        Math.floor(p.data.total)
-          .toString()
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
-      minWidth: 250,
+      headerName: 'MÃ KHIẾU NẠI',
+      field: 'complaintCode',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
+      minWidth: 200,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'number'
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TÊN KHÁCH HÀNG',
+      field: 'customerName',
+      minWidth: 300,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'MÃ KHÁCH HÀNG',
+      field: 'customerCode',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'LOẠI KHIẾU NẠI',
+      field: 'typeComplaint',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 250,
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            value: 'Sản phẩm',
+            label: 'Sản phẩm'
+          },
+          {
+            id: '2',
+            value: 'Nhân viên',
+            label: 'Nhân viên'
+          },
+          {
+            id: '3',
+            value: 'Vận chuyển',
+            label: 'Vận chuyển'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'NGÀY GỬI',
+      field: 'date',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomDateFilter
+    },
+    {
+      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
+      field: 'employeeName',
+      minWidth: 300,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 250,
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            value: 'Chưa xử lí',
+            label: 'Chưa xử lí'
+          },
+          {
+            id: '2',
+            value: 'Đang xử lí',
+            label: 'Đang xử lí'
+          },
+          {
+            id: '3',
+            value: 'Đã xử lí',
+            label: 'Đã xử lí'
+          },
+          {
+            id: '4',
+            value: 'Xử lí lại',
+            label: 'Xử lí lại'
+          }
+        ]
       }
     },
     {
@@ -108,6 +194,7 @@ const ActivityManagement = () => {
       pinned: 'right',
       cellStyle: {
         display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center'
       }
     }
@@ -126,15 +213,14 @@ const ActivityManagement = () => {
                 fontWeight: '700'
               }}
             >
-              {' '}
-              Danh sách loại hoạt động
+              Danh sách khiếu nại
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.ACTIVITY}`)}
+              onClick={() => navigate('')}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -164,11 +250,13 @@ const ActivityManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataActivity}
+                  rowData={dataComplaint}
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) =>
+                    navigate(`${PATH.COMPLAINT}/1`, { state: rows })
+                  }
                 />
               </div>
             </Card>
@@ -178,4 +266,4 @@ const ActivityManagement = () => {
     </>
   )
 }
-export default ActivityManagement
+export default ComplaintManagement

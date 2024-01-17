@@ -1,10 +1,14 @@
-import { Button, Col, Form, Input, Row, Typography } from 'antd'
+import { Button, Col, Form, Input, Row, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
 import { useState } from 'react'
 import { FiCheckSquare } from 'react-icons/fi'
 import { MdRadioButtonChecked } from 'react-icons/md'
 import { ButtonOk } from '../../../assets/styles/button.style'
-import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
+import {
+  StyledDatepicker,
+  StyledModal,
+  StyledSelect
+} from '../../component/ComponentOfForm'
 
 const ComplaintDetail = () => {
   const problems = [
@@ -21,6 +25,77 @@ const ComplaintDetail = () => {
   ]
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const columns = [
+    {
+      title: 'Mã nhân viên',
+      dataIndex: 'code',
+      key: 'code',
+      render: (text) => <Input />
+    },
+    {
+      title: 'Tên nhân viên CSKH',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => <Input />
+    },
+    {
+      title: 'Ngày thực hiện',
+      dataIndex: 'date',
+      key: 'date',
+      render: (text) => <Input />
+    },
+    {
+      title: 'Hoạt động',
+      dataIndex: 'action',
+      key: 'action',
+      render: (text) => <Input />
+    },
+    {
+      title: 'Ghi chú',
+      dataIndex: 'note',
+      key: 'note',
+      render: (text) => <Input />
+    }
+  ]
+
+  const [dataTable, setDataTable] = useState([
+    {
+      index: 1,
+      key: '1',
+      code: 'NV001',
+      name: 'Nguyễn Văn A',
+      date: '20/10/2021',
+      action: 'Xử lí lại',
+      note: 'Không có ghi chú'
+    },
+    {
+      index: 2,
+      key: '2',
+      code: 'NV002',
+      name: 'Nguyễn Văn B',
+      date: '20/10/2021',
+      action: 'Xử lí lại',
+      note: 'Không có ghi chú'
+    }
+  ])
+  const addRow = () => {
+    const maxIndex = dataTable.reduce(
+      (max, item) => (item.index > max ? item.index : max),
+      0
+    )
+    const newItem = {
+      index: maxIndex + 1,
+      key: '2',
+      code: 'NV002',
+      name: 'Nguyễn Văn B',
+      date: '20/10/2021',
+      action: 'Xử lí lại',
+      note: 'Không có ghi chú'
+    }
+
+    setDataTable([...dataTable, newItem])
+  }
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
@@ -36,7 +111,9 @@ const ComplaintDetail = () => {
           >
             Xóa
           </Button>
-          <ButtonOk type='primary'>Lịch sử hoạt động</ButtonOk>
+          <ButtonOk type='primary' onClick={() => setIsOpen(true)}>
+            Lịch sử hoạt động
+          </ButtonOk>
         </Col>
       </Row>
 
@@ -209,6 +286,35 @@ const ComplaintDetail = () => {
           </Row>
         </Form>
       </Card>
+      {isOpen && (
+        <StyledModal
+          title={
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px',
+                alignContent: 'space-between'
+              }}
+            >
+              <div style={{ width: '90%' }}>
+                <h2>Lịch sử hoạt động</h2>
+              </div>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <Button onClick={() => setIsOpen(false)}>Hủy </Button>
+
+                <Button style={{ background: '#F58220' }} onClick={addRow}>
+                  Thêm
+                </Button>
+              </div>
+            </div>
+          }
+          closeIcon={null}
+          open={isOpen}
+          footer={null}
+        >
+          <Table columns={columns} dataSource={dataTable} />
+        </StyledModal>
+      )}
     </div>
   )
 }

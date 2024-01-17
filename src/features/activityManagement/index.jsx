@@ -1,54 +1,22 @@
-import { Button, Card, Col, Flex, Row } from 'antd'
+import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
-
-// Images
-import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataCustomer } from '../../dataMock/DataCustomer'
-import CustomToggleButton from '../component/CustomToggleButton'
+import { dataActivity } from '../../dataMock/DataActivity'
 
-const CustomerManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+const ActivityManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const navigate = useNavigate()
   const { Title } = Typography
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
 
   const ActionComponent = (data) => {
     return (
@@ -72,9 +40,7 @@ const CustomerManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() =>
-              navigate(`${PATH.CUSTOMER}/${data.code}&${data.isBusiness}`)
-            }
+            onClick={() => navigate(`${PATH.ACTIVITY}/${data.id}`)}
           />
         </Button>
       </div>
@@ -98,127 +64,40 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'code',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 200,
+      headerName: 'TÊN LOẠI HOẠT ĐỘNG',
+      field: 'nameActivity',
+      minWidth: 350,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
     },
     {
-      headerName: 'TÊN KHÁCH HÀNG',
-      field: 'name',
-      minWidth: 300,
+      headerName: 'MÔ TẢ HOẠT ĐỘNG',
+      field: 'description',
+      maxWidth: 770,
+      wrapText: true,
+      autoHeight: true,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
     },
     {
-      headerName: 'EMAIL',
-      field: 'email',
+      headerName: 'SỐ LƯỢNG HOẠT ĐỘNG',
+      field: 'total',
+      valueGetter: (p) =>
+        Math.floor(p.data.total)
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
       minWidth: 250,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
-      minWidth: 300,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NGUỒN',
-      field: 'source',
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Landing Page',
-            value: 'Landing Page'
-          },
-          {
-            id: '2',
-            label: 'Tự khai thác',
-            value: 'Tự khai thác'
-          },
-          {
-            id: '3',
-            label: 'Khác',
-            value: 'Khác'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'GIAI ĐOẠN',
-      field: 'phase',
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Tiềm năng',
-            value: 'Tiềm năng'
-          },
-          {
-            id: '2',
-            label: 'Đang liên hệ',
-            value: 'Đang liên hệ'
-          },
-          {
-            id: '3',
-            label: 'Đã báo giá',
-            value: 'Đã báo giá'
-          },
-          {
-            id: '4',
-            label: 'Chính thức',
-            value: 'Chính thức'
-          },
-          {
-            id: '5',
-            label: 'Thân thiết',
-            value: 'Thân thiết'
-          }
-        ]
+        type: 'number'
       }
     },
     {
@@ -230,12 +109,12 @@ const CustomerManagement = () => {
       pinned: 'right',
       cellStyle: {
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center'
       }
     }
   ]
 
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       <div className='tabled'>
@@ -249,14 +128,15 @@ const CustomerManagement = () => {
                 fontWeight: '700'
               }}
             >
-              Danh sách khách hàng
+              {' '}
+              Danh sách loại hoạt động
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+              onClick={() => setIsOpen(true)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -268,11 +148,6 @@ const CustomerManagement = () => {
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={
-                <CustomToggleButton
-                  options={['Tất cả', 'Khách hàng của tôi']}
-                />
-              }
               extra={
                 <>
                   <Button type='primary' danger className='customDeleteButton'>
@@ -291,18 +166,60 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataCustomer}
+                  rowData={dataActivity}
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => navigate(`${PATH.CUSTOMER}/1`)}
+                  selectedRow={(rows) => navigate(`${PATH.ACTIVITY}/1`)}
                 />
               </div>
             </Card>
           </Col>
         </Row>
       </div>
+      {isOpen && (
+        <Modal
+          open={isOpen}
+          footer={null}
+          closeIcon={null}
+          title={
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px',
+                alignContent: 'space-between'
+              }}
+            >
+              <div style={{ width: '90%' }}>
+                <h2>Thêm loại hoạt động</h2>
+              </div>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <Button onClick={() => setIsOpen(false)}>Hủy </Button>
+
+                <Button style={{ background: '#F58220' }}>Thêm</Button>
+              </div>
+            </div>
+          }
+        >
+          <Form layout='vertical'>
+            <Row style={{ width: '100%' }}>
+              <Col span={24}>
+                <Form.Item label='Tên loại hoạt động'>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item label='Mô tả hoạt động'>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </Modal>
+      )}
     </>
   )
 }
-export default CustomerManagement
+export default ActivityManagement

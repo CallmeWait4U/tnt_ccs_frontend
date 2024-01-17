@@ -7,48 +7,20 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
-import AgGridTable from '../../components/aggrid/AgGridTable'
-import { PATH } from '../../contants/common'
-import { dataCustomer } from '../../dataMock/DataCustomer'
-import CustomToggleButton from '../component/CustomToggleButton'
+import { ButtonOk } from '../../../assets/styles/button.style'
+import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
+import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
+import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
+import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { PATH } from '../../../contants/common'
+import { dataComplaint } from '../../../dataMock/DataComlaint'
 
-const CustomerManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+const ClientComplaintManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
 
   const ActionComponent = (data) => {
     return (
@@ -72,9 +44,7 @@ const CustomerManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() =>
-              navigate(`${PATH.CUSTOMER}/${data.code}&${data.isBusiness}`)
-            }
+            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
           />
         </Button>
       </div>
@@ -98,8 +68,8 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'code',
+      headerName: 'MÃ KHIẾU NẠI',
+      field: 'complaintCode',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -112,7 +82,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'TÊN KHÁCH HÀNG',
-      field: 'name',
+      field: 'customerName',
       minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
@@ -120,103 +90,96 @@ const CustomerManagement = () => {
       }
     },
     {
-      headerName: 'EMAIL',
-      field: 'email',
+      headerName: 'MÃ KHÁCH HÀNG',
+      field: 'customerCode',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'LOẠI KHIẾU NẠI',
+      field: 'typeComplaint',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
       minWidth: 250,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
-      minWidth: 300,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NGUỒN',
-      field: 'source',
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
       filter: AgGridCustomSetFilter,
       filterParams: {
         itemList: [
           {
             id: '1',
-            label: 'Landing Page',
-            value: 'Landing Page'
+            value: 'Sản phẩm',
+            label: 'Sản phẩm'
           },
           {
             id: '2',
-            label: 'Tự khai thác',
-            value: 'Tự khai thác'
+            value: 'Nhân viên',
+            label: 'Nhân viên'
           },
           {
             id: '3',
-            label: 'Khác',
-            value: 'Khác'
+            value: 'Vận chuyển',
+            label: 'Vận chuyển'
           }
         ]
       }
     },
     {
-      headerName: 'GIAI ĐOẠN',
-      field: 'phase',
-      minWidth: 150,
+      headerName: 'NGÀY GỬI',
+      field: 'date',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
+      minWidth: 200,
+      filter: AgGridCustomDateFilter
+    },
+    {
+      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
+      field: 'employeeName',
+      minWidth: 300,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 250,
       filter: AgGridCustomSetFilter,
       filterParams: {
         itemList: [
           {
             id: '1',
-            label: 'Tiềm năng',
-            value: 'Tiềm năng'
+            value: 'Chưa xử lí',
+            label: 'Chưa xử lí'
           },
           {
             id: '2',
-            label: 'Đang liên hệ',
-            value: 'Đang liên hệ'
+            value: 'Đang xử lí',
+            label: 'Đang xử lí'
           },
           {
             id: '3',
-            label: 'Đã báo giá',
-            value: 'Đã báo giá'
+            value: 'Đã xử lí',
+            label: 'Đã xử lí'
           },
           {
             id: '4',
-            label: 'Chính thức',
-            value: 'Chính thức'
-          },
-          {
-            id: '5',
-            label: 'Thân thiết',
-            value: 'Thân thiết'
+            value: 'Xử lí lại',
+            label: 'Xử lí lại'
           }
         ]
       }
@@ -249,14 +212,15 @@ const CustomerManagement = () => {
                 fontWeight: '700'
               }}
             >
-              Danh sách khách hàng
+              {' '}
+              Danh sách khiếu nại
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+              onClick={() => navigate('')}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -268,11 +232,6 @@ const CustomerManagement = () => {
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
-              title={
-                <CustomToggleButton
-                  options={['Tất cả', 'Khách hàng của tôi']}
-                />
-              }
               extra={
                 <>
                   <Button type='primary' danger className='customDeleteButton'>
@@ -291,11 +250,13 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataCustomer}
+                  rowData={dataComplaint}
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => navigate(`${PATH.CUSTOMER}/1`)}
+                  selectedRow={(rows) =>
+                    navigate(`${PATH.CUSTOME_URL.COMPLAINT}/1`, { state: rows })
+                  }
                 />
               </div>
             </Card>
@@ -305,4 +266,4 @@ const CustomerManagement = () => {
     </>
   )
 }
-export default CustomerManagement
+export default ClientComplaintManagement

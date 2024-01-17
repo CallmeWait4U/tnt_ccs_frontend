@@ -13,6 +13,7 @@ import NewCustomerPage from '../pages/NewCustomerPage'
 import ProfilePage from '../pages/ProfilePage'
 
 import BussinessRegisterPage from '../pages/BusinessRegisterPage'
+import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
 import EmployeeDetailPage from '../pages/EmployeeDetailPage'
@@ -23,6 +24,14 @@ import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import ProductsPage from '../pages/ProductPage'
 import SignInPage from '../pages/SignInPage'
+import ClientBillDetailPage from '../pages/clientScreen/BillDetailPage'
+import ClientBillPage from '../pages/clientScreen/BillPage'
+import ClientComplaintDetailPage from '../pages/clientScreen/ComplaintDetailPage'
+import ClientComplaintPage from '../pages/clientScreen/ComplaintPage'
+import ClientMessagePage from '../pages/clientScreen/MessagePage'
+import ClientProfilePage from '../pages/clientScreen/ProfilePage'
+import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
+import ClientQuotePage from '../pages/clientScreen/QuotePage'
 import PrivateRoute from './PrivateRoute'
 
 const withPrivateRoute = (Component) => {
@@ -93,7 +102,10 @@ const routesLayout = [
     path: PATH.COMPLAINTDETAIL,
     element: withPrivateRoute(ComplaintDetailPage)()
   },
-
+  {
+    path: PATH.COMPLAINTCLASSIFY,
+    element: withPrivateRoute(ComplaintClassifyPage)()
+  },
   {
     path: PATH.PHASE,
     element: withPrivateRoute(PhasePage)()
@@ -101,6 +113,39 @@ const routesLayout = [
   {
     path: PATH.PROFILE,
     element: withPrivateRoute(ProfilePage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.COMPLAINT,
+    element: withPrivateRoute(ClientComplaintPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.COMPLAINTDETAIL,
+    element: withPrivateRoute(ClientComplaintDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.BILL,
+    element: withPrivateRoute(ClientBillPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.BILLDETAIL,
+    element: withPrivateRoute(ClientBillDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.QUOTE,
+    element: withPrivateRoute(ClientQuotePage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.QUOTEDETAIL,
+    element: withPrivateRoute(ClientQuoteDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.MESSAGE,
+    element: withPrivateRoute(ClientMessagePage)()
+  },
+
+  {
+    path: PATH.CUSTOME_URL.PROFILE,
+    element: withPrivateRoute(ClientProfilePage)()
   }
 ]
 

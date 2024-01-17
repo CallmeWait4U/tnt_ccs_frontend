@@ -3,20 +3,14 @@ import React, { useState } from 'react'
 
 // Images
 import { Typography } from 'antd'
-import { FiPlus } from 'react-icons/fi'
-import { RiInformationFill } from 'react-icons/ri'
-import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
-import AgGridTable from '../../components/aggrid/AgGridTable'
-import { PATH } from '../../contants/common'
-import { dataComplaint } from '../../dataMock/DataComlaint'
+import { ButtonOk } from '../../../assets/styles/button.style'
+import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
+import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
+import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { PATH } from '../../../contants/common'
 
-const ComplaintManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+const ClientBillManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
@@ -26,32 +20,94 @@ const ComplaintManagement = () => {
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <Button
-          type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(255,225,225)' }}
-        >
-          <TbTrashFilled
-            color='red'
-            size={18}
-            onClick={() => console.log('trash')}
-          />
-        </Button>
-        <Button
-          type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(220,245,255)' }}
-        >
-          <RiInformationFill
-            color='00AEEF'
-            size={24}
-            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
-          />
-        </Button>
+        <ButtonOk type='primary'>Chi tiết</ButtonOk>
       </div>
     )
   }
 
+  const data = [
+    {
+      code: 'HD001',
+      customerName: 'Nguyễn Văn A',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD002',
+      customerName: 'Nguyễn Văn B',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD003',
+      customerName: 'Nguyễn Văn C',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD004',
+      customerName: 'Nguyễn Văn D',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD005',
+      customerName: 'Nguyễn Văn E',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD006',
+      customerName: 'Nguyễn Văn F',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD007',
+      customerName: 'Nguyễn Văn G',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD008',
+      customerName: 'Nguyễn Văn H',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Đã thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD009',
+      customerName: 'Nguyễn Văn I',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Chưa thanh toán',
+      price: '100.000'
+    },
+    {
+      code: 'HD010',
+      customerName: 'Nguyễn Văn K',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Chưa thanh toán',
+      price: '100.000'
+    }
+  ]
   const colDefs = [
     {
       headerName: 'STT',
@@ -69,8 +125,8 @@ const ComplaintManagement = () => {
       }
     },
     {
-      headerName: 'MÃ KHIẾU NẠI',
-      field: 'complaintCode',
+      headerName: 'MÃ HÓA ĐƠN',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -91,8 +147,8 @@ const ComplaintManagement = () => {
       }
     },
     {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'customerCode',
+      headerName: 'SỐ ĐIỆN THOẠI',
+      field: 'number',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -104,48 +160,13 @@ const ComplaintManagement = () => {
       }
     },
     {
-      headerName: 'LOẠI KHIẾU NẠI',
-      field: 'typeComplaint',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 250,
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Sản phẩm',
-            label: 'Sản phẩm'
-          },
-          {
-            id: '2',
-            value: 'Nhân viên',
-            label: 'Nhân viên'
-          },
-          {
-            id: '3',
-            value: 'Vận chuyển',
-            label: 'Vận chuyển'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'NGÀY GỬI',
-      field: 'date',
+      headerName: 'NGAY ĐẶT',
+      field: 'orderDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomDateFilter
-    },
-    {
-      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
-      field: 'employeeName',
-      minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -161,28 +182,15 @@ const ComplaintManagement = () => {
       minWidth: 250,
       filter: AgGridCustomSetFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Chưa xử lí',
-            label: 'Chưa xử lí'
-          },
-          {
-            id: '2',
-            value: 'Đang xử lí',
-            label: 'Đang xử lí'
-          },
-          {
-            id: '3',
-            value: 'Đã xử lí',
-            label: 'Đã xử lí'
-          },
-          {
-            id: '4',
-            value: 'Xử lí lại',
-            label: 'Xử lí lại'
-          }
-        ]
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'ĐƠN GIÁ',
+      field: 'price',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
       }
     },
     {
@@ -214,18 +222,8 @@ const ComplaintManagement = () => {
               }}
             >
               {' '}
-              Danh sách khiếu nại
+              Hóa đơn của tôi
             </Title>
-          </Col>
-          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <ButtonOk
-              type='primary'
-              icon={<FiPlus />}
-              onClick={() => navigate('')}
-              style={{ fontSize: '14px', width: '120px', height: '42px' }}
-            >
-              Thêm mới
-            </ButtonOk>
           </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
@@ -251,11 +249,13 @@ const ComplaintManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataComplaint}
+                  rowData={data}
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) =>
+                    navigate(`${PATH.CUSTOME_URL.BILL}/1`, { state: rows })
+                  }
                 />
               </div>
             </Card>
@@ -265,4 +265,4 @@ const ComplaintManagement = () => {
     </>
   )
 }
-export default ComplaintManagement
+export default ClientBillManagement

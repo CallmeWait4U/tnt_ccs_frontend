@@ -1,22 +1,22 @@
 import Main from '../components/layout/Main'
 import { ROLE } from '../contants/common'
-import ComplaintManagement from '../features/complaintManagement'
+import ComplaintClassifyManagement from '../features/complaintClassify/index'
 
-const ComplaintPage = () => {
+const ComplaintClassifyPage = () => {
   return (
     <Main
       role={ROLE.ADMIN}
       pageProps={{
-        keySideNav: 'complain-list',
+        keySideNav: 'complain-classify',
         namePage: 'Quản lý khiếu nại',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Quản lý khiếu nại' }
+          { title: 'Phân loại khiếu nại' }
         ]
       }}
     >
-      <ComplaintManagement />
+      <ComplaintClassifyManagement />
     </Main>
   )
 }
-export default ComplaintPage
+export default ComplaintClassifyPage

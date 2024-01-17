@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import Main from '../components/layout/Main'
-import { PATH } from '../contants/common'
+import { PATH, ROLE } from '../contants/common'
 import CustomerDetail from '../features/customerManagement/detail'
 
 const CustomerDetailPage = () => {
@@ -14,6 +14,7 @@ const CustomerDetailPage = () => {
 
   return (
     <Main
+      role={ROLE.ADMIN}
       pageProps={{
         keySideNav: 'customer',
         namePage: 'Quản lý khách hàng',

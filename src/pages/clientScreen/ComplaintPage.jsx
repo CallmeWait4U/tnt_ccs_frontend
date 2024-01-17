@@ -1,9 +1,10 @@
 import { useLocation } from 'react-router-dom'
-import Main from '../components/layout/Main'
-import { PATH, ROLE } from '../contants/common'
-import ActivityDetail from '../features/activityManagement/detail'
+import { PATH, ROLE } from '../../contants/common'
 
-const ActivityDetailPage = () => {
+import Main from '../../components/layout/Main'
+import ClientComplaintManagement from '../../features/clientScreen/complaintManagement'
+
+const ClientComplaintPage = () => {
   const location = useLocation()
   const getCode = () => {
     return location.pathname.split('/')[2]
@@ -11,16 +12,16 @@ const ActivityDetailPage = () => {
 
   return (
     <Main
-      role={ROLE.ADMIN}
+      role={ROLE.CUSTOMER}
       pageProps={{
-        namePage: 'Quản lý hoạt động',
-        keySideNav: 'activity',
+        namePage: 'Quản lý khiếu nại',
+        keySideNav: 'complaint',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           {
             title: (
               <a href={PATH.ACTIVITY} style={{ color: 'black' }}>
-                Quản lý hoạt động
+                Quản lý khiếu nại
               </a>
             )
           },
@@ -28,8 +29,8 @@ const ActivityDetailPage = () => {
         ]
       }}
     >
-      <ActivityDetail />
+      <ClientComplaintManagement />
     </Main>
   )
 }
-export default ActivityDetailPage
+export default ClientComplaintPage

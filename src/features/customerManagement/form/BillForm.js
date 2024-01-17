@@ -36,7 +36,6 @@ const BillForm = ({ visible, setVisible }) => {
     }
 
     setTableData([...tableData, newItem])
-    console.log('table', tableData)
   }
 
   const columns = [

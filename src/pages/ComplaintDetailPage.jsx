@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import Main from '../components/layout/Main'
-import { PATH } from '../contants/common'
+import { PATH, ROLE } from '../contants/common'
+
 import ComplaintDetail from '../features/complaintManagement/detail'
 
 const ComplaintDetailPage = () => {
@@ -11,6 +12,7 @@ const ComplaintDetailPage = () => {
 
   return (
     <Main
+      role={ROLE.ADMIN}
       pageProps={{
         keySideNav: 'complaint',
         namePage: 'Quản lý khiếu nại',

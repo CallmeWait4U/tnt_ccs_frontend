@@ -237,7 +237,7 @@ const ActivityDetail = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  selectedRow={(rows) => setIsShowFormDetail(true)}
                   height='415px'
                 />
               </div>

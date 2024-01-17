@@ -23,18 +23,31 @@ export const PATH = Object.freeze({
   NEWPRODUCT: '/new-product',
   PHASE: '/phases',
   BOARD: '/board',
-
   ORGANIZATION: '/organization',
   COMPLAINT: '/complaints',
-
   COMPLAINTDETAIL: 'complaints/:id',
-  TYPECOMPLAINT: '/type-complaints',
+  COMPLAINTCLASSIFY: '/complaint-classify',
+
   TABLE: '/tables',
   BILLING: '/billing',
-
-  HOST: 'http://localhost:3000'
+  HOST: 'http://localhost:3000',
+  CUSTOME_URL: {
+    COMPLAINT: '/client/complaints',
+    COMPLAINTDETAIL: '/client/complaints/:id',
+    BILL: '/client/bills',
+    BILLDETAIL: '/client/bills/:id',
+    QUOTE: '/client/quotes',
+    QUOTEDETAIL: '/client/quotes/:id',
+    MESSAGE: '/client/messages',
+    PROFILE: '/client/profile'
+  }
 })
 export const LOCAL_STORAGE_ITEM = Object.freeze({
   TOKEN: 'tnt.token',
   REFRESH_TOKEN: 'tnt.refresh_token'
+})
+export const ROLE = Object.freeze({
+  ADMIN: 'admin',
+  EMPLOYEE: 'employee',
+  CUSTOMER: 'customer'
 })
