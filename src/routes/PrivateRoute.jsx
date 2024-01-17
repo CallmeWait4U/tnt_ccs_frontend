@@ -8,7 +8,12 @@ const PrivateRoute = ({ children }) => {
   useEffect(() => {}, [])
 
   if (!localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)) {
-    return <Navigate to={PATH.SIGNIN} state={{ path: location.pathname }} />
+    return (
+      <Navigate
+        to={PATH.CUSTOMERLANDINGPAGE}
+        state={{ path: location.pathname }}
+      />
+    )
   }
 
   return children
