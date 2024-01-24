@@ -2192,6 +2192,11 @@ body {
   font-weight: 600;
   color: #141414;
 }
+
+.ant-col {
+  min-height: auto;
+}
+
 .signin .ant-form-item-control-input button.ant-switch {
   margin-right: 5px;
 }
