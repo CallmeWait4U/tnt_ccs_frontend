@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Form, Grid, Image, Input, Layout, message, theme } from 'antd'
+import { Form, Grid, Image, Input, Layout, message, theme } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import Card from 'antd/lib/card/Card'
 import React, { useState } from 'react'
@@ -108,11 +108,6 @@ const SignIn = () => {
         >
           <img src={logo} alt='Logo' style={{ width: '40px' }} />
           <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
-        </div>
-        <div style={{ paddingRight: '20px' }}>
-          <Button style={{ background: '#7364FF', color: 'white' }}>
-            Đăng nhập
-          </Button>
         </div>
       </Header>
       <Content
