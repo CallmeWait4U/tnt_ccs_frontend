@@ -1,121 +1,300 @@
-import { Col, Form, Input, Row, Table, Typography } from 'antd'
-
-import { HiInformationCircle, HiOutlineTrash } from 'react-icons/hi'
+import { Button, Col, Flex, Form, Input, Row, Table, Typography } from 'antd'
+import { useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
+import { TbTrashFilled } from 'react-icons/tb'
+import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 const AdditionalInformation = ({ typeCustomer }) => {
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [tableData, setTableData] = useState([
+    {
+      index: 1,
+      name: 'Lê Huy Ngọ',
+      code: 'SP-001',
+      key: 1
+    },
+    {
+      index: 2,
+      name: 'Lê Huy Ngọ',
+      code: 'SP-001',
+      key: 2
+    }
+  ])
+  const { Title } = Typography
+  const [form] = Form.useForm()
+
   const data = [
     { code: 'HT-0001', date: '23-11-2023', status: 'Đã gửi' },
     { code: 'HT-0001', date: '23-11-2023', status: 'Đã gửi' }
   ]
-  const columns1 = [
+
+  const columns = [
+    {
+      title: 'Tên Nhân viên',
+      dataIndex: 'name',
+      key: 'name',
+      width: '30%',
+      render: (item, record, index) => (
+        <StyledSelect
+          defaultValue={item}
+          onChange={(e) => handleCellChange(index, 'name', e.target.value)}
+        />
+      )
+    },
     {
       title: 'Mã Nhân viên',
       dataIndex: 'code',
-      key: 'code'
+      key: 'code',
+      width: '15%',
+      render: (item, record, index) => (
+        <Input
+          defaultValue={item}
+          onChange={(e) => handleCellChange(index, 'code', e.target.value)}
+        />
+      )
     },
     {
-      title: 'Tên nhân viên chăm sóc',
-      dataIndex: 'date',
-      key: 'date'
-    },
-
-    {
-      title: 'THAO TÁC',
-      dataIndex: '',
-      key: 'x',
+      title: '',
       width: '7%',
-      render: () => (
-        <div style={{ gap: '15px', display: 'flex' }}>
-          <HiOutlineTrash size={24} />
-          <HiInformationCircle size={24} />
-        </div>
+      key: 'action',
+      render: (item) => (
+        <Button
+          type='link'
+          icon={
+            <TbTrashFilled
+              color='red'
+              backgroundcolor='red'
+              size={24}
+              onClick={() => console.log('trash')}
+            />
+          }
+          onClick={() => handleDeleteRow(item.index)}
+        />
       )
     }
   ]
-  // const columns2 = [
-  //   {
-  //     title: 'Mã hóa đơn',
-  //     dataIndex: 'code',
-  //     key: 'code'
-  //   },
-  //   {
-  //     title: 'Ngày tạo',
-  //     dataIndex: 'date',
-  //     key: 'date'
-  //   },
-  //   {
-  //     title: 'Trạng thái',
-  //     dataIndex: 'status',
-  //     key: 'address'
-  //   },
-  //   {
-  //     title: 'THAO TÁC',
-  //     dataIndex: '',
-  //     key: 'x',
-  //     width: '7%',
-  //     render: () => (
-  //       <div style={{ gap: '15px', display: 'flex' }}>
-  //         <HiOutlineTrash size={24} />
-  //         <HiInformationCircle size={24} />
-  //         <FiShare2 size={24} />
-  //       </div>
-  //     )
-  //   }
-  // ]
-  const { Title } = Typography
+
+  const layout = {
+    labelCol: {
+      span: 8
+    },
+    wrapperCol: {
+      span: 12
+    }
+  }
+
+  const onFinish = (values) => {
+    console.log(values)
+  }
+
+  const addRow = () => {
+    const maxIndex = tableData.reduce(
+      (max, item) => (item.index > max ? item.index : max),
+      0
+    )
+    const newItem = {
+      index: maxIndex + 1,
+      name: '',
+      code: ''
+    }
+
+    setTableData([...tableData, newItem])
+    console.log('table', tableData)
+  }
+
+  const handleCellChange = (index, field, value) => {
+    const updatedTableData = [...tableData]
+    updatedTableData[index][field] = value
+    setTableData(updatedTableData)
+  }
+  const handleDeleteRow = (index) => {
+    const updatedData = tableData.filter((item) => item.index !== index)
+    setTableData(updatedData)
+    console.log('table', tableData)
+  }
+
   return (
     <>
-      <Form layout='vertical'>
+      <Form
+        {...layout}
+        form={form}
+        name='control-hooks'
+        onFinish={onFinish}
+        key={'additionalInfo'}
+      >
         {typeCustomer === 1 && (
           <div>
-            <Row gutter={16}>
+            <Row gutter={16} style={{ paddingBottom: '12px' }}>
               <Col span={12} xl={18}>
-                <Title level={4}>Thông tin Người đại diện doanh nghiệp</Title>
+                <Title level={4}>Thông tin Người đại diện Doanh nghiệp</Title>
+              </Col>
+              <Col md={4} style={{ display: 'contents' }}>
+                {isUpdate ? (
+                  <Flex gap='small' wrap='wrap'>
+                    <Button
+                      size={40}
+                      style={{
+                        borderColor: '#F58220',
+                        color: '#F58220',
+                        width: '80px',
+                        height: '40px'
+                      }}
+                      onClick={() => setIsUpdate(false)}
+                    >
+                      Hủy
+                    </Button>
+                    <Button
+                      style={{
+                        background: '#F58220',
+                        color: 'white',
+                        width: '80px',
+                        height: '40px'
+                      }}
+                      size={40}
+                      htmlType='submit'
+                    >
+                      Lưu
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Flex gap='small' align='flex-start' vertical>
+                    <Flex gap='small' wrap='wrap'>
+                      <div style={{ width: '80px' }}></div>
+                      <ButtonOk
+                        onClick={() => setIsUpdate(true)}
+                        style={{
+                          background: '#F58220',
+                          color: 'white',
+                          width: '80px',
+                          height: '40px'
+                        }}
+                      >
+                        Chỉnh sửa
+                      </ButtonOk>
+                    </Flex>
+                  </Flex>
+                )}
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item label={'Tên người đại diện'}>
-                  <Input />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Tên người đại diện'}
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label={'Giới tính'}>
-                  <StyledSelect />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Giới tính'}
+                  name={'gender'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder={'Chọn giới tính'}
+                    options={[
+                      { value: 'Male', label: 'Nam' },
+                      { value: 'Female', label: 'Nữ' }
+                    ]}
+                    disabled={!isUpdate}
+                  />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label={'Ngày sinh'}>
-                  <StyledDatepicker />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Ngày sinh'}
+                  name={'dayOfBirth'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledDatepicker
+                    disabled={!isUpdate}
+                    placeholder={'Chọn ngày sinh'}
+                  />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={8}>
-                <Form.Item label={'CCCD'}>
-                  <Input />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'CCCD'}
+                  name={'cccd'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label={'Quốc tịch'}>
-                  <StyledSelect />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Quốc tịch'}
+                  name={'nationality'}
+                >
+                  <StyledSelect
+                    placeholder='Chọn quốc tịch'
+                    options={[{ value: 1, label: 'Việt Nam' }]}
+                    disabled={!isUpdate}
+                  />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label={'Chức vụ'}>
-                  <Input />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Chức vụ'}
+                  name={'position'}
+                >
+                  <Input disabled={!isUpdate} />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={8} xl={8}>
-                <Form.Item label={'Số điện thoại'}>
-                  <Input />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Email'}
+                  name={'email'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
                 </Form.Item>
               </Col>
               <Col span={8} xl={8}>
-                <Form.Item label={'Email'}>
-                  <Input />
+                <Form.Item
+                  className='customHorizontal'
+                  label={'Số điện thoại'}
+                  name={'phoneNumber'}
+                >
+                  <Input disabled={!isUpdate} />
                 </Form.Item>
               </Col>
             </Row>
@@ -125,8 +304,15 @@ const AdditionalInformation = ({ typeCustomer }) => {
         <Title level={4}>Thông tin nhân viên</Title>
 
         <Row gutter={16}>
-          <Col span={24}>
-            <Table columns={columns1} dataSource={data} />
+          <Col span={24} style={{ paddingBottom: '15px' }}>
+            <Table
+              columns={columns}
+              dataSource={tableData}
+              pagination={false}
+            />
+            <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
+              Thêm nhân viên
+            </Button>
           </Col>
         </Row>
       </Form>

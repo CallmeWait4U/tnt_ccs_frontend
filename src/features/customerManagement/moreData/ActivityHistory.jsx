@@ -1,68 +1,256 @@
-import { Button, Col, Row, Table, Tag, Typography } from 'antd'
-
-import { FiInfo, FiPlus, FiTrash2 } from 'react-icons/fi'
+import { CheckOutlined } from '@ant-design/icons'
+import { Button, Col, Row, Typography } from 'antd'
+import React, { useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
+import { RiInformationFill } from 'react-icons/ri'
+import { TbTrashFilled } from 'react-icons/tb'
+import AgGridTable from '../../../components/aggrid/AgGridTable'
+import './activityHistory.css'
 
 const ActivityHistory = ({ setIsShowActivityForm }) => {
-  const data = [
+  const [take, setTake] = useState(100)
+  const { Title } = Typography
+
+  const CustomHeader = () => {
+    return (
+      <div style={{ fontWeight: 650 }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          NHÂN VIÊN
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          PHỤ TRÁCH
+        </div>
+      </div>
+    )
+  }
+
+  const ActionComponent = (data) => {
+    return (
+      <div style={{ gap: '15px', display: 'flex' }}>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgba(253,238,200, 0.4)' }}
+        >
+          <CheckOutlined
+            style={{
+              color: 'rgb(235, 180, 37)',
+              fontSize: 'large',
+              fontWeight: '1000'
+            }}
+            onClick={() => {
+              //
+            }}
+          />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(255,225,225)' }}
+        >
+          <TbTrashFilled
+            color='red'
+            size={18}
+            onClick={() => console.log('trash')}
+          />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
+        >
+          <RiInformationFill
+            color='00AEEF'
+            size={24}
+            onClick={() => {
+              //
+            }}
+          />
+        </Button>
+      </div>
+    )
+  }
+
+  const dataActivities = [
     {
-      name: 'HT-0001',
-      deadLine: '23-11-2023',
-      employee: ['Lê Huy Ngọ', 'Phạm Hồng Thịnh'],
+      nameActivity: 'Cuộc họp',
+      endDate: '23-11-2023',
+      nameEmployees: ['Lê Huy Ngọ', 'Phạm Hồng Thịnh'],
       status: 'Đã gửi'
     },
     {
-      name: 'HT-0001',
-      deadLine: '23-11-2023',
-      employee: ['Lê Huy Ngọ'],
+      nameActivity: 'Gọi điện',
+      endDate: '23-11-2023',
+      nameEmployees: ['Lê Huy Ngọ'],
       status: 'Đã gửi'
     }
   ]
-  const columns1 = [
+
+  const colDefsActivities = [
     {
-      title: 'Hoạt động',
-      dataIndex: 'name',
-      key: 'name'
+      headerName: 'HOẠT ĐỘNG',
+      field: 'nameActivity',
+      minWidth: 130,
+      width: 130,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
     },
     {
-      title: 'Ngày kết thúc',
-      dataIndex: 'deadLine',
-      key: 'deadLine'
+      headerName: 'NGÀY KẾT THÚC',
+      field: 'endDate',
+      minWidth: 140,
+      width: 140,
+      resizable: false,
+      suppressMovable: true,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
     },
     {
-      title: 'Nhân viên phụ trách',
-      dataIndex: 'employee',
-      key: 'employee',
-      render: (item) => (
+      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
+      headerComponent: CustomHeader,
+      field: 'nameEmployees',
+      autoHeight: true,
+      cellRenderer: (p) =>
+        p.data.nameEmployees.map((item, index) => (
+          <div
+            key={`employeeName${index}`}
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            {' '}
+            {item}{' '}
+          </div>
+        )),
+      minWidth: 150,
+      width: 150,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      minWidth: 120,
+      width: 120,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'THAO TÁC',
+      field: 'action',
+      cellRenderer: (p) => ActionComponent(p.data),
+      minWidth: 150,
+      width: 150,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  ]
+
+  const dataHistoryActivities = [
+    {
+      doneDate: '23-11-2023',
+      nameEmployees: ['Lê Huy Ngọ', 'Phạm Hồng Thịnh'],
+      nameActivity: 'Thay đổi giai đoạn',
+      note: 'Đã báo giá chuyển sang Tiềm năng'
+    },
+    {
+      doneDate: '23-11-2023',
+      nameEmployees: ['Lê Huy Ngọ'],
+      nameActivity: 'Cuộc họp',
+      note: 'Hoàn thành'
+    },
+    {
+      doneDate: '23-11-2023',
+      nameEmployees: ['Lê Huy Ngọ'],
+      nameActivity: 'Gọi điện',
+      note: 'Hoàn thành'
+    }
+  ]
+
+  const colDefsHistoryActivities = [
+    {
+      headerName: '',
+      field: 'doneDate',
+      minWidth: 150,
+      width: 150,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: '',
+      field: 'nameActivity',
+      minWidth: 180,
+      width: 180,
+      autoHeight: true,
+      cellRenderer: (p) => (
         <>
-          {item.map((employeeItem, index) => (
-            <div key={index}>
-              <h5>{employeeItem}</h5>
+          {p.data.nameEmployees.map((item, index) => (
+            <div
+              key={`nameEmployee${index}`}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                fontWeight: 600,
+                height: '35px'
+              }}
+            >
+              {' '}
+              {item}{' '}
             </div>
           ))}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              height: '35px'
+            }}
+          >
+            {p.data.nameActivity}
+          </div>
         </>
-      )
-    },
-
-    {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (item) => <Tag>{item}</Tag>
+      ),
+      resizable: false,
+      suppressMovable: true,
+      sortable: false
     },
     {
-      title: 'THAO TÁC',
-      dataIndex: '',
-      key: 'x',
-      width: '7%',
-      render: () => (
-        <div style={{ gap: '15px', display: 'flex' }}>
-          <FiTrash2 size={24} />
-          <FiInfo size={24} />
-        </div>
-      )
+      headerName: '',
+      field: 'note',
+      minWidth: 350,
+      width: 350,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
     }
   ]
-  const { Title } = Typography
+
   return (
     <>
       <Row gutter={12} style={{ marginBottom: '16px' }}>
@@ -70,19 +258,69 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
           <Title level={3}>Hoạt động sắp tới</Title>
         </Col>
         <Col span={5} style={{ display: 'flex', justifyContent: 'right' }}>
-          <Button icon={<FiPlus />} onClick={() => setIsShowActivityForm(true)}>
-            Thêm mới
+          <Button
+            className='activityCurrent'
+            icon={<FiPlus />}
+            onClick={() => setIsShowActivityForm(true)}
+          >
+            Thêm hoạt động
           </Button>
         </Col>
       </Row>
-      <Table columns={columns1} dataSource={data} />
-      <Row gutter={12} style={{ marginBottom: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <AgGridTable
+          colDefs={colDefsActivities}
+          rowData={dataActivities}
+          take={take}
+          setTake={setTake}
+          selectedRow={(rows) => {
+            console.log(rows)
+          }}
+          onDoubleClicked={(params) => {
+            console.log(params)
+          }}
+          showPagination={false}
+          width='700px'
+          height='100%'
+          autoHeight={true}
+          customCustomer='customCustomer'
+          rowStyle={{ borderWidth: '1px 0px 0px 0px', borderColor: '#E2E8F0' }}
+        />
+      </div>
+      <div
+        style={{
+          borderWidth: '1px 0px 0px 0px',
+          borderColor: 'rgba(0,0,0,0.3)',
+          paddingBottom: '12px'
+        }}
+      ></div>
+      <Row gutter={12} style={{ marginBottom: '8px' }}>
         <Col span={19}>
-          <h1>Lịch sử hoạt động</h1>
+          <Title level={3}>Lịch sử hoạt động</Title>
         </Col>
         <Col span={5}></Col>
       </Row>
-      <Table columns={columns1} dataSource={data} />
+      {/* <Table columns={columns1} dataSource={data} /> */}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <AgGridTable
+          colDefs={colDefsHistoryActivities}
+          rowData={dataHistoryActivities}
+          take={take}
+          setTake={setTake}
+          selectedRow={(rows) => {
+            console.log(rows)
+          }}
+          onDoubleClicked={(params) => {
+            console.log(params)
+          }}
+          showPagination={false}
+          width='700px'
+          height='100%'
+          autoHeight={true}
+          customCustomer='customCustomer'
+          customCustomerAct='customCustomerAct'
+        />
+      </div>
     </>
   )
 }

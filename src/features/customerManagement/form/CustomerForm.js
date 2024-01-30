@@ -1,8 +1,16 @@
-import { Button, Card, Col, Form, Input, Row, Table } from 'antd'
-import { useEffect, useState } from 'react'
-
-import { Switch, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Row,
+  Switch,
+  Table,
+  Typography
+} from 'antd'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
@@ -70,7 +78,6 @@ const CustomerForm = () => {
   }
 
   const onChangeAccount = (value) => {
-    console.log(value)
     setHasAccount(value)
   }
 
@@ -171,7 +178,13 @@ const CustomerForm = () => {
 
   const { Title } = Typography
   return (
-    <Form {...layout} form={form} name='control-hooks' onFinish={onFinish}>
+    <Form
+      {...layout}
+      form={form}
+      name='control-hooks'
+      onFinish={onFinish}
+      key={'addCustomer'}
+    >
       <div className='tabled'>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
@@ -221,7 +234,7 @@ const CustomerForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Trường dữ liệu bắt buộc'
+                    message: 'Yêu cầu thông tin'
                   }
                 ]}
               >
@@ -242,7 +255,7 @@ const CustomerForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Trường dữ liệu bắt buộc'
+                    message: 'Yêu cầu thông tin'
                   }
                 ]}
               >
@@ -263,7 +276,7 @@ const CustomerForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Trường dữ liệu bắt buộc'
+                    message: 'Yêu cầu thông tin'
                   }
                 ]}
               >
@@ -286,7 +299,7 @@ const CustomerForm = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Trường dữ liệu bắt buộc'
+                    message: 'Yêu cầu thông tin'
                   }
                 ]}
               >
@@ -322,7 +335,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -337,7 +350,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -360,7 +373,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -375,7 +388,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -441,7 +454,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -476,7 +489,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -494,7 +507,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -521,15 +534,15 @@ const CustomerForm = () => {
                     style={{ fontSize: '18px' }}
                   >
                     <Row gutter={16}>
-                      <Col xl={8} stg>
+                      <Col xl={8} stg='true'>
                         <Form.Item
                           className='customHorizontal'
-                          label={'Tên doanh nghiệp'}
+                          label={'Tên Công ty'}
                           name={'businessName'}
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -544,7 +557,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -559,7 +572,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -617,7 +630,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -635,7 +648,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -681,7 +694,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -696,7 +709,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -719,7 +732,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -734,7 +747,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >
@@ -774,7 +787,7 @@ const CustomerForm = () => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường dữ liệu bắt buộc'
+                              message: 'Yêu cầu thông tin'
                             }
                           ]}
                         >

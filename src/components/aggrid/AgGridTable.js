@@ -16,7 +16,11 @@ const AgGridTable = ({
   onDoubleClicked,
   showPagination = true,
   width = '100%',
-  height = '530px'
+  height = '530px',
+  autoHeight = false,
+  customCustomer = '',
+  customCustomerAct = '',
+  rowStyle = {}
 }) => {
   const [gridApi, setGridApi] = useState()
   const [currentPage, setCurrentPage] = useState(1)
@@ -53,13 +57,14 @@ const AgGridTable = ({
   }
 
   return (
-    <>
+    <div className={`${customCustomer} ${customCustomerAct}`}>
       <div
         className='ag-theme-quartz'
         style={{ width: `${width}`, height: `${height}` }}
       >
         <AgGridReact
           rowHeight={50}
+          rowStyle={rowStyle}
           animateRows={true}
           enableCellTextSelection={true}
           suppressCellFocus={true}
@@ -72,10 +77,14 @@ const AgGridTable = ({
           onSelectionChanged={(params) =>
             selectedRow(params.api.getSelectedRows())
           }
+          defaultColDef={{
+            autoHeaderHeight: true
+          }}
           onRowDoubleClicked={(params) => onDoubleClicked(params)}
           pagination={true}
           suppressPaginationPanel={true}
           paginationPageSize={take}
+          domLayout={autoHeight ? 'autoHeight' : 'normal'}
           icons={{
             menu: `<span class="ag-icon ag-icon-small-down" style="font-size: 24px"></span>`
           }}
@@ -126,7 +135,7 @@ const AgGridTable = ({
           ></Pagination>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

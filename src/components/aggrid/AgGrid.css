@@ -12,6 +12,15 @@
     --ag-selected-row-background-color: rgb(229, 243, 255);
 }
 
+.customCustomer .ag-theme-quartz {
+    --ag-border-color: rgb(255, 255, 255) !important;
+}
+
+.customCustomerAct .ag-theme-quartz .ag-header {
+    height: 0 !important;
+    min-height: 0 !important;
+}
+
 .ag-menu {
     width: 243px;
 }

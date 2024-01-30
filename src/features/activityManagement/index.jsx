@@ -86,7 +86,7 @@ const ActivityManagement = () => {
     {
       headerName: 'SỐ LƯỢNG HOẠT ĐỘNG',
       field: 'total',
-      valueGetter: (p) =>
+      valueFormatter: (p) =>
         Math.floor(p.data.total)
           .toString()
           .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),

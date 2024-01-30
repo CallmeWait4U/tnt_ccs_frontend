@@ -1,6 +1,7 @@
 .detailCustomer {
-    height: 90%;
-    /* overflow-y: scroll; */
+    max-height: 680;
+    overflow-x: hidden;
+    padding-bottom: 20px;
 }
 
 .detailCustomer .ant-card-head-title {
@@ -39,4 +40,55 @@
 .detailCustomer .ant-tabs .ant-tabs-content-holder {
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.detailCustomer .notHasAccount button[type='button'] {
+    background-color: rgba(0,0,0,0.45);
+}
+
+.detailCustomer .customHorizontal .ant-form-item-row {
+    flex-direction: column;
+}
+
+.detailCustomer .customHorizontal .ant-form-item-label {
+    overflow: unset;
+    text-align: start;
+}
+
+.detailCustomer .customHorizontal .ant-form-item-control {
+    min-width: 100%;
+}
+
+.detailCustomer .customHorizontal.customDetailAddress .ant-form-item-label >label::before {
+    content: '*';
+    display: inline-block;
+    margin-inline-end: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+}
+
+.detailCustomer .customHorizontal.customAddress .ant-form-item-label >label::before {
+    content: '';
+}
+
+.detailCustomer .customHorizontal.customAddress .ant-form-item-label >label::after {
+    content: '';
+}
+
+.detailCustomer .infoCustomer .ant-card-body {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.detailCustomer .ant-tabs-top >.ant-tabs-nav {
+    margin: 0;
+}
+
+.detailCustomer .ant-tabs-content-holder {
+    height: 640px;
+    max-height: 640px;
+    overflow-x: hidden;
+    padding-top: 16px;
 }
