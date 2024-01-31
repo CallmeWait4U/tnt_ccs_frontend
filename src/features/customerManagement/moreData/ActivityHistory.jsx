@@ -290,8 +290,8 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       <div
         style={{
           borderWidth: '1px 0px 0px 0px',
-          borderColor: 'rgba(0,0,0,0.3)',
-          paddingBottom: '12px'
+          borderColor: 'rgba(0, 0, 0, 0.3)',
+          margin: '12px 0px'
         }}
       ></div>
       <Row gutter={12} style={{ marginBottom: '8px' }}>
@@ -300,7 +300,6 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
         </Col>
         <Col span={5}></Col>
       </Row>
-      {/* <Table columns={columns1} dataSource={data} /> */}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colDefsHistoryActivities}

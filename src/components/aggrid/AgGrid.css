@@ -8,6 +8,10 @@
     color: #5D5FEF !important;
 }
 
+.ag-theme-quartz .ag-layout-auto-height .ag-center-cols-viewport {
+    min-height: 0px !important;
+}
+
 .ag-theme-quartz {
     --ag-selected-row-background-color: rgb(229, 243, 255);
 }

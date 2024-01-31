@@ -1,0 +1,15 @@
+button.buttonAdd {
+    background-color: #7364FF;
+    color: white;
+    border-color: white;
+}
+
+.buttonAdd.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+    color: black;
+    background-color: rgba(115, 100, 255, 0.85);
+    border-color: white;
+}
+
+.hideButton {
+    display: none;
+}
