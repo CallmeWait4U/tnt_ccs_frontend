@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, Row } from 'antd'
+import { Button, Card, Col, Flex, Modal, Row } from 'antd'
 import React, { useState } from 'react'
 
 // Images
@@ -80,7 +80,36 @@ const CustomerManagement = () => {
       </div>
     )
   }
-
+  const handleOpenModal = () => {
+    Modal.confirm({
+      content: 'Bạn có chắc chắn muốn xóa khách hàng đã chọn?',
+      centered: true,
+      icon: <></>,
+      footer: (_) => (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <ButtonOk
+            style={{
+              background: '#7364FF'
+            }}
+          >
+            Hủy bỏ
+          </ButtonOk>
+          <ButtonOk
+            style={{
+              background: '#F43F5E'
+            }}
+          >
+            Xác nhận
+          </ButtonOk>
+        </div>
+      )
+    })
+  }
   const colDefs = [
     {
       headerName: 'STT',
@@ -275,7 +304,12 @@ const CustomerManagement = () => {
               }
               extra={
                 <>
-                  <Button type='primary' danger className='customDeleteButton'>
+                  <Button
+                    type='primary'
+                    danger
+                    className='customDeleteButton'
+                    onClick={() => handleOpenModal()}
+                  >
                     <Flex wrap='wrap' gap={3}>
                       Xóa
                       {selectedRowKeys.length > 0 ? (

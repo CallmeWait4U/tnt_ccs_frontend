@@ -1,7 +1,7 @@
 import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 
 // Images
-import { Typography } from 'antd'
+import { Modal, Typography } from 'antd'
 import { useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { FiPlus } from 'react-icons/fi'
@@ -55,7 +55,36 @@ const ActivityDetail = () => {
       </div>
     )
   }
-
+  const handleOpenModal = () => {
+    Modal.confirm({
+      content: 'Bạn có chắc chắn muốn xóa hoạt động đã chọn?',
+      centered: true,
+      icon: <></>,
+      footer: (_) => (
+        <div style={
+          {
+            display: 'flex',
+            justifyContent: 'center'
+          }
+        }>
+          <ButtonOk
+          style={{
+            background: '#7364FF'
+          }}
+        >
+          Hủy bỏ
+        </ButtonOk>
+        <ButtonOk
+          style={{
+            background: '#F43F5E'
+          }}
+        >
+          Xác nhận
+        </ButtonOk>
+        </div>
+      ),
+      })
+  }
   const colDefs = [
     {
       headerName: 'STT',
@@ -215,7 +244,7 @@ const ActivityDetail = () => {
               >
                 Thêm mới
               </ButtonOk>
-              <Button type='primary' danger className='customDeleteButton'>
+              <Button type='primary' danger className='customDeleteButton' onClick={() => handleOpenModal()}>
                 <Flex wrap='wrap' gap={3}>
                   Xóa
                   {selectedRowKeys.length > 0 ? (

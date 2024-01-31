@@ -113,7 +113,36 @@ const ActivityManagement = () => {
       }
     }
   ]
-
+  const handleOpenModal = () => {
+    Modal.confirm({
+      content: 'Bạn có chắc chắn muốn xóa loại hoạt động?',
+      centered: true,
+      icon: <></>,
+      footer: (_) => (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <ButtonOk
+            style={{
+              background: '#7364FF'
+            }}
+          >
+            Hủy bỏ
+          </ButtonOk>
+          <ButtonOk
+            style={{
+              background: '#F43F5E'
+            }}
+          >
+            Xác nhận
+          </ButtonOk>
+        </div>
+      )
+    })
+  }
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
@@ -150,7 +179,12 @@ const ActivityManagement = () => {
               className='criclebox tablespace mb-24'
               extra={
                 <>
-                  <Button type='primary' danger className='customDeleteButton'>
+                  <Button
+                    type='primary'
+                    danger
+                    className='customDeleteButton'
+                    onClick={() => handleOpenModal()}
+                  >
                     <Flex wrap='wrap' gap={3}>
                       Xóa
                       {selectedRowKeys.length > 0 ? (

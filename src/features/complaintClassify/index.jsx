@@ -2,7 +2,7 @@ import React from 'react'
 
 // Images
 import { AndroidOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Row, Tabs, Typography } from 'antd'
+import { Button, Card, Col, Form, Input, Modal, Row, Tabs, Typography } from 'antd'
 import { FiCheckSquare } from 'react-icons/fi'
 import { MdModeEditOutline } from 'react-icons/md'
 import { TbTrashFilled } from 'react-icons/tb'
@@ -146,6 +146,36 @@ const ChildrenComponent = () => {
   )
 }
 const ComplaintClassifytManagement = () => {
+  const handleOpenModal = () => {
+    Modal.confirm({
+      content: 'Bạn có chắc chắn muốn xóa loại khiếu nại?',
+      centered: true,
+      icon: <></>,
+      footer: (_) => (
+        <div style={
+          {
+            display: 'flex',
+            justifyContent: 'center'
+          }
+        }>
+          <ButtonOk
+          style={{
+            background: '#7364FF'
+          }}
+        >
+          Hủy bỏ
+        </ButtonOk>
+        <ButtonOk
+          style={{
+            background: '#F43F5E'
+          }}
+        >
+          Xác nhận
+        </ButtonOk>
+        </div>
+      ),
+      })
+  }
   const items = [
     {
       key: '1',
@@ -192,7 +222,7 @@ const ComplaintClassifytManagement = () => {
         >
           Phân loại khiếu nại
         </ButtonOk>
-        <ButtonOk
+        <ButtonOk onClick={() => handleOpenModal()}
           style={{
             position: 'absolute',
             top: 20,
