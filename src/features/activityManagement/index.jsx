@@ -10,6 +10,7 @@ import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilt
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import { dataActivity } from '../../dataMock/DataActivity'
+import './activityManagement.css'
 
 const ActivityManagement = () => {
   const [skip, setSkip] = useState(0)
@@ -17,6 +18,16 @@ const ActivityManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const navigate = useNavigate()
   const { Title } = Typography
+  const [form] = Form.useForm()
+
+  const layout = {
+    labelCol: {
+      span: 10
+    },
+    wrapperCol: {
+      span: 14
+    }
+  }
 
   const ActionComponent = (data) => {
     return (
@@ -114,6 +125,10 @@ const ActivityManagement = () => {
     }
   ]
 
+  const onFinish = (values) => {
+    console.log(values)
+  }
+
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
@@ -181,46 +196,92 @@ const ActivityManagement = () => {
         </Row>
       </div>
       {isOpen && (
-        <Modal
-          open={isOpen}
-          footer={null}
-          closeIcon={null}
-          title={
-            <div
-              style={{
-                display: 'flex',
-                gap: '5px',
-                alignContent: 'space-between'
-              }}
-            >
-              <div style={{ width: '90%' }}>
-                <h2>Thêm loại hoạt động</h2>
-              </div>
-              <div style={{ display: 'flex', gap: '5px' }}>
-                <Button onClick={() => setIsOpen(false)}>Hủy </Button>
-
-                <Button style={{ background: '#F58220' }}>Thêm</Button>
-              </div>
-            </div>
-          }
+        <Form
+          {...layout}
+          form={form}
+          name='control-hooks'
+          onFinish={onFinish}
+          key={'activityForm'}
         >
-          <Form layout='vertical'>
-            <Row style={{ width: '100%' }}>
+          <Modal
+            open={isOpen}
+            footer={null}
+            closeIcon={null}
+            title={
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '5px',
+                  alignContent: 'space-between'
+                }}
+              >
+                <div style={{ width: '90%' }}>
+                  <h2>Thêm loại hoạt động</h2>
+                </div>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <Button
+                    size={40}
+                    style={{
+                      borderColor: '#F58220',
+                      color: '#F58220',
+                      width: '80px'
+                    }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    style={{
+                      background: '#F58220',
+                      color: 'white',
+                      width: '80px'
+                    }}
+                    size={40}
+                    htmlType='submit'
+                  >
+                    Thêm
+                  </Button>
+                </div>
+              </div>
+            }
+          >
+            <Row className='infoActivity'>
               <Col span={24}>
-                <Form.Item label='Tên loại hoạt động'>
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Tên loại hoạt động'
+                  name={'activityName'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
-            <Row>
+            <Row className='infoActivity'>
               <Col span={24}>
-                <Form.Item label='Mô tả hoạt động'>
-                  <Input />
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Mô tả hoạt động'
+                  name={'description'}
+                >
+                  <Input.TextArea
+                    style={{
+                      height: 120,
+                      color: 'black',
+                      fontSize: 14,
+                      fontWeight: 'normal'
+                    }}
+                  />
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-        </Modal>
+          </Modal>
+        </Form>
       )}
     </>
   )

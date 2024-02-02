@@ -3126,3 +3126,16 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .ant-picker.ant-picker-disabled {
   cursor: default;
 }
+
+.ant-input-disabled {
+  color: rgba(0, 0, 0, 1) !important;
+  font-weight: normal !important;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-item {
+  color: rgba(0, 0, 0, 1) !important;
+}
+
+.ant-picker .ant-picker-input >input[disabled] {
+  color: rgba(0, 0, 0, 1) !important;
+}

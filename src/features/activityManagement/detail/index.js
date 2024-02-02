@@ -17,6 +17,8 @@ import { dataActivityDetail } from '../../../dataMock/DataActivity'
 import ActivityDetailForm from '../form/ActivityDetailForm'
 
 const ActivityDetail = () => {
+  const [typeForm, setTypeForm] = useState('')
+  const [isUpdate, setIsUpdate] = useState(false)
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -43,7 +45,14 @@ const ActivityDetail = () => {
           shape='circle'
           style={{ backgroundColor: 'rgb(220,245,255)' }}
         >
-          <RiInformationFill color='#00AEEF' size={24} />
+          <RiInformationFill
+            color='#00AEEF'
+            size={24}
+            onClick={() => {
+              setIsShowFormDetail(true)
+              setTypeForm('Chi tiết')
+            }}
+          />
         </Button>
         <Button
           type='primary'
@@ -166,7 +175,7 @@ const ActivityDetail = () => {
 
   return (
     <>
-      <div className='tabled'>
+      <Form className='tabled'>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -181,22 +190,80 @@ const ActivityDetail = () => {
               Chi tiết loại hoạt động Chiến dịch quảng cáo qua mail
             </Title>
           </Col>
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            {isUpdate ? (
+              <Flex gap='small' align='flex-start' vertical>
+                <Flex gap='small' wrap='wrap'>
+                  <Button
+                    size={40}
+                    style={{
+                      borderColor: '#F58220',
+                      color: '#F58220',
+                      width: '80px',
+                      height: '40px'
+                    }}
+                    onClick={() => setIsUpdate(false)}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    style={{
+                      background: '#F58220',
+                      color: 'white',
+                      width: '80px',
+                      height: '40px'
+                    }}
+                    size={40}
+                    htmlType='submit'
+                  >
+                    Lưu
+                  </Button>
+                </Flex>
+              </Flex>
+            ) : (
+              <Flex gap='small' align='flex-start' vertical>
+                <Flex gap='small' wrap='wrap'>
+                  <div style={{ width: '80px' }}></div>
+                  <ButtonOk
+                    onClick={() => setIsUpdate(true)}
+                    style={{
+                      background: '#F58220',
+                      color: 'white',
+                      width: '80px',
+                      height: '40px'
+                    }}
+                  >
+                    Chỉnh sửa
+                  </ButtonOk>
+                </Flex>
+              </Flex>
+            )}
+          </Col>
         </Row>
         <Card>
-          <Form layout='vertical'>
-            <Row gutter={[24, 0]}>
-              <Col span={8}>
-                <Form.Item label='Tên hoạt động'>
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={16}>
-                <Form.Item label='Mô tả hoạt động'>
-                  <Input.TextArea style={{ width: '100%' }} />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
+          <Row gutter={[24, 0]}>
+            <Col span={8}>
+              <Form.Item
+                label='Tên hoạt động'
+                name={'nameActivity'}
+                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={16}>
+              <Form.Item label='Mô tả hoạt động' name={'description'}>
+                <Input.TextArea
+                  style={{
+                    height: 100,
+                    color: 'black',
+                    fontSize: 14,
+                    fontWeight: 'normal'
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
           <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
             <Col md={20}>
               <Title level={4} style={{ paddingLeft: '20px' }}>
@@ -205,12 +272,19 @@ const ActivityDetail = () => {
             </Col>
             <Col
               md={4}
-              style={{ display: 'flex', justifyContent: 'right', gap: '12px' }}
+              style={{
+                display: 'flex',
+                justifyContent: 'right',
+                gap: '12px'
+              }}
             >
               <ButtonOk
                 type='primary'
                 icon={<FiPlus />}
-                onClick={() => setIsShowFormDetail(true)}
+                onClick={() => {
+                  setIsShowFormDetail(true)
+                  setTypeForm('Thêm')
+                }}
                 style={{ fontSize: '14px', width: '120px', height: '42px' }}
               >
                 Thêm mới
@@ -239,7 +313,8 @@ const ActivityDetail = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    //
+                    setIsShowFormDetail(true)
+                    setTypeForm('Chi tiết')
                   }}
                   height='415px'
                 />
@@ -247,10 +322,12 @@ const ActivityDetail = () => {
             </Col>
           </Row>
         </Card>
-      </div>
+      </Form>
       <ActivityDetailForm
         visible={isShowFormDetail}
         setVisible={setIsShowFormDetail}
+        typeForm={typeForm}
+        nameActivity={'Chiến dịch quảng cáo qua mail'}
       />
     </>
   )
