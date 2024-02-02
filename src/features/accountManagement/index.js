@@ -15,7 +15,7 @@ import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import { dataEmployee } from '../../dataMock/DataEmployee'
 
-const EmployeeManagement = () => {
+const AccountManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -45,7 +45,7 @@ const EmployeeManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.EMPLOYEE}/1`)}
+            onClick={() => navigate(`${PATH.ACCOUNT}/1`)}
           />
         </Button>
       </div>
@@ -98,7 +98,7 @@ const EmployeeManagement = () => {
       }
     },
     {
-      headerName: 'MÃ NHÂN VIÊN',
+      headerName: 'MÃ TÀI KHOẢN',
       field: 'code',
       cellStyle: {
         display: 'flex',
@@ -111,7 +111,7 @@ const EmployeeManagement = () => {
       }
     },
     {
-      headerName: 'TÊN NHÂN VIÊN',
+      headerName: 'TÊN CHỦ TÀI KHOẢN',
       field: 'name',
       minWidth: 300,
       filter: AgGridCustomTextFilter,
@@ -217,7 +217,7 @@ const EmployeeManagement = () => {
               }}
             >
               {' '}
-              Danh sách nhân viên
+              Danh sách tài khoản
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
@@ -265,7 +265,7 @@ const EmployeeManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    //
+                    navigate(`${PATH.ACCOUNT}/1`)
                   }}
                 />
               </div>
@@ -276,4 +276,4 @@ const EmployeeManagement = () => {
     </>
   )
 }
-export default EmployeeManagement
+export default AccountManagement

@@ -12,13 +12,13 @@ import DashboardPage from '../pages/DashboardPage'
 import NewCustomerPage from '../pages/NewCustomerPage'
 import ProfilePage from '../pages/ProfilePage'
 
+import AccountDetailPage from '../pages/AccountDetailPage'
+import AccountsPage from '../pages/AccountsPage'
 import BussinessRegisterPage from '../pages/BusinessRegisterPage'
 import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
-import EmployeeDetailPage from '../pages/EmployeeDetailPage'
-import EmpployeesPage from '../pages/EmployeesPage'
-import NewEmployeePage from '../pages/NewEmployeePage'
+import NewAccountPage from '../pages/NewAccountPage'
 import NewProductPage from '../pages/NewProductPage'
 import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
@@ -71,16 +71,16 @@ const routesLayout = [
     element: withPrivateRoute(DashboardPage)()
   },
   {
-    path: PATH.EMPLOYEE,
-    element: withPrivateRoute(EmpployeesPage)()
+    path: PATH.ACCOUNT,
+    element: withPrivateRoute(AccountsPage)()
   },
   {
-    path: PATH.NEWEMPLOYEE,
-    element: withPrivateRoute(NewEmployeePage)()
+    path: PATH.NEWACCOUNT,
+    element: withPrivateRoute(NewAccountPage)()
   },
   {
-    path: PATH.EMPLOYEEDETAIL,
-    element: withPrivateRoute(EmployeeDetailPage)()
+    path: PATH.ACCOUNTDETAIL,
+    element: withPrivateRoute(AccountDetailPage)()
   },
   {
     path: PATH.PRODUCT,

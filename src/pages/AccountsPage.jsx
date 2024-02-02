@@ -1,22 +1,22 @@
 import Main from '../components/layout/Main'
 import { ROLE } from '../contants/common'
-import NewEmployee from '../features/employeeManagement/form/NewEmployee'
+import AccountManagement from '../features/accountManagement'
 
-const NewEmployeePage = () => {
+const AccountsPage = () => {
   return (
     <Main
       role={ROLE.ADMIN}
       pageProps={{
         keySideNav: 'employee',
-        namePage: 'Quản lý nhân viên',
+        namePage: 'Quản lý tài khoản',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách khách hàng' }
+          { title: 'Quản lý tài khoản' }
         ]
       }}
     >
-      <NewEmployee />
+      <AccountManagement />
     </Main>
   )
 }
-export default NewEmployeePage
+export default AccountsPage

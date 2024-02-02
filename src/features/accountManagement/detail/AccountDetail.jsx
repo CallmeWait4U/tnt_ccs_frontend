@@ -1,13 +1,13 @@
 import { Card, Checkbox, Col, Form, Input, Row, Typography } from 'antd'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
-const EmployeeDetail = ({ match }) => {
+const AccountDetail = ({ match }) => {
   const { Title } = Typography
   return (
     <div>
       <Row gutter={16}>
         <Col span={14}>
-          <Title level={2}>Chi tiết nhân viên</Title>
+          <Title level={2}>Chi tiết tài khoản</Title>
         </Col>
       </Row>
       <Card>
@@ -17,12 +17,12 @@ const EmployeeDetail = ({ match }) => {
               <Card>
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Form.Item label='Tên nhân viên'>
+                    <Form.Item label='Tên chủ tài khoản'>
                       <Input />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item label='Mã nhân viên'>
+                    <Form.Item label='Mã nhân viên/ khách hàng'>
                       <Input />
                     </Form.Item>
                   </Col>
@@ -236,4 +236,4 @@ const EmployeeDetail = ({ match }) => {
     </div>
   )
 }
-export default EmployeeDetail
+export default AccountDetail

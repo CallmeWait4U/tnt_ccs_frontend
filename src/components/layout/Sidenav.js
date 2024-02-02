@@ -61,7 +61,7 @@ const Sidenav = ({ keySideNav, role }) => {
       <FiFolder size={25} />,
       [
         getItem(
-          <NavLink to={PATH.EMPLOYEE}>Quản lý nhân viên</NavLink>,
+          <NavLink to={PATH.ACCOUNT}>Quản lý tài khoản</NavLink>,
           'employee'
         ),
         getItem(
