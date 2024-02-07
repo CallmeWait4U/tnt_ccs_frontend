@@ -1,28 +1,28 @@
 import { Button, Card, Col, Flex, Modal, Row } from 'antd'
 import React, { useState } from 'react'
 
-// Images
 import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useListCustomer } from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataCustomer } from '../../dataMock/DataCustomer'
+
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
+  const { data: dataCustomer } = useListCustomer()
+  const listCustomer = dataCustomer?.items
   const itemsTypeCustomer = [
     {
       key: '1',
@@ -325,7 +325,7 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataCustomer}
+                  rowData={listCustomer}
                   skip={skip}
                   take={take}
                   setTake={setTake}
