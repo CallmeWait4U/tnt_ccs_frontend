@@ -3,7 +3,7 @@ import { BASE_URL } from '../contants/endpoints'
 
 const useSignin = async (data) => {
   try {
-    const response = await api.post(`http://localhost:3001/auth/sign-in`, data)
+    const response = await api.post(`${BASE_URL}/auth/sign-in`, data)
     return response.data
   } catch (error) {
     throw error
