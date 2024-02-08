@@ -53,7 +53,7 @@ const AccountManagement = () => {
   }
   const handleOpenModal = () => {
     Modal.confirm({
-      content: 'Bạn có chắc chắn muốn xóa các nhân viên đã chọn?',
+      content: 'Bạn có chắc chắn muốn xóa các tài khoản đã chọn?',
       centered: true,
       icon: <></>,
       footer: (_) => (
@@ -224,7 +224,7 @@ const AccountManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWEMPLOYEE}`)}
+              onClick={() => navigate(`${PATH.NEWACCOUNT}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới

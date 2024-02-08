@@ -1,0 +1,23 @@
+/* .accountForm {
+    height: 680px;
+    max-height: 680px;
+    overflow-x: 'hidden';
+} */
+
+.accountForm .customHorizontal.customDetailAddress .ant-form-item-label >label::before {
+    content: '*';
+    display: inline-block;
+    margin-inline-end: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+}
+
+.accountForm .customHorizontal.customAddress .ant-form-item-label >label::before {
+    content: '';
+}
+
+.accountForm .customHorizontal.customAddress .ant-form-item-label >label::after {
+    content: '';
+}

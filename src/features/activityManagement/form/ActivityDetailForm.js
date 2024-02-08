@@ -269,14 +269,7 @@ const ActivityDetailForm = ({
                           label={'Mô tả hoạt động'}
                           name={'description'}
                         >
-                          <Input.TextArea
-                            style={{
-                              height: 100,
-                              color: 'black',
-                              fontSize: 14,
-                              fontWeight: 'normal'
-                            }}
-                          />
+                          <Input.TextArea style={{ height: 100 }} />
                         </Form.Item>
                       </Col>
                     </Row>

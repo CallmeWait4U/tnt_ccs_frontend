@@ -1,239 +1,394 @@
-import { Card, Checkbox, Col, Form, Input, Row, Typography } from 'antd'
+import {
+  Card,
+  Checkbox,
+  Col,
+  Collapse,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Typography
+} from 'antd'
+import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
+import '../accountManagement.css'
 
 const NewAccount = ({ match }) => {
   const { Title } = Typography
+
+  const items = [
+    {
+      key: 'customerManagement',
+      label: <Title level={5}>Quyền quản lý khách hàng</Title>,
+      children: (
+        <Row gutter={16}>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Khách Hàng</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Chính sửa Khách Hàng</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Khách Hàng</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Báo Giá</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Báo Giá</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Báo Giá</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Hóa Đơn</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Hóa Đơn</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Hóa Đơn</Checkbox>
+          </Col>
+        </Row>
+      )
+    },
+    {
+      key: 'activityManagement',
+      label: <Title level={5}>Quyền quản lý hoạt động</Title>,
+      children: (
+        <Row gutter={16}>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Hoạt Động</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Loại Hoạt Động</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Hoạt Động</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Hoạt Động</Checkbox>
+          </Col>
+        </Row>
+      )
+    },
+    {
+      key: 'organizationManagement',
+      label: <Title level={5}>Quyền quản lý tổ chức</Title>,
+      children: (
+        <Row gutter={16}>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Tài Khoản</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Tài Khoản</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Chỉnh sửa Tài Khoản</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Tài Khoản</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Sản Phẩm</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Sản Phẩm</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Chỉnh Sửa Sản Phẩm</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Sản Phẩm</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Giai Đoạn</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Giai Đoạn</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Giai Đoạn</Checkbox>
+          </Col>
+        </Row>
+      )
+    },
+    {
+      key: 'complaintManagement',
+      label: <Title level={5}>Quyền quản lý khiếu nại</Title>,
+      children: (
+        <Row gutter={16}>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Khiếu Nại</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Khiếu Nại</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xem Chi Tiết Loại Khiếu Nại</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Tạo Loại Khiếu Nại</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox>Xóa Loại Khiếu Nại</Checkbox>
+          </Col>
+        </Row>
+      )
+    }
+  ]
+
   return (
-    <div>
-      <Row gutter={16}>
-        <Col span={14}>
-          <Title level={2}>Chi tiết tài khoản</Title>
+    <Form layout='vertical' className='tabled'>
+      <Row gutter={16} style={{ marginBottom: '14px' }}>
+        <Col md={20}>
+          <Title
+            level={4}
+            style={{
+              marginLeft: '10px',
+              marginTop: '4px',
+              fontWeight: '700'
+            }}
+          >
+            Tạo mới tài khoản
+          </Title>
+        </Col>
+        <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+          <Flex gap='small' align='flex-start' vertical>
+            <Flex gap='small' wrap='wrap'>
+              <div style={{ width: '80px' }}></div>
+              <ButtonOk
+                style={{
+                  background: '#F58220',
+                  color: 'white',
+                  width: '80px',
+                  height: '40px'
+                }}
+                htmlType='submit'
+              >
+                Lưu
+              </ButtonOk>
+            </Flex>
+          </Flex>
         </Col>
       </Row>
-      <Card>
-        <Form layout='vertical'>
-          <Row gutter={[16, 16]}>
-            <Col span={14} xl={24}>
+      <Card
+        className='accountForm'
+        style={{ height: 680, maxHeight: 680, overflowX: 'hidden' }}
+      >
+        <Row gutter={[16, 16]}>
+          <Col span={14} xl={12}>
+            <Card title='Thông tin Chủ tài khoản'>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item
+                    label='Tên chủ tài khoản'
+                    name={'name'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label='Mã nhân viên'
+                    name={'code'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label='Vị trí'
+                    name={'position'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item
+                    label='Ngày sinh'
+                    name={'dayOfBirth'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <StyledDatepicker />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label='Giới tính'
+                    name={'gender'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <StyledSelect
+                      placeholder={'Chọn giới tính'}
+                      options={[
+                        { value: 'Male', label: 'Nam' },
+                        { value: 'Female', label: 'Nữ' }
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label='Quốc tịch' name={'nationality'}>
+                    <StyledSelect
+                      placeholder='Chọn quốc tịch'
+                      options={[{ value: 1, label: 'Việt Nam' }]}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={14}>
+                <Col span={8}>
+                  <Form.Item
+                    label='CCCD'
+                    name={'cccd'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label='Số điện thoại' name={'phoneNumber'}>
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    label='Email'
+                    name={'email'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={14}>
+                <Col span={8}>
+                  <Form.Item
+                    className='customHorizontal customDetailAddress'
+                    label={'Địa chỉ'}
+                    name={'detailAddress'}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    className='customHorizontal customAddress'
+                    label={' '}
+                    name={'district'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <StyledSelect placeholder='Chọn quận/huyện' />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item
+                    className='customHorizontal customAddress'
+                    label={' '}
+                    name={'city'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <StyledSelect placeholder='Chọn tỉnh/thành phố' />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={14}>
+                <Col span={8}>
+                  <Form.Item label='Ghi chú' name={'description'}>
+                    <Input.TextArea />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+          <Col span={10} xl={12}>
+            <Card>
+              <Row>
+                <Col span={12}>
+                  <Form.Item
+                    label='Loại tài khoản'
+                    name={'type'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Yêu cầu thông tin'
+                      }
+                    ]}
+                  >
+                    <StyledSelect
+                      options={[
+                        { value: 'admin', label: 'Quản trị viên' },
+                        { value: 'employee', label: 'Nhân viên' }
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Title level={5}>Danh sách quyền</Title>
+              </Row>
               <Card>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item label='Tên chủ nhân viên'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Mã nhân viên'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Vị trí'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item label='Ngày sinh'>
-                      <StyledDatepicker />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Giới tính'>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Quốc tịch'>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={14}>
-                  <Col span={8}>
-                    <Form.Item label='CCCD'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Số điện thoại'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label='Email'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={14}>
-                  <Col span={8}>
-                    <Form.Item label='Địa chỉ'>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label=' '>
-                      <StyledDatepicker />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label=' '>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={14}>
-                  <Col span={8}>
-                    <Form.Item label='Ghi chú'>
-                      <Input.TextArea />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                <Collapse items={items} defaultActiveKey={['1']} />
               </Card>
-            </Col>
-            <Col span={10} xl={24}>
-              <Card>
-                <Row>
-                  <Col span={12}>
-                    <Form.Item label='Loại tài khoản'>
-                      <StyledSelect />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row>
-                  <Title level={5}>Danh sách quyền</Title>
-                </Row>
-                <Card>
-                  <Card.Grid hoverable={false} style={{ width: '100%' }}>
-                    <Title level={5}>Quyền quản lý khách hàng</Title>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                    </Row>
-                  </Card.Grid>
-                  <Card.Grid hoverable={false} style={{ width: '100%' }}>
-                    <Title level={5}>Quyền quản lý hoạt động</Title>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                    </Row>
-                  </Card.Grid>
-                  <Card.Grid hoverable={false} style={{ width: '100%' }}>
-                    <Title level={5}>Quyền quản lý tổ chức</Title>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                    </Row>
-                  </Card.Grid>
-                  <Card.Grid hoverable={false} style={{ width: '100%' }}>
-                    <Title level={5}>Quyền quản lý khiếu nại</Title>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Xem chi tiết</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Thêm mới</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox>Sửa</Checkbox>
-                      </Col>
-                    </Row>
-                  </Card.Grid>
-                </Card>
-              </Card>
-            </Col>
-          </Row>
-        </Form>
+            </Card>
+          </Col>
+        </Row>
       </Card>
-    </div>
+    </Form>
   )
 }
 export default NewAccount

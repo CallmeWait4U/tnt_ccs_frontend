@@ -64,36 +64,38 @@ const ActivityDetail = () => {
       </div>
     )
   }
+
   const handleOpenModal = () => {
     Modal.confirm({
       content: 'Bạn có chắc chắn muốn xóa hoạt động đã chọn?',
       centered: true,
       icon: <></>,
       footer: (_) => (
-        <div style={
-          {
+        <div
+          style={{
             display: 'flex',
             justifyContent: 'center'
-          }
-        }>
+          }}
+        >
           <ButtonOk
-          style={{
-            background: '#7364FF'
-          }}
-        >
-          Hủy bỏ
-        </ButtonOk>
-        <ButtonOk
-          style={{
-            background: '#F43F5E'
-          }}
-        >
-          Xác nhận
-        </ButtonOk>
+            style={{
+              background: '#7364FF'
+            }}
+          >
+            Hủy bỏ
+          </ButtonOk>
+          <ButtonOk
+            style={{
+              background: '#F43F5E'
+            }}
+          >
+            Xác nhận
+          </ButtonOk>
         </div>
-      ),
-      })
+      )
+    })
   }
+
   const colDefs = [
     {
       headerName: 'STT',
@@ -277,12 +279,13 @@ const ActivityDetail = () => {
                 name={'nameActivity'}
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <Input />
+                <Input disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label='Mô tả hoạt động' name={'description'}>
                 <Input.TextArea
+                  disabled={!isUpdate}
                   style={{
                     height: 100,
                     color: 'black',
@@ -318,7 +321,12 @@ const ActivityDetail = () => {
               >
                 Thêm mới
               </ButtonOk>
-              <Button type='primary' danger className='customDeleteButton' onClick={() => handleOpenModal()}>
+              <Button
+                type='primary'
+                danger
+                className='customDeleteButton'
+                onClick={() => handleOpenModal()}
+              >
                 <Flex wrap='wrap' gap={3}>
                   Xóa
                   {selectedRowKeys.length > 0 ? (
