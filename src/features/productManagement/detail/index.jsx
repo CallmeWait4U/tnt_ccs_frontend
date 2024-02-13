@@ -50,9 +50,7 @@ const ProductDetail = () => {
               <Form.Item
                 name='name'
                 label='Tên Sản phẩm'
-                rules={[
-                  { required: true, message: 'Vui lòng nhập tên sản phẩm' }
-                ]}
+                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
                 <Input placeholder='Tên sản phẩm' disabled={!isUpdate} />
               </Form.Item>
@@ -61,9 +59,7 @@ const ProductDetail = () => {
               <Form.Item
                 name='code'
                 label='Mã Sản phẩm'
-                rules={[
-                  { required: true, message: 'Vui lòng nhập mã sản phẩm' }
-                ]}
+                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
                 <Input disabled={!isUpdate} />
               </Form.Item>

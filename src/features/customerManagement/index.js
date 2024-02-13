@@ -12,7 +12,7 @@ import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-
+import { dataCustomer as data } from '../../dataMock/DataCustomer'
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
@@ -22,7 +22,8 @@ const CustomerManagement = () => {
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataCustomer } = useListCustomer()
-  const listCustomer = dataCustomer?.items
+  console.log(dataCustomer)
+  const listCustomer = data
   const itemsTypeCustomer = [
     {
       key: '1',

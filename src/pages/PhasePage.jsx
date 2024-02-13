@@ -11,7 +11,7 @@ const PhasePage = () => {
         namePage: 'Quản lý giai đoạn',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách giai đoạn' }
+          { title: 'Quản lý giai đoạn' }
         ]
       }}
     >

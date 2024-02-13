@@ -43,7 +43,7 @@ const PhaseManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.PHASE}`)}
+            onClick={() => navigate(`${PATH.PHASE}/1`)}
           />
         </Button>
       </div>
@@ -155,7 +155,7 @@ const PhaseManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.PHASE}`)}
+              onClick={() => navigate(`${PATH.NEWPHASE}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
