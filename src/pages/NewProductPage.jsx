@@ -1,5 +1,5 @@
 import Main from '../components/layout/Main'
-import { ROLE } from '../contants/common'
+import { PATH, ROLE } from '../contants/common'
 import NewProduct from '../features/productManagement/form'
 
 const NewProductPage = () => {
@@ -11,9 +11,15 @@ const NewProductPage = () => {
         namePage: 'Quản lý sản phẩm',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách sản phẩm', path: '/' },
           {
-            title: 'Thêm sản phẩm mới'
+            title: (
+              <a href={`${PATH.PRODUCT}`} style={{ color: 'black' }}>
+                Quản lý sản phẩm
+              </a>
+            )
+          },
+          {
+            title: 'Tạo mới sản phẩm'
           }
         ]
       }}

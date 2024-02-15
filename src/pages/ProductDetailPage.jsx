@@ -1,5 +1,5 @@
 import Main from '../components/layout/Main'
-import { ROLE } from '../contants/common'
+import { PATH, ROLE } from '../contants/common'
 import ProductDetail from '../features/productManagement/detail'
 
 const ProductDetailPage = () => {
@@ -10,7 +10,13 @@ const ProductDetailPage = () => {
         namePage: 'Quản lý sản phẩm',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Danh sách sản phẩm', path: '/' },
+          {
+            title: (
+              <a href={`${PATH.PRODUCT}`} style={{ color: 'black' }}>
+                Quản lý sản phẩm
+              </a>
+            )
+          },
           {
             title: 'Chi tiết sản phẩm'
           }

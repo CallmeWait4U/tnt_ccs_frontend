@@ -171,7 +171,7 @@ const ProductManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+              onClick={() => navigate(`${PATH.NEWPRODUCT}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
