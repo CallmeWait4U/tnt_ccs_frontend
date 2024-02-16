@@ -7,7 +7,6 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
@@ -22,7 +21,6 @@ const ActivityDetail = () => {
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
-  const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 

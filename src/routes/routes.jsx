@@ -19,7 +19,9 @@ import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
 import NewAccountPage from '../pages/NewAccountPage'
+import NewPhasePage from '../pages/NewPhasePage'
 import NewProductPage from '../pages/NewProductPage'
+import PhaseDetailPage from '../pages/PhaseDetailPage'
 import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import ProductsPage from '../pages/ProductPage'
@@ -109,6 +111,14 @@ const routesLayout = [
   {
     path: PATH.PHASE,
     element: withPrivateRoute(PhasePage)()
+  },
+  {
+    path: PATH.PHASEDETAIL,
+    element: withPrivateRoute(PhaseDetailPage)()
+  },
+  {
+    path: PATH.NEWPHASE,
+    element: withPrivateRoute(NewPhasePage)()
   },
   {
     path: PATH.PROFILE,

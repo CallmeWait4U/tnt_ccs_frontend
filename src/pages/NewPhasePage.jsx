@@ -1,30 +1,32 @@
 import Main from '../components/layout/Main'
 import { PATH, ROLE } from '../contants/common'
-import ProductDetail from '../features/productManagement/detail'
+import NewPhase from '../features/phaseManagement/form'
 
-const ProductDetailPage = () => {
+const NewPhasePage = () => {
   return (
     <Main
       role={ROLE.ADMIN}
       pageProps={{
-        namePage: 'Quản lý sản phẩm',
+        keyNavbar: 'phase',
+        namePage: 'Tạo mới giai đoạn',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           {
             title: (
-              <a href={`${PATH.PRODUCT}`} style={{ color: 'black' }}>
-                Quản lý sản phẩm
+              <a href={`${PATH.PHASE}`} style={{ color: 'black' }}>
+                Quản lý giai đoạn
               </a>
             )
           },
           {
-            title: 'Chi tiết sản phẩm'
+            title: 'Tạo mới giai đoạn'
           }
         ]
       }}
     >
-      <ProductDetail />
+      <NewPhase />
     </Main>
   )
 }
-export default ProductDetailPage
+
+export default NewPhasePage

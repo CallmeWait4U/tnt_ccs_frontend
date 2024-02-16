@@ -22,6 +22,8 @@ export const PATH = Object.freeze({
   PRODUCTDETAIL: '/products/:id',
   NEWPRODUCT: '/new-product',
   PHASE: '/phases',
+  PHASEDETAIL: '/phases/:id',
+  NEWPHASE: '/new-phases',
   BOARD: '/board',
   ORGANIZATION: '/organization',
   COMPLAINT: '/complaints',

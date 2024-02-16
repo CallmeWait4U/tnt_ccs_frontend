@@ -1,0 +1,12 @@
+.phaseForm .customHorizontal .ant-form-item-row {
+    flex-direction: column;
+}
+
+.phaseForm .customHorizontal .ant-form-item-label {
+    overflow: unset;
+    text-align: start;
+}
+
+.phaseForm .customHorizontal .ant-form-item-control {
+    min-width: 100%;
+}

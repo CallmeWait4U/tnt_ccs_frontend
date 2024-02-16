@@ -23,6 +23,7 @@ const CustomerManagement = () => {
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataCustomer } = useListCustomer()
+  console.log(dataCustomer)
   const listCustomer = data
   const itemsTypeCustomer = [
     {

@@ -1,14 +1,14 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
 import { useState } from 'react'
 import { ButtonOk } from '../../../assets/styles/button.style'
-import '../productManagement.css'
+import '../phaseManagement.css'
 
-const ProductDetail = () => {
-  const { Title } = Typography
+const PhaseDetail = () => {
   const [isUpdate, setIsUpdate] = useState(false)
+  const { Title } = Typography
 
   return (
-    <div>
+    <>
       <Form className='tabled'>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
@@ -20,7 +20,7 @@ const ProductDetail = () => {
                 fontWeight: '700'
               }}
             >
-              Chi tiết sản phẩm
+              Chi tiết giai đoạn Tiềm năng
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
@@ -73,81 +73,26 @@ const ProductDetail = () => {
             )}
           </Col>
         </Row>
-        <Card
-          className='productForm'
-          style={{
-            width: '1000px',
-            margin: 'auto',
-            height: 680,
-            maxHeight: 680,
-            overflowX: 'hidden'
-          }}
-        >
+        <Card className='phaseForm' style={{ width: '1000px', margin: 'auto' }}>
           <Row gutter={16}>
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productName'
-                label='Tên Sản phẩm'
+                name='name'
+                label='Tên Giai đoạn'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <Input placeholder='Nhập tên Sản phẩm' disabled={!isUpdate} />
+                <Input placeholder='Tên giai đoạn' disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productCode'
-                label='Mã Sản phẩm'
+                name='priority'
+                label='Thứ tự giai đoạn'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <Input placeholder='Nhập mã Sản phẩm' disabled={!isUpdate} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={8}>
-              <Form.Item
-                className='customHorizontal'
-                name='price'
-                label='Giá tiền'
-                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
-              >
-                <Input placeholder='Nhập giá tiền' disabled={!isUpdate} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                className='customHorizontal'
-                name='quantity'
-                label='Số lượng'
-                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
-              >
-                <Input placeholder='Nhập số lượng' disabled={!isUpdate} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                className='customHorizontal'
-                name='unit'
-                label='Đơn vị '
-              >
-                <Input placeholder='Nhập đơn vị' disabled={!isUpdate} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={24}>
-              <Form.Item
-                className='customHorizontal'
-                name='features'
-                label='Mô tả đặc điểm sản phẩm'
-              >
-                <Input.TextArea
-                  disabled={!isUpdate}
-                  placeholder='Nhập mô tả'
-                  style={{ height: 220 }}
-                />
+                <Input placeholder='Thứ tự giai đoạn' disabled={!isUpdate} />
               </Form.Item>
             </Col>
           </Row>
@@ -156,19 +101,20 @@ const ProductDetail = () => {
               <Form.Item
                 className='customHorizontal'
                 name='description'
-                label='Ghi chú'
+                label='Mô tả giai đoạn'
               >
                 <Input.TextArea
+                  placeholder='Nhập mô tả'
                   disabled={!isUpdate}
-                  placeholder='Nhập ghi chú'
-                  style={{ height: 80 }}
+                  style={{ height: 100 }}
                 />
               </Form.Item>
             </Col>
           </Row>
         </Card>
       </Form>
-    </div>
+    </>
   )
 }
-export default ProductDetail
+
+export default PhaseDetail

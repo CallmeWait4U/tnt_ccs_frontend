@@ -1,0 +1,12 @@
+.productForm .customHorizontal .ant-form-item-row {
+    flex-direction: column;
+}
+
+.productForm .customHorizontal .ant-form-item-label {
+    overflow: unset;
+    text-align: start;
+}
+
+.productForm .customHorizontal .ant-form-item-control {
+    min-width: 100%;
+}
