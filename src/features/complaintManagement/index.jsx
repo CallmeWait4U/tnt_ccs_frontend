@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 
 // Images
 import { Typography } from 'antd'
-import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
@@ -246,41 +245,26 @@ const ComplaintManagement = () => {
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <ButtonOk
+            <Button
               type='primary'
-              icon={<FiPlus />}
-              onClick={() => navigate('')}
-              style={{ fontSize: '14px', width: '120px', height: '42px' }}
+              danger
+              className='customDeleteButton'
+              onClick={() => handleOpenModal()}
             >
-              Thêm mới
-            </ButtonOk>
+              <Flex wrap='wrap' gap={3}>
+                Xóa
+                {selectedRowKeys.length > 0 ? (
+                  <span>({selectedRowKeys.length})</span>
+                ) : (
+                  ''
+                )}
+              </Flex>
+            </Button>
           </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
           <Col xs='24' xl={24} style={{ height: '650px' }}>
-            <Card
-              bordered={false}
-              className='criclebox tablespace mb-24'
-              extra={
-                <>
-                  <Button
-                    type='primary'
-                    danger
-                    className='customDeleteButton'
-                    onClick={() => handleOpenModal()}
-                  >
-                    <Flex wrap='wrap' gap={3}>
-                      Xóa
-                      {selectedRowKeys.length > 0 ? (
-                        <span>({selectedRowKeys.length})</span>
-                      ) : (
-                        ''
-                      )}
-                    </Flex>
-                  </Button>
-                </>
-              }
-            >
+            <Card bordered={false} className='criclebox tablespace mb-24'>
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
