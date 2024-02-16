@@ -1,12 +1,23 @@
-import React from 'react'
-
+import React, { useState } from 'react'
 // Images
 import { AndroidOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Form, Input, Modal, Row, Tabs, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Tabs,
+  Typography
+} from 'antd'
 import { FiCheckSquare } from 'react-icons/fi'
 import { MdModeEditOutline } from 'react-icons/md'
 import { TbTrashFilled } from 'react-icons/tb'
 import { ButtonOk } from '../../assets/styles/button.style'
+
 const problems = [
   'Sản phẩm bị lỗi',
   'Sản phẩm không đúng mô tả',
@@ -26,11 +37,7 @@ const ActionComponent = (data) => {
           style={{ backgroundColor: 'rgb(255,225,225)' }}
           size='small'
         >
-          <TbTrashFilled
-            color='red'
-            size={14}
-            onClick={() => console.log('trash')}
-          />
+          <TbTrashFilled color='red' size={14} />
         </Button>
         <Button
           type='primary'
@@ -45,20 +52,25 @@ const ActionComponent = (data) => {
   )
 }
 
-const ChildrenComponent = () => {
+const ChildrenComponent = ({ isUpdate, selectedLabel }) => {
   return (
     <div>
       <Form>
         <Row gutter={16} style={{ marginBottom: '30px' }}>
-          <Col span={3} style={{ textAlign: 'right' }}>
+          <Col
+            span={3}
+            style={{
+              display: 'flex',
+              textAlign: 'right',
+              alignItems: 'center'
+            }}
+          >
             Loại khiếu nại
           </Col>
           <Col span={4}>
-            <Input />
+            <Input value={selectedLabel} />
           </Col>
-          <Col span={3}>
-            <ActionComponent />
-          </Col>
+          <Col span={3}>{isUpdate && <ActionComponent />}</Col>
         </Row>
 
         <Row gutter={40}>
@@ -67,7 +79,7 @@ const ChildrenComponent = () => {
               <Col span={20}>
                 <span>Những vấn đề bạn gặp với sản phẩm?</span>
               </Col>
-              <ActionComponent />
+              {isUpdate && <ActionComponent />}
             </Row>
             {problems.map((item, index) => (
               <Col span={24} key={index}>
@@ -81,7 +93,7 @@ const ChildrenComponent = () => {
               <Col span={20}>
                 <span>Hình ảnh minh họa</span>
               </Col>
-              <ActionComponent />
+              {isUpdate && <ActionComponent />}
             </Row>
             <Col span={24}>
               <div>
@@ -104,7 +116,7 @@ const ChildrenComponent = () => {
               <Col span={20}>
                 <span>Mô tả chi tiết</span>
               </Col>
-              <ActionComponent />
+              {isUpdate && <ActionComponent />}
             </Row>
 
             <Col span={24}>
@@ -134,7 +146,7 @@ const ChildrenComponent = () => {
               <Col span={20}>
                 <span>Ghi chú</span>
               </Col>
-              <ActionComponent />
+              {isUpdate && <ActionComponent />}
             </Row>
             <Col span={24}>
               <Input.TextArea style={{ height: '100px' }}></Input.TextArea>
@@ -146,52 +158,60 @@ const ChildrenComponent = () => {
   )
 }
 const ComplaintClassifytManagement = () => {
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const handleOpenModal = () => {
     Modal.confirm({
       content: 'Bạn có chắc chắn muốn xóa loại khiếu nại?',
       centered: true,
       icon: <></>,
       footer: (_) => (
-        <div style={
-          {
+        <div
+          style={{
             display: 'flex',
             justifyContent: 'center'
-          }
-        }>
+          }}
+        >
           <ButtonOk
-          style={{
-            background: '#7364FF'
-          }}
-        >
-          Hủy bỏ
-        </ButtonOk>
-        <ButtonOk
-          style={{
-            background: '#F43F5E'
-          }}
-        >
-          Xác nhận
-        </ButtonOk>
+            style={{
+              background: '#7364FF'
+            }}
+          >
+            Hủy bỏ
+          </ButtonOk>
+          <ButtonOk
+            style={{
+              background: '#F43F5E'
+            }}
+          >
+            Xác nhận
+          </ButtonOk>
         </div>
-      ),
-      })
+      )
+    })
   }
   const items = [
     {
       key: '1',
-      label: <h3>Sản phẩm</h3>,
-      children: <ChildrenComponent />
+      label: 'Sản phẩm',
+      children: (
+        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Sản phẩm' />
+      )
     },
     {
       key: '2',
-      label: <h3>Nhân viên</h3>,
-      children: <ChildrenComponent />,
+      label: 'Nhân viên',
+      children: (
+        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Nhân viên' />
+      ),
       icon: <AndroidOutlined />
     },
     {
       key: '3',
-      label: <h3>Vận chuyển</h3>,
-      children: <ChildrenComponent />,
+      label: 'Vận chuyển',
+      children: (
+        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Vận chuyển' />
+      ),
       icon: <AndroidOutlined />
     }
   ]
@@ -199,40 +219,81 @@ const ComplaintClassifytManagement = () => {
   return (
     <div className='tabled'>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
-        <Title level={4}>Phân loại khiếu nại</Title>
+        <Col md={20}>
+          <Title level={4}>Phân loại khiếu nại</Title>
+        </Col>
+        <Col
+          md={4}
+          style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
+        >
+          <ButtonOk
+            style={{ fontSize: '14px', height: '42px' }}
+            onClick={() => setIsUpdate(!isUpdate)}
+          >
+            Chỉnh sửa
+          </ButtonOk>
+          <ButtonOk
+            style={{
+              background: '#F58220',
+              fontSize: '14px',
+
+              height: '42px'
+            }}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            Thêm loại khiếu nại
+          </ButtonOk>
+          <ButtonOk
+            onClick={() => handleOpenModal()}
+            style={{
+              background: '#F43F5E',
+              fontSize: '14px',
+              height: '42px'
+            }}
+          >
+            Xóa
+          </ButtonOk>
+        </Col>
       </Row>
       <Card>
-        <Tabs defaultActiveKey='2' items={items} title='ngọ' />
-        <ButtonOk
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 240
-          }}
-        >
-          Chỉnh sửa
-        </ButtonOk>
-        <ButtonOk
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 90,
-            background: '#F58220'
-          }}
-        >
-          Phân loại khiếu nại
-        </ButtonOk>
-        <ButtonOk onClick={() => handleOpenModal()}
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 20,
-            background: '#F43F5E'
-          }}
-        >
-          Xóa
-        </ButtonOk>
+        <Tabs type='card' defaultActiveKey='2' items={items} title='ngọ' />
       </Card>
+      <Modal
+        title={
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <h2>Thêm mục cho khiếu nại</h2>
+          </div>
+        }
+        open={isOpen}
+        footer={
+          <div
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <ButtonOk onClick={() => setIsOpen(false)}>Hủy</ButtonOk>
+            <ButtonOk onClick={() => setIsOpen(false)}>Thêm</ButtonOk>
+          </div>
+        }
+      >
+        <Form layout='vertical'>
+          <Form.Item label='Loại'>
+            <Select
+              options={[
+                { value: 'Hộp kiểm', label: 'Hộp kiểm' },
+                { value: 'Ô nhập', label: 'Ô nhập' },
+                { value: 'Tải tệp lên', label: 'Tải tệp lên' },
+                { value: 'Bộ chọn thời gian', label: 'Bộ chọn thời gian' }
+              ]}
+            />
+          </Form.Item>
+          <Form.Item label='Tên mục'>
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   )
 }
