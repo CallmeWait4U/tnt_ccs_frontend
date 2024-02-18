@@ -253,7 +253,8 @@ const ClientBillManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) =>
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(rows) =>
                     navigate(`${PATH.CUSTOME_URL.BILL}/1`, { state: rows })
                   }
                 />

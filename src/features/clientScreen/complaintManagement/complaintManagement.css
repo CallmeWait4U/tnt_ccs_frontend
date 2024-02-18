@@ -1,0 +1,48 @@
+.clientComplaint.ant-card {
+    height: 70vh;
+    max-height: 70vh;
+    overflow-x: hidden;
+    margin: 24px 0px 24px 0px;
+}
+
+.clientComplaint .customHorizontal .ant-form-item-row {
+    flex-direction: column;
+}
+
+.clientComplaint .customHorizontal .ant-form-item-label {
+    overflow: unset;
+    text-align: start;
+}
+
+.clientComplaint .customHorizontal .ant-form-item-control {
+    min-width: 100%;
+}
+
+.clientComplaint .customHorizontal.customDetailAddress .ant-form-item-label >label::before {
+    content: '*';
+    display: inline-block;
+    margin-inline-end: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+}
+
+.clientComplaint .customHorizontal.customAddress .ant-form-item-label >label::before {
+    content: '';
+}
+
+.clientComplaint .customHorizontal.customAddress .ant-form-item-label >label::after {
+    content: '';
+}
+
+.cancelComplainBtn:hover {
+    color: rgba(0, 0, 0, 0.6) !important;
+    border-color: black !important;
+}
+
+.evaluateBtn:hover {
+    color: rgba(0, 0, 0, 0.6) !important;
+    background-color: #7364FF !important;
+    border-color: black !important;
+}

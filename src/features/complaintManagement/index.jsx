@@ -163,7 +163,7 @@ const ComplaintManagement = () => {
     },
     {
       headerName: 'NGÀY GỬI',
-      field: 'date',
+      field: 'sentDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'

@@ -16,6 +16,9 @@ body {
   flex-direction: row;
   background: #F2EDEF;
 }
+.ant-layout.layout-dashboard.customer {
+  background: #E1E5F4;
+}
 .tabled .customDeleteButton {
   background-color: #FFCECE;
   color: #F43F5E;

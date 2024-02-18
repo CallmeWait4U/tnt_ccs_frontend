@@ -31,6 +31,7 @@ import ClientBillPage from '../pages/clientScreen/BillPage'
 import ClientComplaintDetailPage from '../pages/clientScreen/ComplaintDetailPage'
 import ClientComplaintPage from '../pages/clientScreen/ComplaintPage'
 import ClientMessagePage from '../pages/clientScreen/MessagePage'
+import ClientNewComplaintPage from '../pages/clientScreen/NewComplaintPage'
 import ClientProfilePage from '../pages/clientScreen/ProfilePage'
 import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
 import ClientQuotePage from '../pages/clientScreen/QuotePage'
@@ -127,6 +128,10 @@ const routesLayout = [
   {
     path: PATH.CUSTOME_URL.COMPLAINT,
     element: withPrivateRoute(ClientComplaintPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.NEWCOMPLAINT,
+    element: withPrivateRoute(ClientNewComplaintPage)()
   },
   {
     path: PATH.CUSTOME_URL.COMPLAINTDETAIL,
