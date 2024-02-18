@@ -12,6 +12,7 @@ import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
+
 import { dataCustomer as data } from '../../dataMock/DataCustomer'
 import CustomToggleButton from '../component/CustomToggleButton'
 

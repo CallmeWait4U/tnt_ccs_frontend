@@ -100,18 +100,22 @@ const ComplaintDetail = () => {
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
         <Col md={20}>
-          <Title level={4}> Danh sách khách hàng</Title>
+          <Title level={4}>Khiếu nại #1</Title>
         </Col>
         <Col
           md={4}
-          style={{ display: 'flex', justifyContent: 'right', gap: '16px' }}
+          style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
-          <Button
-            style={{ height: '35px', background: '#F43F5E', color: 'white' }}
+          <ButtonOk
+            style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
           >
             Xóa
-          </Button>
-          <ButtonOk type='primary' onClick={() => setIsOpen(true)}>
+          </ButtonOk>
+          <ButtonOk
+            type='primary'
+            style={{ fontSize: '14px', height: '42px' }}
+            onClick={() => setIsOpen(true)}
+          >
             Lịch sử hoạt động
           </ButtonOk>
         </Col>
@@ -120,31 +124,37 @@ const ComplaintDetail = () => {
       <Card>
         <Form layout='vertical'>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={4} offset={2}>
               <Form.Item name='type' label='Loại khiếu nại'>
                 <Input placeholder='Tên khách hàng' disabled={!isUpdate} />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={4} offset={2}>
               <Form.Item name='date' label='Ngày gửi'>
-                <StyledDatepicker />
+                <StyledDatepicker disabled={!isUpdate} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={4} offset={2}>
               <Form.Item name='code' label='Mã đơn hàng'>
                 <Input disabled={!isUpdate} />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={4} offset={2}>
               <Form.Item name='status' label='Trạng thái'>
-                <StyledSelect />
+                <StyledSelect
+                  options={[
+                    { value: '1', label: 'Đã xử lí' },
+                    { value: '2', label: 'Chưa xử lí' },
+                    { value: '3', label: 'Cần xử lý lại' }
+                  ]}
+                />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[16, 16]}>
-            <Col span={12} xl={24}>
+          <Row gutter={[8, 16]}>
+            <Col span={12}>
               <Card title={'Thông tin chung của khách hàng'}>
                 <Row gutter={16}>
                   <Col span={8}>
@@ -202,7 +212,7 @@ const ComplaintDetail = () => {
                 </Row>
               </Card>
             </Col>
-            <Col span={12} xl={24}>
+            <Col span={12}>
               <Card title={'Thông tin khiếu nại'}>
                 <Row>
                   <span>Những vấn đề bạn gặp với sản phẩm?</span>
