@@ -30,7 +30,7 @@ const AgGridTable = ({
   const onGridReady = (params) => {
     setGridApi(params)
     setFirstIndex(1)
-    take > rowData.length ? setLastIndex(rowData.length) : setLastIndex(take)
+    take > rowData?.length ? setLastIndex(rowData?.length) : setLastIndex(take)
   }
 
   const onFirstDataRendered = (params) => {
@@ -41,8 +41,8 @@ const AgGridTable = ({
     gridApi.api.updateGridOptions({ paginationPageSize: Number(pageSize) })
     setCurrentPage(1)
     setFirstIndex(1)
-    pageSize > rowData.length
-      ? setLastIndex(rowData.length)
+    pageSize > rowData?.length
+      ? setLastIndex(rowData?.length)
       : setLastIndex(pageSize)
     setTake(pageSize)
   }
@@ -50,8 +50,8 @@ const AgGridTable = ({
   const onChangePagination = (pageNumber) => {
     setCurrentPage(pageNumber)
     setFirstIndex((pageNumber - 1) * take + 1)
-    pageNumber * take > rowData.length
-      ? setLastIndex(rowData.length)
+    pageNumber * take > rowData?.length
+      ? setLastIndex(rowData?.length)
       : setLastIndex(pageNumber * take)
     gridApi.api.paginationGoToPage(pageNumber - 1)
   }
@@ -118,11 +118,11 @@ const AgGridTable = ({
         </div>
         <div className='custom-pagination'>
           <div className='custom-pagination-title'>
-            {firstIndex}-{lastIndex} trong tổng {rowData.length}
+            {firstIndex}-{lastIndex} trong tổng {rowData?.length}
           </div>
           <Pagination
             className='custom-pagination-title'
-            total={rowData.length}
+            total={rowData?.length}
             current={currentPage}
             onChange={onChangePagination}
             showSizeChanger={false}
