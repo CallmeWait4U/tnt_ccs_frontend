@@ -9,6 +9,7 @@ import {
   StyledModal,
   StyledSelect
 } from '../../component/ComponentOfForm'
+import '../complaintManagement.css'
 
 const ComplaintDetail = () => {
   const problems = [
@@ -98,21 +99,32 @@ const ComplaintDetail = () => {
   }
   return (
     <div>
-      <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+      <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
         <Col md={20}>
-          <Title level={4}>Khiếu nại #1</Title>
+          <Title
+            level={4}
+            style={{
+              marginLeft: '10px',
+              marginTop: '4px',
+              fontWeight: '700'
+            }}
+          >
+            Khiếu nại #1
+          </Title>
         </Col>
         <Col
           md={4}
           style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
           <ButtonOk
+            className='deleteComplainBtn'
             style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
           >
             Xóa
           </ButtonOk>
           <ButtonOk
             type='primary'
+            className='historyActBtn'
             style={{ fontSize: '14px', height: '42px' }}
             onClick={() => setIsOpen(true)}
           >
@@ -121,12 +133,20 @@ const ComplaintDetail = () => {
         </Col>
       </Row>
 
-      <Card>
-        <Form layout='vertical'>
+      <Card className='complaintForm'>
+        <Form>
           <Row gutter={16}>
-            <Col span={4} offset={2}>
+            <Col span={4} offset={1}>
               <Form.Item name='type' label='Loại khiếu nại'>
-                <Input placeholder='Tên khách hàng' disabled={!isUpdate} />
+                <StyledSelect
+                  options={[
+                    { value: 'Sản phẩm', label: 'Sản phẩm' },
+                    { value: 'Vận chuyển', label: 'Vận chuyển' },
+                    { value: 'Nhân viên', label: 'Nhân viên' }
+                  ]}
+                  placeholder='Chọn loại yêu cầu'
+                  disabled={!isUpdate}
+                />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -134,10 +154,8 @@ const ComplaintDetail = () => {
                 <StyledDatepicker disabled={!isUpdate} />
               </Form.Item>
             </Col>
-          </Row>
-          <Row gutter={16}>
             <Col span={4} offset={2}>
-              <Form.Item name='code' label='Mã đơn hàng'>
+              <Form.Item name='code' label='Mã hóa đơn'>
                 <Input disabled={!isUpdate} />
               </Form.Item>
             </Col>
@@ -145,20 +163,27 @@ const ComplaintDetail = () => {
               <Form.Item name='status' label='Trạng thái'>
                 <StyledSelect
                   options={[
-                    { value: '1', label: 'Đã xử lí' },
-                    { value: '2', label: 'Chưa xử lí' },
-                    { value: '3', label: 'Cần xử lý lại' }
+                    { value: '1', label: 'Chưa xử lí' },
+                    { value: '2', label: 'Đang xử lí' },
+                    { value: '3', label: 'Đã xử lí' },
+                    { value: '4', label: 'Xử lý lại' }
                   ]}
+                  disabled={!isUpdate}
                 />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[8, 16]}>
+
+          <Row gutter={[8, 16]} style={{ marginRight: '24px' }}>
             <Col span={12}>
               <Card title={'Thông tin chung của khách hàng'}>
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Form.Item name='name' label='Tên khách hàng'>
+                    <Form.Item
+                      className='customHorizontal'
+                      name='name'
+                      label='Tên khách hàng'
+                    >
                       <Input
                         placeholder='Tên khách hàng'
                         disabled={!isUpdate}
@@ -166,47 +191,110 @@ const ComplaintDetail = () => {
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item name='sex' label='Giới tính'>
-                      <StyledSelect disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal'
+                      name='sex'
+                      label='Giới tính'
+                    >
+                      <StyledSelect
+                        placeholder={'Chọn giới tính'}
+                        options={[
+                          { value: 'Male', label: 'Nam' },
+                          { value: 'Female', label: 'Nữ' }
+                        ]}
+                        disabled={!isUpdate}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item name='birthday' label='Ngày sinh'>
-                      <StyledDatepicker disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal'
+                      name='birthday'
+                      label='Ngày sinh'
+                    >
+                      <StyledDatepicker
+                        placeholder={'Chọn ngày sinh'}
+                        disabled={!isUpdate}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Form.Item name='cccd' label='CCCD'>
-                      <Input placeholder='Số điện thoại' disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal'
+                      name='cccd'
+                      label='CCCD'
+                    >
+                      <Input placeholder='Nhập CCCD' disabled={!isUpdate} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item name='email' label='Email'>
-                      <Input placeholder='Số điện thoại' disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal'
+                      name='email'
+                      label='Email'
+                    >
+                      <Input placeholder='Nhập email' disabled={!isUpdate} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item name='phone' label='Số điện thoại'>
-                      <Input placeholder='Số điện thoại' disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal'
+                      name='phone'
+                      label='Số điện thoại'
+                    >
+                      <Input
+                        placeholder='Nhập số điện thoại'
+                        disabled={!isUpdate}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Form.Item name='address' label='Địa chỉ'>
-                      <Input placeholder='Địa chỉ' disabled={!isUpdate} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item name='province' label=' '>
+                    <Form.Item
+                      className='customHorizontal customDetailAddress'
+                      label={'Địa chỉ'}
+                      name={'detailAddress'}
+                    >
                       <Input disabled={!isUpdate} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item name='district' label=' '>
-                      <Input disabled={!isUpdate} />
+                    <Form.Item
+                      className='customHorizontal customAddress'
+                      label={' '}
+                      name={'district'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Yêu cầu thông tin'
+                        }
+                      ]}
+                    >
+                      <StyledSelect
+                        placeholder='Chọn quận/huyện'
+                        disabled={!isUpdate}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item
+                      className='customHorizontal customAddress'
+                      label={' '}
+                      name={'city'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Yêu cầu thông tin'
+                        }
+                      ]}
+                    >
+                      <StyledSelect
+                        placeholder='Chọn tỉnh/thành phố'
+                        disabled={!isUpdate}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -215,7 +303,9 @@ const ComplaintDetail = () => {
             <Col span={12}>
               <Card title={'Thông tin khiếu nại'}>
                 <Row>
-                  <span>Những vấn đề bạn gặp với sản phẩm?</span>
+                  <span style={{ paddingBottom: '5px' }}>
+                    Những vấn đề bạn gặp với sản phẩm?
+                  </span>
                   {problems.map((item, index) => (
                     <Col span={24} key={index}>
                       <div style={{ display: 'flex', marginLeft: 10 }}>
@@ -226,7 +316,9 @@ const ComplaintDetail = () => {
                   ))}
                 </Row>
                 <Row style={{ marginTop: '20px' }}>
-                  <span>Hình ảnh minh họa</span>
+                  <span style={{ paddingBottom: '5px' }}>
+                    Hình ảnh minh họa
+                  </span>
                   <Col span={24}>
                     <div style={{ display: 'flex', marginLeft: 10 }}>
                       <span>hinhf1.jpg</span>
@@ -236,7 +328,8 @@ const ComplaintDetail = () => {
                           marginLeft: 10,
                           border: '1px',
                           borderRadius: '5px',
-                          background: '#8b8989',
+                          borderColor: 'black',
+                          background: '#E9E6E6',
                           padding: '2px 5px'
                         }}
                       >
@@ -246,7 +339,7 @@ const ComplaintDetail = () => {
                   </Col>
                 </Row>
                 <Row style={{ marginTop: '20px' }}>
-                  <Col span={24}>
+                  <Col span={24} style={{ paddingBottom: '5px' }}>
                     <span>Sản phẩm khiếu nại</span>
                   </Col>
                   <Col span={24}>
@@ -270,7 +363,7 @@ const ComplaintDetail = () => {
                   </Col>
                 </Row>
                 <Row style={{ marginTop: '20px' }}>
-                  <Col span={24}>
+                  <Col span={24} style={{ paddingBottom: '5px' }}>
                     <span>Mô tả chi tiết</span>
                   </Col>
                   <Col span={24}>

@@ -20,7 +20,14 @@ const ClientBillManagement = () => {
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <ButtonOk type='primary'>Chi tiết</ButtonOk>
+        <ButtonOk
+          type='primary'
+          onClick={() =>
+            navigate(`${PATH.CUSTOME_URL.BILL}/1`, { state: data })
+          }
+        >
+          Chi tiết
+        </ButtonOk>
       </div>
     )
   }
@@ -33,7 +40,7 @@ const ClientBillManagement = () => {
       orderDate: '20/10/2021',
 
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD002',
@@ -41,7 +48,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD003',
@@ -49,7 +56,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD004',
@@ -57,7 +64,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD005',
@@ -65,7 +72,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD006',
@@ -73,7 +80,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD007',
@@ -81,7 +88,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD008',
@@ -89,7 +96,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Đã thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD009',
@@ -97,7 +104,7 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Chưa thanh toán',
-      price: '100.000'
+      price: 100000
     },
     {
       code: 'HD010',
@@ -105,7 +112,23 @@ const ClientBillManagement = () => {
       number: '0123456789',
       orderDate: '20/10/2021',
       status: 'Chưa thanh toán',
-      price: '100.000'
+      price: 100000
+    },
+    {
+      code: 'HD011',
+      customerName: 'Nguyễn Văn K',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Chưa thanh toán',
+      price: 100000
+    },
+    {
+      code: 'HD012',
+      customerName: 'Nguyễn Văn K',
+      number: '0123456789',
+      orderDate: '20/10/2021',
+      status: 'Chưa thanh toán',
+      price: 100000
     }
   ]
   const colDefs = [
@@ -160,7 +183,7 @@ const ClientBillManagement = () => {
       }
     },
     {
-      headerName: 'NGAY ĐẶT',
+      headerName: 'NGÀY ĐẶT',
       field: 'orderDate',
       cellStyle: {
         display: 'flex',
@@ -182,15 +205,35 @@ const ClientBillManagement = () => {
       minWidth: 250,
       filter: AgGridCustomSetFilter,
       filterParams: {
-        type: 'text'
+        itemList: [
+          {
+            id: '1',
+            label: 'Chưa thanh toán',
+            value: 'Chưa thanh toán'
+          },
+          {
+            id: '2',
+            label: 'Đã thanh toán',
+            value: 'Đã thanh toán'
+          }
+        ]
       }
     },
     {
       headerName: 'ĐƠN GIÁ',
       field: 'price',
+      valueFormatter: (p) =>
+        Math.floor(p.data.price)
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
+      minWidth: 150,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'number'
       }
     },
     {

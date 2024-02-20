@@ -35,6 +35,7 @@ import ClientNewComplaintPage from '../pages/clientScreen/NewComplaintPage'
 import ClientProfilePage from '../pages/clientScreen/ProfilePage'
 import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
 import ClientQuotePage from '../pages/clientScreen/QuotePage'
+import ClientQuoteRequestDetailPage from '../pages/clientScreen/QuoteRequestDetailPage'
 import PrivateRoute from './PrivateRoute'
 
 const withPrivateRoute = (Component) => {
@@ -152,6 +153,10 @@ const routesLayout = [
   {
     path: PATH.CUSTOME_URL.QUOTEDETAIL,
     element: withPrivateRoute(ClientQuoteDetailPage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.QUOTEREQUESTDETAIL,
+    element: withPrivateRoute(ClientQuoteRequestDetailPage)()
   },
   {
     path: PATH.CUSTOME_URL.MESSAGE,

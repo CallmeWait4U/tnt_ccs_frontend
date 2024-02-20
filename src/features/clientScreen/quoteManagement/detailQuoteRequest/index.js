@@ -1,23 +1,8 @@
 import { Col, Form, Input, Row, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
-import { useState } from 'react'
 
-const ClientQuoteDetail = () => {
-  const problems = [
-    'Sản phẩm bị lỗi',
-    'Sản phẩm không đúng mô tả',
-    'Sản phẩm không đúng kích thước',
-    'Sản phẩm không đúng màu sắc',
-    'Sản phẩm không đúng số lượng',
-    'Sản phẩm không đúng chất lượng'
-  ]
-  const productsProblem = [
-    'Tai nghe bluetooth XT80',
-    'Chuột không dây Inphic PM6'
-  ]
+const ClientQuoteRequestDetail = () => {
   const { Title } = Typography
-  const [isUpdate, setIsUpdate] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const columns = [
     {
       title: 'STT',
@@ -82,9 +67,18 @@ const ClientQuoteDetail = () => {
   ]
   return (
     <div>
-      <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
+      <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
         <Col md={20}>
-          <Title level={4}> Chi tiết báo giá</Title>
+          <Title
+            level={4}
+            style={{
+              marginLeft: '10px',
+              marginTop: '4px',
+              fontWeight: '700'
+            }}
+          >
+            Chi tiết yêu cầu báo giá
+          </Title>
         </Col>
       </Row>
       <div
@@ -94,34 +88,22 @@ const ClientQuoteDetail = () => {
           justifyContent: 'center'
         }}
       >
-        <Card style={{ maxWidth: '1053px' }}>
+        <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
           <Form layout='vertical'>
             <Row gutter={16}>
-              <Col md={8}>
-                <Form.Item label='Mã báo giá'>
-                  <Input />
+              <Col md={6} offset={1}>
+                <Form.Item label='Mã yêu cầu báo giá'>
+                  <Input disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Ngày gửi'>
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col md={8}>
-                <Form.Item label='Nhân viên tạo'>
-                  <Input />
+                <Form.Item label='Người tạo yêu cầu'>
+                  <Input disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Mã Nhân viên tạo'>
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col md={8}>
-                <Form.Item label='Ngày tạo'>
-                  <Input />
+                <Form.Item label='Ngày tạo yêu cầu'>
+                  <Input disabled />
                 </Form.Item>
               </Col>
             </Row>
@@ -154,4 +136,4 @@ const ClientQuoteDetail = () => {
     </div>
   )
 }
-export default ClientQuoteDetail
+export default ClientQuoteRequestDetail

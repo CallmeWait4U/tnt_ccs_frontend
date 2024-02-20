@@ -14,6 +14,7 @@ import {
   StyledSelect
 } from '../../component/ComponentOfForm'
 import CustomToggleButton from '../../component/CustomToggleButton'
+import './quoteManagement.css'
 
 const ClientQuoteManagement = () => {
   const [skip, setSkip] = useState(0)
@@ -21,12 +22,26 @@ const ClientQuoteManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [tag, setTag] = useState('Báo giá')
+  const optionTags = ['Báo giá', 'Yêu cầu báo giá']
 
   const [isOpen, setIsOpen] = useState(false)
-  const ActionComponent = (data) => {
+
+  const navigateDetail = (data, type) => {
+    if (type === 'quote') {
+      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: data })
+    }
+    if (type === 'quoteRequest') {
+      navigate(`${PATH.CUSTOME_URL.QUOTEREQUEST}/1`, { state: data })
+    }
+  }
+
+  const ActionComponent = (data, type) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <ButtonOk type='primary'>Chi tiết</ButtonOk>
+        <ButtonOk type='primary' onClick={() => navigateDetail(data, type)}>
+          Chi tiết
+        </ButtonOk>
       </div>
     )
   }
@@ -114,7 +129,7 @@ const ClientQuoteManagement = () => {
       price: '100.000'
     }
   ]
-  const colDefs = [
+  const colQuoteDefs = [
     {
       headerName: 'STT',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
@@ -144,7 +159,94 @@ const ClientQuoteManagement = () => {
       }
     },
     {
-      headerName: 'TÊN KHÁCH HÀNG',
+      headerName: 'TÊN NHÂN VIÊN TẠO',
+      field: 'employeeName',
+      minWidth: 300,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'SỐ ĐIỆN THOẠI',
+      field: 'number',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'NGÀY GỬI',
+      field: 'sendDate',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'ĐƠN GIÁ',
+      minWidth: 200,
+      field: 'price',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      field: 'action',
+      cellRenderer: (p) => ActionComponent(p.data, 'quote'),
+      minWidth: 150,
+      width: 150,
+      pinned: 'right',
+      cellStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  ]
+
+  const colQuoteRequestDefs = [
+    {
+      headerName: 'STT',
+      valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
+      minWidth: 120,
+      width: 120,
+      sortable: false,
+      filter: false,
+      checkboxSelection: true,
+      headerCheckboxSelection: true,
+      pinned: 'left',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'MÃ BÁO GIÁ',
+      field: 'code',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TÊN NGƯỜI GỬI',
       field: 'customerName',
       minWidth: 300,
       filter: AgGridCustomTextFilter,
@@ -166,7 +268,7 @@ const ClientQuoteManagement = () => {
       }
     },
     {
-      headerName: 'NGAY GỬI',
+      headerName: 'NGÀY GỬI',
       field: 'sendDate',
       cellStyle: {
         display: 'flex',
@@ -178,7 +280,6 @@ const ClientQuoteManagement = () => {
         type: 'text'
       }
     },
-
     {
       headerName: 'ĐƠN GIÁ',
       minWidth: 200,
@@ -190,7 +291,7 @@ const ClientQuoteManagement = () => {
     },
     {
       field: 'action',
-      cellRenderer: (p) => ActionComponent(p.data),
+      cellRenderer: (p) => ActionComponent(p.data, 'quoteRequest'),
       minWidth: 150,
       width: 150,
       pinned: 'right',
@@ -201,6 +302,7 @@ const ClientQuoteManagement = () => {
       }
     }
   ]
+
   const columnsModal = [
     {
       key: 'name',
@@ -223,6 +325,7 @@ const ClientQuoteManagement = () => {
       render: (text) => <Input />
     }
   ]
+
   const dataModal = [
     {
       key: '1',
@@ -264,32 +367,61 @@ const ClientQuoteManagement = () => {
               Báo giá của tôi
             </Title>
           </Col>
-          <Col>
-            <ButtonOk onClick={() => setIsOpen(true)}>
-              Tạo yêu cầu báo giá
-            </ButtonOk>
+
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            {tag === optionTags[1] && (
+              <ButtonOk
+                className='addBtn'
+                onClick={() => setIsOpen(true)}
+                style={{ fontSize: '14px', height: '42px' }}
+              >
+                Tạo yêu cầu báo giá
+              </ButtonOk>
+            )}
           </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
           <Col xs='24' xl={24} style={{ height: '650px' }}>
             <Card
               title={
-                <CustomToggleButton options={['Báo giá', 'Yêu cầu báo giá']} />
+                <CustomToggleButton
+                  options={optionTags}
+                  chosenTag={(tag) => {
+                    setTag(tag)
+                    console.log(tag)
+                  }}
+                />
               }
               bordered={false}
               className='criclebox tablespace mb-24'
             >
               <div className='table-responsive'>
-                <AgGridTable
-                  colDefs={colDefs}
-                  rowData={data}
-                  skip={skip}
-                  take={take}
-                  setTake={setTake}
-                  selectedRow={(rows) =>
-                    navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
-                  }
-                />
+                {tag === optionTags[0] && (
+                  <AgGridTable
+                    colDefs={colQuoteDefs}
+                    rowData={data}
+                    skip={skip}
+                    take={take}
+                    setTake={setTake}
+                    selectedRow={(rows) => setSelectedRowKeys(rows)}
+                    onDoubleClicked={(rows) =>
+                      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
+                    }
+                  />
+                )}
+                {tag === optionTags[1] && (
+                  <AgGridTable
+                    colDefs={colQuoteRequestDefs}
+                    rowData={data}
+                    skip={skip}
+                    take={take}
+                    setTake={setTake}
+                    selectedRow={(rows) => setSelectedRowKeys(rows)}
+                    onDoubleClicked={(rows) =>
+                      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
+                    }
+                  />
+                )}
               </div>
             </Card>
           </Col>

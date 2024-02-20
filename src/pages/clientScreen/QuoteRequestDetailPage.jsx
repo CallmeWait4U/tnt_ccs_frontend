@@ -2,9 +2,9 @@ import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
-import ClientBillDetail from '../../features/clientScreen/billManagement/detail'
+import ClientQuoteRequestDetail from '../../features/clientScreen/quoteManagement/detailQuoteRequest'
 
-const ClientBillDetailPage = () => {
+const ClientQuoteRequestDetailPage = () => {
   const location = useLocation()
   const getCode = () => {
     return location.pathname.split('/')[3]
@@ -14,23 +14,23 @@ const ClientBillDetailPage = () => {
     <Main
       role={ROLE.CUSTOMER}
       pageProps={{
-        namePage: 'Chi tiết hóa đơn',
-        keySideNav: 'bill',
+        namePage: 'Chi tiết yêu cầu báo giá',
+        keySideNav: 'quote',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           {
             title: (
-              <a href={PATH.CUSTOME_URL.BILL} style={{ color: 'black' }}>
-                Danh sách hóa đơn
+              <a href={PATH.CUSTOME_URL.QUOTE} style={{ color: 'black' }}>
+                Danh sách báo giá
               </a>
             )
           },
-          { title: `Chi tiết hóa đơn ${getCode()}` }
+          { title: `Chi tiết yêu cầu báo giá ${getCode()}` }
         ]
       }}
     >
-      <ClientBillDetail />
+      <ClientQuoteRequestDetail />
     </Main>
   )
 }
-export default ClientBillDetailPage
+export default ClientQuoteRequestDetailPage

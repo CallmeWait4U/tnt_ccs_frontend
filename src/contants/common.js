@@ -41,6 +41,8 @@ export const PATH = Object.freeze({
     BILLDETAIL: '/client/bills/:id',
     QUOTE: '/client/quotes',
     QUOTEDETAIL: '/client/quotes/:id',
+    QUOTEREQUEST: '/client/quote-request',
+    QUOTEREQUESTDETAIL: '/client/quote-request/:id',
     MESSAGE: '/client/messages',
     PROFILE: '/client/profile'
   }
