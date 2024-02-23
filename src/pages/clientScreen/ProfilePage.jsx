@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
-import { PATH, ROLE } from '../../contants/common'
-
 import Main from '../../components/layout/Main'
+import { ROLE } from '../../contants/common'
+import ClientProfile from '../../features/clientScreen/profile'
 
 const ClientProfilePage = () => {
   const location = useLocation()
@@ -17,14 +17,11 @@ const ClientProfilePage = () => {
         keySideNav: 'quote',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          {
-            title: <a href={PATH.QUOTE} style={{ color: 'black' }}></a>
-          },
-          { title: `Chi tiết báo giá${getCode()}` }
+          { title: `Thông tin cá nhân` }
         ]
       }}
     >
-      <div>thông tin cá nhân</div>
+      <ClientProfile />
     </Main>
   )
 }
