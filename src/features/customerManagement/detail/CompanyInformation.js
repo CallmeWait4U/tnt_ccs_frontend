@@ -1,10 +1,9 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
-const CompanyInformation = () => {
+const CompanyInformation = (companyInfo) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [hasAccount, setHasAccount] = useState(false)
   const [phase, setPhase] = useState(1)
@@ -12,22 +11,22 @@ const CompanyInformation = () => {
   const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-      const provincesData = []
-      data.data.forEach((item) => {
-        provincesData.push({
-          label: item.name,
-          value: item.code,
-          districts: item.districts.map((district) => {
-            return { name: district.name, code: district.code }
-          })
-        })
-      })
-      setProvinces(provincesData)
-    })
-  }, [])
+  console.log(companyInfo)
+  // useEffect(() => {
+  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
+  //     const provincesData = []
+  //     data.data.forEach((item) => {
+  //       provincesData.push({
+  //         label: item.name,
+  //         value: item.code,
+  //         districts: item.districts.map((district) => {
+  //           return { name: district.name, code: district.code }
+  //         })
+  //       })
+  //     })
+  //     setProvinces(provincesData)
+  //   })
+  // }, [])
 
   const layout = {
     labelCol: {
@@ -70,15 +69,15 @@ const CompanyInformation = () => {
     setHasAccount(value)
   }
 
-  const onChangeProvince = (value) => {
-    const p = provinces.find((province) => province.value == value)
-    if (p) {
-      const districtsData = p.districts.map((district) => {
-        return { label: district.name, value: district.code }
-      })
-      setDistricts(districtsData)
-    }
-  }
+  // const onChangeProvince = (value) => {
+  //   const p = provinces.find((province) => province.value == value)
+  //   if (p) {
+  //     const districtsData = p.districts.map((district) => {
+  //       return { label: district.name, value: district.code }
+  //     })
+  //     setDistricts(districtsData)
+  //   }
+  // }
 
   return (
     <Col xl={24} xxl={13}>
@@ -176,7 +175,7 @@ const CompanyInformation = () => {
             </Col>
             <Col span={8}>
               <Form.Item label={'Mã khách hàng'} name={'customerCode'}>
-                <Input disabled={true} />
+                <Input disabled={true} value={companyInfo.code} />
               </Form.Item>
             </Col>
           </Row>
@@ -329,7 +328,11 @@ const CompanyInformation = () => {
                   >
                     <StyledSelect
                       placeholder='Chọn quận/huyện'
-                      options={districts}
+                      options={[
+                        { value: 1, label: 'Quận 1' },
+                        { value: 2, label: 'Quận 2' },
+                        { value: 3, label: 'Quận 3' }
+                      ]}
                       disabled={!isUpdate}
                     />
                   </Form.Item>
@@ -348,8 +351,11 @@ const CompanyInformation = () => {
                   >
                     <StyledSelect
                       placeholder='Chọn tỉnh/thành phố'
-                      options={provinces}
-                      onChange={onChangeProvince}
+                      options={[
+                        { value: 1, label: 'Hồ Chí Minh' },
+                        { value: 2, label: 'Bình Định' },
+                        { value: 3, label: 'Bến Tre' }
+                      ]}
                       disabled={!isUpdate}
                     />
                   </Form.Item>

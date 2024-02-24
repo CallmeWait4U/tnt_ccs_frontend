@@ -327,14 +327,14 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={listCustomer}
+                  rowData={dataCustomer?.items}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.code}&${params.data.isBusiness}`
+                      `${PATH.CUSTOMER}/${params.data.name}&${params.data.isBusiness}&${params.data.uuid}`
                     )
                   }}
                 />
