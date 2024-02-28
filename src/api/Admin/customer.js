@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListCustomer = () => {
+export const useListCustomer = (offset, limit) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`/customers`)
+      const response = await api.get(
+        `/customers?offset=${offset}&limit=${limit}`
+      )
       return response.data
     } catch (error) {
       console.log(error)
@@ -18,13 +20,23 @@ export const useListCustomer = () => {
     retry: 2
   })
 }
-const useReadCustomer = async (id) => {
-  try {
-    const response = await api.get(`${BASE_URL}/customers/${id}`)
-    return response
-  } catch (error) {
-    throw error
+export const useReadCustomer = (id) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/customers/${id}`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
   }
+
+  return useQuery({
+    queryKey: ['ReadCustomer', id],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
 }
 const useCreateCustomer = async (data) => {
   try {
@@ -50,9 +62,4 @@ const useDeleteCustomer = async (id) => {
     throw error
   }
 }
-export {
-  useCreateCustomer,
-  useDeleteCustomer,
-  useReadCustomer,
-  useUpdateCustomer
-}
+export { useCreateCustomer, useDeleteCustomer, useUpdateCustomer }

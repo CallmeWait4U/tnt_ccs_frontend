@@ -13,7 +13,6 @@ import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilt
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 
-import { dataCustomer as data } from '../../dataMock/DataCustomer'
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
@@ -22,9 +21,8 @@ const CustomerManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: dataCustomer } = useListCustomer()
-  console.log(dataCustomer)
-  const listCustomer = data
+  const { data: dataCustomer } = useListCustomer(skip, take)
+  // console.log(dataCustomer)
   const itemsTypeCustomer = [
     {
       key: '1',
@@ -75,7 +73,9 @@ const CustomerManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.CUSTOMER}/${data.code}&${data.isBusiness}`)
+              navigate(
+                `${PATH.CUSTOMER}/${dataCustomer.code}&${dataCustomer.isBusiness}`
+              )
             }
           />
         </Button>
@@ -327,14 +327,14 @@ const CustomerManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={listCustomer}
+                  rowData={dataCustomer?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.code}&${params.data.isBusiness}`
+                      `${PATH.CUSTOMER}/${params.data.name}&${params.data.isBusiness}&${params.data.uuid}`
                     )
                   }}
                 />
