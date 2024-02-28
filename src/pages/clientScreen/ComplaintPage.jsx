@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { PATH, ROLE } from '../../contants/common'
+import { ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
 import ClientComplaintManagement from '../../features/clientScreen/complaintManagement'
@@ -14,18 +14,11 @@ const ClientComplaintPage = () => {
     <Main
       role={ROLE.CUSTOMER}
       pageProps={{
-        namePage: 'Quản lý khiếu nại',
+        namePage: 'Danh sách khiếu nại',
         keySideNav: 'complaint',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          {
-            title: (
-              <a href={PATH.ACTIVITY} style={{ color: 'black' }}>
-                Quản lý khiếu nại
-              </a>
-            )
-          },
-          { title: `Chi tiết loại hoạt động ${getCode()}` }
+          { title: 'Danh sách khiếu nại' }
         ]
       }}
     >

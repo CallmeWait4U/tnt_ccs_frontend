@@ -4,8 +4,6 @@ import React, { useState } from 'react'
 // Images
 import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
-import { RiInformationFill } from 'react-icons/ri'
-import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
@@ -27,25 +25,19 @@ const ClientComplaintManagement = () => {
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
           type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(255,225,225)' }}
+          style={{ backgroundColor: '#F43F5E' }}
+          onClick={() => console.log('trash')}
         >
-          <TbTrashFilled
-            color='red'
-            size={18}
-            onClick={() => console.log('trash')}
-          />
+          Hủy khiếu nại
         </Button>
         <Button
           type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(220,245,255)' }}
+          style={{ backgroundColor: '#7364FF' }}
+          onClick={() =>
+            navigate(`${PATH.CUSTOME_URL.COMPLAINT}/1`, { state: data })
+          }
         >
-          <RiInformationFill
-            color='00AEEF'
-            size={24}
-            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
-          />
+          Chi tiết
         </Button>
       </div>
     )
@@ -81,35 +73,13 @@ const ClientComplaintManagement = () => {
       }
     },
     {
-      headerName: 'TÊN KHÁCH HÀNG',
-      field: 'customerName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'MÃ KHÁCH HÀNG',
-      field: 'customerCode',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
       headerName: 'LOẠI KHIẾU NẠI',
-      field: 'typeComplaint',
+      field: 'complaintTypeName',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 250,
+      minWidth: 150,
       filter: AgGridCustomSetFilter,
       filterParams: {
         itemList: [
@@ -133,22 +103,13 @@ const ClientComplaintManagement = () => {
     },
     {
       headerName: 'NGÀY GỬI',
-      field: 'date',
+      field: 'sentDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
       filter: AgGridCustomDateFilter
-    },
-    {
-      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
-      field: 'employeeName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
     },
     {
       headerName: 'TRẠNG THÁI',
@@ -185,11 +146,21 @@ const ClientComplaintManagement = () => {
       }
     },
     {
+      headerName: 'MÔ TẢ',
+      field: 'description',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 400,
+      filter: AgGridCustomDateFilter
+    },
+    {
       headerName: 'THAO TÁC',
       field: 'action',
       cellRenderer: (p) => ActionComponent(p.data),
-      minWidth: 150,
-      width: 150,
+      minWidth: 250,
+      width: 250,
       pinned: 'right',
       cellStyle: {
         display: 'flex',
@@ -212,15 +183,14 @@ const ClientComplaintManagement = () => {
                 fontWeight: '700'
               }}
             >
-              {' '}
-              Danh sách khiếu nại
+              Khiếu nại của tôi
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate('')}
+              onClick={() => navigate(`${PATH.CUSTOME_URL.NEWCOMPLAINT}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -254,7 +224,8 @@ const ClientComplaintManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
-                  selectedRow={(rows) =>
+                  selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  onDoubleClicked={(rows) =>
                     navigate(`${PATH.CUSTOME_URL.COMPLAINT}/1`, { state: rows })
                   }
                 />

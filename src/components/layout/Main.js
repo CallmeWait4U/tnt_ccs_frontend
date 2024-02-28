@@ -27,7 +27,7 @@ const Main = ({ children, pageProps, role }) => {
   console.log('keySideNav', keySideNav)
 
   return (
-    <Layout className={`layout-dashboard `}>
+    <Layout className={`layout-dashboard ${role}`}>
       <Sider
         breakpoint='lg'
         collapsedWidth='0'

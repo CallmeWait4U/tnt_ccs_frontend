@@ -1,11 +1,12 @@
 import { Button } from 'antd'
 import React, { useState } from 'react'
 
-const CustomToggleButton = ({ options }) => {
-  const [selectedTag, setSelectedTag] = useState('option1')
+const CustomToggleButton = ({ options, chosenTag }) => {
+  const [selectedTag, setSelectedTag] = useState(options[0])
 
   const handleTagChange = (tag) => {
     setSelectedTag(tag)
+    chosenTag(tag)
   }
 
   return (
@@ -25,12 +26,12 @@ const CustomToggleButton = ({ options }) => {
         style={{
           borderRadius: '20px',
           flex: 1,
-          background: selectedTag === 'option1' ? 'white' : '#f2f2f2',
-          color: selectedTag === 'option1' ? '#00aeef' : '#999999',
+          background: selectedTag === options[0] ? 'white' : '#f2f2f2',
+          color: selectedTag === options[0] ? '#00aeef' : '#999999',
           fontSize: '13px',
           width: '150px'
         }}
-        onClick={() => handleTagChange('option1')}
+        onClick={() => handleTagChange(options[0])}
       >
         {options[0]}
       </Button>
@@ -39,12 +40,12 @@ const CustomToggleButton = ({ options }) => {
         style={{
           borderRadius: '20px',
           flex: 1,
-          background: selectedTag === 'option2' ? 'white' : '#f2f2f2',
-          color: selectedTag === 'option2' ? '#00aeef' : '#999999',
+          background: selectedTag === options[1] ? 'white' : '#f2f2f2',
+          color: selectedTag === options[1] ? '#00aeef' : '#999999',
           fontSize: '13px',
           width: '150px'
         }}
-        onClick={() => handleTagChange('option2')}
+        onClick={() => handleTagChange(options[1])}
       >
         {options[1]}
       </Button>

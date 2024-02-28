@@ -87,8 +87,8 @@
 }
 
 .detailCustomer .ant-tabs-content-holder {
-    height: 640px;
-    max-height: 640px;
+    height: 70vh;
+    max-height: 70vh;
     overflow-x: hidden;
     padding-top: 16px;
 }

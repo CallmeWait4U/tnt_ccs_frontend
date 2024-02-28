@@ -1,6 +1,5 @@
 import { Col, Form, Input, Row, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
-import { useState } from 'react'
 import { FiCheckSquare } from 'react-icons/fi'
 import { MdRadioButtonChecked } from 'react-icons/md'
 import { ButtonOk } from '../../../../assets/styles/button.style'
@@ -10,7 +9,7 @@ import {
 } from '../../../component/ComponentOfForm'
 import '../complaintManagement.css'
 
-const ClientComplaintDetail = () => {
+const ClientNewComplaint = () => {
   const problems = [
     'Sản phẩm bị lỗi',
     'Sản phẩm không đúng mô tả',
@@ -24,7 +23,6 @@ const ClientComplaintDetail = () => {
     'Chuột không dây Inphic PM6'
   ]
   const { Title } = Typography
-  const [isUpdate, setIsUpdate] = useState(false)
 
   return (
     <div>
@@ -38,20 +36,13 @@ const ClientComplaintDetail = () => {
               fontWeight: '700'
             }}
           >
-            Khiếu nại #1
+            Tạo mới khiếu nại
           </Title>
         </Col>
         <Col
           md={4}
           style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
-          <ButtonOk
-            className='evaluateBtn'
-            type='primary'
-            style={{ fontSize: '14px', height: '42px' }}
-          >
-            Đánh giá
-          </ButtonOk>
           <ButtonOk
             className='cancelComplainBtn'
             style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
@@ -73,18 +64,17 @@ const ClientComplaintDetail = () => {
                     { value: 'Nhân viên', label: 'Nhân viên' }
                   ]}
                   placeholder='Chọn loại yêu cầu'
-                  disabled={!isUpdate}
                 />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='date' label='Ngày gửi'>
-                <StyledDatepicker disabled={!isUpdate} />
+                <StyledDatepicker />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='code' label='Mã hóa đơn'>
-                <Input disabled={!isUpdate} />
+                <Input />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -96,7 +86,6 @@ const ClientComplaintDetail = () => {
                     { value: '3', label: 'Đã xử lí' },
                     { value: '4', label: 'Xử lý lại' }
                   ]}
-                  disabled={!isUpdate}
                 />
               </Form.Item>
             </Col>
@@ -112,10 +101,7 @@ const ClientComplaintDetail = () => {
                       name='name'
                       label='Tên khách hàng'
                     >
-                      <Input
-                        placeholder='Tên khách hàng'
-                        disabled={!isUpdate}
-                      />
+                      <Input placeholder='Tên khách hàng' />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -130,7 +116,6 @@ const ClientComplaintDetail = () => {
                           { value: 'Male', label: 'Nam' },
                           { value: 'Female', label: 'Nữ' }
                         ]}
-                        disabled={!isUpdate}
                       />
                     </Form.Item>
                   </Col>
@@ -140,10 +125,7 @@ const ClientComplaintDetail = () => {
                       name='birthday'
                       label='Ngày sinh'
                     >
-                      <StyledDatepicker
-                        placeholder={'Chọn ngày sinh'}
-                        disabled={!isUpdate}
-                      />
+                      <StyledDatepicker placeholder={'Chọn ngày sinh'} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -154,7 +136,7 @@ const ClientComplaintDetail = () => {
                       name='cccd'
                       label='CCCD'
                     >
-                      <Input placeholder='Nhập CCCD' disabled={!isUpdate} />
+                      <Input placeholder='Nhập CCCD' />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -163,7 +145,7 @@ const ClientComplaintDetail = () => {
                       name='email'
                       label='Email'
                     >
-                      <Input placeholder='Nhập email' disabled={!isUpdate} />
+                      <Input placeholder='Nhập email' />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -172,10 +154,7 @@ const ClientComplaintDetail = () => {
                       name='phone'
                       label='Số điện thoại'
                     >
-                      <Input
-                        placeholder='Nhập số điện thoại'
-                        disabled={!isUpdate}
-                      />
+                      <Input placeholder='Nhập số điện thoại' />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -186,7 +165,7 @@ const ClientComplaintDetail = () => {
                       label={'Địa chỉ'}
                       name={'detailAddress'}
                     >
-                      <Input disabled={!isUpdate} />
+                      <Input />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -201,10 +180,7 @@ const ClientComplaintDetail = () => {
                         }
                       ]}
                     >
-                      <StyledSelect
-                        placeholder='Chọn quận/huyện'
-                        disabled={!isUpdate}
-                      />
+                      <StyledSelect placeholder='Chọn quận/huyện' />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -219,10 +195,7 @@ const ClientComplaintDetail = () => {
                         }
                       ]}
                     >
-                      <StyledSelect
-                        placeholder='Chọn tỉnh/thành phố'
-                        disabled={!isUpdate}
-                      />
+                      <StyledSelect placeholder='Chọn tỉnh/thành phố' />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -320,4 +293,5 @@ const ClientComplaintDetail = () => {
     </div>
   )
 }
-export default ClientComplaintDetail
+
+export default ClientNewComplaint

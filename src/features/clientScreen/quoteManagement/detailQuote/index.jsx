@@ -1,9 +1,7 @@
 import { Col, Form, Input, Row, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
-import { ButtonOk } from '../../../../assets/styles/button.style'
-import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
-const ClientBillDetail = () => {
+const ClientQuoteDetail = () => {
   const { Title } = Typography
   const columns = [
     {
@@ -38,44 +36,35 @@ const ClientBillDetail = () => {
       key: '1',
       code: '1',
       name: 'Tai nghe bluetooth XT80',
-      price: 100000,
+      price: '100.000',
       number: '1',
-      total: 100000
+      total: '100.000'
     },
     {
       key: '2',
       code: '2',
       name: 'Chuột không dây Inphic PM6',
-      price: 100000,
+      price: '100.000',
       number: '1',
-      total: 100000
+      total: '100.000'
     },
     {
       key: '3',
       code: '3',
       name: 'Tai nghe bluetooth XT80',
-      price: 100000,
+      price: '100.000',
       number: '1',
-      total: 100000
+      total: '100.000'
     },
     {
       key: '4',
       code: '4',
       name: 'Chuột không dây Inphic PM6',
-      price: 100000,
+      price: '100.000',
       number: '1',
-      total: 100000
+      total: '100.000'
     }
   ]
-
-  const sumBill = (data) => {
-    let sum = 0
-    data.forEach((item) => (sum = sum + item.total))
-    return Math.floor(sum)
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  }
-
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -88,19 +77,8 @@ const ClientBillDetail = () => {
               fontWeight: '700'
             }}
           >
-            Chi tiết hóa đơn
+            Chi tiết báo giá
           </Title>
-        </Col>
-        <Col
-          md={4}
-          style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
-        >
-          <ButtonOk
-            className='cancelComplainBtn'
-            style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
-          >
-            Khiếu nại về hóa đơn
-          </ButtonOk>
         </Col>
       </Row>
       <div
@@ -120,11 +98,6 @@ const ClientBillDetail = () => {
               </Col>
               <Col md={6}>
                 <Form.Item label='Ngày gửi'>
-                  <StyledDatepicker disabled />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item label='Trạng thái'>
                   <Input disabled />
                 </Form.Item>
               </Col>
@@ -142,7 +115,7 @@ const ClientBillDetail = () => {
               </Col>
               <Col md={6}>
                 <Form.Item label='Ngày tạo'>
-                  <StyledDatepicker disabled />
+                  <Input disabled />
                 </Form.Item>
               </Col>
             </Row>
@@ -159,11 +132,11 @@ const ClientBillDetail = () => {
                   <Row>
                     <Col span={20}>
                       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                        Tổng tiền
+                        Thành tiền
                       </p>
                     </Col>
                     <Col span={4} style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '16px' }}>{sumBill(dataTable)}</p>
+                      <p style={{ fontSize: '16px' }}> 400.000</p>
                     </Col>
                   </Row>
                 )}
@@ -175,4 +148,4 @@ const ClientBillDetail = () => {
     </div>
   )
 }
-export default ClientBillDetail
+export default ClientQuoteDetail

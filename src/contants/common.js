@@ -35,11 +35,14 @@ export const PATH = Object.freeze({
   HOST: 'http://localhost:3000',
   CUSTOME_URL: {
     COMPLAINT: '/client/complaints',
+    NEWCOMPLAINT: '/client/new-complaint',
     COMPLAINTDETAIL: '/client/complaints/:id',
     BILL: '/client/bills',
     BILLDETAIL: '/client/bills/:id',
     QUOTE: '/client/quotes',
     QUOTEDETAIL: '/client/quotes/:id',
+    QUOTEREQUEST: '/client/quote-request',
+    QUOTEREQUESTDETAIL: '/client/quote-request/:id',
     MESSAGE: '/client/messages',
     PROFILE: '/client/profile'
   }

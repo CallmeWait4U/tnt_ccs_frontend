@@ -14,14 +14,14 @@ const ClientComplaintDetailPage = () => {
     <Main
       role={ROLE.CUSTOMER}
       pageProps={{
-        namePage: 'Quản lý khiếu nại',
+        namePage: 'Chi tiết khiếu nại',
         keySideNav: 'complaint',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           {
             title: (
-              <a href={PATH.ACTIVITY} style={{ color: 'black' }}>
-                Quản lý khiếu nại
+              <a href={PATH.CUSTOME_URL.COMPLAINT} style={{ color: 'black' }}>
+                Danh sách khiếu nại
               </a>
             )
           },
