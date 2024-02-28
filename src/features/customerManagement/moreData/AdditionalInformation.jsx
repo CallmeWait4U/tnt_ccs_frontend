@@ -1,11 +1,15 @@
 import { Button, Col, Flex, Form, Input, Row, Table, Typography } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
-const AdditionalInformation = ({ typeCustomer }) => {
+
+const AdditionalInformation = ({ id, typeCustomer }) => {
   const [isUpdate, setIsUpdate] = useState(false)
+  const { data: customerInfo } = useReadCustomer(id)
+
   const [tableData, setTableData] = useState([
     {
       index: 1,
@@ -73,7 +77,21 @@ const AdditionalInformation = ({ typeCustomer }) => {
       )
     }
   ]
-
+  useEffect(() => {
+    if (customerInfo) {
+      console.log(id)
+      form.setFieldsValue({
+        name: customerInfo.business.representativeName,
+        gender: customerInfo.business.representativeGender,
+        // dayOfBirth: customerInfo.business.representativeBirthday,
+        cccd: customerInfo.business.representativeCccd,
+        nationality: customerInfo.business.nationality,
+        position: customerInfo.business.representativePosition,
+        email: customerInfo.business.representativeEmail,
+        phoneNumber: customerInfo.business.representativePhone
+      })
+    }
+  }, [customerInfo])
   const layout = {
     labelCol: {
       span: 8

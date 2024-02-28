@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListCustomer = () => {
+export const useListCustomer = (offset, limit) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`/customers`)
+      const response = await api.get(
+        `/customers?offset=${offset}&limit=${limit}`
+      )
       return response.data
     } catch (error) {
       console.log(error)

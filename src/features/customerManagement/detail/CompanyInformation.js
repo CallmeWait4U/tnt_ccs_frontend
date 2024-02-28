@@ -1,9 +1,10 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
-const CompanyInformation = (companyInfo) => {
+const CompanyInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [hasAccount, setHasAccount] = useState(false)
   const [phase, setPhase] = useState(1)
@@ -11,7 +12,8 @@ const CompanyInformation = (companyInfo) => {
   const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
-  console.log(companyInfo)
+  const { data: customerInfo } = useReadCustomer(id.id)
+
   // useEffect(() => {
   //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
   //     const provincesData = []
@@ -68,7 +70,27 @@ const CompanyInformation = (companyInfo) => {
   const onChangeAccount = (value) => {
     setHasAccount(value)
   }
-
+  useEffect(() => {
+    if (customerInfo) {
+      console.log(id)
+      console.log(customerInfo)
+      form.setFieldsValue({
+        businessName: customerInfo.name,
+        customerCode: customerInfo.code,
+        source: customerInfo.source,
+        cccd: customerInfo.id,
+        phoneNumber: customerInfo.phoneNumber,
+        description: customerInfo.description,
+        email: customerInfo.email,
+        detailAddress: customerInfo.detailAddress,
+        city: customerInfo.city,
+        district: customerInfo.district,
+        businessRegistrationNumber: customerInfo.business.registrationNumber,
+        taxCode: customerInfo.business.taxCode,
+        businessIndustryId: customerInfo.business.industryId
+      })
+    }
+  }, [customerInfo])
   // const onChangeProvince = (value) => {
   //   const p = provinces.find((province) => province.value == value)
   //   if (p) {
@@ -175,7 +197,7 @@ const CompanyInformation = (companyInfo) => {
             </Col>
             <Col span={8}>
               <Form.Item label={'Mã khách hàng'} name={'customerCode'}>
-                <Input disabled={true} value={companyInfo.code} />
+                <Input disabled={true} />
               </Form.Item>
             </Col>
           </Row>
