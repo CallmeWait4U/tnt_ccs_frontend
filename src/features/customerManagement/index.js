@@ -18,37 +18,12 @@ import CustomToggleButton from '../component/CustomToggleButton'
 const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const [accountType, setAccountType] = useState('employee')
+
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataCustomer } = useListCustomer(skip, take)
-  // console.log(dataCustomer)
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
-    }
-  ]
 
   const ActionComponent = (data) => {
     return (
@@ -151,6 +126,19 @@ const CustomerManagement = () => {
       }
     },
     {
+      headerName: 'LOẠI KHÁCH HÀNG',
+      field: 'isBusiness',
+      minWidth: 100,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      cellRenderer: (params) => {
+        const isBusiness = params.data.isBusiness
+        return isBusiness ? 'Doanh nghiệp' : 'Cá nhân'
+      }
+    },
+    {
       headerName: 'EMAIL',
       field: 'email',
       minWidth: 250,
@@ -196,26 +184,33 @@ const CustomerManagement = () => {
       filterParams: {
         itemList: [
           {
-            id: '1',
+            id: 1,
             label: 'Landing Page',
             value: 'Landing Page'
           },
           {
-            id: '2',
+            id: 2,
             label: 'Tự khai thác',
             value: 'Tự khai thác'
           },
           {
-            id: '3',
+            id: 3,
             label: 'Khác',
             value: 'Khác'
           }
         ]
+      },
+      cellRenderer: (params) => {
+        const sourceValue = params.data.source
+        const sourceItem = params.colDef.filterParams.itemList.find(
+          (item) => item.id === sourceValue
+        )
+        return sourceItem ? sourceItem.label : ''
       }
     },
     {
       headerName: 'GIAI ĐOẠN',
-      field: 'phase',
+      field: 'phaseNamee',
       minWidth: 150,
       cellStyle: {
         display: 'flex',
@@ -223,33 +218,7 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomSetFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Tiềm năng',
-            value: 'Tiềm năng'
-          },
-          {
-            id: '2',
-            label: 'Đang liên hệ',
-            value: 'Đang liên hệ'
-          },
-          {
-            id: '3',
-            label: 'Đã báo giá',
-            value: 'Đã báo giá'
-          },
-          {
-            id: '4',
-            label: 'Chính thức',
-            value: 'Chính thức'
-          },
-          {
-            id: '5',
-            label: 'Thân thiết',
-            value: 'Thân thiết'
-          }
-        ]
+        type: 'text'
       }
     },
     {
@@ -302,6 +271,12 @@ const CustomerManagement = () => {
               title={
                 <CustomToggleButton
                   options={['Tất cả', 'Khách hàng của tôi']}
+                  defaultValue='Tất cả'
+                  onChange={(value) =>
+                    setAccountType(
+                      value === 'Tất cả' ? 'allCustomer' : 'myCustomer'
+                    )
+                  }
                 />
               }
               extra={

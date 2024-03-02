@@ -1,11 +1,11 @@
 import { Button, Col, Flex, Form, Input, Row, Table, Typography } from 'antd'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
-
 const AdditionalInformation = ({ id, typeCustomer }) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const { data: customerInfo } = useReadCustomer(id)
@@ -79,11 +79,10 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
   ]
   useEffect(() => {
     if (customerInfo) {
-      console.log(id)
       form.setFieldsValue({
         name: customerInfo.business.representativeName,
         gender: customerInfo.business.representativeGender,
-        // dayOfBirth: customerInfo.business.representativeBirthday,
+        dayOfBirth: dayjs(customerInfo.business.representativeBirthday),
         cccd: customerInfo.business.representativeCccd,
         nationality: customerInfo.business.nationality,
         position: customerInfo.business.representativePosition,

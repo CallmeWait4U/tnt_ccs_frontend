@@ -72,8 +72,6 @@ const CompanyInformation = (id) => {
   }
   useEffect(() => {
     if (customerInfo) {
-      console.log(id)
-      console.log(customerInfo)
       form.setFieldsValue({
         businessName: customerInfo.name,
         customerCode: customerInfo.code,
