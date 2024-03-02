@@ -30,8 +30,6 @@ const PersonalInformation = (id) => {
   // }, [])
   useEffect(() => {
     if (customerInfo) {
-      console.log(id)
-      console.log(customerInfo)
       form.setFieldsValue({
         customerName: customerInfo.name,
         customerCode: customerInfo.code,

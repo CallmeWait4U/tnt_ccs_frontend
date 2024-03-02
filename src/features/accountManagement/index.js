@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 // Images
 import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
-import { RiInformationFill } from 'react-icons/ri'
+import { RiCheckFill, RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ButtonOk } from '../../assets/styles/button.style'
@@ -14,7 +14,7 @@ import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilt
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import { dataEmployee } from '../../dataMock/DataEmployee'
-
+import CustomToggleButton from '../component/CustomToggleButton'
 const AccountManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
@@ -22,6 +22,7 @@ const AccountManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [accountType, setAccountType] = useState('employee')
 
   const ActionComponent = () => {
     return (
@@ -36,6 +37,41 @@ const AccountManagement = () => {
             size={18}
             onClick={() => console.log('trash')}
           />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
+        >
+          <RiInformationFill
+            color='00AEEF'
+            size={24}
+            onClick={() => navigate(`${PATH.ACCOUNT}/1`)}
+          />
+        </Button>
+      </div>
+    )
+  }
+  const ActionComponentCustommer = () => {
+    return (
+      <div style={{ gap: '15px', display: 'flex' }}>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(255,225,225)' }}
+        >
+          <TbTrashFilled
+            color='red'
+            size={18}
+            onClick={() => console.log('trash')}
+          />
+        </Button>
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
+        >
+          <RiCheckFill color='00AEEF' size={24} />
         </Button>
         <Button
           type='primary'
@@ -81,7 +117,7 @@ const AccountManagement = () => {
       )
     })
   }
-  const colDefs = [
+  const colDefsEmployee = [
     {
       headerName: 'STT',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
@@ -98,7 +134,7 @@ const AccountManagement = () => {
       }
     },
     {
-      headerName: 'MÃ TÀI KHOẢN',
+      headerName: 'MÃ CHỦ TÀI KHOẢN',
       field: 'code',
       cellStyle: {
         display: 'flex',
@@ -123,7 +159,7 @@ const AccountManagement = () => {
       headerName: 'GIỚI TÍNH',
       field: 'gender',
       minWidth: 100,
-      valueGetter: (p) => (p.data.gender == 0 ? 'Nam' : 'Nữ'),
+      valueGetter: (p) => (p.data.gender === 0 ? 'Nam' : 'Nữ'),
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -203,6 +239,195 @@ const AccountManagement = () => {
     }
   ]
 
+  const colDefsCustomer = [
+    {
+      headerName: 'STT',
+      valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
+      minWidth: 120,
+      width: 120,
+      sortable: false,
+      filter: false,
+      checkboxSelection: true,
+      headerCheckboxSelection: true,
+      pinned: 'left',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
+    },
+    {
+      headerName: 'MÃ KHÁCH HÀNG',
+      field: 'code',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      minWidth: 120,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'TÊN KHÁCH HÀNG',
+      field: 'name',
+      minWidth: 200,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'LOẠI KHÁCH HÀNG',
+      field: 'gender',
+      minWidth: 150,
+      valueGetter: (p) => (p.data.gender === 0 ? 'Doanh nghiệp' : 'Cá nhân'),
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            value: 0,
+            label: 'Doanh nghiệp'
+          },
+          {
+            id: '2',
+            value: 1,
+            label: 'Cá nhân'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      minWidth: 150,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            label: 'Đã duyệt',
+            value: 'Đã duyệt'
+          },
+          {
+            id: '2',
+            label: 'Đang chờ duyệt',
+            value: 'Đang chờ duyệt'
+          },
+          {
+            id: '3',
+            label: 'Đã từ chối',
+            value: 'Đã từ chối'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'NGÀY SINH',
+      field: 'dayOfBirth',
+      minWidth: 200,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomDateFilter
+    },
+    {
+      headerName: 'EMAIL',
+      field: 'email',
+      minWidth: 250,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'SỐ ĐIỆN THOẠI',
+      field: 'phoneNumber',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'NHÂN VIÊN CHĂM SÓC',
+      field: 'employee',
+      minWidth: 300,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
+      }
+    },
+    {
+      headerName: 'GIAI ĐOẠN',
+      field: 'phase',
+      minWidth: 150,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        itemList: [
+          {
+            id: '1',
+            label: 'Tiềm năng',
+            value: 'Tiềm năng'
+          },
+          {
+            id: '2',
+            label: 'Đang liên hệ',
+            value: 'Đang liên hệ'
+          },
+          {
+            id: '3',
+            label: 'Đã báo giá',
+            value: 'Đã báo giá'
+          },
+          {
+            id: '4',
+            label: 'Chính thức',
+            value: 'Chính thức'
+          },
+          {
+            id: '5',
+            label: 'Thân thiết',
+            value: 'Thân thiết'
+          }
+        ]
+      }
+    },
+    {
+      headerName: 'THAO TÁC',
+      field: 'action',
+      cellRenderer: ActionComponentCustommer,
+      minWidth: 150,
+      width: 150,
+      pinned: 'right',
+      cellStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  ]
   return (
     <>
       <div className='tabled'>
@@ -220,22 +445,37 @@ const AccountManagement = () => {
               Danh sách tài khoản
             </Title>
           </Col>
-          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <ButtonOk
-              type='primary'
-              icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWACCOUNT}`)}
-              style={{ fontSize: '14px', width: '120px', height: '42px' }}
-            >
-              Thêm mới
-            </ButtonOk>
-          </Col>
+          {accountType === 'employee' ? (
+            <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+              <ButtonOk
+                type='primary'
+                icon={<FiPlus />}
+                onClick={() => navigate(`${PATH.NEWACCOUNT}`)}
+                style={{ fontSize: '14px', width: '120px', height: '42px' }}
+              >
+                Thêm mới
+              </ButtonOk>
+            </Col>
+          ) : (
+            <></>
+          )}
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
           <Col xs='24' xl={24} style={{ height: '650px' }}>
             <Card
               bordered={false}
               className='criclebox tablespace mb-24'
+              title={
+                <CustomToggleButton
+                  options={['Tài khoản nhân viên', 'Tài khoản khách hàng']}
+                  defaultValue='Tài khoản nhân viên'
+                  onChange={(value) =>
+                    setAccountType(
+                      value === 'Tài khoản nhân viên' ? 'employee' : 'customer'
+                    )
+                  }
+                />
+              }
               extra={
                 <>
                   <Button
@@ -258,7 +498,11 @@ const AccountManagement = () => {
             >
               <div className='table-responsive'>
                 <AgGridTable
-                  colDefs={colDefs}
+                  colDefs={
+                    accountType === 'employee'
+                      ? colDefsEmployee
+                      : colDefsCustomer
+                  }
                   rowData={dataEmployee}
                   skip={skip}
                   take={take}

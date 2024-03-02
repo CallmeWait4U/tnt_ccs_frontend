@@ -67,26 +67,10 @@ const ClientNewComplaint = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={4} offset={2}>
-              <Form.Item name='date' label='Ngày gửi'>
-                <StyledDatepicker />
-              </Form.Item>
-            </Col>
+
             <Col span={4} offset={2}>
               <Form.Item name='code' label='Mã hóa đơn'>
                 <Input />
-              </Form.Item>
-            </Col>
-            <Col span={4} offset={2}>
-              <Form.Item name='status' label='Trạng thái'>
-                <StyledSelect
-                  options={[
-                    { value: '1', label: 'Chưa xử lí' },
-                    { value: '2', label: 'Đang xử lí' },
-                    { value: '3', label: 'Đã xử lí' },
-                    { value: '4', label: 'Xử lý lại' }
-                  ]}
-                />
               </Form.Item>
             </Col>
           </Row>

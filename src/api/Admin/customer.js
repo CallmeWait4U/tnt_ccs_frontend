@@ -5,7 +5,7 @@ export const useListCustomer = (offset, limit) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `/customers?offset=${offset}&limit=${limit}`
+        `/customers/all?offset=${offset}&limit=${limit}`
       )
       return response.data
     } catch (error) {
@@ -23,7 +23,7 @@ export const useListCustomer = (offset, limit) => {
 export const useReadCustomer = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/customers/${id}`)
+      const response = await api.get(`${BASE_URL}/customers/detail?uuid=${id}`)
       return response.data
     } catch (error) {
       throw error
