@@ -309,7 +309,7 @@ const CustomerManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.name}&${params.data.isBusiness}&${params.data.uuid}`
+                      `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}`
                     )
                   }}
                 />

@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import {
   Card,
   Checkbox,
@@ -9,13 +10,18 @@ import {
   Row,
   Typography
 } from 'antd'
+import { useCreateAccount } from '../../../api/Admin/account'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import '../accountManagement.css'
-
-const NewAccount = ({ match }) => {
+const NewAccount = () => {
   const { Title } = Typography
-
+  const mutation = useMutation({
+    mutationFn: useCreateAccount
+  })
+  const handleSubmit = (values) => {
+    mutation.mutate(values)
+  }
   const items = [
     {
       key: 'customerManagement',
@@ -142,7 +148,7 @@ const NewAccount = ({ match }) => {
   ]
 
   return (
-    <Form layout='vertical' className='tabled'>
+    <Form layout='vertical' className='tabled' onFinish={handleSubmit}>
       <Row gutter={16} style={{ marginBottom: '14px' }}>
         <Col md={20}>
           <Title
@@ -255,8 +261,8 @@ const NewAccount = ({ match }) => {
                     <StyledSelect
                       placeholder={'Chọn giới tính'}
                       options={[
-                        { value: 'Male', label: 'Nam' },
-                        { value: 'Female', label: 'Nữ' }
+                        { value: 'MALE', label: 'Nam' },
+                        { value: 'FEMALE', label: 'Nữ' }
                       ]}
                     />
                   </Form.Item>
@@ -265,7 +271,11 @@ const NewAccount = ({ match }) => {
                   <Form.Item label='Quốc tịch' name={'nationality'}>
                     <StyledSelect
                       placeholder='Chọn quốc tịch'
-                      options={[{ value: 1, label: 'Việt Nam' }]}
+                      options={[
+                        { value: 'Việt Nam', label: 'Việt Nam' },
+                        { value: 'Lào', label: 'Lào' },
+                        { value: 'Campuchia', label: 'Campuchia' }
+                      ]}
                     />
                   </Form.Item>
                 </Col>
@@ -327,7 +337,14 @@ const NewAccount = ({ match }) => {
                       }
                     ]}
                   >
-                    <StyledSelect placeholder='Chọn quận/huyện' />
+                    <StyledSelect
+                      placeholder='Chọn quận/huyện'
+                      options={[
+                        { value: 'Quận 1', label: 'Quận 1' },
+                        { value: 'Quận 2', label: 'Quận 2' },
+                        { value: 'Quận 3', label: 'Quận 3' }
+                      ]}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -342,7 +359,14 @@ const NewAccount = ({ match }) => {
                       }
                     ]}
                   >
-                    <StyledSelect placeholder='Chọn tỉnh/thành phố' />
+                    <StyledSelect
+                      placeholder='Chọn tỉnh/thành phố'
+                      options={[
+                        { value: 1, label: 'Hồ Chí Minh' },
+                        { value: 2, label: 'Bình Định' },
+                        { value: 3, label: 'Bến Tre' }
+                      ]}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -371,8 +395,8 @@ const NewAccount = ({ match }) => {
                   >
                     <StyledSelect
                       options={[
-                        { value: 'admin', label: 'Quản trị viên' },
-                        { value: 'employee', label: 'Nhân viên' }
+                        { value: 'ADMIN', label: 'Quản trị viên' },
+                        { value: 'EMPLOYEE', label: 'Nhân viên' }
                       ]}
                     />
                   </Form.Item>

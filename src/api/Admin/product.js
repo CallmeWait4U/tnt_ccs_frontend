@@ -38,19 +38,13 @@ export const useReadCustomer = (id) => {
     retry: 2
   })
 }
-export const useCreateCustomer = async (data) => {
-  try {
-    const type = data.isBusiness ? 'business' : 'individual'
-    console.log(type)
-    console.log(data)
-    const response = await api.post(
-      `${BASE_URL}/customers/create/${type}`,
-      data
-    )
-    return response.data
-  } catch (error) {
-    throw error
-  }
+export const useCreateProduct = async (data) => {
+  return api
+    .post(`${BASE_URL}/products`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error
+    })
 }
 const useUpdateCustomer = async (id, data) => {
   try {

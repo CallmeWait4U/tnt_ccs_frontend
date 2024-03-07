@@ -3,26 +3,35 @@ import React, { useState } from 'react'
 
 // Images
 import { Typography } from 'antd'
+import { useEffect } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { RiCheckFill, RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useGetAllAccounts } from '../../api/Admin/account'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataEmployee } from '../../dataMock/DataEmployee'
 import CustomToggleButton from '../component/CustomToggleButton'
 const AccountManagement = () => {
-  // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [accountType, setAccountType] = useState('employee')
+  const [accountType, setAccountType] = useState('EMPLOYEE')
+  const { data: dataAccount, refetch: refetchDataAccount } = useGetAllAccounts(
+    skip,
+    take,
+    accountType
+  )
+
+  useEffect(() => {
+    refetchDataAccount()
+  }, [accountType, refetchDataAccount])
 
   const ActionComponent = () => {
     return (
@@ -445,7 +454,7 @@ const AccountManagement = () => {
               Danh sách tài khoản
             </Title>
           </Col>
-          {accountType === 'employee' ? (
+          {accountType === 'EMPLOYEE' ? (
             <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
               <ButtonOk
                 type='primary'
@@ -471,7 +480,7 @@ const AccountManagement = () => {
                   defaultValue='Tài khoản nhân viên'
                   onChange={(value) =>
                     setAccountType(
-                      value === 'Tài khoản nhân viên' ? 'employee' : 'customer'
+                      value === 'Tài khoản nhân viên' ? 'EMPLOYEE' : 'CUSTOMER'
                     )
                   }
                 />
@@ -499,17 +508,17 @@ const AccountManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={
-                    accountType === 'employee'
+                    accountType === 'EMPLOYEE'
                       ? colDefsEmployee
                       : colDefsCustomer
                   }
-                  rowData={dataEmployee}
+                  rowData={dataAccount?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.ACCOUNT}/1`)
+                    navigate(`${PATH.ACCOUNT}/${params.data.uuid}`)
                   }}
                 />
               </div>
