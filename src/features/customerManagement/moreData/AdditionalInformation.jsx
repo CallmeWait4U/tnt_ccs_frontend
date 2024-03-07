@@ -80,14 +80,14 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
   useEffect(() => {
     if (customerInfo) {
       form.setFieldsValue({
-        name: customerInfo.business.representativeName,
-        gender: customerInfo.business.representativeGender,
-        dayOfBirth: dayjs(customerInfo.business.representativeBirthday),
-        cccd: customerInfo.business.representativeCccd,
-        nationality: customerInfo.business.nationality,
-        position: customerInfo.business.representativePosition,
-        email: customerInfo.business.representativeEmail,
-        phoneNumber: customerInfo.business.representativePhone
+        name: customerInfo.representativeName,
+        gender: customerInfo.representativeGender,
+        dayOfBirth: dayjs(customerInfo.representativeDayOfBirth),
+        cccd: customerInfo.representativeCccd,
+        nationality: customerInfo.representativeNationality,
+        position: customerInfo.representativePosition,
+        email: customerInfo.representativeEmail,
+        phoneNumber: customerInfo.representativePhone
       })
     }
   }, [customerInfo])

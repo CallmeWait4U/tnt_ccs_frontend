@@ -23,12 +23,9 @@ const CustomerDetail = () => {
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
   const paramsArray = paramsString.split('&')
-
-  const name = paramsArray[0]
-  const isBusiness = paramsArray[1]
-  const uuid = paramsArray[2]
+  const isBusiness = paramsArray[0]
+  const uuid = paramsArray[1]
   const typeCustomer = isBusiness === 'true' ? 1 : 2
-
   const items = [
     {
       label: 'Thông tin bổ sung',

@@ -1,12 +1,26 @@
+import { useMutation } from '@tanstack/react-query'
 import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import { useCreateProduct } from '../../../api/Admin/product'
 import '../productManagement.css'
-
 const NewProduct = () => {
   const { Title } = Typography
+  const { mutate: mutateCreate } = useMutation({ mutationFn: useCreateProduct })
+
+  const handleFormSubmit = async (values) => {
+    console.log('values', values)
+    mutateCreate(values, {
+      onSuccess: (data) => {
+        console.log('success', data)
+      },
+      onError: (error) => {
+        console.log('error', error)
+      }
+    })
+  }
 
   return (
     <div>
-      <Form className='tabled'>
+      <Form className='tabled' onFinish={handleFormSubmit}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title

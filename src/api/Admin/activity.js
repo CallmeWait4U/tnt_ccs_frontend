@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListCustomer = (offset, limit) => {
+export const useGetAllActivities = (offset, limit) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `/customers/all?offset=${offset}&limit=${limit}`
+        `/activities/all?offset=${offset}&limit=${limit}`
       )
       return response.data
     } catch (error) {
@@ -13,17 +13,17 @@ export const useListCustomer = (offset, limit) => {
     }
   }
   return useQuery({
-    queryKey: ['ListCustomer'],
+    queryKey: ['ListActivity'],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useReadCustomer = (id) => {
+export const useReadActivity = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/customers/detail?uuid=${id}`)
+      const response = await api.get(`${BASE_URL}/activities/detail?uuid=${id}`)
       return response.data
     } catch (error) {
       throw error
@@ -38,16 +38,10 @@ export const useReadCustomer = (id) => {
     retry: 2
   })
 }
-export const useCreateCustomer = async (data) => {
+const useCreateCustomer = async (data) => {
   try {
-    const type = data.isBusiness ? 'business' : 'individual'
-    console.log(type)
-    console.log(data)
-    const response = await api.post(
-      `${BASE_URL}/customers/create/${type}`,
-      data
-    )
-    return response.data
+    const response = await api.post(`${BASE_URL}/customers`, data)
+    return response
   } catch (error) {
     throw error
   }
@@ -68,4 +62,4 @@ const useDeleteCustomer = async (id) => {
     throw error
   }
 }
-export { useDeleteCustomer, useUpdateCustomer }
+export { useCreateCustomer, useDeleteCustomer, useUpdateCustomer }

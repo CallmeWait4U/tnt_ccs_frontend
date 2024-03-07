@@ -5,13 +5,12 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useGetAllActivities } from '../../api/Admin/activity'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataActivity } from '../../dataMock/DataActivity'
 import './activityManagement.css'
-
 const ActivityManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -19,7 +18,7 @@ const ActivityManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [form] = Form.useForm()
-
+  const { data: dataActivity } = useGetAllActivities(skip, take)
   const layout = {
     labelCol: {
       span: 10
@@ -76,7 +75,7 @@ const ActivityManagement = () => {
     },
     {
       headerName: 'TÊN LOẠI HOẠT ĐỘNG',
-      field: 'nameActivity',
+      field: 'name',
       minWidth: 350,
       filter: AgGridCustomTextFilter,
       filterParams: {
@@ -96,11 +95,7 @@ const ActivityManagement = () => {
     },
     {
       headerName: 'SỐ LƯỢNG HOẠT ĐỘNG',
-      field: 'total',
-      valueFormatter: (p) =>
-        Math.floor(p.data.total)
-          .toString()
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
+      field: 'totalTasks',
       minWidth: 250,
       cellStyle: {
         display: 'flex',
@@ -216,7 +211,7 @@ const ActivityManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataActivity}
+                  rowData={dataActivity?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
