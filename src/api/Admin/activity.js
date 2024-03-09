@@ -38,28 +38,28 @@ export const useReadActivity = (id) => {
     retry: 2
   })
 }
-const useCreateCustomer = async (data) => {
+export const useCreateActivity = async (data) => {
   try {
-    const response = await api.post(`${BASE_URL}/customers`, data)
+    const response = await api.post(`${BASE_URL}/activities/create`, data)
     return response
   } catch (error) {
     throw error
   }
 }
-const useUpdateCustomer = async (id, data) => {
+export const useUpdateActivity = async (data) => {
   try {
-    const response = await api.put(`${BASE_URL}/customers/${id}`, data)
+    console.log(data)
+    const response = await api.put(`${BASE_URL}/activities/update`, data)
     return response
   } catch (error) {
     throw error
   }
 }
-const useDeleteCustomer = async (id) => {
+export const useDeleteActivity = async (id) => {
   try {
-    const response = await api.delete(`${BASE_URL}/customers/${id}`)
+    const response = await api.delete(`${BASE_URL}/activities/delete`)
     return response
   } catch (error) {
     throw error
   }
 }
-export { useCreateCustomer, useDeleteCustomer, useUpdateCustomer }
