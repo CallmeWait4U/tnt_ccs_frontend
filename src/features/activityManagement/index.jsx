@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
@@ -5,7 +6,10 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllActivities } from '../../api/Admin/activity'
+import {
+  useCreateActivity,
+  useGetAllActivities
+} from '../../api/Admin/activity'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
@@ -18,7 +22,15 @@ const ActivityManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [form] = Form.useForm()
-  const { data: dataActivity } = useGetAllActivities(skip, take)
+  const { data: dataActivity, refetch } = useGetAllActivities(skip, take)
+  const { mutate: createActivity } = useMutation({
+    mutationFn: useCreateActivity,
+    onSuccess: () => {
+      console.log('success create activity')
+      setIsOpen(false)
+      refetch()
+    }
+  })
   const layout = {
     labelCol: {
       span: 10
@@ -50,7 +62,7 @@ const ActivityManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.ACTIVITY}/${data.id}`)}
+            onClick={() => navigate(`${PATH.ACTIVITY}/${data.uuid}`)}
           />
         </Button>
       </div>
@@ -120,8 +132,10 @@ const ActivityManagement = () => {
     }
   ]
 
-  const onFinish = (values) => {
-    console.log(values)
+  const onFinish = () => {
+    form.validateFields().then((values) => {
+      createActivity(values)
+    })
   }
 
   const handleOpenModal = () => {
@@ -217,7 +231,7 @@ const ActivityManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.ACTIVITY}/${params.data.id}`)
+                    navigate(`${PATH.ACTIVITY}/${params.data.uuid}`)
                   }}
                 />
               </div>
@@ -268,6 +282,7 @@ const ActivityManagement = () => {
                     }}
                     size={40}
                     htmlType='submit'
+                    onClick={() => onFinish()}
                   >
                     Thêm
                   </Button>
@@ -280,7 +295,7 @@ const ActivityManagement = () => {
                 <Form.Item
                   className={'customHorizontal'}
                   label='Tên loại hoạt động'
-                  name={'activityName'}
+                  name={'name'}
                   rules={[
                     {
                       required: true,

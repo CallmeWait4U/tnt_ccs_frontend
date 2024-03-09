@@ -48,7 +48,9 @@ const AccountManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log(data.uuid)}
+            onClick={() => {
+              deleteAccount(JSON.stringify(data.uuid))
+            }}
           />
         </Button>
         <Button
@@ -97,7 +99,6 @@ const AccountManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              console.log(data)
               navigate(`${PATH.ACCOUNT}/${data.uuid}`)
             }}
           />

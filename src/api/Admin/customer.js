@@ -62,7 +62,6 @@ const useUpdateCustomer = async (id, data) => {
 }
 const useDeleteCustomer = async (uuid) => {
   try {
-    console.log(uuid)
     const response = await api.delete(`${BASE_URL}/customers/delete`, uuid)
     return response.data
   } catch (error) {
