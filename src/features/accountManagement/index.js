@@ -2,13 +2,14 @@ import { Button, Card, Col, Flex, Modal, Row } from 'antd'
 import React, { useState } from 'react'
 
 // Images
+import { useMutation } from '@tanstack/react-query'
 import { Typography } from 'antd'
 import { useEffect } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { RiCheckFill, RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllAccounts } from '../../api/Admin/account'
+import { useDeleteAccount, useGetAllAccounts } from '../../api/Admin/account'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
@@ -16,6 +17,7 @@ import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilt
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import CustomToggleButton from '../component/CustomToggleButton'
+
 const AccountManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -28,12 +30,14 @@ const AccountManagement = () => {
     take,
     accountType
   )
-
+  const { mutate: deleteAccount } = useMutation({
+    mutationFn: useDeleteAccount
+  })
   useEffect(() => {
     refetchDataAccount()
   }, [accountType, refetchDataAccount])
 
-  const ActionComponent = () => {
+  const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
@@ -44,7 +48,7 @@ const AccountManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => console.log(data.uuid)}
           />
         </Button>
         <Button
@@ -55,13 +59,15 @@ const AccountManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.ACCOUNT}/1`)}
+            onClick={() => {
+              navigate(`${PATH.ACCOUNT}/${data.uuid}`)
+            }}
           />
         </Button>
       </div>
     )
   }
-  const ActionComponentCustommer = () => {
+  const ActionComponentCustommer = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
@@ -90,7 +96,10 @@ const AccountManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.ACCOUNT}/1`)}
+            onClick={() => {
+              console.log(data)
+              navigate(`${PATH.ACCOUNT}/${data.uuid}`)
+            }}
           />
         </Button>
       </div>
@@ -236,7 +245,7 @@ const AccountManagement = () => {
     {
       headerName: 'THAO TÁC',
       field: 'action',
-      cellRenderer: ActionComponent,
+      cellRenderer: (p) => ActionComponent(p.data),
       minWidth: 150,
       width: 150,
       pinned: 'right',

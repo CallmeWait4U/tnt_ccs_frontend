@@ -64,7 +64,9 @@ const CompanyInformation = (id) => {
     console.log(values)
     setIsUpdate(false)
   }
-
+  const handleChangeCustomerInfo = (values) => {
+    console.log(values)
+  }
   const onChangeAccount = (value) => {
     setHasAccount(value)
   }
@@ -88,7 +90,7 @@ const CompanyInformation = (id) => {
         createdDate: dayjs(customerInfo.createdDate)
       })
     }
-  }, [customerInfo])
+  }, [customerInfo, form])
   // const onChangeProvince = (value) => {
   //   const p = provinces.find((province) => province.value == value)
   //   if (p) {
@@ -107,6 +109,9 @@ const CompanyInformation = (id) => {
         name='control-hooks'
         onFinish={onFinish}
         key={'companyInfo'}
+        initialValues={{
+          hasAccount: false
+        }}
       >
         <Card
           title={'Thông tin Doanh nghiệp'}
@@ -135,6 +140,7 @@ const CompanyInformation = (id) => {
                     }}
                     size={40}
                     htmlType='submit'
+                    onClick={handleChangeCustomerInfo}
                   >
                     Lưu
                   </Button>
@@ -178,12 +184,12 @@ const CompanyInformation = (id) => {
               <Form.Item
                 label={'Giai đoạn'}
                 name={'phase'}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Yêu cầu thông tin'
-                  }
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Yêu cầu thông tin'
+                //   }
+                // ]}
               >
                 <StyledSelect
                   value={phase}

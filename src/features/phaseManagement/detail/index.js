@@ -1,15 +1,41 @@
+import { useMutation } from '@tanstack/react-query'
 import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadPhase, useUpdatePhase } from '../../../api/Admin/phase'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import '../phaseManagement.css'
-
 const PhaseDetail = () => {
   const [isUpdate, setIsUpdate] = useState(false)
   const { Title } = Typography
-
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[2]
+  const uuid = paramsString.split('&')
+  const { data: phase } = useReadPhase(uuid[0])
+  const { mutate: mutateUpdate } = useMutation({
+    mutationFn: useUpdatePhase,
+    onSuccess: () => {
+      console.log('Update success')
+    }
+  })
+  const [form] = Form.useForm()
+  useEffect(() => {
+    if (phase) {
+      form.setFieldsValue({
+        name: phase.name,
+        priority: phase.priority,
+        description: phase.description,
+        customersNumber: phase.customersNumber
+      })
+    }
+  }, [phase, form])
+  const onFinish = (values) => {
+    console.log(uuid[0])
+    mutateUpdate({ ...values, uuid: uuid[0] })
+  }
   return (
     <>
-      <Form className='tabled'>
+      <Form className='tabled' form={form} onFinish={onFinish}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title

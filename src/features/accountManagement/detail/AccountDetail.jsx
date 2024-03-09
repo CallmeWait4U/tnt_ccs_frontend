@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -13,7 +14,7 @@ import {
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useReadAccount } from '../../../api/Admin/account'
+import { useReadAccount, useUpdateAccount } from '../../../api/Admin/account'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import '../accountManagement.css'
@@ -24,6 +25,12 @@ const AccountDetail = () => {
   const paramsString = location.pathname.split('/')[2]
   const uuid = paramsString.split('&')
   const { data: account } = useReadAccount(uuid[0])
+  const { mutate: mutateUpdate } = useMutation({
+    mutationFn: useUpdateAccount,
+    onSuccess: () => {
+      console.log('Update success')
+    }
+  })
   const items = [
     {
       key: 'customerManagement',
@@ -149,9 +156,12 @@ const AccountDetail = () => {
     }
   ]
   const [form] = Form.useForm()
-  const onFinish = () => {
+  const onFinish = (values) => {
+    const updateValues = { ...values, uuid: uuid[0] }
+    mutateUpdate(updateValues)
     setIsUpdate(false)
   }
+
   useEffect(() => {
     if (account) {
       form.setFieldsValue({
@@ -315,8 +325,8 @@ const AccountDetail = () => {
                     <StyledSelect
                       placeholder={'Chọn giới tính'}
                       options={[
-                        { value: 'Male', label: 'Nam' },
-                        { value: 'Female', label: 'Nữ' }
+                        { value: 'MALE', label: 'Nam' },
+                        { value: 'FEMALE', label: 'Nữ' }
                       ]}
                       disabled={!isUpdate}
                     />
@@ -444,8 +454,8 @@ const AccountDetail = () => {
                   >
                     <StyledSelect
                       options={[
-                        { value: 'admin', label: 'Quản trị viên' },
-                        { value: 'employee', label: 'Nhân viên' }
+                        { value: 'ADMIN', label: 'Quản trị viên' },
+                        { value: 'EMPLOYEE', label: 'Nhân viên' }
                       ]}
                       disabled={!isUpdate}
                     />

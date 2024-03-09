@@ -1,25 +1,27 @@
 import { Button, Card, Col, Flex, Modal, Row } from 'antd'
 import React, { useState } from 'react'
 
+import { useMutation } from '@tanstack/react-query'
 import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useListCustomer } from '../../api/Admin/customer'
+import { useDeleteCustomer, useListCustomer } from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [accountType, setAccountType] = useState('employee')
-
+  const { mutate: mutateCreate } = useMutation({
+    mutationFn: useDeleteCustomer
+  })
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -36,7 +38,11 @@ const CustomerManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => {
+              console.log(data)
+              const requestBody = { uuid: data.uuid }
+              mutateCreate(JSON.stringify(requestBody))
+            }}
           />
         </Button>
         <Button
@@ -48,9 +54,7 @@ const CustomerManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(
-                `${PATH.CUSTOMER}/${dataCustomer.code}&${dataCustomer.isBusiness}`
-              )
+              navigate(`${PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}`)
             }
           />
         </Button>
@@ -149,7 +153,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      field: 'phoneNumber',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
