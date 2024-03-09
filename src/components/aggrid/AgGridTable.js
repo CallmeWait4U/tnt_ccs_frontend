@@ -20,7 +20,8 @@ const AgGridTable = ({
   autoHeight = false,
   customCustomer = '',
   customCustomerAct = '',
-  rowStyle = {}
+  rowStyle = {},
+  totalItem
 }) => {
   const [gridApi, setGridApi] = useState()
   const [currentPage, setCurrentPage] = useState(1)
@@ -122,7 +123,7 @@ const AgGridTable = ({
           </div>
           <Pagination
             className='custom-pagination-title'
-            total={rowData?.length}
+            total={totalItem}
             current={currentPage}
             onChange={onChangePagination}
             showSizeChanger={false}

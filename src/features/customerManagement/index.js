@@ -305,6 +305,7 @@ const CustomerManagement = () => {
             >
               <div className='table-responsive'>
                 <AgGridTable
+                  totalItem={dataCustomer?.total || 0}
                   colDefs={colDefs}
                   rowData={dataCustomer?.items || []}
                   skip={skip}
