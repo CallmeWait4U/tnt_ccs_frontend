@@ -47,3 +47,21 @@ export const useCreateAccount = async (data) => {
     throw error
   }
 }
+
+export const useDeleteAccount = async (uuid) => {
+  try {
+    console.log(uuid)
+    const response = await api.delete(`${BASE_URL}/accounts/delete`, uuid)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+export const useUpdateAccount = async (data) => {
+  try {
+    const response = await api.put(`${BASE_URL}/accounts/update`, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}

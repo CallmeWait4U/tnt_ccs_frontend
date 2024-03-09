@@ -60,10 +60,11 @@ const useUpdateCustomer = async (id, data) => {
     throw error
   }
 }
-const useDeleteCustomer = async (id) => {
+const useDeleteCustomer = async (uuid) => {
   try {
-    const response = await api.delete(`${BASE_URL}/customers/${id}`)
-    return response
+    console.log(uuid)
+    const response = await api.delete(`${BASE_URL}/customers/delete`, uuid)
+    return response.data
   } catch (error) {
     throw error
   }

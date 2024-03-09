@@ -179,6 +179,10 @@ const CustomerForm = () => {
       name='control-hooks'
       onFinish={onFinish}
       key={'addCustomer'}
+      initialValues={{
+        hasAccount: false,
+        isBusiness: true
+      }}
     >
       <div className='tabled'>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -301,13 +305,17 @@ const CustomerForm = () => {
                 <StyledDatepicker placeholder={'Chọn ngày tạo'} />
               </Form.Item>
             </Col>
-            <Col span={12} xl={8} className={hasAccount ? '' : 'notHasAccount'}>
+            <Col
+              span={12}
+              xl={8}
+              className={hasAccount ? 'hasAcount' : 'notHasAccount'}
+            >
               {' '}
               <Form.Item label={'Tài khoản'} name={'hasAccount'}>
                 <Switch
-                  checked={hasAccount}
-                  onChange={onChangeAccount}
+                  value={hasAccount}
                   defaultChecked={false}
+                  onChange={onChangeAccount}
                 />
               </Form.Item>
             </Col>
@@ -326,7 +334,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Tên khách hàng'}
-                          name={'customerName'}
+                          name={'name'}
                           rules={[
                             {
                               required: true,
@@ -400,7 +408,10 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn quốc tịch'
-                            options={[{ value: 1, label: 'Việt Nam' }]}
+                            options={[
+                              { value: 'Việt Nam', label: 'Việt Nam' },
+                              { value: 'Mỹ', label: 'Mỹ' }
+                            ]}
                           />
                         </Form.Item>
                       </Col>

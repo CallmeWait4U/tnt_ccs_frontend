@@ -1,12 +1,31 @@
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import {
+  Button,
+  Card,
+  Col,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Typography
+} from 'antd'
+import { useCreatePhase } from '../../../api/Admin/phase'
 import '../phaseManagement.css'
-
 const NewPhase = () => {
   const { Title } = Typography
-
+  const { mutate: mutateCreate } = useMutation({
+    mutationFn: useCreatePhase,
+    onSuccess: () => {
+      console.log('Create success')
+    }
+  })
+  const onFinish = (values) => {
+    mutateCreate(values)
+  }
   return (
     <>
-      <Form className='tabled'>
+      <Form className='tabled' onFinish={onFinish}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -58,7 +77,7 @@ const NewPhase = () => {
                 label='Thứ tự giai đoạn'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <Input placeholder='Thứ tự giai đoạn' />
+                <InputNumber placeholder='Thứ tự giai đoạn' />
               </Form.Item>
             </Col>
           </Row>
