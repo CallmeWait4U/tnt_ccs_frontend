@@ -1,4 +1,5 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
@@ -12,7 +13,7 @@ const PersonalInformation = (id) => {
   const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
   const { data: customerInfo } = useReadCustomer(id.id)
-  // const { data: customerInfo } = useReadCustomer(uuid.uuid)
+  console.log(customerInfo)
   // useEffect(() => {
   //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
   //     const provincesData = []
@@ -34,16 +35,20 @@ const PersonalInformation = (id) => {
         customerName: customerInfo.name,
         customerCode: customerInfo.code,
         source: customerInfo.source,
-        cccd: customerInfo.id,
+        cccd: customerInfo.cccd,
         phoneNumber: customerInfo.phoneNumber,
         description: customerInfo.description,
         email: customerInfo.email,
         detailAddress: customerInfo.detailAddress,
         city: customerInfo.city,
-        district: customerInfo.district
+        district: customerInfo.district,
+        gender: customerInfo.gender,
+        createdDate: dayjs(customerInfo.createdDate),
+        dayOfBirth: dayjs(customerInfo.dayOfBirth),
+        nationality: customerInfo.nationality
       })
     }
-  }, [customerInfo])
+  }, [customerInfo, form])
   const layout = {
     labelCol: {
       span: 12
@@ -272,8 +277,8 @@ const PersonalInformation = (id) => {
                     <StyledSelect
                       placeholder={'Chọn giới tính'}
                       options={[
-                        { value: 'Male', label: 'Nam' },
-                        { value: 'Female', label: 'Nữ' }
+                        { value: 'MALE', label: 'Nam' },
+                        { value: 'FEMALE', label: 'Nữ' }
                       ]}
                       disabled={!isUpdate}
                     />
@@ -320,11 +325,7 @@ const PersonalInformation = (id) => {
                     label={'Quốc tịch'}
                     name={'nationality'}
                   >
-                    <StyledSelect
-                      placeholder='Chọn quốc tịch'
-                      options={[{ value: 1, label: 'Việt Nam' }]}
-                      disabled={!isUpdate}
-                    />
+                    <Input disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>

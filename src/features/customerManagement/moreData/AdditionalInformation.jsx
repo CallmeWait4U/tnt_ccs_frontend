@@ -224,8 +224,8 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
                   <StyledSelect
                     placeholder={'Chọn giới tính'}
                     options={[
-                      { value: 'Male', label: 'Nam' },
-                      { value: 'Female', label: 'Nữ' }
+                      { value: 'MALE', label: 'Nam' },
+                      { value: 'FEMALE', label: 'Nữ' }
                     ]}
                     disabled={!isUpdate}
                   />

@@ -52,7 +52,7 @@ export const useCreateCustomer = async (data) => {
     throw error
   }
 }
-const useUpdateCustomer = async (id, data) => {
+export const useUpdateCustomer = async (id, data) => {
   try {
     const response = await api.put(`${BASE_URL}/customers/${id}`, data)
     return response
@@ -60,12 +60,14 @@ const useUpdateCustomer = async (id, data) => {
     throw error
   }
 }
-const useDeleteCustomer = async (uuid) => {
+export const useDeleteCustomer = async (uuid) => {
   try {
-    const response = await api.delete(`${BASE_URL}/customers/delete`, uuid)
-    return response.data
+    console.log(uuid)
+    const response = await api.delete(`${BASE_URL}/customers/delete`, {
+      data: { uuid }
+    })
+    return response
   } catch (error) {
     throw error
   }
 }
-export { useDeleteCustomer, useUpdateCustomer }

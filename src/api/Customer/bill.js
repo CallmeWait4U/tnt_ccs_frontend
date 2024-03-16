@@ -1,29 +1,27 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListProduct = (offset, limit) => {
+export const useListBill = (offset, limit) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(
-        `/products?offset=${offset}&limit=${limit}`
-      )
+      const response = await api.get(`/bills?offset=${offset}&limit=${limit}`)
       return response.data
     } catch (error) {
       console.log(error)
     }
   }
   return useQuery({
-    queryKey: ['ListProduct'],
+    queryKey: ['ListBill'],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useReadProduct = (id) => {
+export const useReadBill = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/products/{uuid}?uuid=${id}`)
+      const response = await api.get(`${BASE_URL}/bills/{uuid}?uuid=${id}`)
       return response.data
     } catch (error) {
       throw error
@@ -31,32 +29,32 @@ export const useReadProduct = (id) => {
   }
 
   return useQuery({
-    queryKey: ['ReadProduct', id],
+    queryKey: ['ReadBill', id],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useCreateProduct = async (data) => {
+export const useCreateBill = async (data) => {
   return api
-    .post(`${BASE_URL}/products`, data)
+    .post(`${BASE_URL}/bills`, data)
     .then((response) => response.data)
     .catch((error) => {
       throw error
     })
 }
-export const useUpdateProduct = async (id, data) => {
+export const useUpdateBill = async (id, data) => {
   try {
-    const response = await api.put(`${BASE_URL}/products/${id}`, data)
+    const response = await api.put(`${BASE_URL}/bills/${id}`, data)
     return response
   } catch (error) {
     throw error
   }
 }
-export const useDeleteProduct = async (id) => {
+export const useDeleteBill = async (id) => {
   try {
-    const response = await api.delete(`${BASE_URL}/products/${id}`)
+    const response = await api.delete(`${BASE_URL}/bills/${id}`)
     return response
   } catch (error) {
     throw error

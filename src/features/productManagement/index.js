@@ -7,12 +7,11 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useListProduct } from '../../api/Admin/product'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataProduct } from '../../dataMock/DataProduct'
-
 const ProductManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
@@ -20,8 +19,8 @@ const ProductManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
-  const ActionComponent = () => {
+  const { data: dataProduct, refetch } = useListProduct(skip, take)
+  const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
@@ -43,7 +42,7 @@ const ProductManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.PRODUCT}/1`)}
+            onClick={() => navigate(`${PATH.PRODUCT}/${data.uuid}`)}
           />
         </Button>
       </div>
@@ -68,7 +67,7 @@ const ProductManagement = () => {
     },
     {
       headerName: 'MÃ SẢN PHẨM',
-      field: 'productCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -81,7 +80,7 @@ const ProductManagement = () => {
     },
     {
       headerName: 'TÊN SẢN PHẨM',
-      field: 'productName',
+      field: 'name',
       minWidth: 400,
       filter: AgGridCustomTextFilter,
       filterParams: {
@@ -138,7 +137,7 @@ const ProductManagement = () => {
     {
       headerName: 'THAO TÁC',
       field: 'action',
-      cellRenderer: ActionComponent,
+      cellRenderer: (p) => ActionComponent(p.data),
       minWidth: 150,
       width: 150,
       pinned: 'right',
@@ -201,13 +200,13 @@ const ProductManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataProduct}
+                  rowData={dataProduct?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.PRODUCT}/1`)
+                    navigate(`${PATH.PRODUCT}/${params.data.uuid}`)
                   }}
                 />
               </div>
