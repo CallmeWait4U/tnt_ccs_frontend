@@ -161,7 +161,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      field: 'phoneNumber',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -173,7 +173,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
+      field: 'employees',
       minWidth: 300,
       cellStyle: {
         display: 'flex',
@@ -215,7 +215,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'GIAI ĐOẠN',
-      field: 'phase',
+      field: 'phaseName',
       minWidth: 150,
       cellStyle: {
         display: 'flex',
