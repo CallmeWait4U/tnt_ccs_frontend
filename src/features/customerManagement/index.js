@@ -19,14 +19,18 @@ const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [accountType, setAccountType] = useState('employee')
-  const { mutate: mutateCreate } = useMutation({
-    mutationFn: useDeleteCustomer
-  })
+
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: dataCustomer } = useListCustomer(skip, take)
-
+  const { data: dataCustomer, refetch } = useListCustomer(skip, take)
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: useDeleteCustomer,
+    onSuccess: () => {
+      console.log('Delete success')
+      refetch()
+    }
+  })
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -40,8 +44,7 @@ const CustomerManagement = () => {
             size={18}
             onClick={() => {
               console.log(data)
-              const requestBody = { uuid: data.uuid }
-              mutateCreate(JSON.stringify(requestBody))
+              mutateDelete(data.uuid)
             }}
           />
         </Button>

@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListProduct = (offset, limit) => {
+export const useListPriceQuote = (offset, limit) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `/products?offset=${offset}&limit=${limit}`
+        `/price-quotes?offset=${offset}&limit=${limit}`
       )
       return response.data
     } catch (error) {
@@ -13,17 +13,19 @@ export const useListProduct = (offset, limit) => {
     }
   }
   return useQuery({
-    queryKey: ['ListProduct'],
+    queryKey: ['ListPriceQuote'],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useReadProduct = (id) => {
+export const useReadPriceQuote = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/products/{uuid}?uuid=${id}`)
+      const response = await api.get(
+        `${BASE_URL}/price-quotes/{uuid}?uuid=${id}`
+      )
       return response.data
     } catch (error) {
       throw error
@@ -31,32 +33,32 @@ export const useReadProduct = (id) => {
   }
 
   return useQuery({
-    queryKey: ['ReadProduct', id],
+    queryKey: ['ReadPriceQuote', id],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useCreateProduct = async (data) => {
+export const useCreatePriceQuote = async (data) => {
   return api
-    .post(`${BASE_URL}/products`, data)
+    .post(`${BASE_URL}/price-quotess`, data)
     .then((response) => response.data)
     .catch((error) => {
       throw error
     })
 }
-export const useUpdateProduct = async (id, data) => {
+export const useUpdatePriceQuote = async (id, data) => {
   try {
-    const response = await api.put(`${BASE_URL}/products/${id}`, data)
+    const response = await api.put(`${BASE_URL}/price-quotes/${id}`, data)
     return response
   } catch (error) {
     throw error
   }
 }
-export const useDeleteProduct = async (id) => {
+export const useDeletePriceQuote = async (id) => {
   try {
-    const response = await api.delete(`${BASE_URL}/products/${id}`)
+    const response = await api.delete(`${BASE_URL}/price-quotes/${id}`)
     return response
   } catch (error) {
     throw error
