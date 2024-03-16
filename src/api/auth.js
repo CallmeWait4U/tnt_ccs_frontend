@@ -12,7 +12,8 @@ const useSignin = async (data) => {
 
 const useRegister = async (data) => {
   try {
-    const response = await api.post(`${BASE_URL}/register`, data)
+    console.log(data)
+    const response = await api.post(`${BASE_URL}/auth/sign-up`, data)
     return response.data
   } catch (error) {
     throw error
@@ -28,4 +29,3 @@ const useSignOut = async () => {
 }
 
 export { useRegister, useSignOut, useSignin }
-
