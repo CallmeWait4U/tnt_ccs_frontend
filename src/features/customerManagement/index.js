@@ -217,11 +217,7 @@ const CustomerManagement = () => {
     },
     {
       headerName: 'GIAI ĐOẠN',
-<<<<<<< HEAD
       field: 'phaseName',
-=======
-      field: 'phaseNamee',
->>>>>>> 99057707d9f17f93a4be4fe9d0a8a29b7f50fdf0
       minWidth: 150,
       cellStyle: {
         display: 'flex',
