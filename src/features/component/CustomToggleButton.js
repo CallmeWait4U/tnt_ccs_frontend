@@ -1,12 +1,12 @@
 import { Button } from 'antd'
 import React, { useState } from 'react'
 
-const CustomToggleButton = ({ options, chosenTag }) => {
+const CustomToggleButton = ({ options, defaultValue, onChange }) => {
   const [selectedTag, setSelectedTag] = useState(options[0])
 
   const handleTagChange = (tag) => {
     setSelectedTag(tag)
-    chosenTag(tag)
+    onChange(tag)
   }
 
   return (
@@ -21,34 +21,23 @@ const CustomToggleButton = ({ options, chosenTag }) => {
         width: '350px'
       }}
     >
-      <Button
-        type='primary'
-        style={{
-          borderRadius: '20px',
-          flex: 1,
-          background: selectedTag === options[0] ? 'white' : '#f2f2f2',
-          color: selectedTag === options[0] ? '#00aeef' : '#999999',
-          fontSize: '13px',
-          width: '150px'
-        }}
-        onClick={() => handleTagChange(options[0])}
-      >
-        {options[0]}
-      </Button>
-      <Button
-        type='primary'
-        style={{
-          borderRadius: '20px',
-          flex: 1,
-          background: selectedTag === options[1] ? 'white' : '#f2f2f2',
-          color: selectedTag === options[1] ? '#00aeef' : '#999999',
-          fontSize: '13px',
-          width: '150px'
-        }}
-        onClick={() => handleTagChange(options[1])}
-      >
-        {options[1]}
-      </Button>
+      {options.map((option) => (
+        <Button
+          key={option}
+          type='primary'
+          style={{
+            borderRadius: '20px',
+            flex: 1,
+            background: selectedTag === option ? 'white' : '#f2f2f2',
+            color: selectedTag === option ? '#00aeef' : '#999999',
+            fontSize: '13px',
+            width: '150px'
+          }}
+          onClick={() => handleTagChange(option)}
+        >
+          {option}
+        </Button>
+      ))}
     </div>
   )
 }

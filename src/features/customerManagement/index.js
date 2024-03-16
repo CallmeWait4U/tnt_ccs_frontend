@@ -1,57 +1,36 @@
 import { Button, Card, Col, Flex, Modal, Row } from 'antd'
 import React, { useState } from 'react'
 
+import { useMutation } from '@tanstack/react-query'
 import { Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useListCustomer } from '../../api/Admin/customer'
+import { useDeleteCustomer, useListCustomer } from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-
-import { dataCustomer as data } from '../../dataMock/DataCustomer'
 import CustomToggleButton from '../component/CustomToggleButton'
 
 const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const [accountType, setAccountType] = useState('employee')
+
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: dataCustomer } = useListCustomer()
-  console.log(dataCustomer)
-  const listCustomer = data
-  const itemsTypeCustomer = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Cá nhân
-        </a>
-      )
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${PATH.NEWCUSTOMER}`}
-        >
-          Doanh nghiệp
-        </a>
-      )
+  const { data: dataCustomer, refetch } = useListCustomer(skip, take)
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: useDeleteCustomer,
+    onSuccess: () => {
+      console.log('Delete success')
+      refetch()
     }
-  ]
-
+  })
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -63,7 +42,10 @@ const CustomerManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => {
+              console.log(data)
+              mutateDelete(data.uuid)
+            }}
           />
         </Button>
         <Button
@@ -75,7 +57,7 @@ const CustomerManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.CUSTOMER}/${data.code}&${data.isBusiness}`)
+              navigate(`${PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}`)
             }
           />
         </Button>
@@ -151,6 +133,19 @@ const CustomerManagement = () => {
       }
     },
     {
+      headerName: 'LOẠI KHÁCH HÀNG',
+      field: 'isBusiness',
+      minWidth: 100,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      cellRenderer: (params) => {
+        const isBusiness = params.data.isBusiness
+        return isBusiness ? 'Doanh nghiệp' : 'Cá nhân'
+      }
+    },
+    {
       headerName: 'EMAIL',
       field: 'email',
       minWidth: 250,
@@ -196,26 +191,37 @@ const CustomerManagement = () => {
       filterParams: {
         itemList: [
           {
-            id: '1',
+            id: 1,
             label: 'Landing Page',
             value: 'Landing Page'
           },
           {
-            id: '2',
+            id: 2,
             label: 'Tự khai thác',
             value: 'Tự khai thác'
           },
           {
-            id: '3',
+            id: 3,
             label: 'Khác',
             value: 'Khác'
           }
         ]
+      },
+      cellRenderer: (params) => {
+        const sourceValue = params.data.source
+        const sourceItem = params.colDef.filterParams.itemList.find(
+          (item) => item.id === sourceValue
+        )
+        return sourceItem ? sourceItem.label : ''
       }
     },
     {
       headerName: 'GIAI ĐOẠN',
+<<<<<<< HEAD
       field: 'phaseName',
+=======
+      field: 'phaseNamee',
+>>>>>>> 99057707d9f17f93a4be4fe9d0a8a29b7f50fdf0
       minWidth: 150,
       cellStyle: {
         display: 'flex',
@@ -223,33 +229,7 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomSetFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Tiềm năng',
-            value: 'Tiềm năng'
-          },
-          {
-            id: '2',
-            label: 'Đang liên hệ',
-            value: 'Đang liên hệ'
-          },
-          {
-            id: '3',
-            label: 'Đã báo giá',
-            value: 'Đã báo giá'
-          },
-          {
-            id: '4',
-            label: 'Chính thức',
-            value: 'Chính thức'
-          },
-          {
-            id: '5',
-            label: 'Thân thiết',
-            value: 'Thân thiết'
-          }
-        ]
+        type: 'text'
       }
     },
     {
@@ -302,6 +282,12 @@ const CustomerManagement = () => {
               title={
                 <CustomToggleButton
                   options={['Tất cả', 'Khách hàng của tôi']}
+                  defaultValue='Tất cả'
+                  onChange={(value) =>
+                    setAccountType(
+                      value === 'Tất cả' ? 'allCustomer' : 'myCustomer'
+                    )
+                  }
                 />
               }
               extra={
@@ -326,15 +312,16 @@ const CustomerManagement = () => {
             >
               <div className='table-responsive'>
                 <AgGridTable
+                  totalItem={dataCustomer?.total || 0}
                   colDefs={colDefs}
-                  rowData={listCustomer}
+                  rowData={dataCustomer?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.code}&${params.data.isBusiness}`
+                      `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}`
                     )
                   }}
                 />

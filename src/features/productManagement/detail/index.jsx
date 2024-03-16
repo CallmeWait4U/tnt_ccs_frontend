@@ -1,15 +1,34 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadProduct } from '../../../api/Admin/product'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import '../productManagement.css'
-
 const ProductDetail = () => {
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[2]
+  const uuid = paramsString.split('&')
 
+  const { data: productInfo } = useReadProduct(uuid[0])
+  const [form] = Form.useForm()
+  useEffect(() => {
+    if (productInfo) {
+      form.setFieldsValue({
+        name: productInfo.name,
+        code: productInfo.code,
+        price: productInfo.price,
+        description: productInfo.description,
+        unit: productInfo.unit,
+        features: productInfo.features,
+        quantity: productInfo.quantity
+      })
+    }
+  }, [productInfo, form])
   return (
     <div>
-      <Form className='tabled'>
+      <Form className='tabled' form={form}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -87,7 +106,7 @@ const ProductDetail = () => {
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productName'
+                name='name'
                 label='Tên Sản phẩm'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
@@ -97,7 +116,7 @@ const ProductDetail = () => {
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productCode'
+                name='code'
                 label='Mã Sản phẩm'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >

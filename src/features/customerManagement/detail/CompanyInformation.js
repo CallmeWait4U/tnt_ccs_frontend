@@ -1,33 +1,32 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
-import axios from 'axios'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
+import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
-
-const CompanyInformation = () => {
+const CompanyInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [hasAccount, setHasAccount] = useState(false)
   const [phase, setPhase] = useState(1)
-  const [source, setSource] = useState(1)
-  const [provinces, setProvinces] = useState([])
-  const [districts, setDistricts] = useState([])
+  // const [provinces, setProvinces] = useState([])
+  // const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-      const provincesData = []
-      data.data.forEach((item) => {
-        provincesData.push({
-          label: item.name,
-          value: item.code,
-          districts: item.districts.map((district) => {
-            return { name: district.name, code: district.code }
-          })
-        })
-      })
-      setProvinces(provincesData)
-    })
-  }, [])
+  const { data: customerInfo } = useReadCustomer(id.id)
+  // useEffect(() => {
+  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
+  //     const provincesData = []
+  //     data.data.forEach((item) => {
+  //       provincesData.push({
+  //         label: item.name,
+  //         value: item.code,
+  //         districts: item.districts.map((district) => {
+  //           return { name: district.name, code: district.code }
+  //         })
+  //       })
+  //     })
+  //     setProvinces(provincesData)
+  //   })
+  // }, [])
 
   const layout = {
     labelCol: {
@@ -65,20 +64,42 @@ const CompanyInformation = () => {
     console.log(values)
     setIsUpdate(false)
   }
-
+  const handleChangeCustomerInfo = (values) => {
+    console.log(values)
+  }
   const onChangeAccount = (value) => {
     setHasAccount(value)
   }
-
-  const onChangeProvince = (value) => {
-    const p = provinces.find((province) => province.value == value)
-    if (p) {
-      const districtsData = p.districts.map((district) => {
-        return { label: district.name, value: district.code }
+  useEffect(() => {
+    if (customerInfo) {
+      form.setFieldsValue({
+        source: customerInfo.source,
+        businessName: customerInfo.name,
+        customerCode: customerInfo.code,
+        cccd: customerInfo.id,
+        phoneNumber: customerInfo.phoneNumber,
+        description: customerInfo.description,
+        email: customerInfo.email,
+        detailAddress: customerInfo.detailAddress,
+        city: customerInfo.city,
+        district: customerInfo.district,
+        businessRegistrationNumber: customerInfo.registrationNumber,
+        taxCode: customerInfo.taxCode,
+        businessIndustryId: customerInfo.industry,
+        businessNationality: customerInfo.representativeNationality,
+        createdDate: dayjs(customerInfo.createdDate)
       })
-      setDistricts(districtsData)
     }
-  }
+  }, [customerInfo, form])
+  // const onChangeProvince = (value) => {
+  //   const p = provinces.find((province) => province.value == value)
+  //   if (p) {
+  //     const districtsData = p.districts.map((district) => {
+  //       return { label: district.name, value: district.code }
+  //     })
+  //     setDistricts(districtsData)
+  //   }
+  // }
 
   return (
     <Col xl={24} xxl={13}>
@@ -88,6 +109,9 @@ const CompanyInformation = () => {
         name='control-hooks'
         onFinish={onFinish}
         key={'companyInfo'}
+        initialValues={{
+          hasAccount: false
+        }}
       >
         <Card
           title={'Thông tin Doanh nghiệp'}
@@ -116,6 +140,7 @@ const CompanyInformation = () => {
                     }}
                     size={40}
                     htmlType='submit'
+                    onClick={handleChangeCustomerInfo}
                   >
                     Lưu
                   </Button>
@@ -159,12 +184,12 @@ const CompanyInformation = () => {
               <Form.Item
                 label={'Giai đoạn'}
                 name={'phase'}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Yêu cầu thông tin'
-                  }
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Yêu cầu thông tin'
+                //   }
+                // ]}
               >
                 <StyledSelect
                   value={phase}
@@ -193,12 +218,10 @@ const CompanyInformation = () => {
                 ]}
               >
                 <StyledSelect
-                  value={source}
-                  onChange={setSource}
                   options={[
-                    { value: 'Landing Page', label: 'Landing Page' },
-                    { value: 'Tự khai thác', label: 'Tự khai thác' },
-                    { value: 'Khác', label: 'Khác' }
+                    { value: 1, label: 'Landing Page' },
+                    { value: 2, label: 'Tự khai thác' },
+                    { value: 3, label: 'Khác' }
                   ]}
                   disabled={!isUpdate}
                 />
@@ -329,7 +352,11 @@ const CompanyInformation = () => {
                   >
                     <StyledSelect
                       placeholder='Chọn quận/huyện'
-                      options={districts}
+                      options={[
+                        { value: 1, label: 'Quận 1' },
+                        { value: 2, label: 'Quận 2' },
+                        { value: 3, label: 'Quận 3' }
+                      ]}
                       disabled={!isUpdate}
                     />
                   </Form.Item>
@@ -348,8 +375,11 @@ const CompanyInformation = () => {
                   >
                     <StyledSelect
                       placeholder='Chọn tỉnh/thành phố'
-                      options={provinces}
-                      onChange={onChangeProvince}
+                      options={[
+                        { value: 1, label: 'Hồ Chí Minh' },
+                        { value: 2, label: 'Bình Định' },
+                        { value: 3, label: 'Bến Tre' }
+                      ]}
                       disabled={!isUpdate}
                     />
                   </Form.Item>

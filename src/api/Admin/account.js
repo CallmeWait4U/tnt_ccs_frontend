@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListCustomer = (offset, limit) => {
+export const useGetAllAccounts = (offset, limit, type) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `/customers/all?offset=${offset}&limit=${limit}`
+        `/accounts/all?offset=${offset}&limit=${limit}&type=${type}`
       )
       return response.data
     } catch (error) {
@@ -13,17 +13,17 @@ export const useListCustomer = (offset, limit) => {
     }
   }
   return useQuery({
-    queryKey: ['ListCustomer'],
+    queryKey: ['ListAccount'],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
     retry: 2
   })
 }
-export const useReadCustomer = (id) => {
+export const useReadAccount = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/customers/detail?uuid=${id}`)
+      const response = await api.get(`${BASE_URL}/accounts/detail?uuid=${id}`)
       return response.data
     } catch (error) {
       throw error
@@ -38,35 +38,29 @@ export const useReadCustomer = (id) => {
     retry: 2
   })
 }
-export const useCreateCustomer = async (data) => {
+
+export const useCreateAccount = async (data) => {
   try {
-    const type = data.isBusiness ? 'business' : 'individual'
-    console.log(type)
-    console.log(data)
-    const response = await api.post(
-      `${BASE_URL}/customers/create/${type}`,
-      data
-    )
+    const response = await api.post(`${BASE_URL}/accounts/create`, data)
     return response.data
   } catch (error) {
     throw error
   }
 }
-export const useUpdateCustomer = async (id, data) => {
+
+export const useDeleteAccount = async (uuid) => {
   try {
-    const response = await api.put(`${BASE_URL}/customers/${id}`, data)
-    return response
+    console.log(uuid)
+    const response = await api.delete(`${BASE_URL}/accounts/delete`, uuid)
+    return response.data
   } catch (error) {
     throw error
   }
 }
-export const useDeleteCustomer = async (uuid) => {
+export const useUpdateAccount = async (data) => {
   try {
-    console.log(uuid)
-    const response = await api.delete(`${BASE_URL}/customers/delete`, {
-      data: { uuid }
-    })
-    return response
+    const response = await api.put(`${BASE_URL}/accounts/update`, data)
+    return response.data
   } catch (error) {
     throw error
   }

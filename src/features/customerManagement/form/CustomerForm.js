@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -9,37 +10,42 @@ import {
   Table,
   Typography
 } from 'antd'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useCreateCustomer } from '../../../api/Admin/customer'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import './form.css'
 
 const CustomerForm = () => {
-  const [typeCustomer, setTypeCustomer] = useState(1)
+  const [isBusiness, setTypeBusiness] = useState(true)
   const [phase, setPhase] = useState(1)
   const [source, setSource] = useState(1)
-  const [provinces, setProvinces] = useState([])
-  const [districts, setDistricts] = useState([])
+  // const [provinces, setProvinces] = useState([])
+  // const [districts, setDistricts] = useState([])
   const [hasAccount, setHasAccount] = useState(false)
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-      const provincesData = []
-      data.data.forEach((item) => {
-        provincesData.push({
-          label: item.name,
-          value: item.code,
-          districts: item.districts.map((district) => {
-            return { name: district.name, code: district.code }
-          })
-        })
-      })
-      setProvinces(provincesData)
-    })
-  }, [])
+  const { mutate: mutateCreate } = useMutation({
+    mutationFn: useCreateCustomer
+  })
+  const onFinish = (values) => {
+    mutateCreate(values)
+  }
+  // useEffect(() => {
+  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
+  //     const provincesData = []
+  //     data.data.forEach((item) => {
+  //       provincesData.push({
+  //         label: item.name,
+  //         value: item.code,
+  //         districts: item.districts.map((district) => {
+  //           return { name: district.name, code: district.code }
+  //         })
+  //       })
+  //     })
+  //     setProvinces(provincesData)
+  //   })
+  // }, [])
 
   const layout = {
     labelCol: {
@@ -73,23 +79,19 @@ const CustomerForm = () => {
     }
   ]
 
-  const onFinish = (values) => {
-    console.log(values)
-  }
-
   const onChangeAccount = (value) => {
     setHasAccount(value)
   }
 
-  const onChangeProvince = (value) => {
-    const p = provinces.find((province) => province.value == value)
-    if (p) {
-      const districtsData = p.districts.map((district) => {
-        return { label: district.name, value: district.code }
-      })
-      setDistricts(districtsData)
-    }
-  }
+  // const onChangeProvince = (value) => {
+  //   const p = provinces.find((province) => province.value == value)
+  //   if (p) {
+  //     const districtsData = p.districts.map((district) => {
+  //       return { label: district.name, value: district.code }
+  //     })
+  //     setDistricts(districtsData)
+  //   }
+  // }
 
   const [tableData, setTableData] = useState([
     {
@@ -151,14 +153,7 @@ const CustomerForm = () => {
       render: (item) => (
         <Button
           type='link'
-          icon={
-            <TbTrashFilled
-              color='red'
-              backgroundcolor='red'
-              size={24}
-              onClick={() => console.log('trash')}
-            />
-          }
+          icon={<TbTrashFilled color='red' backgroundcolor='red' size={24} />}
           onClick={() => handleDeleteRow(item.index)}
         />
       )
@@ -184,6 +179,10 @@ const CustomerForm = () => {
       name='control-hooks'
       onFinish={onFinish}
       key={'addCustomer'}
+      initialValues={{
+        hasAccount: false,
+        isBusiness: true
+      }}
     >
       <div className='tabled'>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -230,7 +229,7 @@ const CustomerForm = () => {
             <Col span={12} xl={8}>
               <Form.Item
                 label={'Loại khách hàng'}
-                name={'typeCustomer'}
+                name={'isBusiness'}
                 rules={[
                   {
                     required: true,
@@ -239,11 +238,11 @@ const CustomerForm = () => {
                 ]}
               >
                 <StyledSelect
-                  value={typeCustomer}
-                  onChange={setTypeCustomer}
+                  value={isBusiness}
+                  onChange={setTypeBusiness}
                   options={[
-                    { value: 1, label: 'Công ty' },
-                    { value: 2, label: 'Cá nhân' }
+                    { value: true, label: 'Công ty' },
+                    { value: false, label: 'Cá nhân' }
                   ]}
                 />
               </Form.Item>
@@ -284,9 +283,9 @@ const CustomerForm = () => {
                   value={source}
                   onChange={setSource}
                   options={[
-                    { value: 'Landing Page', label: 'Landing Page' },
-                    { value: 'Tự khai thác', label: 'Tự khai thác' },
-                    { value: 'Khác', label: 'Khác' }
+                    { value: 1, label: 'Landing Page' },
+                    { value: 2, label: 'Tự khai thác' },
+                    { value: 3, label: 'Khác' }
                   ]}
                 />
               </Form.Item>
@@ -306,18 +305,22 @@ const CustomerForm = () => {
                 <StyledDatepicker placeholder={'Chọn ngày tạo'} />
               </Form.Item>
             </Col>
-            <Col span={12} xl={8} className={hasAccount ? '' : 'notHasAccount'}>
+            <Col
+              span={12}
+              xl={8}
+              className={hasAccount ? 'hasAcount' : 'notHasAccount'}
+            >
               {' '}
               <Form.Item label={'Tài khoản'} name={'hasAccount'}>
                 <Switch
-                  checked={hasAccount}
-                  onChange={onChangeAccount}
+                  value={hasAccount}
                   defaultChecked={false}
+                  onChange={onChangeAccount}
                 />
               </Form.Item>
             </Col>
           </Row>
-          {typeCustomer === 2 && (
+          {isBusiness === false && (
             <div>
               <Row gutter={16}>
                 <Col span={12}>
@@ -331,7 +334,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Tên khách hàng'}
-                          name={'customerName'}
+                          name={'name'}
                           rules={[
                             {
                               required: true,
@@ -357,8 +360,8 @@ const CustomerForm = () => {
                           <StyledSelect
                             placeholder={'Chọn giới tính'}
                             options={[
-                              { value: 'Male', label: 'Nam' },
-                              { value: 'Female', label: 'Nữ' }
+                              { value: 'MALE', label: 'Nam' },
+                              { value: 'FEMALE', label: 'Nữ' }
                             ]}
                           />
                         </Form.Item>
@@ -405,7 +408,10 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn quốc tịch'
-                            options={[{ value: 1, label: 'Việt Nam' }]}
+                            options={[
+                              { value: 'Việt Nam', label: 'Việt Nam' },
+                              { value: 'Mỹ', label: 'Mỹ' }
+                            ]}
                           />
                         </Form.Item>
                       </Col>
@@ -495,7 +501,11 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn quận/huyện'
-                            options={districts}
+                            options={[
+                              { value: 'Quận 1', label: 'Quận 1' },
+                              { value: 'Quận 2', label: 'Quận 2' },
+                              { value: 'Quận 10', label: 'Quận 10' }
+                            ]}
                           />
                         </Form.Item>
                       </Col>
@@ -513,8 +523,12 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn tỉnh/thành phố'
-                            options={provinces}
-                            onChange={onChangeProvince}
+                            options={[
+                              { value: 1, label: 'Hồ Chí Minh' },
+                              { value: 2, label: 'Hà Nội' },
+                              { value: 3, label: 'Đà Nẵng' }
+                            ]}
+                            // onChange={onChangeProvince}
                           />
                         </Form.Item>
                       </Col>
@@ -524,7 +538,7 @@ const CustomerForm = () => {
               </Row>
             </div>
           )}
-          {typeCustomer === 1 && (
+          {isBusiness === true && (
             <div>
               <Row gutter={16}>
                 <Col xl={12}>
@@ -538,7 +552,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Tên Công ty'}
-                          name={'businessName'}
+                          name={'name'}
                           rules={[
                             {
                               required: true,
@@ -568,7 +582,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Số ĐKKD'}
-                          name={'businessRegistrationNumber'}
+                          name={'registrationNumber'}
                           rules={[
                             {
                               required: true,
@@ -589,7 +603,10 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn quốc gia'
-                            options={[{ value: 1, label: 'Việt Nam' }]}
+                            options={[
+                              { value: 'Việt Nam', label: 'Việt Nam' },
+                              { value: 'Mỹ', label: 'Mỹ' }
+                            ]}
                           />
                         </Form.Item>
                       </Col>
@@ -597,7 +614,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Lĩnh vực kinh doanh'}
-                          name={'businessIndustryId'}
+                          name={'industry'}
                         >
                           <Input />
                         </Form.Item>
@@ -636,7 +653,11 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn quận/huyện'
-                            options={districts}
+                            options={[
+                              { value: 'Quận 1', label: 'Quận 1' },
+                              { value: 'Quận 2', label: 'Quận 2' },
+                              { value: 'Quận 10', label: 'Quận 10' }
+                            ]}
                           />
                         </Form.Item>
                       </Col>
@@ -654,8 +675,12 @@ const CustomerForm = () => {
                         >
                           <StyledSelect
                             placeholder='Chọn tỉnh/thành phố'
-                            options={provinces}
-                            onChange={onChangeProvince}
+                            options={[
+                              { value: 1, label: 'Hồ Chí Minh' },
+                              { value: 2, label: 'Hà Nội' },
+                              { value: 3, label: 'Đà Nẵng' }
+                            ]}
+                            // onChange={onChangeProvince}
                           />
                         </Form.Item>
                       </Col>
@@ -690,7 +715,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Tên người đại diện'}
-                          name={'name'}
+                          name={'representativeName'}
                           rules={[
                             {
                               required: true,
@@ -705,7 +730,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Giới tính'}
-                          name={'gender'}
+                          name={'representativeGender'}
                           rules={[
                             {
                               required: true,
@@ -716,8 +741,8 @@ const CustomerForm = () => {
                           <StyledSelect
                             placeholder={'Chọn giới tính'}
                             options={[
-                              { value: 'Male', label: 'Nam' },
-                              { value: 'Female', label: 'Nữ' }
+                              { value: 'MALE', label: 'Nam' },
+                              { value: 'FEMALE', label: 'Nữ' }
                             ]}
                           />
                         </Form.Item>
@@ -728,7 +753,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Ngày sinh'}
-                          name={'dayOfBirth'}
+                          name={'representativeDayOfBirth'}
                           rules={[
                             {
                               required: true,
@@ -743,7 +768,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'CCCD'}
-                          name={'cccd'}
+                          name={'representativeCccd'}
                           rules={[
                             {
                               required: true,
@@ -760,11 +785,11 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Quốc tịch'}
-                          name={'nationality'}
+                          name={'representativeNationality'}
                         >
                           <StyledSelect
                             placeholder='Chọn quốc tịch'
-                            options={[{ value: 1, label: 'Việt Nam' }]}
+                            options={[{ value: 'Việt Nam', label: 'Việt Nam' }]}
                           />
                         </Form.Item>
                       </Col>
@@ -772,7 +797,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Chức vụ'}
-                          name={'position'}
+                          name={'representativePosition'}
                         >
                           <Input />
                         </Form.Item>
@@ -783,7 +808,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Email'}
-                          name={'email'}
+                          name={'representativeEmail'}
                           rules={[
                             {
                               required: true,
@@ -798,7 +823,7 @@ const CustomerForm = () => {
                         <Form.Item
                           className='customHorizontal'
                           label={'Số điện thoại'}
-                          name={'phoneNumber'}
+                          name={'representativePhone'}
                         >
                           <Input />
                         </Form.Item>

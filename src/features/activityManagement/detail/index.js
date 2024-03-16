@@ -1,20 +1,21 @@
 import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 
 // Images
+import { useMutation } from '@tanstack/react-query'
 import { Modal, Typography } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useLocation } from 'react-router-dom'
+import { useReadActivity, useUpdateActivity } from '../../../api/Admin/activity'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
-import { dataActivityDetail } from '../../../dataMock/DataActivity'
 import ActivityDetailForm from '../form/ActivityDetailForm'
-
 const ActivityDetail = () => {
   const [typeForm, setTypeForm] = useState('')
   const [isUpdate, setIsUpdate] = useState(false)
@@ -23,7 +24,28 @@ const ActivityDetail = () => {
   const [take, setTake] = useState(10)
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[2]
+  const uuid = paramsString.split('&')
+  const { data: activityDetail } = useReadActivity(uuid[0])
+  const { mutate: activityUpdate } = useMutation({
+    mutationFn: useUpdateActivity,
+    onSuccess: () => {
+      console.log('Update success')
+    }
+  })
+  const [form] = Form.useForm()
+  useEffect(() => {
+    form.setFieldsValue({
+      name: activityDetail?.name,
+      description: activityDetail?.description
+    })
+  }, [activityDetail, form])
+  const onFinish = (values) => {
+    console.log(values)
+    activityUpdate({ ...values, uuid: uuid[0] })
+    setIsUpdate(false)
+  }
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -204,7 +226,7 @@ const ActivityDetail = () => {
 
   return (
     <>
-      <Form className='tabled'>
+      <Form className='tabled' form={form} onFinish={onFinish}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -274,7 +296,7 @@ const ActivityDetail = () => {
             <Col span={8}>
               <Form.Item
                 label='Tên hoạt động'
-                name={'nameActivity'}
+                name={'name'}
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
                 <Input disabled={!isUpdate} />
@@ -342,7 +364,7 @@ const ActivityDetail = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataActivityDetail}
+                  rowData={activityDetail?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}

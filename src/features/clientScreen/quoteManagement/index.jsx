@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 // Images
 import { Form, Input, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useListPriceQuote } from '../../../api/Customer/priceQuote'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
@@ -24,7 +25,7 @@ const ClientQuoteManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [tag, setTag] = useState('Báo giá')
   const optionTags = ['Báo giá', 'Yêu cầu báo giá']
-
+  const { data: priceQuoteData } = useListPriceQuote(skip, take)
   const [isOpen, setIsOpen] = useState(false)
 
   const navigateDetail = (data, type) => {
@@ -399,7 +400,7 @@ const ClientQuoteManagement = () => {
                 {tag === optionTags[0] && (
                   <AgGridTable
                     colDefs={colQuoteDefs}
-                    rowData={data}
+                    rowData={priceQuoteData?.items || []}
                     skip={skip}
                     take={take}
                     setTake={setTake}

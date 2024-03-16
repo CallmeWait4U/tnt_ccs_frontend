@@ -4,18 +4,19 @@ import React, { useState } from 'react'
 // Images
 import { Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useListBill } from '../../../api/Customer/bill'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import { PATH } from '../../../contants/common'
-
 const ClientBillManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const { data: billData } = useListBill(skip, take)
 
   const ActionComponent = (data) => {
     return (
@@ -292,7 +293,7 @@ const ClientBillManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={data}
+                  rowData={billData?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}

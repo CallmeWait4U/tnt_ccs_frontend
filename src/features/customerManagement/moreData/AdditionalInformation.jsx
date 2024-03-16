@@ -1,11 +1,15 @@
 import { Button, Col, Flex, Form, Input, Row, Table, Typography } from 'antd'
-import { useState } from 'react'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
-const AdditionalInformation = ({ typeCustomer }) => {
+const AdditionalInformation = ({ id, typeCustomer }) => {
   const [isUpdate, setIsUpdate] = useState(false)
+  const { data: customerInfo } = useReadCustomer(id)
+
   const [tableData, setTableData] = useState([
     {
       index: 1,
@@ -73,7 +77,20 @@ const AdditionalInformation = ({ typeCustomer }) => {
       )
     }
   ]
-
+  useEffect(() => {
+    if (customerInfo) {
+      form.setFieldsValue({
+        name: customerInfo.representativeName,
+        gender: customerInfo.representativeGender,
+        dayOfBirth: dayjs(customerInfo.representativeDayOfBirth),
+        cccd: customerInfo.representativeCccd,
+        nationality: customerInfo.representativeNationality,
+        position: customerInfo.representativePosition,
+        email: customerInfo.representativeEmail,
+        phoneNumber: customerInfo.representativePhone
+      })
+    }
+  }, [customerInfo])
   const layout = {
     labelCol: {
       span: 8
@@ -207,8 +224,8 @@ const AdditionalInformation = ({ typeCustomer }) => {
                   <StyledSelect
                     placeholder={'Chọn giới tính'}
                     options={[
-                      { value: 'Male', label: 'Nam' },
-                      { value: 'Female', label: 'Nữ' }
+                      { value: 'MALE', label: 'Nam' },
+                      { value: 'FEMALE', label: 'Nữ' }
                     ]}
                     disabled={!isUpdate}
                   />

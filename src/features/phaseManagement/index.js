@@ -7,12 +7,11 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useGetAllPhases } from '../../api/Admin/phase'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataPhase } from '../../dataMock/DataPhase'
-
 const PhaseManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
@@ -20,8 +19,9 @@ const PhaseManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const { data: dataPhase } = useGetAllPhases(skip, take)
 
-  const ActionComponent = () => {
+  const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
         <Button
@@ -43,7 +43,7 @@ const PhaseManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.PHASE}/1`)}
+            onClick={() => navigate(`${PATH.PHASE}/${data.uuid}`)}
           />
         </Button>
       </div>
@@ -185,13 +185,13 @@ const PhaseManagement = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataPhase}
+                  rowData={dataPhase?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.PHASE}`)
+                    navigate(`${PATH.PHASE}/${params.data.uuid}`)
                   }}
                 />
               </div>

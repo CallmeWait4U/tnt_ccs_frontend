@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -10,15 +11,26 @@ import {
   Row,
   Typography
 } from 'antd'
-import { useState } from 'react'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadAccount, useUpdateAccount } from '../../../api/Admin/account'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import '../accountManagement.css'
-
-const AccountDetail = ({ match }) => {
+const AccountDetail = () => {
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
-
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[2]
+  const uuid = paramsString.split('&')
+  const { data: account } = useReadAccount(uuid[0])
+  const { mutate: mutateUpdate } = useMutation({
+    mutationFn: useUpdateAccount,
+    onSuccess: () => {
+      console.log('Update success')
+    }
+  })
   const items = [
     {
       key: 'customerManagement',
@@ -143,9 +155,33 @@ const AccountDetail = ({ match }) => {
       )
     }
   ]
+  const [form] = Form.useForm()
+  const onFinish = (values) => {
+    const updateValues = { ...values, uuid: uuid[0] }
+    mutateUpdate(updateValues)
+    setIsUpdate(false)
+  }
 
+  useEffect(() => {
+    if (account) {
+      form.setFieldsValue({
+        name: account.name,
+        code: account.code,
+        position: account.position,
+        phoneNumber: account.phoneNumber,
+        email: account.email,
+        detailAddress: account.detailAddress,
+        city: account.city,
+        district: account.district,
+        dayOfBirth: dayjs(account.dayOfBirth),
+        gender: account.gender,
+        nationality: account.nationality,
+        cccd: account.cccd
+      })
+    }
+  }, [account, form])
   return (
-    <Form layout='vertical' className='tabled'>
+    <Form layout='vertical' form={form} onFinish={onFinish}>
       <Row gutter={16} style={{ marginBottom: '14px' }}>
         <Col md={20}>
           <Title
@@ -289,8 +325,8 @@ const AccountDetail = ({ match }) => {
                     <StyledSelect
                       placeholder={'Chọn giới tính'}
                       options={[
-                        { value: 'Male', label: 'Nam' },
-                        { value: 'Female', label: 'Nữ' }
+                        { value: 'MALE', label: 'Nam' },
+                        { value: 'FEMALE', label: 'Nữ' }
                       ]}
                       disabled={!isUpdate}
                     />
@@ -383,6 +419,11 @@ const AccountDetail = ({ match }) => {
                   >
                     <StyledSelect
                       placeholder='Chọn tỉnh/thành phố'
+                      options={[
+                        { value: 1, label: 'Hồ Chí Minh' },
+                        { value: 2, label: 'Bình Định' },
+                        { value: 3, label: 'Bến Tre' }
+                      ]}
                       disabled={!isUpdate}
                     />
                   </Form.Item>
@@ -413,8 +454,8 @@ const AccountDetail = ({ match }) => {
                   >
                     <StyledSelect
                       options={[
-                        { value: 'admin', label: 'Quản trị viên' },
-                        { value: 'employee', label: 'Nhân viên' }
+                        { value: 'ADMIN', label: 'Quản trị viên' },
+                        { value: 'EMPLOYEE', label: 'Nhân viên' }
                       ]}
                       disabled={!isUpdate}
                     />
