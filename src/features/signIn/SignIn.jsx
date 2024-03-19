@@ -2,12 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import { Form, Grid, Image, Input, Layout, message, theme } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import Card from 'antd/lib/card/Card'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSignin } from '../../api/auth'
 import logo from '../../assets/images/logo.jpg'
 import { ButtonOk } from '../../assets/styles/button.style'
-import { socket } from '../../configs/SocketConfigs'
 import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 const { Header, Content, Footer } = Layout
 
@@ -85,16 +84,16 @@ const SignIn = () => {
       }
     })
   }
-  useEffect(() => {
-    const accessToken = localStorage.getItem(localStorage.TOKEN)
-    if (accessToken) {
-      socket.auth = { token: accessToken }
-      socket.connect()
-      socket.on('connect', () => {
-        console.log('Socket connected', accessToken)
-      })
-    }
-  }, [])
+  // useEffect(() => {
+  //   const accessToken = localStorage.getItem(localStorage.TOKEN)
+  //   if (accessToken) {
+  //     socket.auth = { token: accessToken }
+  //     socket.connect()
+  //     socket.on('connect', () => {
+  //       console.log('Socket connected', accessToken)
+  //     })
+  //   }
+  // }, [])
   return (
     <Layout
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}

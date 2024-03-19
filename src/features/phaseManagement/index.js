@@ -1,13 +1,18 @@
-import { Button, Card, Col, Flex, Row } from 'antd'
+import { Button, Card, Col, Flex, Form, Input, Modal, Row, message } from 'antd'
 import React, { useState } from 'react'
 
 // Images
-import { Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Alert, InputNumber, Typography } from 'antd'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllPhases } from '../../api/Admin/phase'
+import {
+  useCreatePhase,
+  useDeletePhase,
+  useGetAllPhases
+} from '../../api/Admin/phase'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
@@ -16,11 +21,47 @@ const PhaseManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const [isOpen, setIsOpen] = useState(false)
+  const [form] = Form.useForm()
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: dataPhase } = useGetAllPhases(skip, take)
-
+  const [errorMessage, setErrorMessage] = useState(false)
+  const { data: dataPhase, refetch } = useGetAllPhases(skip, take)
+  const { mutate: deletePhase } = useMutation({
+    mutationFn: useDeletePhase,
+    onSuccess: () => {
+      console.log('Delete success')
+      refetch()
+    }
+  })
+  const { mutate: createPhase } = useMutation({
+    mutationFn: useCreatePhase,
+    onSuccess: () => {
+      console.log('Create success')
+      refetch()
+      setErrorMessage(false)
+      setIsOpen(false)
+    },
+    onError: (error) => {
+      if (error.response.data.message === 'Phase name already exists') {
+        setErrorMessage(true)
+      }
+    }
+  })
+  const onFinish = () => {
+    form.validateFields().then((values) => {
+      createPhase(values)
+    })
+  }
+  const layout = {
+    labelCol: {
+      span: 10
+    },
+    wrapperCol: {
+      span: 14
+    }
+  }
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -32,7 +73,11 @@ const PhaseManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => {
+              if (data.customersNumber > 0) {
+                message.error('Giai đoạn đang có khách hàng')
+              } else deletePhase(data.uuid)
+            }}
           />
         </Button>
         <Button
@@ -90,15 +135,7 @@ const PhaseManagement = () => {
     },
     {
       headerName: 'SỐ LƯỢNG KHÁCH HÀNG',
-      field: 'totalCustomer',
-      valueGetter: (p) =>
-        Math.floor(p.data.totalCustomer)
-          .toString()
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
+      field: 'customersNumber',
       minWidth: 250,
       filter: AgGridCustomTextFilter,
       filterParams: {
@@ -122,7 +159,7 @@ const PhaseManagement = () => {
     {
       headerName: 'THAO TÁC',
       field: 'action',
-      cellRenderer: ActionComponent,
+      cellRenderer: (e) => ActionComponent(e.data),
       minWidth: 150,
       width: 150,
       pinned: 'right',
@@ -155,7 +192,7 @@ const PhaseManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWPHASE}`)}
+              onClick={() => setIsOpen(true)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -199,6 +236,113 @@ const PhaseManagement = () => {
           </Col>
         </Row>
       </div>
+      {isOpen && (
+        <Form
+          {...layout}
+          form={form}
+          name='control-hooks'
+          onFinish={onFinish}
+          key={'activityForm'}
+        >
+          <Modal
+            open={isOpen}
+            footer={null}
+            closeIcon={null}
+            title={
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '5px',
+                  alignContent: 'space-between'
+                }}
+              >
+                <div style={{ width: '90%' }}>
+                  <h2>Thêm giai đoạn</h2>
+                </div>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <Button
+                    size={40}
+                    style={{
+                      borderColor: '#F58220',
+                      color: '#F58220',
+                      width: '80px'
+                    }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    style={{
+                      background: '#F58220',
+                      color: 'white',
+                      width: '80px'
+                    }}
+                    size={40}
+                    htmlType='submit'
+                    onClick={() => onFinish()}
+                  >
+                    Thêm
+                  </Button>
+                </div>
+              </div>
+            }
+          >
+            <Row className='infoActivity' gutter={16}>
+              <Col span={16}>
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Tên giai đoạn'
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Thứ tự giai đoạn'
+                  name={'priority'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <InputNumber />
+                </Form.Item>
+              </Col>
+            </Row>
+            {errorMessage && (
+              <Alert message='Tên giai đoạn đã tồn tại' type='error' showIcon />
+            )}
+            <Row className='infoActivity'>
+              <Col span={24}>
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Mô tả'
+                  name={'description'}
+                >
+                  <Input.TextArea
+                    style={{
+                      height: 120,
+                      color: 'black',
+                      fontSize: 14,
+                      fontWeight: 'normal'
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Modal>
+        </Form>
+      )}
     </>
   )
 }

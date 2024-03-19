@@ -1,5 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Typography
+} from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useReadPhase, useUpdatePhase } from '../../../api/Admin/phase'
@@ -7,6 +18,8 @@ import { ButtonOk } from '../../../assets/styles/button.style'
 import '../phaseManagement.css'
 const PhaseDetail = () => {
   const [isUpdate, setIsUpdate] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
+
   const { Title } = Typography
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
@@ -16,6 +29,12 @@ const PhaseDetail = () => {
     mutationFn: useUpdatePhase,
     onSuccess: () => {
       console.log('Update success')
+      setErrorMessage(false)
+    },
+    onError: (error) => {
+      if (error.response.data.message === 'Phase name already exists') {
+        setErrorMessage(true)
+      }
     }
   })
   const [form] = Form.useForm()
@@ -101,7 +120,7 @@ const PhaseDetail = () => {
         </Row>
         <Card className='phaseForm' style={{ width: '1000px', margin: 'auto' }}>
           <Row gutter={16}>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item
                 className='customHorizontal'
                 name='name'
@@ -111,17 +130,34 @@ const PhaseDetail = () => {
                 <Input placeholder='Tên giai đoạn' disabled={!isUpdate} />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={4}>
               <Form.Item
                 className='customHorizontal'
                 name='priority'
                 label='Thứ tự giai đoạn'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <Input placeholder='Thứ tự giai đoạn' disabled={!isUpdate} />
+                <InputNumber
+                  placeholder='Thứ tự giai đoạn'
+                  disabled={!isUpdate}
+                  size='large'
+                />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                className='customHorizontal'
+                name='customersNumber'
+                label='Số lượng khách hàng'
+                rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
+              >
+                <Input placeholder='Thứ tự giai đoạn' disabled={true} />
               </Form.Item>
             </Col>
           </Row>
+          {errorMessage && (
+            <Alert message='Tên giai đoạn đã tồn tại' type='error' showIcon />
+          )}
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
