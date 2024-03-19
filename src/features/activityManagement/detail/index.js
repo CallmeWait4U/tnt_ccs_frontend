@@ -238,7 +238,7 @@ const ActivityDetail = () => {
               }}
             >
               {' '}
-              Chi tiết loại hoạt động Chiến dịch quảng cáo qua mail
+              Chi tiết hoạt động
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
@@ -319,7 +319,7 @@ const ActivityDetail = () => {
           <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
             <Col md={20}>
               <Title level={4} style={{ paddingLeft: '20px' }}>
-                Danh sách hoạt động
+                Danh sách nhiệm vụ
               </Title>
             </Col>
             <Col
@@ -384,7 +384,7 @@ const ActivityDetail = () => {
         visible={isShowFormDetail}
         setVisible={setIsShowFormDetail}
         typeForm={typeForm}
-        nameActivity={'Chiến dịch quảng cáo qua mail'}
+        nameActivity={activityDetail?.name}
       />
     </>
   )
