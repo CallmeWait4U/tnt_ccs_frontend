@@ -5,7 +5,7 @@ export const PATH = Object.freeze({
   SIGNUP: '/sign-up',
   LANDINGPAGE: '/landing-page',
   REGISTER: '/register',
-  BUSSINESSREGISTER: '/bussiness-register',
+  BUSSINESSREGISTER: '/business-register',
   CUSTOMERLANDINGPAGE: '/customer-landing-page',
   NEWCUSTOMER: '/new-customer',
   ACTIVITY: '/activity',

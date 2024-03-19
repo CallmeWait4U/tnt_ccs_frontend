@@ -24,7 +24,13 @@ const BusinessRegister = () => {
   }
   return (
     <Layout
-      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#E1E5F4',
+        overflow: 'hidden'
+      }}
     >
       <Header
         style={{
@@ -57,26 +63,54 @@ const BusinessRegister = () => {
           display: 'flex',
           justifyContent: 'center',
           padding: '10px',
-          alignContent: 'center'
+          alignContent: 'center',
+          overflow: 'auto'
         }}
       >
         <Card style={{ width: '80vw' }}>
           <Form layout='vertical' onFinish={handleFinish}>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label={'Tên doanh nghiệp'} name={'tenantName'}>
+                <Form.Item
+                  label={'Tên doanh nghiệp'}
+                  name={'tenantName'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Họ và tên'} name={'name'}>
+                <Form.Item
+                  label={'Họ và tên'}
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label={'Mã số thuế'} name={'taxCode'}>
+                <Form.Item
+                  label={'Mã số thuế'}
+                  name={'taxCode'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
@@ -88,7 +122,16 @@ const BusinessRegister = () => {
             </Row>
             <Row gutter={16}>
               <Col span={4}>
-                <Form.Item label={'Địa chỉ'} name={'addressDetail'}>
+                <Form.Item
+                  label={'Địa chỉ'}
+                  name={'addressDetail'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
@@ -103,7 +146,16 @@ const BusinessRegister = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Số Căn Cước công dân'} name={'cccd'}>
+                <Form.Item
+                  label={'Số Căn Cước công dân'}
+                  name={'cccd'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
@@ -115,7 +167,16 @@ const BusinessRegister = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Domain'} name={'domain'}>
+                <Form.Item
+                  label={'Số điện thoại'}
+                  name={'phoneNumber'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
@@ -130,7 +191,16 @@ const BusinessRegister = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Tên đăng nhập'} name={'username'}>
+                <Form.Item
+                  label={'Email'}
+                  name={'email'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
@@ -140,41 +210,88 @@ const BusinessRegister = () => {
                 <Form.Item
                   label={'Mã số đăng ký kinh doanh'}
                   name={'businessRegistrationNumber'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
                 >
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Mật khẩu'} name={'password'}>
+                <Form.Item
+                  label={'Tên đăng nhập'}
+                  name={'username'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label={'Số điện thoại'} name={'phoneNumber'}>
+                <Form.Item
+                  label={'Vùng kinh doanh'}
+                  name={'businessNationality'}
+                >
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={'Nhập lại mật khẩu'} name={'passwordConfirm'}>
-                  <Input />
+                <Form.Item
+                  label={'Mật khẩu'}
+                  name={'password'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input type='password' />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
-              <Col span={6}>
-                <Form.Item label={'Quốc tịch'} name={'businessNationality'}>
+              <Col span={12}>
+                <Form.Item
+                  label={'Domain'}
+                  name={'domain'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
-              <Col span={6}>
-                <Form.Item label={'Email'} name={'email'}>
-                  <Input />
+              <Col span={12}>
+                <Form.Item
+                  label={'Nhập lại mật khẩu'}
+                  name={'passwordConfirm'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input type='password' />
                 </Form.Item>
               </Col>
+            </Row>
+            <Row gutter={16}>
               <Col
-                span={12}
+                span={24}
                 style={{
                   display: 'flex',
                   justifyContent: 'center',

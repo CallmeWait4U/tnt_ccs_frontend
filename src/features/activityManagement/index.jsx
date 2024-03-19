@@ -86,7 +86,7 @@ const ActivityManagement = () => {
       }
     },
     {
-      headerName: 'TÊN LOẠI HOẠT ĐỘNG',
+      headerName: 'TÊN HOẠT ĐỘNG',
       field: 'name',
       minWidth: 350,
       filter: AgGridCustomTextFilter,
@@ -140,7 +140,7 @@ const ActivityManagement = () => {
 
   const handleOpenModal = () => {
     Modal.confirm({
-      content: 'Bạn có chắc chắn muốn xóa loại hoạt động?',
+      content: 'Bạn có chắc chắn muốn xóa hoạt động?',
       centered: true,
       icon: <></>,
       footer: (_) => (
@@ -294,7 +294,7 @@ const ActivityManagement = () => {
               <Col span={24}>
                 <Form.Item
                   className={'customHorizontal'}
-                  label='Tên loại hoạt động'
+                  label='Tên hoạt động'
                   name={'name'}
                   rules={[
                     {

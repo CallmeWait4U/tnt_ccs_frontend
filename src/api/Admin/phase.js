@@ -55,3 +55,12 @@ export const useUpdatePhase = async (data) => {
     throw error
   }
 }
+export const useDeletePhase = async (data) => {
+  try {
+    console.log(data)
+    const response = await api.delete(`${BASE_URL}/phases/${data}`)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
