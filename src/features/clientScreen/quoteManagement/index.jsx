@@ -387,7 +387,7 @@ const ClientQuoteManagement = () => {
               title={
                 <CustomToggleButton
                   options={optionTags}
-                  chosenTag={(tag) => {
+                  onChange={(tag) => {
                     setTag(tag)
                     console.log(tag)
                   }}

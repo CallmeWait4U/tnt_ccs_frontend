@@ -9,7 +9,7 @@ const CustomerDetailPage = () => {
   const getCode = () => {
     const info = location.pathname.split('/')[2].split('&')
     isBusiness = info[1] === 'true' ? true : false
-    return info[0]
+    return info[2]
   }
 
   return (

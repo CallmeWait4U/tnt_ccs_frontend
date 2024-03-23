@@ -62,7 +62,7 @@ const AccountManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${PATH.ACCOUNT}/${data.uuid}`)
+              navigate(`${PATH.ACCOUNT}/${data.uuid}&${data.code}`)
             }}
           />
         </Button>
@@ -99,7 +99,7 @@ const AccountManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${PATH.ACCOUNT}/${data.uuid}`)
+              navigate(`${PATH.ACCOUNT}/${data.uuid}&${data.code}`)
             }}
           />
         </Button>
@@ -528,7 +528,9 @@ const AccountManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.ACCOUNT}/${params.data.uuid}`)
+                    navigate(
+                      `${PATH.ACCOUNT}/${params.data.uuid}&${params.data.code}`
+                    )
                   }}
                 />
               </div>

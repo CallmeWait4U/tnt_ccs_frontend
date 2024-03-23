@@ -24,7 +24,7 @@ const ActivityDetailPage = () => {
               </a>
             )
           },
-          { title: `Chi tiết loại hoạt động ${getCode()}` }
+          { title: `Chi tiết hoạt động` }
         ]
       }}
     >

@@ -42,7 +42,9 @@ const ProductManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.PRODUCT}/${data.uuid}`)}
+            onClick={() =>
+              navigate(`${PATH.PRODUCT}/${data.uuid}&${data.code}`)
+            }
           />
         </Button>
       </div>
@@ -206,7 +208,9 @@ const ProductManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.PRODUCT}/${params.data.uuid}`)
+                    navigate(
+                      `${PATH.PRODUCT}/${params.data.uuid}&${params.data.code}`
+                    )
                   }}
                 />
               </div>

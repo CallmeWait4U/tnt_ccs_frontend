@@ -7,6 +7,7 @@ const ProfilePage = () => {
     <Main
       role={ROLE.ADMIN}
       pageProps={{
+        keySideNav: 'profile',
         namePage: 'Thông tin cá nhân',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },

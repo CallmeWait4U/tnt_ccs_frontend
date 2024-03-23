@@ -14,7 +14,7 @@ const ClientProfilePage = () => {
       role={ROLE.CUSTOMER}
       pageProps={{
         namePage: 'Thông tin cá nhân',
-        keySideNav: 'quote',
+        keySideNav: 'profile',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
           { title: `Thông tin cá nhân` }

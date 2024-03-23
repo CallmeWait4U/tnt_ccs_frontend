@@ -1,21 +1,35 @@
-import { Button, Col, Input, Layout, Row, theme } from 'antd'
+import { Alert, Button, Col, Input, Layout, Row, message, theme } from 'antd'
 import { Form } from 'antd/lib'
 import Card from 'antd/lib/card/Card'
-import React from 'react'
+import React, { useState } from 'react'
 // Đường dẫn đến hình ảnh logo
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 import { useRegister } from '../../api/auth'
 import logo from '../../assets/images/logo.jpg'
+import { PATH } from '../../contants/common'
 import { StyledDatepicker } from '../component/ComponentOfForm'
+import '../customerManagement/detail/DetailCustomer.css'
 const { Header, Content, Footer } = Layout
 const BusinessRegister = () => {
+  const [errorMessage, setErrorMessage] = useState(false)
   const {
     token: { colorBgContainer }
   } = theme.useToken()
+  const navigate = useNavigate()
   const { mutate: register } = useMutation({
     mutationFn: useRegister,
     onSuccess: () => {
       console.log('Register success')
+      message.success('Tạo thành công')
+      setErrorMessage(false)
+      setTimeout(navigate(`${PATH.SIGNIN}`), 2000)
+    },
+    onError: (error) => {
+      console.log(error.response.data.message)
+      if (error.response.data.message === 'Domain name already exists') {
+        setErrorMessage(true)
+      }
     }
   })
   const handleFinish = (values) => {
@@ -69,7 +83,7 @@ const BusinessRegister = () => {
       >
         <Card style={{ width: '80vw' }}>
           <Form layout='vertical' onFinish={handleFinish}>
-            <Row gutter={16}>
+            <Row gutter={16} className='detailCustomer'>
               <Col span={12}>
                 <Form.Item
                   label={'Tên doanh nghiệp'}
@@ -121,10 +135,10 @@ const BusinessRegister = () => {
               </Col>
             </Row>
             <Row gutter={16}>
-              <Col span={4}>
+              <Col span={12}>
                 <Form.Item
-                  label={'Địa chỉ'}
-                  name={'addressDetail'}
+                  label={'Mã số đăng ký kinh doanh'}
+                  name={'businessRegistrationNumber'}
                   rules={[
                     {
                       required: true,
@@ -132,16 +146,6 @@ const BusinessRegister = () => {
                     }
                   ]}
                 >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item label={'Quận/huyện'} name={'district'}>
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item label={'Thành phố'} name={'city'}>
                   <Input />
                 </Form.Item>
               </Col>
@@ -162,10 +166,20 @@ const BusinessRegister = () => {
             </Row>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label={'Quốc tịch'} name={'country'}>
+                <Form.Item
+                  label={'Quốc gia'}
+                  name={'country'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Col>
+
               <Col span={12}>
                 <Form.Item
                   label={'Số điện thoại'}
@@ -184,7 +198,7 @@ const BusinessRegister = () => {
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item
-                  label={'Mã ngành kinh doanh'}
+                  label={'Lĩnh vực kinh doanh'}
                   name={'businessIndustry'}
                 >
                   <Input />
@@ -208,20 +222,6 @@ const BusinessRegister = () => {
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item
-                  label={'Mã số đăng ký kinh doanh'}
-                  name={'businessRegistrationNumber'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
                   label={'Tên đăng nhập'}
                   name={'username'}
                   rules={[
@@ -234,16 +234,48 @@ const BusinessRegister = () => {
                   <Input />
                 </Form.Item>
               </Col>
+              <Col span={4}>
+                <Form.Item
+                  label={'Địa chỉ'}
+                  name={'addressDetail'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'district'}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'city'}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
             </Row>
             <Row gutter={16}>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <Form.Item
                   label={'Vùng kinh doanh'}
                   name={'businessNationality'}
                 >
                   <Input />
                 </Form.Item>
-              </Col>
+              </Col> */}
               <Col span={12}>
                 <Form.Item
                   label={'Mật khẩu'}
@@ -258,8 +290,6 @@ const BusinessRegister = () => {
                   <Input type='password' />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row gutter={16}>
               <Col span={12}>
                 <Form.Item
                   label={'Domain'}
@@ -274,6 +304,8 @@ const BusinessRegister = () => {
                   <Input />
                 </Form.Item>
               </Col>
+            </Row>
+            <Row gutter={16}>
               <Col span={12}>
                 <Form.Item
                   label={'Nhập lại mật khẩu'}
@@ -289,6 +321,9 @@ const BusinessRegister = () => {
                 </Form.Item>
               </Col>
             </Row>
+            {errorMessage && (
+              <Alert message='Tên domain đã tồn tại' type='error' showIcon />
+            )}
             <Row gutter={16}>
               <Col
                 span={24}

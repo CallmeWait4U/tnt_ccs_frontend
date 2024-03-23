@@ -8,6 +8,7 @@ import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import {
   useCreateActivity,
+  useDeleteActivity,
   useGetAllActivities
 } from '../../api/Admin/activity'
 import { ButtonOk } from '../../assets/styles/button.style'
@@ -31,6 +32,13 @@ const ActivityManagement = () => {
       refetch()
     }
   })
+  const { mutate: deleteActivity } = useMutation({
+    mutationFn: useDeleteActivity,
+    onSuccess: () => {
+      console.log('success delete activity')
+      refetch()
+    }
+  })
   const layout = {
     labelCol: {
       span: 10
@@ -51,7 +59,7 @@ const ActivityManagement = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => deleteActivity(data.uuid)}
           />
         </Button>
         <Button
@@ -116,6 +124,15 @@ const ActivityManagement = () => {
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'number'
+      }
+    },
+    {
+      headerName: 'GIAI ĐOẠN',
+      field: 'phaseName',
+      minWidth: 350,
+      filter: AgGridCustomTextFilter,
+      filterParams: {
+        type: 'text'
       }
     },
     {
