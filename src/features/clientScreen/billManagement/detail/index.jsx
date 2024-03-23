@@ -1,10 +1,21 @@
-import { Col, Form, Input, Row, Table, Typography } from 'antd'
+import { Col, Form, Input, Row, Select, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
+import dayjs from 'dayjs'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadBill } from '../../../../api/Customer/bill'
 import { ButtonOk } from '../../../../assets/styles/button.style'
 import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
 const ClientBillDetail = () => {
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[3]
+  const paramsArray = paramsString.split('&')
+  const uuid = paramsArray[0]
+
+  const { data: billInfo } = useReadBill(uuid)
   const { Title } = Typography
+  const [form] = Form.useForm()
   const columns = [
     {
       title: 'STT',
@@ -18,13 +29,13 @@ const ClientBillDetail = () => {
     },
     {
       title: 'GIÁ TIỀN',
-      dataIndex: 'price',
-      key: 'price'
+      dataIndex: 'fixedPrice',
+      key: 'fixedPrice'
     },
     {
       title: 'SỐ LƯỢNG',
-      dataIndex: 'number',
-      key: 'number'
+      dataIndex: 'quantity',
+      key: 'quantity'
     },
     {
       title: 'THÀNH TIỀN',
@@ -75,7 +86,17 @@ const ClientBillDetail = () => {
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   }
-
+  useEffect(() => {
+    if (billInfo) {
+      form.setFieldsValue({
+        code: billInfo.code,
+        createdDate: dayjs(billInfo.createdDate),
+        status: billInfo.status,
+        employee: billInfo.employee,
+        employeeCode: billInfo.employeeCode
+      })
+    }
+  }, [billInfo, form])
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -111,40 +132,36 @@ const ClientBillDetail = () => {
         }}
       >
         <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
-          <Form layout='vertical'>
+          <Form layout='vertical' form={form}>
             <Row gutter={16}>
               <Col md={6} offset={1}>
-                <Form.Item label='Mã báo giá'>
+                <Form.Item label='Mã đơn hàng' name='code'>
                   <Input disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Ngày gửi'>
+                <Form.Item label='Ngày gửi' name='createdDate'>
                   <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Trạng thái'>
-                  <Input disabled />
+                <Form.Item label='Trạng thái' name='status'>
+                  <Select
+                    disabled
+                    options={[
+                      { value: 'UNPAID', label: 'Chưa thanh toán' },
+                      { value: 'PAID', label: 'Đã thanh toán' }
+                    ]}
+                  />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
-              <Col md={6} offset={1}>
-                <Form.Item label='Nhân viên tạo'>
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item label='Mã Nhân viên tạo'>
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
+              {/* <Col md={6}>
                 <Form.Item label='Ngày tạo'>
                   <StyledDatepicker disabled />
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
           <Row>
@@ -152,7 +169,7 @@ const ClientBillDetail = () => {
               <Table
                 bordered
                 style={{ border: '2px solid' }}
-                dataSource={dataTable}
+                dataSource={billInfo.products}
                 columns={columns}
                 pagination={false}
                 footer={() => (
@@ -163,7 +180,7 @@ const ClientBillDetail = () => {
                       </p>
                     </Col>
                     <Col span={4} style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '16px' }}>{sumBill(dataTable)}</p>
+                      <p style={{ fontSize: '16px' }}>{billInfo.total}</p>
                     </Col>
                   </Row>
                 )}

@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 
 // Images
 import { Typography } from 'antd'
+import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { useListBill } from '../../../api/Customer/bill'
 import { ButtonOk } from '../../../assets/styles/button.style'
+import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
@@ -23,115 +25,17 @@ const ClientBillManagement = () => {
       <div style={{ gap: '15px', display: 'flex' }}>
         <ButtonOk
           type='primary'
-          onClick={() =>
-            navigate(`${PATH.CUSTOME_URL.BILL}/1`, { state: data })
-          }
+          onClick={() => navigate(`${PATH.CUSTOME_URL.BILL}/${data.uuid}`)}
         >
           Chi tiết
         </ButtonOk>
       </div>
     )
   }
-
-  const data = [
-    {
-      code: 'HD001',
-      customerName: 'Nguyễn Văn A',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD002',
-      customerName: 'Nguyễn Văn B',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD003',
-      customerName: 'Nguyễn Văn C',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD004',
-      customerName: 'Nguyễn Văn D',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD005',
-      customerName: 'Nguyễn Văn E',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD006',
-      customerName: 'Nguyễn Văn F',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD007',
-      customerName: 'Nguyễn Văn G',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD008',
-      customerName: 'Nguyễn Văn H',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD009',
-      customerName: 'Nguyễn Văn I',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD010',
-      customerName: 'Nguyễn Văn K',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD011',
-      customerName: 'Nguyễn Văn K',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: 100000
-    },
-    {
-      code: 'HD012',
-      customerName: 'Nguyễn Văn K',
-      number: '0123456789',
-      orderDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: 100000
-    }
-  ]
+  const status = {
+    UNPAID: 'Chưa thanh toán',
+    PAID: 'Đã thanh toán'
+  }
   const colDefs = [
     {
       headerName: 'STT',
@@ -163,8 +67,8 @@ const ClientBillManagement = () => {
     },
     {
       headerName: 'TÊN KHÁCH HÀNG',
-      field: 'customerName',
-      minWidth: 300,
+      field: 'name',
+      minWidth: 350,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -172,7 +76,7 @@ const ClientBillManagement = () => {
     },
     {
       headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      field: 'phoneNumber',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -185,15 +89,18 @@ const ClientBillManagement = () => {
     },
     {
       headerName: 'NGÀY ĐẶT',
-      field: 'orderDate',
+      field: 'createdDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      filter: AgGridCustomDateFilter,
       filterParams: {
-        type: 'text'
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
@@ -203,38 +110,13 @@ const ClientBillManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 250,
+      minWidth: 300,
       filter: AgGridCustomSetFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Chưa thanh toán',
-            value: 'Chưa thanh toán'
-          },
-          {
-            id: '2',
-            label: 'Đã thanh toán',
-            value: 'Đã thanh toán'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'ĐƠN GIÁ',
-      field: 'price',
-      valueFormatter: (p) =>
-        Math.floor(p.data.price)
-          .toString()
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'),
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
+        type: 'text'
       },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -299,7 +181,7 @@ const ClientBillManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(rows) =>
-                    navigate(`${PATH.CUSTOME_URL.BILL}/1`, { state: rows })
+                    navigate(`${PATH.CUSTOME_URL.BILL}/${rows.data.uuid}`)
                   }
                 />
               </div>
