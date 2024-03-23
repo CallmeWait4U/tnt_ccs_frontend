@@ -21,7 +21,7 @@ export const useListBill = (offset, limit) => {
 export const useReadBill = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/bills/{uuid}?uuid=${id}`)
+      const response = await api.get(`${BASE_URL}/bills/${id}`)
       return response.data
     } catch (error) {
       throw error
