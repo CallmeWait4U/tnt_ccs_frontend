@@ -65,9 +65,8 @@ const Main = ({ children, pageProps, role }) => {
               handleSidenavType={handleSidenavType}
             />
           </AntHeader>
-          <CustomBreadCrumb breadcumbItems={breadcumbItems} />
         </Affix>
-
+        <CustomBreadCrumb breadcumbItems={breadcumbItems} />
         <Content className='content-ant'>{children}</Content>
       </Layout>
     </Layout>

@@ -222,7 +222,11 @@ const Header = ({ name }) => {
             style={{ display: 'flex', gap: '5px', alignItems: 'center' }}
           >
             <Avatar size='small' src='' />
-            <span>Admin</span>
+
+            <span onClick={() => navigate(`${PATH.CUSTOME_URL.PROFILE}`)}>
+              Admin
+            </span>
+
             <Dropdown menu={{ items }} trigger={['click']}>
               <FiChevronDown />
             </Dropdown>

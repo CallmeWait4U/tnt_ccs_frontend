@@ -57,7 +57,9 @@ const CustomerManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}`)
+              navigate(
+                `${PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}&${data.code}`
+              )
             }
           />
         </Button>
@@ -317,7 +319,7 @@ const CustomerManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}`
+                      `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}&${params.data.code}`
                     )
                   }}
                 />

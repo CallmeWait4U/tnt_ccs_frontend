@@ -1,8 +1,13 @@
+import { useLocation } from 'react-router-dom'
 import Main from '../components/layout/Main'
 import { PATH, ROLE } from '../contants/common'
 import ProductDetail from '../features/productManagement/detail'
-
 const ProductDetailPage = () => {
+  const location = useLocation()
+  const getCode = () => {
+    const info = location.pathname.split('/')[2].split('&')
+    return info[1]
+  }
   return (
     <Main
       role={ROLE.ADMIN}
@@ -19,6 +24,9 @@ const ProductDetailPage = () => {
           },
           {
             title: 'Chi tiết sản phẩm'
+          },
+          {
+            title: getCode()
           }
         ]
       }}

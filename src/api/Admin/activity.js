@@ -55,9 +55,11 @@ export const useUpdateActivity = async (data) => {
     throw error
   }
 }
-export const useDeleteActivity = async (id) => {
+export const useDeleteActivity = async (uuid) => {
   try {
-    const response = await api.delete(`${BASE_URL}/activities/delete`)
+    const response = await api.delete(`${BASE_URL}/activities/delete`, {
+      data: { uuid }
+    })
     return response
   } catch (error) {
     throw error
