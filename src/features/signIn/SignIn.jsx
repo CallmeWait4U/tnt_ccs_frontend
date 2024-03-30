@@ -65,7 +65,7 @@ const SignIn = () => {
     const data = {
       username: values.username,
       password: values.password,
-      domain: 'cocolala'
+      domain: 'congtya'
     }
     console.log('data', data)
     mutate(data, {

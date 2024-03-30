@@ -24,8 +24,6 @@ const Main = ({ children, pageProps, role }) => {
   pathname = pathname.replace('/', '')
   document.title = namePage
 
-  console.log('keySideNav', keySideNav)
-
   return (
     <Layout className={`layout-dashboard ${role}`}>
       <Sider

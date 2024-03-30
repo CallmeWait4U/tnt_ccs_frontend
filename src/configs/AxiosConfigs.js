@@ -12,7 +12,7 @@ api.interceptors.request.use(
   (config) => {
     let token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
     if (token && config.headers) {
-      config.headers['Authorization'] = token
+      config.headers['Authorization'] = 'Bearer ' + token
     }
     return config
   },
