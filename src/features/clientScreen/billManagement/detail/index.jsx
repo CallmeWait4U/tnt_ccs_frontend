@@ -14,6 +14,7 @@ const ClientBillDetail = () => {
   const uuid = paramsArray[0]
 
   const { data: billInfo } = useReadBill(uuid)
+  console.log(billInfo)
   const { Title } = Typography
   const [form] = Form.useForm()
   const columns = [

@@ -25,7 +25,7 @@ const ClientQuoteDetailPage = () => {
               </a>
             )
           },
-          { title: `Chi tiết báo giá ${getCode()}` }
+          { title: `Chi tiết báo giá` }
         ]
       }}
     >

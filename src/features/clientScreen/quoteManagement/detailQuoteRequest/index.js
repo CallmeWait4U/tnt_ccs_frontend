@@ -1,13 +1,22 @@
-import { Col, Form, Input, Row, Table, Typography } from 'antd'
+import { Col, Form, Input, Row, Select, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
+import dayjs from 'dayjs'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadPriceQuoteRequest } from '../../../../api/Customer/priceQuote'
+import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
 const ClientQuoteRequestDetail = () => {
+  const { state } = useLocation()
+  const { data: priceQuoteRequest } = useReadPriceQuoteRequest(state)
   const { Title } = Typography
+  const [form] = Form.useForm()
   const columns = [
     {
       title: 'STT',
       dataIndex: 'code',
-      key: 'code'
+      key: 'code',
+      render: (text, record, index) => index + 1
     },
     {
       title: 'TÊN SẢN PHẨM',
@@ -15,56 +24,25 @@ const ClientQuoteRequestDetail = () => {
       key: 'name'
     },
     {
-      title: 'GIÁ TIỀN',
-      dataIndex: 'price',
-      key: 'price'
-    },
-    {
       title: 'SỐ LƯỢNG',
-      dataIndex: 'number',
-      key: 'number'
+      dataIndex: 'quantity',
+      key: 'quantity'
     },
     {
-      title: 'THÀNH TIỀN',
-      dataIndex: 'total',
-      key: 'total'
+      title: 'ĐƠN VỊ',
+      dataIndex: 'unit',
+      key: 'unit'
     }
   ]
-
-  const dataTable = [
-    {
-      key: '1',
-      code: '1',
-      name: 'Tai nghe bluetooth XT80',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '2',
-      code: '2',
-      name: 'Chuột không dây Inphic PM6',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '3',
-      code: '3',
-      name: 'Tai nghe bluetooth XT80',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '4',
-      code: '4',
-      name: 'Chuột không dây Inphic PM6',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
+  useEffect(() => {
+    if (priceQuoteRequest) {
+      form.setFieldsValue({
+        code: priceQuoteRequest.code,
+        createdDate: dayjs(priceQuoteRequest.createdDate),
+        status: priceQuoteRequest.status
+      })
     }
-  ]
+  }, [form, priceQuoteRequest])
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -89,21 +67,27 @@ const ClientQuoteRequestDetail = () => {
         }}
       >
         <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
-          <Form layout='vertical'>
+          <Form layout='vertical' form={form}>
             <Row gutter={16}>
               <Col md={6} offset={1}>
-                <Form.Item label='Mã yêu cầu báo giá'>
+                <Form.Item label='Mã yêu cầu báo giá' name='code'>
                   <Input disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Người tạo yêu cầu'>
-                  <Input disabled />
+                <Form.Item label='Ngày tạo yêu cầu' name='createdDate'>
+                  <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Ngày tạo yêu cầu'>
-                  <Input disabled />
+                <Form.Item label='Trạng thái' name='status'>
+                  <Select
+                    disabled
+                    options={[
+                      { label: 'Chưa gửi', value: 'UNSENT' },
+                      { label: 'Đã gửi', value: 'SENT' }
+                    ]}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -113,21 +97,12 @@ const ClientQuoteRequestDetail = () => {
               <Table
                 bordered
                 style={{ border: '2px solid' }}
-                dataSource={dataTable}
+                dataSource={priceQuoteRequest?.products?.map((item, index) => ({
+                  ...item,
+                  key: index
+                }))}
                 columns={columns}
                 pagination={false}
-                footer={() => (
-                  <Row>
-                    <Col span={20}>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                        Thành tiền
-                      </p>
-                    </Col>
-                    <Col span={4} style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '16px' }}> 400.000</p>
-                    </Col>
-                  </Row>
-                )}
               />
             </Col>
           </Row>

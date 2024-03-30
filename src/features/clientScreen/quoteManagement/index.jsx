@@ -3,9 +3,15 @@ import React, { useState } from 'react'
 
 // Images
 import { Form, Input, Typography } from 'antd'
+import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { useListPriceQuote } from '../../../api/Customer/priceQuote'
+import {
+  useListPriceQuote,
+  useListPriceQuoteRequest
+} from '../../../api/Customer/priceQuote'
 import { ButtonOk } from '../../../assets/styles/button.style'
+import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
+import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import { PATH } from '../../../contants/common'
@@ -26,110 +32,39 @@ const ClientQuoteManagement = () => {
   const [tag, setTag] = useState('Báo giá')
   const optionTags = ['Báo giá', 'Yêu cầu báo giá']
   const { data: priceQuoteData } = useListPriceQuote(skip, take)
+  const { data: priceQuoteRequestData } = useListPriceQuoteRequest(skip, take)
   const [isOpen, setIsOpen] = useState(false)
 
   const navigateDetail = (data, type) => {
     if (type === 'quote') {
-      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: data })
+      navigate(`${PATH.CUSTOME_URL.QUOTE}/${data.uuid}`, { state: data.uuid })
     }
     if (type === 'quoteRequest') {
-      navigate(`${PATH.CUSTOME_URL.QUOTEREQUEST}/1`, { state: data })
+      navigate(`${PATH.CUSTOME_URL.QUOTEREQUEST}/${data.uuid}`, {
+        state: data.uuid
+      })
     }
   }
 
   const ActionComponent = (data, type) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <ButtonOk type='primary' onClick={() => navigateDetail(data, type)}>
+        <ButtonOk
+          type='primary'
+          onClick={() => {
+            navigateDetail(data, type)
+          }}
+        >
           Chi tiết
         </ButtonOk>
       </div>
     )
   }
-
-  const data = [
-    {
-      code: 'HD001',
-      customerName: 'Nguyễn Văn A',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD002',
-      customerName: 'Nguyễn Văn B',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD003',
-      customerName: 'Nguyễn Văn C',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD004',
-      customerName: 'Nguyễn Văn D',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD005',
-      customerName: 'Nguyễn Văn E',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD006',
-      customerName: 'Nguyễn Văn F',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD007',
-      customerName: 'Nguyễn Văn G',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD008',
-      customerName: 'Nguyễn Văn H',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Đã thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD009',
-      customerName: 'Nguyễn Văn I',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: '100.000'
-    },
-    {
-      code: 'HD010',
-      customerName: 'Nguyễn Văn K',
-      number: '0123456789',
-      sendDate: '20/10/2021',
-      status: 'Chưa thanh toán',
-      price: '100.000'
-    }
-  ]
+  const status = {
+    UNSENT: 'Chưa gửi',
+    SENT: 'Đã gửi',
+    CANCELED: 'Đã hủy'
+  }
   const colQuoteDefs = [
     {
       headerName: 'STT',
@@ -160,47 +95,51 @@ const ClientQuoteManagement = () => {
       }
     },
     {
-      headerName: 'TÊN NHÂN VIÊN TẠO',
-      field: 'employeeName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      headerName: 'NGÀY TẠO',
+      field: 'createdDate',
+      minWidth: 200,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      filter: AgGridCustomDateFilter,
       filterParams: {
-        type: 'text'
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
       headerName: 'NGÀY GỬI',
-      field: 'sendDate',
+      field: 'sentDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      filter: AgGridCustomDateFilter,
       filterParams: {
-        type: 'text'
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
-      headerName: 'ĐƠN GIÁ',
-      minWidth: 200,
-      field: 'price',
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      minWidth: 300,
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        type: 'text'
+      },
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -234,7 +173,7 @@ const ClientQuoteManagement = () => {
       }
     },
     {
-      headerName: 'MÃ BÁO GIÁ',
+      headerName: 'MÃ YÊU CẦU BÁO GIÁ',
       field: 'code',
       cellStyle: {
         display: 'flex',
@@ -247,47 +186,51 @@ const ClientQuoteManagement = () => {
       }
     },
     {
-      headerName: 'TÊN NGƯỜI GỬI',
-      field: 'customerName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'SỐ ĐIỆN THOẠI',
-      field: 'number',
+      headerName: 'NGÀY TẠO',
+      field: 'createdDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      filter: AgGridCustomDateFilter,
       filterParams: {
-        type: 'text'
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
       headerName: 'NGÀY GỬI',
-      field: 'sendDate',
+      field: 'sentDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      filter: AgGridCustomDateFilter,
       filterParams: {
-        type: 'text'
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
-      headerName: 'ĐƠN GIÁ',
-      minWidth: 200,
-      field: 'price',
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      minWidth: 300,
+      filter: AgGridCustomSetFilter,
+      filterParams: {
+        type: 'text'
+      },
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -413,7 +356,7 @@ const ClientQuoteManagement = () => {
                 {tag === optionTags[1] && (
                   <AgGridTable
                     colDefs={colQuoteRequestDefs}
-                    rowData={data}
+                    rowData={priceQuoteRequestData?.items || []}
                     skip={skip}
                     take={take}
                     setTake={setTake}

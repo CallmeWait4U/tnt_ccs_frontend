@@ -20,12 +20,29 @@ export const useListPriceQuote = (offset, limit) => {
     retry: 2
   })
 }
-export const useReadPriceQuote = (id) => {
+export const useListPriceQuoteRequest = (offset, limit) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `${BASE_URL}/price-quotes/{uuid}?uuid=${id}`
+        `/price-quote-requests?offset=${offset}&limit=${limit}`
       )
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['ListPriceQuoteRequest'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useReadPriceQuote = (id) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/price-quotes/${id}`)
       return response.data
     } catch (error) {
       throw error
@@ -34,6 +51,24 @@ export const useReadPriceQuote = (id) => {
 
   return useQuery({
     queryKey: ['ReadPriceQuote', id],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useReadPriceQuoteRequest = (id) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/price-quote-requests/${id}`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return useQuery({
+    queryKey: ['ReadPriceQuoteRequest', id],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,

@@ -25,7 +25,7 @@ const ClientQuoteRequestDetailPage = () => {
               </a>
             )
           },
-          { title: `Chi tiết yêu cầu báo giá ${getCode()}` }
+          { title: `Chi tiết yêu cầu báo giá` }
         ]
       }}
     >

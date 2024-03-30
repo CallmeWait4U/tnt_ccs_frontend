@@ -1,13 +1,25 @@
 import { Col, Form, Input, Row, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
+import dayjs from 'dayjs'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadPriceQuote } from '../../../../api/Customer/priceQuote'
+import {
+  StyledDatepicker,
+  StyledSelect
+} from '../../../component/ComponentOfForm'
 
 const ClientQuoteDetail = () => {
+  const { state } = useLocation()
+  const { data: priceQuote } = useReadPriceQuote(state)
+  const [form] = Form.useForm()
   const { Title } = Typography
   const columns = [
     {
       title: 'STT',
       dataIndex: 'code',
-      key: 'code'
+      key: 'code',
+      render: (text, record, index) => index + 1
     },
     {
       title: 'TÊN SẢN PHẨM',
@@ -15,56 +27,32 @@ const ClientQuoteDetail = () => {
       key: 'name'
     },
     {
-      title: 'GIÁ TIỀN',
-      dataIndex: 'price',
-      key: 'price'
+      title: 'ĐƠN VỊ',
+      dataIndex: 'unit',
+      key: 'unit'
     },
     {
       title: 'SỐ LƯỢNG',
-      dataIndex: 'number',
-      key: 'number'
+      dataIndex: 'quantity',
+      key: 'quantity'
     },
     {
-      title: 'THÀNH TIỀN',
-      dataIndex: 'total',
-      key: 'total'
+      title: 'GIÁ THƯƠNG LƯỢNG',
+      dataIndex: 'negotiatedPrice',
+      key: 'negotiatedPrice'
     }
   ]
 
-  const dataTable = [
-    {
-      key: '1',
-      code: '1',
-      name: 'Tai nghe bluetooth XT80',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '2',
-      code: '2',
-      name: 'Chuột không dây Inphic PM6',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '3',
-      code: '3',
-      name: 'Tai nghe bluetooth XT80',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
-    },
-    {
-      key: '4',
-      code: '4',
-      name: 'Chuột không dây Inphic PM6',
-      price: '100.000',
-      number: '1',
-      total: '100.000'
+  useEffect(() => {
+    if (priceQuote) {
+      form.setFieldsValue({
+        code: priceQuote.code,
+        createdDate: dayjs(priceQuote.createdDate),
+        status: priceQuote.status,
+        sentDate: dayjs(priceQuote.sentDate)
+      })
     }
-  ]
+  }, [form, priceQuote])
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -89,33 +77,34 @@ const ClientQuoteDetail = () => {
         }}
       >
         <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
-          <Form layout='vertical'>
+          <Form layout='vertical' form={form}>
             <Row gutter={16}>
               <Col md={6} offset={1}>
-                <Form.Item label='Mã báo giá'>
+                <Form.Item label='Mã báo giá' name='code'>
                   <Input disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Ngày gửi'>
-                  <Input disabled />
+                <Form.Item label='Ngày gửi' name='sentDate'>
+                  <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col md={6} offset={1}>
-                <Form.Item label='Nhân viên tạo'>
-                  <Input disabled />
+                <Form.Item label='Ngày tạo' name='createdDate'>
+                  <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
               <Col md={6}>
-                <Form.Item label='Mã Nhân viên tạo'>
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item label='Ngày tạo'>
-                  <Input disabled />
+                <Form.Item label='Trạng thái' name='status'>
+                  <StyledSelect
+                    disabled
+                    options={[
+                      { label: 'Chưa gửi', value: 'UNSENT' },
+                      { label: 'Đã gửi', value: 'SENT' }
+                    ]}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -125,7 +114,10 @@ const ClientQuoteDetail = () => {
               <Table
                 bordered
                 style={{ border: '2px solid' }}
-                dataSource={dataTable}
+                dataSource={priceQuote?.products.map((item, index) => ({
+                  ...item,
+                  key: index
+                }))}
                 columns={columns}
                 pagination={false}
                 footer={() => (
@@ -136,7 +128,7 @@ const ClientQuoteDetail = () => {
                       </p>
                     </Col>
                     <Col span={4} style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '16px' }}> 400.000</p>
+                      <p style={{ fontSize: '16px' }}>{priceQuote?.total}</p>
                     </Col>
                   </Row>
                 )}
