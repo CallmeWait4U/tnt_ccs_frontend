@@ -21,7 +21,8 @@ const ClientBillDetail = () => {
     {
       title: 'STT',
       dataIndex: 'code',
-      key: 'code'
+      key: 'code',
+      render: (text, record, index) => index + 1
     },
     {
       title: 'TÊN SẢN PHẨM',
@@ -39,9 +40,9 @@ const ClientBillDetail = () => {
       key: 'quantity'
     },
     {
-      title: 'THÀNH TIỀN',
-      dataIndex: 'total',
-      key: 'total'
+      title: 'GIÁ TIỀN',
+      dataIndex: 'fixedPrice',
+      key: 'fixedPrice'
     }
   ]
 
@@ -170,7 +171,10 @@ const ClientBillDetail = () => {
               <Table
                 bordered
                 style={{ border: '2px solid' }}
-                dataSource={billInfo.products}
+                dataSource={billInfo?.products?.map((item, index) => ({
+                  ...item,
+                  key: index
+                }))}
                 columns={columns}
                 pagination={false}
                 footer={() => (
@@ -181,7 +185,7 @@ const ClientBillDetail = () => {
                       </p>
                     </Col>
                     <Col span={4} style={{ textAlign: 'left' }}>
-                      <p style={{ fontSize: '16px' }}>{billInfo.total}</p>
+                      <p style={{ fontSize: '16px' }}>{billInfo?.total}</p>
                     </Col>
                   </Row>
                 )}
