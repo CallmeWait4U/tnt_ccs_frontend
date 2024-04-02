@@ -25,7 +25,7 @@ const ClientBillDetailPage = () => {
               </a>
             )
           },
-          { title: `Chi tiết hóa đơn ${getCode()}` }
+          { title: `Chi tiết hóa đơn` }
         ]
       }}
     >
