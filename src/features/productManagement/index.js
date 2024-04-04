@@ -54,6 +54,7 @@ const ProductManagement = () => {
   const colDefs = [
     {
       headerName: 'STT',
+      field: 'index',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
       minWidth: 120,
       width: 120,
