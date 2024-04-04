@@ -86,7 +86,7 @@ const ClientBillDetail = () => {
     data.forEach((item) => (sum = sum + item.total))
     return Math.floor(sum)
       .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
   useEffect(() => {
     if (billInfo) {
