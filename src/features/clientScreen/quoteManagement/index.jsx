@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 // Images
 import { Form, Input, Typography } from 'antd'
 import moment from 'moment'
+import { RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import {
   useListPriceQuote,
@@ -31,8 +32,9 @@ const ClientQuoteManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [tag, setTag] = useState('Báo giá')
   const optionTags = ['Báo giá', 'Yêu cầu báo giá']
-  const { data: priceQuoteData } = useListPriceQuote(skip, take)
-  const { data: priceQuoteRequestData } = useListPriceQuoteRequest(skip, take)
+  const { data: priceQuoteData, refetch } = useListPriceQuote(skip, take)
+  const { data: priceQuoteRequestData, refetch: refetchPriceQuote } =
+    useListPriceQuoteRequest(skip, take)
   const [isOpen, setIsOpen] = useState(false)
 
   const navigateDetail = (data, type) => {
@@ -49,14 +51,19 @@ const ClientQuoteManagement = () => {
   const ActionComponent = (data, type) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <ButtonOk
+        <Button
           type='primary'
-          onClick={() => {
-            navigateDetail(data, type)
-          }}
+          shape='circle'
+          style={{ backgroundColor: 'rgb(220,245,255)' }}
         >
-          Chi tiết
-        </ButtonOk>
+          <RiInformationFill
+            color='00AEEF'
+            size={24}
+            onClick={() => {
+              navigateDetail(data, type)
+            }}
+          />
+        </Button>
       </div>
     )
   }
@@ -70,7 +77,7 @@ const ClientQuoteManagement = () => {
       headerName: 'STT',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
       minWidth: 120,
-      width: 120,
+      width: 150,
       sortable: false,
       filter: false,
       checkboxSelection: true,
@@ -88,7 +95,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 400,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -97,7 +104,7 @@ const ClientQuoteManagement = () => {
     {
       headerName: 'NGÀY TẠO',
       field: 'createdDate',
-      minWidth: 200,
+      minWidth: 450,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -117,7 +124,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 450,
       filter: AgGridCustomDateFilter,
       filterParams: {
         type: 'date'
@@ -126,22 +133,22 @@ const ClientQuoteManagement = () => {
         return moment(value).format('DD-MM-YYYY')
       }
     },
-    {
-      headerName: 'TRẠNG THÁI',
-      field: 'status',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      minWidth: 300,
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        type: 'text'
-      },
-      valueFormatter: ({ value }) => {
-        return (value = status[value])
-      }
-    },
+    // {
+    //   headerName: 'TRẠNG THÁI',
+    //   field: 'status',
+    //   cellStyle: {
+    //     display: 'flex',
+    //     justifyContent: 'center'
+    //   },
+    //   minWidth: 300,
+    //   filter: AgGridCustomSetFilter,
+    //   filterParams: {
+    //     type: 'text'
+    //   },
+    //   valueFormatter: ({ value }) => {
+    //     return (value = status[value])
+    //   }
+    // },
     {
       field: 'action',
       cellRenderer: (p) => ActionComponent(p.data, 'quote'),
@@ -179,7 +186,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -192,7 +199,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 300,
       filter: AgGridCustomDateFilter,
       filterParams: {
         type: 'date'
@@ -208,7 +215,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 400,
       filter: AgGridCustomDateFilter,
       filterParams: {
         type: 'date'
@@ -347,7 +354,9 @@ const ClientQuoteManagement = () => {
                     skip={skip}
                     take={take}
                     setTake={setTake}
+                    setSkip={setSkip}
                     selectedRow={(rows) => setSelectedRowKeys(rows)}
+                    refetchData={refetch}
                     onDoubleClicked={(rows) =>
                       navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
                     }
@@ -360,6 +369,8 @@ const ClientQuoteManagement = () => {
                     skip={skip}
                     take={take}
                     setTake={setTake}
+                    setSkip={setSkip}
+                    refetchData={refetchPriceQuote}
                     selectedRow={(rows) => setSelectedRowKeys(rows)}
                     onDoubleClicked={(rows) =>
                       navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })

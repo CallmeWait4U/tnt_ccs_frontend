@@ -14,7 +14,6 @@ const ClientBillDetail = () => {
   const uuid = paramsArray[0]
 
   const { data: billInfo } = useReadBill(uuid)
-  console.log(billInfo)
   const { Title } = Typography
   const [form] = Form.useForm()
   const columns = [
@@ -46,48 +45,6 @@ const ClientBillDetail = () => {
     }
   ]
 
-  const dataTable = [
-    {
-      key: '1',
-      code: '1',
-      name: 'Tai nghe bluetooth XT80',
-      price: 100000,
-      number: '1',
-      total: 100000
-    },
-    {
-      key: '2',
-      code: '2',
-      name: 'Chuột không dây Inphic PM6',
-      price: 100000,
-      number: '1',
-      total: 100000
-    },
-    {
-      key: '3',
-      code: '3',
-      name: 'Tai nghe bluetooth XT80',
-      price: 100000,
-      number: '1',
-      total: 100000
-    },
-    {
-      key: '4',
-      code: '4',
-      name: 'Chuột không dây Inphic PM6',
-      price: 100000,
-      number: '1',
-      total: 100000
-    }
-  ]
-
-  const sumBill = (data) => {
-    let sum = 0
-    data.forEach((item) => (sum = sum + item.total))
-    return Math.floor(sum)
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-  }
   useEffect(() => {
     if (billInfo) {
       form.setFieldsValue({
@@ -135,18 +92,18 @@ const ClientBillDetail = () => {
       >
         <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
           <Form layout='vertical' form={form}>
-            <Row gutter={16}>
-              <Col md={6} offset={1}>
+            <Row gutter={16} span={24}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Mã đơn hàng' name='code'>
                   <Input disabled />
                 </Form.Item>
               </Col>
-              <Col md={6}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Ngày gửi' name='createdDate'>
                   <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
-              <Col md={6}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Trạng thái' name='status'>
                   <Select
                     disabled

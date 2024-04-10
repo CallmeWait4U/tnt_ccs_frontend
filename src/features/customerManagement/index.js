@@ -7,7 +7,12 @@ import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { useDeleteCustomer, useListCustomer } from '../../api/Admin/customer'
+import {
+  useDeleteCustomer,
+  useGetPhaseList,
+  useListCustomer,
+  useListMyCustomer
+} from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
@@ -18,12 +23,16 @@ import CustomToggleButton from '../component/CustomToggleButton'
 const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
-  const [accountType, setAccountType] = useState('employee')
-
+  const [accountType, setAccountType] = useState('allCustomer')
+  const [searchModel, setSearchModel] = useState({})
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataCustomer, refetch } = useListCustomer(skip, take)
+  const { data: dataMyCustomer, refetch: refetchMyCustomer } =
+    useListMyCustomer(skip, take)
+  const { data: phaseOptions, refetch: refetchPhaseOptions } = useGetPhaseList()
+  console.log(phaseOptions?.items)
   const { mutate: mutateDelete } = useMutation({
     mutationFn: useDeleteCustomer,
     onSuccess: () => {
@@ -31,6 +40,32 @@ const CustomerManagement = () => {
       refetch()
     }
   })
+
+  const refetchData = async () => {
+    try {
+      await refetch()
+    } catch (error) {
+      console.error('Error while refetching customer data:', error)
+    }
+  }
+  const refetchMyData = async () => {
+    try {
+      await refetchMyCustomer()
+    } catch (error) {
+      console.error('Error while refetching customer data:', error)
+    }
+  }
+  const handleFilterInputChange = (inputValue, field) => {
+    const newSearchModel = {
+      [field]: {
+        isCustom: false,
+        value: inputValue,
+        valueType: 'text'
+      }
+    }
+    setSearchModel(newSearchModel)
+    refetch(skip, take, newSearchModel)
+  }
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -123,7 +158,9 @@ const CustomerManagement = () => {
       minWidth: 200,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'text',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'code')
       }
     },
     {
@@ -132,7 +169,9 @@ const CustomerManagement = () => {
       minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'text',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'name')
       }
     },
     {
@@ -154,7 +193,9 @@ const CustomerManagement = () => {
       minWidth: 250,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'text',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'email')
       }
     },
     {
@@ -166,7 +207,9 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'text',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'phoneNumber')
       }
     },
     {
@@ -179,7 +222,9 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        type: 'text',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'employees')
       }
     },
     {
@@ -311,18 +356,32 @@ const CustomerManagement = () => {
             >
               <div className='table-responsive'>
                 <AgGridTable
-                  totalItem={dataCustomer?.total || 0}
+                  totalItem={
+                    (accountType === 'allCustomer'
+                      ? dataCustomer
+                      : dataMyCustomer
+                    )?.total || 0
+                  }
                   colDefs={colDefs}
-                  rowData={dataCustomer?.items || []}
+                  rowData={
+                    (accountType === 'allCustomer'
+                      ? dataCustomer
+                      : dataMyCustomer
+                    )?.items || []
+                  }
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
                       `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}&${params.data.code}`
                     )
                   }}
+                  refetchData={
+                    accountType === 'allCustomer' ? refetchData : refetchMyData
+                  }
                 />
               </div>
             </Card>

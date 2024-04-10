@@ -4,10 +4,7 @@ import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useReadPriceQuote } from '../../../../api/Customer/priceQuote'
-import {
-  StyledDatepicker,
-  StyledSelect
-} from '../../../component/ComponentOfForm'
+import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
 const ClientQuoteDetail = () => {
   const { state } = useLocation()
@@ -79,32 +76,19 @@ const ClientQuoteDetail = () => {
         <Card style={{ maxWidth: '1053px', minWidth: '50vw' }}>
           <Form layout='vertical' form={form}>
             <Row gutter={16}>
-              <Col md={6} offset={1}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Mã báo giá' name='code'>
                   <Input disabled />
                 </Form.Item>
               </Col>
-              <Col md={6}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Ngày gửi' name='sentDate'>
                   <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col md={6} offset={1}>
+              <Col md={6} offset={1} span={8}>
                 <Form.Item label='Ngày tạo' name='createdDate'>
                   <StyledDatepicker disabled />
-                </Form.Item>
-              </Col>
-              <Col md={6}>
-                <Form.Item label='Trạng thái' name='status'>
-                  <StyledSelect
-                    disabled
-                    options={[
-                      { label: 'Chưa gửi', value: 'UNSENT' },
-                      { label: 'Đã gửi', value: 'SENT' }
-                    ]}
-                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -124,7 +108,7 @@ const ClientQuoteDetail = () => {
                   <Row>
                     <Col span={20}>
                       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                        Thành tiền
+                        Tổng cộng
                       </p>
                     </Col>
                     <Col span={4} style={{ textAlign: 'left' }}>
