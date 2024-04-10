@@ -3,7 +3,7 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
 import { AgGridReact } from 'ag-grid-react'
 import { Pagination } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { dataCustomer } from '../../features/customerManagement/data/DataCustomer'
 import './AgGrid.css'
 
@@ -21,40 +21,43 @@ const AgGridTable = ({
   customCustomer = '',
   customCustomerAct = '',
   rowStyle = {},
-  totalItem
+  totalItem,
+  setSkip,
+  refetchData
 }) => {
   const [gridApi, setGridApi] = useState()
   const [currentPage, setCurrentPage] = useState(1)
-  const [firstIndex, setFirstIndex] = useState(0)
-  const [lastIndex, setLastIndex] = useState(0)
-
+  const [firstIndex, setFirstIndex] = useState(1)
+  const [lastIndex, setLastIndex] = useState(10)
   const onGridReady = (params) => {
     setGridApi(params)
     setFirstIndex(1)
-    take > rowData?.length ? setLastIndex(rowData?.length) : setLastIndex(take)
+    take > 10 ? setLastIndex(10) : setLastIndex(take)
   }
 
   const onFirstDataRendered = (params) => {
     params.api.autoSizeAllColumns()
   }
+  useEffect(() => {
+    if (refetchData) {
+      refetchData()
+    }
+  }, [currentPage, take, refetchData])
 
   const onChangePageSize = (pageSize) => {
     gridApi.api.updateGridOptions({ paginationPageSize: Number(pageSize) })
-    setCurrentPage(1)
     setFirstIndex(1)
-    pageSize > rowData?.length
-      ? setLastIndex(rowData?.length)
-      : setLastIndex(pageSize)
+    pageSize > totalItem ? setLastIndex(totalItem) : setLastIndex(pageSize)
+    setCurrentPage(1)
     setTake(pageSize)
   }
 
   const onChangePagination = (pageNumber) => {
     setCurrentPage(pageNumber)
     setFirstIndex((pageNumber - 1) * take + 1)
-    pageNumber * take > rowData?.length
-      ? setLastIndex(rowData?.length)
-      : setLastIndex(pageNumber * take)
+    setLastIndex(Math.min(pageNumber * take, totalItem))
     gridApi.api.paginationGoToPage(pageNumber - 1)
+    setSkip((pageNumber - 1) * take)
   }
 
   return (
@@ -119,7 +122,7 @@ const AgGridTable = ({
         </div>
         <div className='custom-pagination'>
           <div className='custom-pagination-title'>
-            {firstIndex}-{lastIndex} trong tổng {rowData?.length}
+            {firstIndex}-{lastIndex} trong tổng {totalItem}
           </div>
           <Pagination
             className='custom-pagination-title'

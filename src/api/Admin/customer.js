@@ -1,15 +1,29 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useListCustomer = (offset, limit) => {
+export const useListCustomer = (offset, limit, searchModel) => {
   const fetchData = async () => {
-    try {
-      const response = await api.get(
-        `/customers/all?offset=${offset}&limit=${limit}`
-      )
-      return response.data
-    } catch (error) {
-      console.log(error)
+    // if search model is not empty, then we will search with search model
+    if (searchModel) {
+      try {
+        const response = await api.post(
+          `/customers/search?offset=${offset}&limit=${limit}&searchModel=${JSON.stringify(
+            searchModel
+          )}`
+        )
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        const response = await api.get(
+          `/customers/all?offset=${offset}&limit=${limit}`
+        )
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
   return useQuery({
@@ -70,4 +84,41 @@ export const useDeleteCustomer = async (uuid) => {
   } catch (error) {
     throw error
   }
+}
+export const useListMyCustomer = (offset, limit) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/customers/divideByEmployee?offset=${offset}&limit=${limit}`
+      )
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['ListMyCustomer'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useGetPhaseList = async () => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/phases/list-phase-options/all`)
+      console.log(response.data)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListPhaseOptions'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
 }

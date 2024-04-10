@@ -4,14 +4,15 @@ import React, { useState } from 'react'
 // Images
 import { Typography } from 'antd'
 import moment from 'moment'
+import { RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useListBill } from '../../../api/Customer/bill'
-import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import { PATH } from '../../../contants/common'
+
 const ClientBillManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -23,12 +24,15 @@ const ClientBillManagement = () => {
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <ButtonOk
-          type='primary'
-          onClick={() => navigate(`${PATH.CUSTOME_URL.BILL}/${data.uuid}`)}
-        >
-          Chi tiết
-        </ButtonOk>
+        <Button shape='circle' style={{ backgroundColor: 'rgb(220,245,255)' }}>
+          <RiInformationFill
+            color='00AEEF'
+            size={24}
+            onClick={() => {
+              navigate(`${PATH.CUSTOME_URL.BILL}/${data.uuid}`)
+            }}
+          />
+        </Button>
       </div>
     )
   }

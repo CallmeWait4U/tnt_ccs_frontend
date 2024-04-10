@@ -74,12 +74,12 @@ const ClientQuoteRequestDetail = () => {
                   <Input disabled />
                 </Form.Item>
               </Col>
-              <Col md={6}>
+              <Col md={6} offset={1}>
                 <Form.Item label='Ngày tạo yêu cầu' name='createdDate'>
                   <StyledDatepicker disabled />
                 </Form.Item>
               </Col>
-              <Col md={6}>
+              <Col md={6} offset={1}>
                 <Form.Item label='Trạng thái' name='status'>
                   <Select
                     disabled

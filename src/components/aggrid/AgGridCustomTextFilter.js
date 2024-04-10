@@ -2,20 +2,18 @@ import { Button } from 'antd'
 import { useState } from 'react'
 import './AgGrid.css'
 
-const AgGridCustomTextFilter = (param) => {
+const AgGridCustomTextFilter = ({ onInputChange, refetchFunction }) => {
   const [searchWord, setSearchWord] = useState('')
 
   const handleChange = (e) => {
-    if (param.type === 'text') {
-      setSearchWord(e.target.value)
-    } else {
-      setSearchWord(String(e.target.value))
-    }
+    const inputValue = e.target.value
+    setSearchWord(inputValue)
+    onInputChange(inputValue)
   }
 
   const onClear = () => {
     setSearchWord('')
-    param.filterChangedCallback()
+    onInputChange('')
   }
 
   const handleKeyDown = (e) => {
@@ -25,7 +23,7 @@ const AgGridCustomTextFilter = (param) => {
   }
 
   const handleApply = () => {
-    console.log(searchWord)
+    // refetchFunction(0, 10, searchWord)
   }
 
   return (
@@ -34,7 +32,7 @@ const AgGridCustomTextFilter = (param) => {
         <div className='fieldWrapper column'>
           <div className='inputWrapper'>
             <input
-              type={`${param.type}`}
+              // type={`${param.type}`}
               value={searchWord}
               className='input'
               id='search'

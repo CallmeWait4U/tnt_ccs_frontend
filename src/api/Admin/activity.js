@@ -65,3 +65,22 @@ export const useDeleteActivity = async (uuid) => {
     throw error
   }
 }
+export const useGetAllTask = (offset, limit, uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/activities/tasks/all?offset=${offset}&limit=${limit}&activityUUID=${uuid}`
+      )
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['ListActivity'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
