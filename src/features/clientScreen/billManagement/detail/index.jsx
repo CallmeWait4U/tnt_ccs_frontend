@@ -2,9 +2,10 @@ import { Col, Form, Input, Row, Select, Table, Typography } from 'antd'
 import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useReadBill } from '../../../../api/Customer/bill'
 import { ButtonOk } from '../../../../assets/styles/button.style'
+import { PATH } from '../../../../contants/common'
 import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
 const ClientBillDetail = () => {
@@ -12,7 +13,7 @@ const ClientBillDetail = () => {
   const paramsString = location.pathname.split('/')[3]
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
-
+  const navigate = useNavigate()
   const { data: billInfo } = useReadBill(uuid)
   const { Title } = Typography
   const [form] = Form.useForm()
@@ -78,6 +79,11 @@ const ClientBillDetail = () => {
           <ButtonOk
             className='cancelComplainBtn'
             style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
+            onClick={() =>
+              navigate(`${PATH.CUSTOME_URL.NEWCOMPLAINT}`, {
+                state: billInfo
+              })
+            }
           >
             Khiếu nại về hóa đơn
           </ButtonOk>

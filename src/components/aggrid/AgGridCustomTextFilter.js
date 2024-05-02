@@ -2,18 +2,17 @@ import { Button } from 'antd'
 import { useState } from 'react'
 import './AgGrid.css'
 
-const AgGridCustomTextFilter = ({ onInputChange, refetchFunction }) => {
+const AgGridCustomTextFilter = ({ field, onInputChange, onDeleteInput }) => {
   const [searchWord, setSearchWord] = useState('')
 
   const handleChange = (e) => {
     const inputValue = e.target.value
     setSearchWord(inputValue)
-    onInputChange(inputValue)
   }
 
   const onClear = () => {
     setSearchWord('')
-    onInputChange('')
+    onDeleteInput()
   }
 
   const handleKeyDown = (e) => {
@@ -22,8 +21,9 @@ const AgGridCustomTextFilter = ({ onInputChange, refetchFunction }) => {
     }
   }
 
-  const handleApply = () => {
-    // refetchFunction(0, 10, searchWord)
+  const handleApply = async () => {
+    console.log(field, '-', searchWord)
+    onInputChange(searchWord)
   }
 
   return (

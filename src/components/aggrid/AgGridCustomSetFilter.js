@@ -7,16 +7,20 @@ const AgGridCustomSetFilter = (param) => {
   const [checkedList, setCheckedList] = useState([])
   const [checkAll, setCheckAll] = useState(false)
   const indeterminate =
-    checkedList.length > 0 && checkedList.length < param.itemList.length
-
+    checkedList.length > 0 && checkedList.length < param.param.total
+  const checkboxOptions = param.param.items.map((option) => ({
+    label: option.name,
+    value: option.uuid
+  }))
+  console.log(param)
   const onChange = (list) => {
-    setCheckAll(list.length === param.itemList.length)
+    setCheckAll(list.length === param.param.total)
     setCheckedList(list)
   }
 
   const onCheckAllChange = (e) => {
     setCheckAll(e.target.checked)
-    setCheckedList(e.target.checked ? param.itemList.map((i) => i.value) : [])
+    setCheckedList(e.target.checked ? checkboxOptions.map((i) => i.value) : [])
   }
 
   const onClear = () => {
@@ -27,7 +31,7 @@ const AgGridCustomSetFilter = (param) => {
 
   const handleApply = () => {
     const searchSet = checkedList.forEach((item) => {
-      const arr = param.itemList.filter((i) => i.value === item)
+      const arr = checkboxOptions.filter((i) => i.value === item)
       return arr[0]
     })
     console.log(searchSet)
@@ -49,7 +53,7 @@ const AgGridCustomSetFilter = (param) => {
           Chọn tất cả
         </Checkbox>
         <CheckboxGroup
-          options={param.itemList}
+          options={checkboxOptions}
           value={checkedList}
           onChange={onChange}
         />

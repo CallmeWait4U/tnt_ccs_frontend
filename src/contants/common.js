@@ -29,7 +29,7 @@ export const PATH = Object.freeze({
   COMPLAINT: '/complaints',
   COMPLAINTDETAIL: 'complaints/:id',
   COMPLAINTCLASSIFY: '/complaint-classify',
-
+  COMPLAINTTYPECREATE: '/complaint-type-create',
   TABLE: '/tables',
   BILLING: '/billing',
   HOST: 'http://localhost:3000',

@@ -18,7 +18,7 @@ const AgGridCustomDateFilter = (param) => {
 
   const handleApply = () => {
     let fromDate, toDate
-    if (indexTab == 1) {
+    if (indexTab === 1) {
       fromDate = searchDate
       toDate = searchDate
     } else {
@@ -29,7 +29,7 @@ const AgGridCustomDateFilter = (param) => {
   }
 
   const onTabClick = (key) => {
-    if (key == 1) {
+    if (key === 1) {
       setSearchFromDate('')
       setSearchToDate('')
     } else {

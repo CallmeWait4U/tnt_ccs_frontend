@@ -7,7 +7,7 @@ import ComplaintDetail from '../features/complaintManagement/detail'
 const ComplaintDetailPage = () => {
   const location = useLocation()
   const getCode = () => {
-    return location.pathname.split('/')[2]
+    return location.pathname.split('/')[2].split('&')[1]
   }
 
   return (
