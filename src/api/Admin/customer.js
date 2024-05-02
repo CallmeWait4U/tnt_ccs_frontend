@@ -3,11 +3,11 @@ import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
 export const useListCustomer = (offset, limit, searchModel) => {
   const fetchData = async () => {
-    // if search model is not empty, then we will search with search model
+    console.log('searchModel in cus', searchModel)
     if (searchModel) {
       try {
-        const response = await api.post(
-          `/customers/search?offset=${offset}&limit=${limit}&searchModel=${JSON.stringify(
+        const response = await api.get(
+          `/customers/all?offset=${offset}&limit=${limit}&searchModel=${JSON.stringify(
             searchModel
           )}`
         )
@@ -104,11 +104,10 @@ export const useListMyCustomer = (offset, limit) => {
     retry: 2
   })
 }
-export const useGetPhaseList = async () => {
+export const useGetPhaseList = () => {
   const fetchData = async () => {
     try {
       const response = await api.get(`/phases/list-phase-options/all`)
-      console.log(response.data)
       return response.data
     } catch (error) {
       throw error

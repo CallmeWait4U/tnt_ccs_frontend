@@ -13,7 +13,7 @@ import {
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
-import { useCreateCustomer } from '../../../api/Admin/customer'
+import { useCreateCustomer, useGetPhaseList } from '../../../api/Admin/customer'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import './form.css'
 
@@ -23,7 +23,8 @@ const CustomerForm = () => {
   const [source, setSource] = useState(1)
   // const [provinces, setProvinces] = useState([])
   // const [districts, setDistricts] = useState([])
-  const [hasAccount, setHasAccount] = useState(false)
+  const [hasAccount, setHasAccount] = useState('')
+  const { data: phaseOptions } = useGetPhaseList()
   const [form] = Form.useForm()
   const { mutate: mutateCreate } = useMutation({
     mutationFn: useCreateCustomer
@@ -31,6 +32,9 @@ const CustomerForm = () => {
   const onFinish = (values) => {
     mutateCreate(values)
   }
+  const phaseList = phaseOptions?.items.map((item) => {
+    return { value: item.uuid, label: item.name }
+  })
   // useEffect(() => {
   //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
   //     const provincesData = []
@@ -56,31 +60,8 @@ const CustomerForm = () => {
     }
   }
 
-  const phaseList = [
-    {
-      value: 1,
-      label: 'Tiềm năng'
-    },
-    {
-      value: 2,
-      label: 'Đang liên lạc'
-    },
-    {
-      value: 3,
-      label: 'Đã báo giá'
-    },
-    {
-      value: 4,
-      label: 'Chính thức'
-    },
-    {
-      value: 5,
-      label: 'Thân thiết'
-    }
-  ]
-
   const onChangeAccount = (value) => {
-    setHasAccount(value)
+    setHasAccount('PENDING')
   }
 
   // const onChangeProvince = (value) => {
@@ -180,7 +161,7 @@ const CustomerForm = () => {
       onFinish={onFinish}
       key={'addCustomer'}
       initialValues={{
-        hasAccount: false,
+        hasAccount: 'NOTAPPROVED',
         isBusiness: true
       }}
     >
@@ -250,7 +231,7 @@ const CustomerForm = () => {
             <Col span={12} xl={8}>
               <Form.Item
                 label={'Giai đoạn'}
-                name={'phase'}
+                name={'phaseUUID'}
                 rules={[
                   {
                     required: true,

@@ -1,8 +1,20 @@
-import { Button, Col, Form, Input, Row, Table, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Radio,
+  Row,
+  Table,
+  Typography
+} from 'antd'
 import Card from 'antd/lib/card/Card'
-import { useState } from 'react'
-import { FiCheckSquare } from 'react-icons/fi'
-import { MdRadioButtonChecked } from 'react-icons/md'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadComplaint } from '../../../api/Admin/complaint'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import {
   StyledDatepicker,
@@ -12,21 +24,30 @@ import {
 import '../complaintManagement.css'
 
 const ComplaintDetail = () => {
-  const problems = [
-    'Sản phẩm bị lỗi',
-    'Sản phẩm không đúng mô tả',
-    'Sản phẩm không đúng kích thước',
-    'Sản phẩm không đúng màu sắc',
-    'Sản phẩm không đúng số lượng',
-    'Sản phẩm không đúng chất lượng'
-  ]
-  const productsProblem = [
-    'Tai nghe bluetooth XT80',
-    'Chuột không dây Inphic PM6'
-  ]
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[2]
+  const paramsArray = paramsString.split('&')
+  const uuid = paramsArray[0]
+  const { data: ComplaintData } = useReadComplaint(uuid)
+  const [form] = Form.useForm()
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (ComplaintData) {
+      form.setFieldsValue({
+        name: ComplaintData.customerName,
+        email: ComplaintData.customerEmail,
+        cccd: ComplaintData.customerCCCD,
+        phone: ComplaintData.customerPhoneNumber,
+        type: location.state.typeComplaintName,
+        date: dayjs(ComplaintData.sentDate),
+        code: ComplaintData.code,
+        status: ComplaintData.status
+      })
+    }
+  }, [ComplaintData, form, location.state.typeComplaintName])
   const columns = [
     {
       title: 'Mã nhân viên',
@@ -80,6 +101,40 @@ const ComplaintDetail = () => {
       note: 'Không có ghi chú'
     }
   ])
+  const renderFieldInput = (field) => {
+    switch (field.name) {
+      case 'Trả lời ngắn':
+        return <Input value='Thái độ của nhân viên không tốt' disabled={true} />
+      case 'Trả lời dài':
+        return <Input.TextArea disabled={true} />
+      case 'Hộp kiểm':
+        return (
+          <Checkbox.Group>
+            {field.listOptions.map((option) => (
+              <Checkbox value={option} disabled={true}>
+                {option}
+              </Checkbox>
+            ))}
+          </Checkbox.Group>
+        )
+      case 'Trắc nghiệm':
+        return (
+          <Radio.Group>
+            {field.listOptions.map((option) => (
+              <Radio value={option} disabled={true}>
+                {option}
+              </Radio>
+            ))}
+          </Radio.Group>
+        )
+      case 'Tải tệp lên':
+        return <Input type='file' />
+      case 'Bộ chọn thời gian':
+        return <DatePicker disabled={true} />
+      default:
+        return <Input disabled={true} />
+    }
+  }
   const addRow = () => {
     const maxIndex = dataTable.reduce(
       (max, item) => (item.index > max ? item.index : max),
@@ -116,12 +171,18 @@ const ComplaintDetail = () => {
           md={4}
           style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
-          <ButtonOk
-            className='deleteComplainBtn'
-            style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
-          >
-            Xóa
-          </ButtonOk>
+          {ComplaintData?.status !== 'SOLVED' && (
+            <ButtonOk
+              className='deleteComplainBtn'
+              style={{
+                fontSize: '14px',
+                height: '42px',
+                background: '#F43F5E'
+              }}
+            >
+              Cập nhật trạng thái
+            </ButtonOk>
+          )}
           <ButtonOk
             type='primary'
             className='historyActBtn'
@@ -134,19 +195,11 @@ const ComplaintDetail = () => {
       </Row>
 
       <Card className='complaintForm'>
-        <Form>
+        <Form form={form}>
           <Row gutter={16}>
             <Col span={4} offset={1}>
               <Form.Item name='type' label='Loại khiếu nại'>
-                <StyledSelect
-                  options={[
-                    { value: 'Sản phẩm', label: 'Sản phẩm' },
-                    { value: 'Vận chuyển', label: 'Vận chuyển' },
-                    { value: 'Nhân viên', label: 'Nhân viên' }
-                  ]}
-                  placeholder='Chọn loại yêu cầu'
-                  disabled={!isUpdate}
-                />
+                <Input disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -163,10 +216,10 @@ const ComplaintDetail = () => {
               <Form.Item name='status' label='Trạng thái'>
                 <StyledSelect
                   options={[
-                    { value: '1', label: 'Chưa xử lí' },
-                    { value: '2', label: 'Đang xử lí' },
-                    { value: '3', label: 'Đã xử lí' },
-                    { value: '4', label: 'Xử lý lại' }
+                    { value: 'PENDING', label: 'Chưa xử lí' },
+                    { value: 'PROCESSING', label: 'Đang xử lí' },
+                    { value: 'SOLVED', label: 'Đã xử lí' },
+                    { value: 'REPROCESS', label: 'Xử lý lại' }
                   ]}
                   disabled={!isUpdate}
                 />
@@ -186,34 +239,6 @@ const ComplaintDetail = () => {
                     >
                       <Input
                         placeholder='Tên khách hàng'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='sex'
-                      label='Giới tính'
-                    >
-                      <StyledSelect
-                        placeholder={'Chọn giới tính'}
-                        options={[
-                          { value: 'Male', label: 'Nam' },
-                          { value: 'Female', label: 'Nữ' }
-                        ]}
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='birthday'
-                      label='Ngày sinh'
-                    >
-                      <StyledDatepicker
-                        placeholder={'Chọn ngày sinh'}
                         disabled={!isUpdate}
                       />
                     </Form.Item>
@@ -251,139 +276,28 @@ const ComplaintDetail = () => {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customDetailAddress'
-                      label={'Địa chỉ'}
-                      name={'detailAddress'}
-                    >
-                      <Input disabled={!isUpdate} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customAddress'
-                      label={' '}
-                      name={'district'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Yêu cầu thông tin'
-                        }
-                      ]}
-                    >
-                      <StyledSelect
-                        placeholder='Chọn quận/huyện'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customAddress'
-                      label={' '}
-                      name={'city'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Yêu cầu thông tin'
-                        }
-                      ]}
-                    >
-                      <StyledSelect
-                        placeholder='Chọn tỉnh/thành phố'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
               </Card>
             </Col>
             <Col span={12}>
               <Card title={'Thông tin khiếu nại'}>
-                <Row>
-                  <span style={{ paddingBottom: '5px' }}>
-                    Những vấn đề bạn gặp với sản phẩm?
-                  </span>
-                  {problems.map((item, index) => (
-                    <Col span={24} key={index}>
-                      <div style={{ display: 'flex', marginLeft: 10 }}>
-                        <FiCheckSquare />{' '}
-                        <span style={{ marginLeft: 10 }}>{item}</span>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <span style={{ paddingBottom: '5px' }}>
-                    Hình ảnh minh họa
-                  </span>
-                  <Col span={24}>
-                    <div style={{ display: 'flex', marginLeft: 10 }}>
-                      <span>hinhf1.jpg</span>
-
-                      <button
+                {ComplaintData?.listOfField.map((field, index) => (
+                  <>
+                    <Row key={field.uuid} style={{ paddingBottom: '16px' }}>
+                      <Col
                         style={{
-                          marginLeft: 10,
-                          border: '1px',
-                          borderRadius: '5px',
-                          borderColor: 'black',
-                          background: '#E9E6E6',
-                          padding: '2px 5px'
+                          display: 'flex',
+                          textAlign: 'right',
+                          alignItems: 'center'
                         }}
                       >
-                        Tải hình ảnh xuống
-                      </button>
-                    </div>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <Col span={24} style={{ paddingBottom: '5px' }}>
-                    <span>Sản phẩm khiếu nại</span>
-                  </Col>
-                  <Col span={24}>
-                    <div
-                      style={{
-                        width: '100%',
-
-                        padding: '10px 0px 10px 10px',
-                        borderWidth: '2px',
-                        borderColor: 'black',
-                        borderRadius: '5px'
-                      }}
-                    >
-                      {productsProblem.map((item, index) => (
-                        <div style={{ display: 'flex', marginLeft: 10 }}>
-                          <MdRadioButtonChecked />
-                          <span style={{ marginLeft: 10 }}>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <Col span={24} style={{ paddingBottom: '5px' }}>
-                    <span>Mô tả chi tiết</span>
-                  </Col>
-                  <Col span={24}>
-                    <div
-                      style={{
-                        width: '100%',
-
-                        padding: '10px 0px 10px 10px',
-                        borderWidth: '2px',
-                        borderColor: 'black',
-                        borderRadius: '5px'
-                      }}
-                    >
-                      <span>
-                        Sản phẩm bị lỗi màu, không đúng với mô tả bản đầu trên
-                        quảng cáo.
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
+                        {field.title}
+                      </Col>
+                    </Row>
+                    <Row style={{ paddingBottom: '16px' }}>
+                      <Col span={24}>{renderFieldInput(field)}</Col>
+                    </Row>
+                  </>
+                ))}
               </Card>
             </Col>
           </Row>

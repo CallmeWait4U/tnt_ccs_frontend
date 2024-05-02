@@ -1,156 +1,305 @@
 import React, { useState } from 'react'
 // Images
-import { AndroidOutlined } from '@ant-design/icons'
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
+  Checkbox,
   Col,
+  DatePicker,
   Form,
   Input,
   Modal,
+  Radio,
   Row,
   Select,
   Tabs,
-  Typography
+  Typography,
+  message
 } from 'antd'
-import { FiCheckSquare } from 'react-icons/fi'
-import { MdModeEditOutline } from 'react-icons/md'
-import { TbTrashFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
+import {
+  useDeleteTypeComplaint,
+  useGetDetailType,
+  useGetTypeComplaint
+} from '../../api/Admin/complaint'
 import { ButtonOk } from '../../assets/styles/button.style'
+const { Option } = Select
 
-const problems = [
-  'Sản phẩm bị lỗi',
-  'Sản phẩm không đúng mô tả',
-  'Sản phẩm không đúng kích thước',
-  'Sản phẩm không đúng màu sắc',
-  'Sản phẩm không đúng số lượng',
-  'Sản phẩm không đúng chất lượng'
-]
+const NewComplaintTypeModal = ({ isOpen, setIsOpen }) => {
+  const [form] = Form.useForm()
+  const [listOfField, setListOfField] = useState([])
 
-const ActionComponent = (data) => {
+  const handleAddField = () => {
+    setListOfField([
+      ...listOfField,
+      {
+        name: '',
+        isFieldFile: false,
+        title: '',
+        specificFileTypes: [],
+        maxNumOfFiles: 0,
+        listOptions: []
+      }
+    ])
+  }
+
+  const handleRemoveField = (index) => {
+    const updatedList = [...listOfField]
+    updatedList.splice(index, 1)
+    setListOfField(updatedList)
+  }
+
+  const handleChange = (index, key, value) => {
+    const updatedList = [...listOfField]
+    updatedList[index] = { ...updatedList[index], [key]: value }
+    setListOfField(updatedList)
+  }
+
+  const renderFieldInput = (field, index) => {
+    switch (field.name) {
+      case 'Trả lời ngắn':
+      case 'Bộ chọn thời gian':
+      case 'Trả lời dài':
+        return (
+          <>
+            <Input
+              placeholder='Mô tả trường'
+              value={field.description}
+              onChange={(e) =>
+                handleChange(index, 'description', e.target.value)
+              }
+              style={{ marginTop: 10 }}
+            />
+          </>
+        )
+      case 'Tải tệp lên':
+        return (
+          <>
+            <Select
+              mode='tags'
+              placeholder='Chọn định dạng tệp'
+              value={field.specificFileTypes}
+              onChange={(values) =>
+                handleChange(index, 'specificFileTypes', values)
+              }
+              style={{ marginTop: 10, width: '100%' }}
+            >
+              <Option value='.pdf'>.pdf</Option>
+              <Option value='.doc'>.doc</Option>
+              <Option value='.docx'>.docx</Option>
+            </Select>
+            <Input
+              type='number'
+              placeholder='Số lượng tệp tối đa'
+              value={field.maxNumOfFiles}
+              onChange={(e) =>
+                handleChange(index, 'maxNumOfFiles', parseInt(e.target.value))
+              }
+              style={{ marginTop: 10 }}
+            />
+          </>
+        )
+      case 'Hộp kiểm':
+        return (
+          <>
+            <Checkbox.Group
+              options={field.listOptions.map((option) => ({
+                label: option,
+                value: option
+              }))}
+              onChange={(values) => handleChange(index, 'listOptions', values)}
+              style={{ marginTop: 10, display: 'block' }}
+            />
+          </>
+        )
+      case 'Trắc nghiệm':
+        return (
+          <>
+            <Radio.Group
+              options={field.listOptions.map((option) => ({
+                label: option,
+                value: option
+              }))}
+              onChange={(e) =>
+                handleChange(index, 'listOptions', e.target.value)
+              }
+              style={{ marginTop: 10, display: 'block' }}
+            />
+          </>
+        )
+      default:
+        return null
+    }
+  }
+
+  const handleOk = () => {
+    form.validateFields().then((values) => {
+      const { name, description } = values
+      // Create the new complaint type object
+      const newComplaintType = {
+        name,
+        description,
+        listOfField
+      }
+      console.log('New Complaint Type:', newComplaintType)
+      // Here you can send the newComplaintType object to your API or do other operations
+      setIsOpen(false)
+    })
+  }
+
   return (
-    <Col span={4}>
-      <div style={{ gap: '15px', display: 'flex' }}>
-        <Button
-          type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(255,225,225)' }}
-          size='small'
+    <Modal
+      title='Thêm loại khiếu nại mới'
+      visible={isOpen}
+      onCancel={() => setIsOpen(false)}
+      footer={[
+        <ButtonOk key='cancel' onClick={() => setIsOpen(false)}>
+          Hủy
+        </ButtonOk>,
+        <ButtonOk key='add' type='primary' onClick={handleOk}>
+          Thêm
+        </ButtonOk>
+      ]}
+    >
+      <Form form={form} layout='vertical'>
+        <Form.Item
+          name='name'
+          label='Tên loại khiếu nại'
+          rules={[
+            { required: true, message: 'Vui lòng nhập tên loại khiếu nại' }
+          ]}
         >
-          <TbTrashFilled color='red' size={14} />
-        </Button>
-        <Button
-          type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgb(220,245,255)' }}
-          size='small'
+          <Input placeholder='Tên loại khiếu nại' />
+        </Form.Item>
+        <Form.Item
+          name='description'
+          label='Mô tả'
+          rules={[
+            { required: true, message: 'Vui lòng nhập mô tả loại khiếu nại' }
+          ]}
         >
-          <MdModeEditOutline color='00AEEF' size={16} />
-        </Button>
-      </div>
-    </Col>
+          <Input.TextArea placeholder='Mô tả loại khiếu nại' />
+        </Form.Item>
+        <Form.Item label='Trường dữ liệu'>
+          {listOfField.map((field, index) => (
+            <div key={index} style={{ marginBottom: 20 }}>
+              <h4>{`Trường ${index + 1}`}</h4>
+              <Select
+                placeholder='Chọn loại trường'
+                value={field.name}
+                onChange={(value) => handleChange(index, 'name', value)}
+                style={{ width: '100%', marginBottom: 10 }}
+              >
+                <Option value='Trả lời ngắn'>Trả lời ngắn</Option>
+                <Option value='Trả lời dài'>Trả lời dài</Option>
+                <Option value='Tải tệp lên'>Tải tệp lên</Option>
+                <Option value='Hộp kiểm'>Hộp kiểm</Option>
+                <Option value='Trắc nghiệm'>Trắc nghiệm</Option>
+                <Option value='Bộ chọn thời gian'>Bộ chọn thời gian</Option>
+              </Select>
+              {renderFieldInput(field, index)}
+              {listOfField.length > 1 && (
+                <Button
+                  type='link'
+                  danger
+                  onClick={() => handleRemoveField(index)}
+                >
+                  Xóa trường này
+                </Button>
+              )}
+            </div>
+          ))}
+          <Button onClick={handleAddField}>Thêm trường dữ liệu</Button>
+        </Form.Item>
+      </Form>
+    </Modal>
   )
 }
 
-const ChildrenComponent = ({ isUpdate, selectedLabel }) => {
+const ChildrenComponent = ({ uuid, refetch }) => {
+  const { data: detailType } = useGetDetailType(uuid)
+  const { mutate: deleteTypeComplaint } = useMutation({
+    mutationFn: useDeleteTypeComplaint,
+    onSuccess: () => {
+      console.log('Delete success')
+      refetch()
+    }
+  })
+  if (!detailType) {
+    return <div>No data available</div> // Handle case where detailType is null or undefined
+  }
+
+  const renderFieldInput = (field) => {
+    switch (field.name) {
+      case 'Trả lời ngắn':
+        return <Input />
+      case 'Trả lời dài':
+        return <Input.TextArea />
+      case 'Hộp kiểm':
+        return (
+          <Checkbox.Group>
+            {field.listOptions.map((option) => (
+              <Checkbox value={option}>{option}</Checkbox>
+            ))}
+          </Checkbox.Group>
+        )
+      case 'Trắc nghiệm':
+        return (
+          <Radio.Group>
+            {field.listOptions.map((option) => (
+              <Radio value={option}>{option}</Radio>
+            ))}
+          </Radio.Group>
+        )
+      case 'Tải tệp lên':
+        return <Input type='file' />
+      case 'Bộ chọn thời gian':
+        return <DatePicker />
+      default:
+        return <Input />
+    }
+  }
+
   return (
     <div>
-      <Form>
-        <Row gutter={16} style={{ marginBottom: '30px' }}>
-          <Col
-            span={3}
-            style={{
-              display: 'flex',
-              textAlign: 'right',
-              alignItems: 'center'
-            }}
-          >
-            Loại khiếu nại
-          </Col>
-          <Col span={4}>
-            <Input value={selectedLabel} />
-          </Col>
-          <Col span={3}>{isUpdate && <ActionComponent />}</Col>
-        </Row>
-
-        <Row gutter={40}>
-          <Col span={12}>
-            <Row>
-              <Col span={20}>
-                <span>Những vấn đề bạn gặp với sản phẩm?</span>
-              </Col>
-              {isUpdate && <ActionComponent />}
-            </Row>
-            {problems.map((item, index) => (
-              <Col span={24} key={index}>
-                <div style={{ display: 'flex', marginLeft: 10 }}>
-                  <FiCheckSquare />{' '}
-                  <span style={{ marginLeft: 10 }}>{item}</span>
-                </div>
-              </Col>
-            ))}
-            <Row style={{ marginTop: '20px' }}>
-              <Col span={20}>
-                <span>Hình ảnh minh họa</span>
-              </Col>
-              {isUpdate && <ActionComponent />}
-            </Row>
-            <Col span={24}>
-              <div>
-                <button
-                  style={{
-                    marginLeft: 10,
-                    border: '1px',
-                    border: '2px solid black',
-                    borderRadius: '5px',
-                    background: '#8b8989',
-                    padding: '2px 5px'
-                  }}
-                >
-                  Tải hình ảnh xuống
-                </button>
-              </div>
-            </Col>
-
-            <Row style={{ margin: '20px 0 5px 0' }}>
-              <Col span={20}>
-                <span>Mô tả chi tiết</span>
-              </Col>
-              {isUpdate && <ActionComponent />}
-            </Row>
-
-            <Col span={24}>
-              <Input.TextArea style={{ height: '100px' }}></Input.TextArea>
-            </Col>
-
-            <Row style={{ marginTop: '20px' }}>
-              <Col span={24}>
-                <div>
-                  <button
-                    style={{
-                      marginLeft: 10,
-                      border: '2px solid black',
-                      borderRadius: '5px',
-                      background: '#8b8989',
-                      padding: '2px 5px'
-                    }}
-                  >
-                    Thêm mục
-                  </button>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={12}>
-            <Row style={{ marginBottom: '5px' }}>
-              <Col span={20}>
-                <span>Ghi chú</span>
-              </Col>
-              {isUpdate && <ActionComponent />}
-            </Row>
-            <Col span={24}>
-              <Input.TextArea style={{ height: '100px' }}></Input.TextArea>
-            </Col>
+      <Form layout='horizontal'>
+        <Row>
+          <Col span={12} offset={6}>
+            <Card>
+              {detailType?.listOfField.map((field, index) => (
+                <>
+                  <Row key={field.uuid} style={{ paddingBottom: '16px' }}>
+                    <Col
+                      style={{
+                        display: 'flex',
+                        textAlign: 'right',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {field.title}
+                    </Col>
+                  </Row>
+                  <Row style={{ paddingBottom: '16px' }}>
+                    <Col span={24}>{renderFieldInput(field)}</Col>
+                  </Row>
+                </>
+              ))}
+              <ButtonOk
+                onClick={() => {
+                  if (detailType?.numsOfComaplaint > 0) {
+                    message.error('Giai đoạn đang có khách hàng')
+                  } else deleteTypeComplaint(detailType?.uuid)
+                }}
+                style={{
+                  background: '#F43F5E',
+                  fontSize: '14px',
+                  height: '42px'
+                }}
+              >
+                Xóa loại khiếu nại
+              </ButtonOk>
+            </Card>
           </Col>
         </Row>
       </Form>
@@ -158,63 +307,17 @@ const ChildrenComponent = ({ isUpdate, selectedLabel }) => {
   )
 }
 const ComplaintClassifytManagement = () => {
-  const [isUpdate, setIsUpdate] = useState(false)
+  const { data: typeComplaint, refetch } = useGetTypeComplaint()
+
   const [isOpen, setIsOpen] = useState(false)
-  const handleOpenModal = () => {
-    Modal.confirm({
-      content: 'Bạn có chắc chắn muốn xóa loại khiếu nại?',
-      centered: true,
-      icon: <></>,
-      footer: (_) => (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}
-        >
-          <ButtonOk
-            style={{
-              background: '#7364FF'
-            }}
-          >
-            Hủy bỏ
-          </ButtonOk>
-          <ButtonOk
-            style={{
-              background: '#F43F5E'
-            }}
-          >
-            Xác nhận
-          </ButtonOk>
-        </div>
-      )
-    })
-  }
-  const items = [
-    {
-      key: '1',
-      label: 'Sản phẩm',
-      children: (
-        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Sản phẩm' />
-      )
-    },
-    {
-      key: '2',
-      label: 'Nhân viên',
-      children: (
-        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Nhân viên' />
-      ),
-      icon: <AndroidOutlined />
-    },
-    {
-      key: '3',
-      label: 'Vận chuyển',
-      children: (
-        <ChildrenComponent isUpdate={isUpdate} selectedLabel='Vận chuyển' />
-      ),
-      icon: <AndroidOutlined />
-    }
-  ]
+  const navigate = useNavigate()
+
+  const items =
+    typeComplaint?.item?.map((complaint) => ({
+      key: complaint.uuid,
+      label: complaint.name,
+      children: <ChildrenComponent uuid={complaint.uuid} refetch={refetch()} />
+    })) || []
   const { Title } = Typography
   return (
     <div className='tabled'>
@@ -227,73 +330,22 @@ const ComplaintClassifytManagement = () => {
           style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
           <ButtonOk
-            style={{ fontSize: '14px', height: '42px' }}
-            onClick={() => setIsUpdate(!isUpdate)}
-          >
-            Chỉnh sửa
-          </ButtonOk>
-          <ButtonOk
             style={{
               background: '#F58220',
               fontSize: '14px',
 
               height: '42px'
             }}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => navigate('/complaint-type-create')}
           >
             Thêm loại khiếu nại
-          </ButtonOk>
-          <ButtonOk
-            onClick={() => handleOpenModal()}
-            style={{
-              background: '#F43F5E',
-              fontSize: '14px',
-              height: '42px'
-            }}
-          >
-            Xóa
           </ButtonOk>
         </Col>
       </Row>
       <Card>
-        <Tabs type='card' defaultActiveKey='2' items={items} title='ngọ' />
+        <Tabs type='card' defaultActiveKey='2' items={items} />
       </Card>
-      <Modal
-        title={
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <h2>Thêm mục cho khiếu nại</h2>
-          </div>
-        }
-        open={isOpen}
-        footer={
-          <div
-            style={{
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'flex-end'
-            }}
-          >
-            <ButtonOk onClick={() => setIsOpen(false)}>Hủy</ButtonOk>
-            <ButtonOk onClick={() => setIsOpen(false)}>Thêm</ButtonOk>
-          </div>
-        }
-      >
-        <Form layout='vertical'>
-          <Form.Item label='Loại'>
-            <Select
-              options={[
-                { value: 'Hộp kiểm', label: 'Hộp kiểm' },
-                { value: 'Ô nhập', label: 'Ô nhập' },
-                { value: 'Tải tệp lên', label: 'Tải tệp lên' },
-                { value: 'Bộ chọn thời gian', label: 'Bộ chọn thời gian' }
-              ]}
-            />
-          </Form.Item>
-          <Form.Item label='Tên mục'>
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <NewComplaintTypeModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   )
 }

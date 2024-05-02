@@ -24,15 +24,19 @@ const CustomerManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [accountType, setAccountType] = useState('allCustomer')
-  const [searchModel, setSearchModel] = useState({})
+  const [searchModel, setSearchModel] = useState(undefined)
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: dataCustomer, refetch } = useListCustomer(skip, take)
+  const { data: dataCustomer, refetch } = useListCustomer(
+    skip,
+    take,
+    searchModel
+  )
   const { data: dataMyCustomer, refetch: refetchMyCustomer } =
     useListMyCustomer(skip, take)
-  const { data: phaseOptions, refetch: refetchPhaseOptions } = useGetPhaseList()
-  console.log(phaseOptions?.items)
+  const { data: phaseOptions } = useGetPhaseList()
+
   const { mutate: mutateDelete } = useMutation({
     mutationFn: useDeleteCustomer,
     onSuccess: () => {
@@ -43,6 +47,7 @@ const CustomerManagement = () => {
 
   const refetchData = async () => {
     try {
+      // setSearchModel(undefined)
       await refetch()
     } catch (error) {
       console.error('Error while refetching customer data:', error)
@@ -55,16 +60,22 @@ const CustomerManagement = () => {
       console.error('Error while refetching customer data:', error)
     }
   }
-  const handleFilterInputChange = (inputValue, field) => {
-    const newSearchModel = {
-      [field]: {
-        isCustom: false,
-        value: inputValue,
-        valueType: 'text'
+  const handleFilterInputChange = async (inputValue, field) => {
+    try {
+      const newSearchModel = {
+        [field]: {
+          isCustom: false,
+          value: inputValue,
+          valueType: 'text'
+        }
       }
+      console.log('fe', inputValue, searchModel)
+      setSearchModel(newSearchModel)
+      console.log(searchModel)
+      await refetch()
+    } catch (error) {
+      console.error('Error while refetching customer data:', error)
     }
-    setSearchModel(newSearchModel)
-    refetch(skip, take, newSearchModel)
   }
   const ActionComponent = (data) => {
     return (
@@ -158,7 +169,7 @@ const CustomerManagement = () => {
       minWidth: 200,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text',
+        field: 'code',
         onInputChange: (inputValue) =>
           handleFilterInputChange(inputValue, 'code')
       }
@@ -169,9 +180,10 @@ const CustomerManagement = () => {
       minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text',
+        field: 'name',
         onInputChange: (inputValue) =>
-          handleFilterInputChange(inputValue, 'name')
+          handleFilterInputChange(inputValue, 'name'),
+        onDeleteInput: () => refetchData()
       }
     },
     {
@@ -193,9 +205,10 @@ const CustomerManagement = () => {
       minWidth: 250,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text',
+        field: 'email',
         onInputChange: (inputValue) =>
-          handleFilterInputChange(inputValue, 'email')
+          handleFilterInputChange(inputValue, 'email'),
+        onDeleteInput: () => refetchData()
       }
     },
     {
@@ -207,7 +220,7 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text',
+        field: 'phoneNumber',
         onInputChange: (inputValue) =>
           handleFilterInputChange(inputValue, 'phoneNumber')
       }
@@ -222,7 +235,7 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text',
+        field: 'employees',
         onInputChange: (inputValue) =>
           handleFilterInputChange(inputValue, 'employees')
       }
@@ -239,28 +252,25 @@ const CustomerManagement = () => {
       filterParams: {
         itemList: [
           {
-            id: 1,
-            label: 'Landing Page',
-            value: 'Landing Page'
+            uuid: 1,
+            name: 'Landing Page'
           },
           {
-            id: 2,
-            label: 'Tự khai thác',
-            value: 'Tự khai thác'
+            uuid: 2,
+            name: 'Tự khai thác'
           },
           {
-            id: 3,
-            label: 'Khác',
-            value: 'Khác'
+            uuid: 3,
+            name: 'Khác'
           }
         ]
       },
       cellRenderer: (params) => {
         const sourceValue = params.data.source
         const sourceItem = params.colDef.filterParams.itemList.find(
-          (item) => item.id === sourceValue
+          (item) => item.uuid === sourceValue
         )
-        return sourceItem ? sourceItem.label : ''
+        return sourceItem ? sourceItem.name : ''
       }
     },
     {
@@ -273,7 +283,7 @@ const CustomerManagement = () => {
       },
       filter: AgGridCustomSetFilter,
       filterParams: {
-        type: 'text'
+        param: phaseOptions
       }
     },
     {

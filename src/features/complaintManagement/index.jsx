@@ -3,17 +3,17 @@ import React, { useState } from 'react'
 
 // Images
 import { Typography } from 'antd'
+import moment from 'moment'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { useGetComplaint } from '../../api/Admin/complaint'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
-import { dataComplaint } from '../../dataMock/DataComlaint'
-
 const ComplaintManagement = () => {
   // const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   const [skip, setSkip] = useState(0)
@@ -21,7 +21,7 @@ const ComplaintManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
+  const { data: dataComplaint } = useGetComplaint(skip, take)
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -44,11 +44,21 @@ const ComplaintManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.COMPLAINT}/1`, { state: data })}
+            onClick={() =>
+              navigate(`${PATH.COMPLAINT}/${data.uuid}&${data.code}`, {
+                state: data
+              })
+            }
           />
         </Button>
       </div>
     )
+  }
+  const status = {
+    PENDING: 'Chưa xử lý',
+    PROCESSING: 'Đang xử lý',
+    SOLVED: 'Đã xử lý',
+    REPROCESS: 'Xử lý lại'
   }
   const handleOpenModal = () => {
     Modal.confirm({
@@ -84,6 +94,7 @@ const ComplaintManagement = () => {
     {
       headerName: 'STT',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
+      field: 'index',
       minWidth: 120,
       width: 120,
       sortable: false,
@@ -98,12 +109,12 @@ const ComplaintManagement = () => {
     },
     {
       headerName: 'MÃ KHIẾU NẠI',
-      field: 'complaintCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 300,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -133,32 +144,13 @@ const ComplaintManagement = () => {
     },
     {
       headerName: 'LOẠI KHIẾU NẠI',
-      field: 'typeComplaint',
+      field: 'typeComplaintName',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
       minWidth: 250,
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Sản phẩm',
-            label: 'Sản phẩm'
-          },
-          {
-            id: '2',
-            value: 'Nhân viên',
-            label: 'Nhân viên'
-          },
-          {
-            id: '3',
-            value: 'Vận chuyển',
-            label: 'Vận chuyển'
-          }
-        ]
-      }
+      filter: AgGridCustomTextFilter
     },
     {
       headerName: 'NGÀY GỬI',
@@ -168,7 +160,10 @@ const ComplaintManagement = () => {
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomDateFilter
+      filter: AgGridCustomDateFilter,
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      }
     },
     {
       headerName: 'NHÂN VIÊN PHỤ TRÁCH',
@@ -188,29 +183,8 @@ const ComplaintManagement = () => {
       },
       minWidth: 250,
       filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Chưa xử lí',
-            label: 'Chưa xử lí'
-          },
-          {
-            id: '2',
-            value: 'Đang xử lí',
-            label: 'Đang xử lí'
-          },
-          {
-            id: '3',
-            value: 'Đã xử lí',
-            label: 'Đã xử lí'
-          },
-          {
-            id: '4',
-            value: 'Xử lí lại',
-            label: 'Xử lí lại'
-          }
-        ]
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -244,34 +218,40 @@ const ComplaintManagement = () => {
               Danh sách khiếu nại
             </Title>
           </Col>
-          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
-            <Button
-              type='primary'
-              danger
-              className='customDeleteButton'
-              onClick={() => handleOpenModal()}
-            >
-              <Flex wrap='wrap' gap={3}>
-                Xóa
-                {selectedRowKeys.length > 0 ? (
-                  <span>({selectedRowKeys.length})</span>
-                ) : (
-                  ''
-                )}
-              </Flex>
-            </Button>
-          </Col>
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
           <Col xs='24' xl={24} style={{ height: '650px' }}>
-            <Card bordered={false} className='criclebox tablespace mb-24'>
+            <Card
+              bordered={false}
+              className='criclebox tablespace mb-24'
+              extra={
+                <>
+                  <Button
+                    type='primary'
+                    danger
+                    className='customDeleteButton'
+                    onClick={() => handleOpenModal()}
+                  >
+                    <Flex wrap='wrap' gap={3}>
+                      Xóa
+                      {selectedRowKeys.length > 0 ? (
+                        <span>({selectedRowKeys.length})</span>
+                      ) : (
+                        ''
+                      )}
+                    </Flex>
+                  </Button>
+                </>
+              }
+            >
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={dataComplaint}
+                  rowData={dataComplaint?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(`${PATH.COMPLAINT}/1`, { state: params.data })

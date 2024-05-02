@@ -18,6 +18,7 @@ import BussinessRegisterPage from '../pages/BusinessRegisterPage'
 import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
+import NewComplaintTypePage from '../pages/ComplaintTypeCreatePage'
 import NewAccountPage from '../pages/NewAccountPage'
 import NewPhasePage from '../pages/NewPhasePage'
 import NewProductPage from '../pages/NewProductPage'
@@ -109,6 +110,10 @@ const routesLayout = [
   {
     path: PATH.COMPLAINTCLASSIFY,
     element: withPrivateRoute(ComplaintClassifyPage)()
+  },
+  {
+    path: PATH.COMPLAINTTYPECREATE,
+    element: withPrivateRoute(NewComplaintTypePage)()
   },
   {
     path: PATH.PHASE,
