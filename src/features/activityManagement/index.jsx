@@ -1,5 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Typography
+} from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -11,11 +21,13 @@ import {
   useDeleteActivity,
   useGetAllActivities
 } from '../../api/Admin/activity'
+import { useGetPhaseList } from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import './activityManagement.css'
+
 const ActivityManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -24,6 +36,7 @@ const ActivityManagement = () => {
   const { Title } = Typography
   const [form] = Form.useForm()
   const { data: dataActivity, refetch } = useGetAllActivities(skip, take)
+  const { data: phaseOption } = useGetPhaseList()
   const { mutate: createActivity } = useMutation({
     mutationFn: useCreateActivity,
     onSuccess: () => {
@@ -246,6 +259,7 @@ const ActivityManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(`${PATH.ACTIVITY}/${params.data.uuid}`)
@@ -339,6 +353,27 @@ const ActivityManagement = () => {
                       fontWeight: 'normal'
                     }}
                   />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item
+                  className={'customHorizontal'}
+                  label='Giai đoạn'
+                  name={'phases'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Checkbox.Group>
+                    {phaseOption?.items.map((item) => (
+                      <Checkbox value={item.uuid}>{item.name}</Checkbox>
+                    ))}
+                  </Checkbox.Group>
                 </Form.Item>
               </Col>
             </Row>

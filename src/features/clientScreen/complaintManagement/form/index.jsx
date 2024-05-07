@@ -10,60 +10,155 @@ import {
 } from 'antd'
 import Card from 'antd/lib/card/Card'
 
-import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   useGetDetailType,
   useGetTypeComplaint
 } from '../../../../api/Admin/complaint'
+import { useCreateComplaint } from '../../../../api/Customer/complaint'
 import { ButtonOk } from '../../../../assets/styles/button.style'
+import { PATH } from '../../../../contants/common'
 import { StyledSelect } from '../../../component/ComponentOfForm'
 import '../complaintManagement.css'
 
 const ChildrenComponent = ({ uuid }) => {
-  const { data: detailType } = useGetDetailType(uuid)
+  const [fileList, setFileList] = useState([])
   const [form] = Form.useForm()
+  const { data: detailType } = useGetDetailType(uuid)
+  const navigate = useNavigate()
+  const { mutate: createComplaint } = useMutation({
+    mutationFn: useCreateComplaint,
+    onSuccess: () => {
+      console.log('Create complaint success')
+      navigate(`${PATH.CUSTOME_URL.COMPLAINT}`)
+    }
+  })
 
   if (!detailType) {
-    return <div>No data available</div> // Handle case where detailType is null or undefined
+    return <div>Chọn loại khiếu nại bạn muốn tạo</div>
   }
-
+  const handleFileChange = (e) => {
+    const files = e.target.files
+    const fileList = Array.from(files)
+    setFileList(fileList)
+  }
   const handleOk = () => {
     form.validateFields().then((values) => {
-      const { name, description } = values
-      // Create the new complaint type object
-      const newComplaintType = {
-        name,
-        description
-      }
-      console.log('New Complaint Type:', newComplaintType)
+      const sentDate = new Date().toISOString()
+      const valueFieldComplaint = []
+      const formData = new FormData()
+      formData.append('status', 'PENDING')
+      formData.append('typeComplaintUUID', uuid)
+      formData.append('sentDate', sentDate)
+      formData.append('billUUID', 'ec6bea58-8362-4483-9685-b0065f43e370')
+      formData.append('customerUUID', '08bce84d-8e57-4d56-9148-07894fc04c1f')
+
+      detailType?.listOfField.forEach((field) => {
+        switch (field.name) {
+          case 'Trả lời ngắn':
+          case 'Trả lời dài':
+            valueFieldComplaint.push({
+              fieldComplaintUUID: field.uuid,
+              value: [values[field.name]]
+            })
+            break
+          case 'Hộp kiểm':
+            const checkboxValues = field.listOptions?.map(
+              (option) => !!values[field.name]?.includes(option)
+            )
+            valueFieldComplaint.push({
+              fieldComplaintUUID: field.uuid,
+              value: [checkboxValues.toString()]
+            })
+            break
+          case 'Trắc nghiệm':
+            const selectedRadio = values[field.name]
+            const selectedOptionIndex = field.listOptions.indexOf(selectedRadio)
+            valueFieldComplaint.push({
+              fieldComplaintUUID: field.uuid,
+              value: [selectedOptionIndex.toString()]
+            })
+            break
+          case 'Tải tệp lên':
+            valueFieldComplaint.push({
+              fieldComplaintUUID: field.uuid,
+              value: [fileList?.map((file, index) => index).toString()]
+            })
+            break
+          case 'Bộ chọn thời gian':
+            const selectedDate = values[field.name].toISOString()
+            valueFieldComplaint.push({
+              fieldComplaintUUID: field.uuid,
+              value: [selectedDate]
+            })
+            break
+          default:
+            // Handle other field types if needed
+            break
+        }
+      })
+      formData.append(
+        'valueFieldComplaint',
+        JSON.stringify(valueFieldComplaint)
+      )
+      fileList.forEach((file) => {
+        formData.append('images', file)
+      })
+      createComplaint(formData)
     })
   }
   const renderFieldInput = (field) => {
     switch (field.name) {
       case 'Trả lời ngắn':
-        return <Input />
+        return (
+          <Form.Item name={field.name}>
+            <Input />
+          </Form.Item>
+        )
       case 'Trả lời dài':
-        return <Input.TextArea />
+        return (
+          <Form.Item name={field.name}>
+            <Input.TextArea />
+          </Form.Item>
+        )
       case 'Hộp kiểm':
         return (
-          <Checkbox.Group>
-            {field.listOptions.map((option) => (
-              <Checkbox value={option}>{option}</Checkbox>
-            ))}
-          </Checkbox.Group>
+          <Form.Item name={field.name}>
+            <Checkbox.Group>
+              {field.listOptions?.map((option) => (
+                <Checkbox value={option}>{option}</Checkbox>
+              ))}
+            </Checkbox.Group>
+          </Form.Item>
         )
       case 'Trắc nghiệm':
         return (
-          <Radio.Group>
-            {field.listOptions.map((option) => (
-              <Radio value={option}>{option}</Radio>
-            ))}
-          </Radio.Group>
+          <Form.Item name={field.name}>
+            <Radio.Group>
+              {field.listOptions?.map((option) => (
+                <Radio value={option}>{option}</Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
         )
       case 'Tải tệp lên':
-        return <Input type='file' />
+        return (
+          <Form.Item
+            name={field.name}
+            valuePropName='fileList'
+            getValueFromEvent={handleFileChange}
+          >
+            <input type='file' onChange={handleFileChange} />
+          </Form.Item>
+        )
       case 'Bộ chọn thời gian':
-        return <DatePicker />
+        return (
+          <Form.Item name={field.name}>
+            <DatePicker name={field.name} />
+          </Form.Item>
+        )
       default:
         return <Input />
     }
@@ -72,7 +167,7 @@ const ChildrenComponent = ({ uuid }) => {
   return (
     <div>
       <Form layout='horizontal' form={form}>
-        {detailType?.listOfField.map((field, index) => (
+        {detailType?.listOfField?.map((field, index) => (
           <>
             <Row key={field.uuid} style={{ paddingBottom: '16px' }}>
               <Col
@@ -100,9 +195,17 @@ const ChildrenComponent = ({ uuid }) => {
 
 const ClientNewComplaint = () => {
   const [selectedOption, setSelectedOption] = useState(null)
+  const [hasBill, setHasBill] = useState(false)
+  const location = useLocation()
+  const params = location.state
+  useEffect(() => {
+    if (params) {
+      setHasBill(true)
+    }
+  }, [params])
   const { Title } = Typography
   const { data: typeComplaint } = useGetTypeComplaint()
-  const typeComplaintOptions = typeComplaint?.item.map((item) => ({
+  const typeComplaintOptions = typeComplaint?.item?.map((item) => ({
     value: item.uuid,
     label: item.name
   }))
@@ -140,33 +243,24 @@ const ClientNewComplaint = () => {
       </Row>
 
       <Card className='clientComplaint'>
-        <Form>
-          <Row gutter={16}>
-            <Col span={8} offset={1}>
-              <Form.Item name='type' label='Loại khiếu nại'>
-                <StyledSelect
-                  options={typeComplaintOptions}
-                  placeholder='Chọn loại yêu cầu'
-                  onChange={handleSelectChange}
-                />
-              </Form.Item>
-            </Col>
+        <Row gutter={16}>
+          <Col span={8} offset={1}>
+            <StyledSelect
+              options={typeComplaintOptions}
+              placeholder='Chọn loại yêu cầu'
+              onChange={handleSelectChange}
+            />
+          </Col>
+          <Col offset={2}>{hasBill && <Input value={params?.code} />}</Col>
+        </Row>
 
-            <Col offset={2}>
-              <Form.Item name='code' label='Mã hóa đơn'>
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={[8, 16]} style={{ marginRight: '24px' }}>
-            <Col span={16} offset={4}>
-              <Card title={'Thông tin khiếu nại'}>
-                <ChildrenComponent uuid={selectedOption} />
-              </Card>
-            </Col>
-          </Row>
-        </Form>
+        <Row gutter={[8, 16]} style={{ marginRight: '24px' }}>
+          <Col span={16} offset={4}>
+            <Card title={'Thông tin khiếu nại'}>
+              <ChildrenComponent uuid={selectedOption} />
+            </Card>
+          </Col>
+        </Row>
       </Card>
     </div>
   )

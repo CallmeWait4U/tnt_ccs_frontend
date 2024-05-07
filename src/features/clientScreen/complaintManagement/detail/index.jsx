@@ -1,31 +1,153 @@
-import { Col, Form, Input, Row, Typography } from 'antd'
+import {
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Image,
+  Input,
+  Radio,
+  Row,
+  Typography
+} from 'antd'
 import Card from 'antd/lib/card/Card'
-import { useState } from 'react'
-import { FiCheckSquare } from 'react-icons/fi'
-import { MdRadioButtonChecked } from 'react-icons/md'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useReadComplaint } from '../../../../api/Customer/complaint'
 import { ButtonOk } from '../../../../assets/styles/button.style'
 import {
   StyledDatepicker,
   StyledSelect
 } from '../../../component/ComponentOfForm'
 import '../complaintManagement.css'
-
 const ClientComplaintDetail = () => {
-  const problems = [
-    'Sản phẩm bị lỗi',
-    'Sản phẩm không đúng mô tả',
-    'Sản phẩm không đúng kích thước',
-    'Sản phẩm không đúng màu sắc',
-    'Sản phẩm không đúng số lượng',
-    'Sản phẩm không đúng chất lượng'
-  ]
-  const productsProblem = [
-    'Tai nghe bluetooth XT80',
-    'Chuột không dây Inphic PM6'
-  ]
+  const location = useLocation()
+  const paramsString = location.pathname.split('/')[3]
+  const paramsArray = paramsString.split('&')
+  const uuid = paramsArray[0]
+  const { data: ComplaintData } = useReadComplaint(uuid)
+  const [form] = Form.useForm()
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
 
+  useEffect(() => {
+    if (ComplaintData) {
+      form.setFieldsValue({
+        name: ComplaintData.customerName,
+        email: ComplaintData.customerEmail,
+        cccd: ComplaintData.customerCCCD,
+        phone: ComplaintData.customerPhoneNumber,
+        type: location.state.typeComplaintName,
+        date: dayjs(ComplaintData.sentDate),
+        code: ComplaintData.code,
+        status: ComplaintData.status
+      })
+      ComplaintData?.listOfField.forEach((field, index) => {
+        const valueField = ComplaintData?.valueFieldComplaint.find(
+          (valueField) => valueField.fieldComplaintUUID === field.uuid
+        )
+
+        if (valueField) {
+          const value = valueField.value[0]
+          let fieldValue = value
+
+          switch (field.name) {
+            case 'Trả lời ngắn':
+            case 'Trả lời dài':
+              break
+            case 'Hộp kiểm':
+              fieldValue = value.split(',').map((item) => item === 'true')
+              break
+            case 'Trắc nghiệm':
+              fieldValue = parseInt(value)
+              break
+            case 'Tải tệp lên':
+              break
+            case 'Bộ chọn thời gian':
+              fieldValue = new Date(value)
+              break
+            default:
+              break
+          }
+          form.setFieldsValue({
+            [field.name]: fieldValue
+          })
+        }
+      })
+    }
+  }, [ComplaintData, form, location.state.typeComplaintName])
+
+  const renderFieldInput = (field) => {
+    switch (field.name) {
+      case 'Trả lời ngắn':
+        return (
+          <Form.Item name={field.name}>
+            <Input value='Thái độ của nhân viên không tốt' disabled={true} />
+          </Form.Item>
+        )
+      case 'Trả lời dài':
+        return (
+          <Form.Item name={field.name}>
+            <Input.TextArea disabled={true} />
+          </Form.Item>
+        )
+      case 'Hộp kiểm':
+        return (
+          <Form.Item name={field.name}>
+            <Checkbox.Group>
+              {field.listOptions.map((option, index) => (
+                <Checkbox key={index} value={option} disabled={true}>
+                  {option}
+                </Checkbox>
+              ))}
+            </Checkbox.Group>
+          </Form.Item>
+        )
+      case 'Trắc nghiệm':
+        return (
+          <Form.Item name={field.name}>
+            <Radio.Group>
+              {field.listOptions.map((option) => (
+                <Radio value={option} disabled={true}>
+                  {option}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+        )
+      case 'Tải tệp lên':
+        return (
+          <Form.Item name={field.name}>
+            {ComplaintData?.valueFieldComplaint.map((valueField) => {
+              if (valueField.fieldComplaintUUID === field.uuid) {
+                return (
+                  <div key={valueField.value[0]}>
+                    <Image
+                      src={valueField.value[0]}
+                      alt='Uploaded file'
+                      style={{ maxWidth: '400px', maxHeight: '400px' }}
+                    />
+                  </div>
+                )
+              }
+              return null
+            })}
+          </Form.Item>
+        )
+      case 'Bộ chọn thời gian':
+        return (
+          <Form.Item name={field.name}>
+            <DatePicker disabled={true} />
+          </Form.Item>
+        )
+      default:
+        return (
+          <Form.Item name={field.name}>
+            <Input disabled={true} />
+          </Form.Item>
+        )
+    }
+  }
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -46,35 +168,24 @@ const ClientComplaintDetail = () => {
           style={{ display: 'flex', justifyContent: 'right', gap: '8px' }}
         >
           <ButtonOk
-            className='evaluateBtn'
-            type='primary'
-            style={{ fontSize: '14px', height: '42px' }}
-          >
-            Đánh giá
-          </ButtonOk>
-          <ButtonOk
-            className='cancelComplainBtn'
-            style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
+            className='deleteComplainBtn'
+            style={{
+              fontSize: '14px',
+              height: '42px',
+              background: '#F43F5E'
+            }}
           >
             Hủy khiếu nại
           </ButtonOk>
         </Col>
       </Row>
 
-      <Card className='clientComplaint'>
-        <Form>
+      <Card className='complaintForm'>
+        <Form form={form}>
           <Row gutter={16}>
             <Col span={4} offset={1}>
               <Form.Item name='type' label='Loại khiếu nại'>
-                <StyledSelect
-                  options={[
-                    { value: 'Sản phẩm', label: 'Sản phẩm' },
-                    { value: 'Vận chuyển', label: 'Vận chuyển' },
-                    { value: 'Nhân viên', label: 'Nhân viên' }
-                  ]}
-                  placeholder='Chọn loại yêu cầu'
-                  disabled={!isUpdate}
-                />
+                <Input disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -91,10 +202,10 @@ const ClientComplaintDetail = () => {
               <Form.Item name='status' label='Trạng thái'>
                 <StyledSelect
                   options={[
-                    { value: '1', label: 'Chưa xử lí' },
-                    { value: '2', label: 'Đang xử lí' },
-                    { value: '3', label: 'Đã xử lí' },
-                    { value: '4', label: 'Xử lý lại' }
+                    { value: 'PENDING', label: 'Chưa xử lí' },
+                    { value: 'PROCESSING', label: 'Đang xử lí' },
+                    { value: 'SOLVED', label: 'Đã xử lí' },
+                    { value: 'REPROCESS', label: 'Xử lý lại' }
                   ]}
                   disabled={!isUpdate}
                 />
@@ -102,219 +213,26 @@ const ClientComplaintDetail = () => {
             </Col>
           </Row>
 
-          <Row gutter={[8, 16]} style={{ marginRight: '24px' }}>
-            <Col span={12}>
-              <Card title={'Thông tin chung của khách hàng'}>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='name'
-                      label='Tên khách hàng'
-                    >
-                      <Input
-                        placeholder='Tên khách hàng'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='sex'
-                      label='Giới tính'
-                    >
-                      <StyledSelect
-                        placeholder={'Chọn giới tính'}
-                        options={[
-                          { value: 'Male', label: 'Nam' },
-                          { value: 'Female', label: 'Nữ' }
-                        ]}
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='birthday'
-                      label='Ngày sinh'
-                    >
-                      <StyledDatepicker
-                        placeholder={'Chọn ngày sinh'}
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
+          <Card title={'Thông tin khiếu nại'}>
+            {ComplaintData?.listOfField?.map((field, index) => (
+              <>
+                <Row key={field.uuid} style={{ paddingBottom: '16px' }}>
+                  <Col
+                    style={{
+                      display: 'flex',
+                      textAlign: 'right',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {field.title}
                   </Col>
                 </Row>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='cccd'
-                      label='CCCD'
-                    >
-                      <Input placeholder='Nhập CCCD' disabled={!isUpdate} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='email'
-                      label='Email'
-                    >
-                      <Input placeholder='Nhập email' disabled={!isUpdate} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal'
-                      name='phone'
-                      label='Số điện thoại'
-                    >
-                      <Input
-                        placeholder='Nhập số điện thoại'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
+                <Row style={{ paddingBottom: '16px' }}>
+                  <Col>{renderFieldInput(field)}</Col>
                 </Row>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customDetailAddress'
-                      label={'Địa chỉ'}
-                      name={'detailAddress'}
-                    >
-                      <Input disabled={!isUpdate} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customAddress'
-                      label={' '}
-                      name={'district'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Yêu cầu thông tin'
-                        }
-                      ]}
-                    >
-                      <StyledSelect
-                        placeholder='Chọn quận/huyện'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      className='customHorizontal customAddress'
-                      label={' '}
-                      name={'city'}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Yêu cầu thông tin'
-                        }
-                      ]}
-                    >
-                      <StyledSelect
-                        placeholder='Chọn tỉnh/thành phố'
-                        disabled={!isUpdate}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card title={'Thông tin khiếu nại'}>
-                <Row>
-                  <span style={{ paddingBottom: '5px' }}>
-                    Những vấn đề bạn gặp với sản phẩm?
-                  </span>
-                  {problems.map((item, index) => (
-                    <Col span={24} key={index}>
-                      <div style={{ display: 'flex', marginLeft: 10 }}>
-                        <FiCheckSquare />{' '}
-                        <span style={{ marginLeft: 10 }}>{item}</span>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <span style={{ paddingBottom: '5px' }}>
-                    Hình ảnh minh họa
-                  </span>
-                  <Col span={24}>
-                    <div style={{ display: 'flex', marginLeft: 10 }}>
-                      <span>hinhf1.jpg</span>
-
-                      <button
-                        style={{
-                          marginLeft: 10,
-                          border: '1px',
-                          borderRadius: '5px',
-                          borderColor: 'black',
-                          background: '#E9E6E6',
-                          padding: '2px 5px'
-                        }}
-                      >
-                        Tải hình ảnh xuống
-                      </button>
-                    </div>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <Col span={24} style={{ paddingBottom: '5px' }}>
-                    <span>Sản phẩm khiếu nại</span>
-                  </Col>
-                  <Col span={24}>
-                    <div
-                      style={{
-                        width: '100%',
-
-                        padding: '10px 0px 10px 10px',
-                        borderWidth: '2px',
-                        borderColor: 'black',
-                        borderRadius: '5px'
-                      }}
-                    >
-                      {productsProblem.map((item, index) => (
-                        <div style={{ display: 'flex', marginLeft: 10 }}>
-                          <MdRadioButtonChecked />
-                          <span style={{ marginLeft: 10 }}>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: '20px' }}>
-                  <Col span={24} style={{ paddingBottom: '5px' }}>
-                    <span>Mô tả chi tiết</span>
-                  </Col>
-                  <Col span={24}>
-                    <div
-                      style={{
-                        width: '100%',
-
-                        padding: '10px 0px 10px 10px',
-                        borderWidth: '2px',
-                        borderColor: 'black',
-                        borderRadius: '5px'
-                      }}
-                    >
-                      <span>
-                        Sản phẩm bị lỗi màu, không đúng với mô tả bản đầu trên
-                        quảng cáo.
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
+              </>
+            ))}
+          </Card>
         </Form>
       </Card>
     </div>
