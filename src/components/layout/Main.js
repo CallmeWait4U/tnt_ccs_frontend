@@ -2,10 +2,10 @@ import { Affix, Layout } from 'antd'
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 // import BreadCrumb from './BreadCrumb'
+import 'react-chat-elements/dist/main.css'
 import CustomBreadCrumb from './BreadCrumb'
 import Header from './Header'
 import Sidenav from './Sidenav'
-
 const { Header: AntHeader, Content, Sider } = Layout
 
 const Main = ({ children, pageProps, role }) => {

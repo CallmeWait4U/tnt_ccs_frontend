@@ -12,10 +12,11 @@ import {
   Typography
 } from 'antd'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
 import styled from 'styled-components'
+import { useReadTask } from '../../../api/Admin/activity'
 import { useListCustomer } from '../../../api/Admin/customer'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
@@ -27,7 +28,8 @@ const ActivityDetailForm = ({
   setVisible,
   isUpdate,
   typeForm,
-  nameActivity
+  nameActivity,
+  selectedUUID
 }) => {
   const [isCanUpdate, setIsCanUpdate] = useState(false)
   const [customerCode, setCustomerCode] = useState('')
@@ -39,6 +41,8 @@ const ActivityDetailForm = ({
   const [form] = Form.useForm()
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const { data: taskDetail } = useReadTask(selectedUUID)
+
   const { data: dataCustomer, refetch } = useListCustomer(skip, take)
   const layout = {
     labelCol: {
@@ -48,7 +52,18 @@ const ActivityDetailForm = ({
       span: 14
     }
   }
-
+  useEffect(() => {
+    if (taskDetail) {
+      form.setFieldsValue({
+        activityName: taskDetail.name,
+        description: taskDetail.description,
+        createdDate: taskDetail.createdDate,
+        startDate: taskDetail.startDate,
+        endDate: taskDetail.endDate,
+        note: taskDetail.note
+      })
+    }
+  }, [taskDetail, form])
   const today = dayjs()
   const colDefs = [
     {

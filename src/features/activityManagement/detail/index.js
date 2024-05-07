@@ -3,31 +3,41 @@ import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 // Images
 import { useMutation } from '@tanstack/react-query'
 import { Modal, Typography } from 'antd'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
-import { useLocation } from 'react-router-dom'
-import { useReadActivity, useUpdateActivity } from '../../../api/Admin/activity'
+import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  useGetAllTasks,
+  useReadActivity,
+  useUpdateActivity
+} from '../../../api/Admin/activity'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { PATH } from '../../../contants/common'
 import ActivityDetailForm from '../form/ActivityDetailForm'
+
 const ActivityDetail = () => {
   const [typeForm, setTypeForm] = useState('')
   const [isUpdate, setIsUpdate] = useState(false)
+  const [selectedTaskUUID, setSelectedTaskUUID] = useState('')
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const { Title } = Typography
+  const navigate = useNavigate()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
   const uuid = paramsString.split('&')
   const { data: activityDetail } = useReadActivity(uuid[0])
+  const { data: tasks } = useGetAllTasks(skip, take, uuid[0])
   const { mutate: activityUpdate } = useMutation({
     mutationFn: useUpdateActivity,
     onSuccess: () => {
@@ -68,10 +78,9 @@ const ActivityDetail = () => {
           <RiInformationFill
             color='#00AEEF'
             size={24}
-            onClick={() => {
-              setIsShowFormDetail(true)
-              setTypeForm('Chi tiết')
-            }}
+            onClick={() =>
+              navigate(`${PATH.ACTIVITY}/${uuid}/task/${data.uuid}`)
+            }
           />
         </Button>
         <Button
@@ -115,10 +124,15 @@ const ActivityDetail = () => {
       )
     })
   }
-
+  const status = {
+    OVERDUE: 'Đã trễ',
+    INPROGRESS: 'Đang diễn ra',
+    COMPLETED: 'Hoàn thành'
+  }
   const colDefs = [
     {
       headerName: 'STT',
+      field: 'index',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
       minWidth: 120,
       width: 120,
@@ -134,13 +148,19 @@ const ActivityDetail = () => {
     },
     {
       headerName: 'NGÀY TẠO',
-      field: 'createdDate',
+      field: 'createDate',
       minWidth: 200,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomDateFilter
+      filter: AgGridCustomDateFilter,
+      filterParams: {
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      }
     },
     {
       headerName: 'KHÁCH HÀNG CHĂM SÓC',
@@ -168,6 +188,12 @@ const ActivityDetail = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      filterParams: {
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
@@ -178,6 +204,12 @@ const ActivityDetail = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      filterParams: {
+        type: 'date'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
@@ -190,23 +222,10 @@ const ActivityDetail = () => {
       },
       filter: AgGridCustomSetFilter,
       filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 'Cần làm',
-            label: 'Cần làm'
-          },
-          {
-            id: '2',
-            value: 'Đang trễ',
-            label: 'Đang trễ'
-          },
-          {
-            id: '3',
-            value: 'Hoàn thành',
-            label: 'Hoàn thành'
-          }
-        ]
+        type: 'text'
+      },
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -364,11 +383,13 @@ const ActivityDetail = () => {
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}
-                  rowData={activityDetail?.items || []}
+                  rowData={tasks?.items || []}
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
+                  totalItem={tasks?.total || 0}
                   onDoubleClicked={(params) => {
                     setIsShowFormDetail(true)
                     setTypeForm('Chi tiết')
@@ -385,6 +406,7 @@ const ActivityDetail = () => {
         setVisible={setIsShowFormDetail}
         typeForm={typeForm}
         nameActivity={activityDetail?.name}
+        selectedTaskUUID={selectedTaskUUID}
       />
     </>
   )

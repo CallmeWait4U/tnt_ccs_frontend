@@ -322,45 +322,6 @@ const AccountManagement = () => {
       }
     },
     {
-      headerName: 'TRẠNG THÁI',
-      field: 'status',
-      minWidth: 150,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            label: 'Đã duyệt',
-            value: 'Đã duyệt'
-          },
-          {
-            id: '2',
-            label: 'Đang chờ duyệt',
-            value: 'Đang chờ duyệt'
-          },
-          {
-            id: '3',
-            label: 'Đã từ chối',
-            value: 'Đã từ chối'
-          }
-        ]
-      }
-    },
-    {
-      headerName: 'NGÀY SINH',
-      field: 'dayOfBirth',
-      minWidth: 200,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomDateFilter
-    },
-    {
       headerName: 'EMAIL',
       field: 'email',
       minWidth: 250,
@@ -372,19 +333,6 @@ const AccountManagement = () => {
     {
       headerName: 'SỐ ĐIỆN THOẠI',
       field: 'phoneNumber',
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NHÂN VIÊN CHĂM SÓC',
-      field: 'employee',
-      minWidth: 300,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'

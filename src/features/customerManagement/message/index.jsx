@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Button, Input, MessageList } from 'react-chat-elements'
 import { useGetMessage, useSendMessage } from '../../../api/Customer/chat'
 
-const ClientMessage = () => {
+const MessageBox = (uuid) => {
   const { Title } = Typography
   const { data: messageList, refetch } = useGetMessage()
   const { mutate: sendMessage } = useMutation({
@@ -22,7 +22,7 @@ const ClientMessage = () => {
   const handleMessageSend = () => {
     if (message.trim() !== '') {
       sendMessage({
-        receiverUUID: '9a32a451-dd03-4cff-8ecf-016dec2caab6',
+        receiverUUID: uuid,
         content: message
       })
     }
@@ -43,12 +43,12 @@ const ClientMessage = () => {
               type: 'text',
               text: message.content,
               date: new Date(message.createdAt),
-              title: message.isSender ? null : message.senderUsername
+              title: message.senderUsername
             }))}
         />
       )}
       <Row>
-        <Col span={23}>
+        <Col span={22}>
           <Input
             placeholder='Type here...'
             value={message}
@@ -73,4 +73,4 @@ const ClientMessage = () => {
   )
 }
 
-export default ClientMessage
+export default MessageBox
