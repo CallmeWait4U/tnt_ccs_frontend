@@ -19,3 +19,20 @@ export const useGetStatistic = () => {
     retry: 2
   })
 }
+export const useGetPriceQuoteStatistic = () => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/price-quotes/statistic/get`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['PriceQuoteStatistic'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
