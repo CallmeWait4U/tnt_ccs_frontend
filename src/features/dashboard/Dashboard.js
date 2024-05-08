@@ -1,12 +1,16 @@
 import { Card, Col, Row, Select, Typography } from 'antd'
 import React from 'react'
-import { useGetStatistic } from '../../api/Admin/dashboard'
+import {
+  useGetPriceQuoteStatistic,
+  useGetStatistic
+} from '../../api/Admin/dashboard'
 
 import { Column, Pie } from '@ant-design/plots'
 
 function Dashboard() {
   const { Title } = Typography
   const { data: statistic } = useGetStatistic()
+  const { data: priceQuoteStatistic } = useGetPriceQuoteStatistic()
   const sourceMap = {
     1: 'Landing Page',
     2: 'Tự khai thác',
@@ -115,47 +119,47 @@ function Dashboard() {
       }
     }
   }
+  const config4 = {
+    data: [
+      { status: 'Đã giải quyết', quantity: 10 },
+      { status: 'Chưa giải quyết', quantity: 20 },
+      { status: 'Đã hủy', quantity: 5 }
+    ],
+    angleField: 'quantity',
+    colorField: 'status',
+    label: {
+      text: 'quantity',
+      style: {
+        fontWeight: 'bold'
+      }
+    },
+    legend: {
+      color: {
+        title: false,
+        position: 'right',
+        rowPadding: 5
+      }
+    }
+  }
+  console.log('pricequote', priceQuoteStatistic)
   return (
     <>
       <div className='layout-content'>
-        <Row className='rowgap-vbox' gutter={[24, 0]}>
-          {statistic?.ByPhase?.map((c, index) => (
-            <Col
-              key={index}
-              xs={24}
-              sm={24}
-              md={12}
-              lg={6}
-              xl={6}
-              className='mb-24'
-            >
-              <Card bordered={false} className='criclebox '>
-                <div className='number'>
-                  <Row align='middle' gutter={[24, 0]}>
-                    <Col xs={18}>
-                      <span>{c.phaseName}</span>
-                      <Title level={3}>{c.total}</Title>
-                    </Col>
-                    <Col xs={6}>
-                      <div
-                        className='icon-box'
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          fontWeight: 'bold'
-                        }}
-                      >
-                        {total > 0
-                          ? ((c.total / total) * 100).toFixed(1) + '%'
-                          : '0%'}
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-              </Card>
-            </Col>
-          ))}
+        <Row className='rowgap-vbox'>
+          <div style={{ fontSize: '44px' }} className='ml-6'>
+            <span style={{ fontSize: '50px' }}>
+              {priceQuoteStatistic?.billQuantity}
+            </span>{' '}
+            hóa đơn đã bán!
+          </div>
+        </Row>
+        <Row className='rowgap-vbox'>
+          <div style={{ fontSize: '24px' }} className='mb-2 ml-6'>
+            <span style={{ fontSize: '30px' }}>
+              {priceQuoteStatistic?.percerChangeToBill}%{' '}
+            </span>
+            báo giá chuyển thành hóa đơn
+          </div>
         </Row>
 
         <Row gutter={[24, 0]}>
@@ -186,7 +190,7 @@ function Dashboard() {
           </Col>
         </Row>
 
-        <Row gutter={[24, 0]}>
+        <Row gutter={[24, 0]} className='mb-2'>
           <Col xs={24} sm={24} md={8} lg={8} xl={10}>
             <Card bordered={false}>
               <div>
@@ -201,6 +205,16 @@ function Dashboard() {
                 <Title level={5}>Khách hàng phân theo khu vực</Title>
               </div>
               <Pie {...config3} />
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter={[24, 0]}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={10}>
+            <Card bordered={false}>
+              <div>
+                <Title level={5}>Tổng số khiếu nại: 35</Title>
+              </div>
+              <Pie {...config4} />
             </Card>
           </Col>
         </Row>
