@@ -65,8 +65,10 @@ export const useDeleteActivity = async (uuid) => {
     throw error
   }
 }
-export const useGetAllTask = (offset, limit, uuid) => {
+
+export const useGetAllTasks = (offset, limit, uuid) => {
   const fetchData = async () => {
+    console.log(offset, limit, uuid)
     try {
       const response = await api.get(
         `/activities/tasks/all?offset=${offset}&limit=${limit}&activityUUID=${uuid}`
@@ -77,7 +79,27 @@ export const useGetAllTask = (offset, limit, uuid) => {
     }
   }
   return useQuery({
-    queryKey: ['ListActivity'],
+    queryKey: ['ListTasks'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useReadTask = (id) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `${BASE_URL}/activities/tasks/detail?uuid=${id}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return useQuery({
+    queryKey: ['ReadCustomer', id],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,

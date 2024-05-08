@@ -4,17 +4,18 @@ import { Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import ChatBox from '../../../components/boxChat/BoxChat'
 import CustomerComplaint from '../complaint'
 import ActivityForm from '../form/ActivityForm'
 import BillForm from '../form/BillForm'
 import QuoteForm from '../form/QuoteForm'
+import MessageBox from '../message'
 import ActivityHistory from '../moreData/ActivityHistory'
 import AdditionalInformation from '../moreData/AdditionalInformation'
 import CustomerQuoteBill from '../quote-bill'
 import CompanyInformation from './CompanyInformation'
 import './DetailCustomer.css'
 import PersonalInformation from './PersonalInformation'
+
 const CustomerDetail = () => {
   const [isShowQuoteForm, setIsShowQuoteForm] = useState(false)
   const [isShowBillForm, setIsShowBillForm] = useState(false)
@@ -64,7 +65,7 @@ const CustomerDetail = () => {
     {
       label: 'Gửi tin nhắn',
       key: 'chat',
-      children: <ChatBox />
+      children: <MessageBox uuid={uuid} />
     }
   ]
 

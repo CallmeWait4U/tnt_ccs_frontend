@@ -4,6 +4,7 @@ import {
   Col,
   DatePicker,
   Form,
+  Image,
   Input,
   Radio,
   Row,
@@ -13,26 +14,28 @@ import {
 import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useReadComplaint } from '../../../api/Admin/complaint'
 import { ButtonOk } from '../../../assets/styles/button.style'
+import { PATH } from '../../../contants/common'
 import {
   StyledDatepicker,
   StyledModal,
   StyledSelect
 } from '../../component/ComponentOfForm'
 import '../complaintManagement.css'
-
 const ComplaintDetail = () => {
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const { data: ComplaintData } = useReadComplaint(uuid)
+  console.log(ComplaintData)
   const [form] = Form.useForm()
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (ComplaintData) {
@@ -45,6 +48,38 @@ const ComplaintDetail = () => {
         date: dayjs(ComplaintData.sentDate),
         code: ComplaintData.code,
         status: ComplaintData.status
+      })
+      ComplaintData?.listOfField.forEach((field, index) => {
+        const valueField = ComplaintData?.valueFieldComplaint.find(
+          (valueField) => valueField.fieldComplaintUUID === field.uuid
+        )
+
+        if (valueField) {
+          const value = valueField.value[0]
+          let fieldValue = value
+
+          switch (field.name) {
+            case 'Trả lời ngắn':
+            case 'Trả lời dài':
+              break
+            case 'Hộp kiểm':
+              fieldValue = value.split(',').map((item) => item === 'true')
+              break
+            case 'Trắc nghiệm':
+              fieldValue = parseInt(value)
+              break
+            case 'Tải tệp lên':
+              break
+            case 'Bộ chọn thời gian':
+              fieldValue = new Date(value)
+              break
+            default:
+              break
+          }
+          form.setFieldsValue({
+            [field.name]: fieldValue
+          })
+        }
       })
     }
   }, [ComplaintData, form, location.state.typeComplaintName])
@@ -104,35 +139,72 @@ const ComplaintDetail = () => {
   const renderFieldInput = (field) => {
     switch (field.name) {
       case 'Trả lời ngắn':
-        return <Input value='Thái độ của nhân viên không tốt' disabled={true} />
+        return (
+          <Form.Item name={field.name}>
+            <Input value='Thái độ của nhân viên không tốt' disabled={true} />
+          </Form.Item>
+        )
       case 'Trả lời dài':
-        return <Input.TextArea disabled={true} />
+        return (
+          <Form.Item name={field.name}>
+            <Input.TextArea disabled={true} />
+          </Form.Item>
+        )
       case 'Hộp kiểm':
         return (
-          <Checkbox.Group>
-            {field.listOptions.map((option) => (
-              <Checkbox value={option} disabled={true}>
-                {option}
-              </Checkbox>
-            ))}
-          </Checkbox.Group>
+          <Form.Item name={field.name}>
+            <Checkbox.Group>
+              {field.listOptions.map((option, index) => (
+                <Checkbox key={index} value={option} disabled={true}>
+                  {option}
+                </Checkbox>
+              ))}
+            </Checkbox.Group>
+          </Form.Item>
         )
       case 'Trắc nghiệm':
         return (
-          <Radio.Group>
-            {field.listOptions.map((option) => (
-              <Radio value={option} disabled={true}>
-                {option}
-              </Radio>
-            ))}
-          </Radio.Group>
+          <Form.Item name={field.name}>
+            <Radio.Group>
+              {field.listOptions.map((option) => (
+                <Radio value={option} disabled={true}>
+                  {option}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
         )
       case 'Tải tệp lên':
-        return <Input type='file' />
+        return (
+          <Form.Item name={field.name}>
+            {ComplaintData?.valueFieldComplaint.map((valueField) => {
+              if (valueField.fieldComplaintUUID === field.uuid) {
+                return (
+                  <div key={valueField.value[0]}>
+                    <Image
+                      src={valueField.value[0]}
+                      alt='Uploaded file'
+                      style={{ maxWidth: '100px', maxHeight: '100px' }}
+                    />
+                  </div>
+                )
+              }
+              return null
+            })}
+          </Form.Item>
+        )
       case 'Bộ chọn thời gian':
-        return <DatePicker disabled={true} />
+        return (
+          <Form.Item name={field.name}>
+            <DatePicker disabled={true} />
+          </Form.Item>
+        )
       default:
-        return <Input disabled={true} />
+        return (
+          <Form.Item name={field.name}>
+            <Input disabled={true} />
+          </Form.Item>
+        )
     }
   }
   const addRow = () => {
@@ -276,11 +348,22 @@ const ComplaintDetail = () => {
                     </Form.Item>
                   </Col>
                 </Row>
+                <Row gutter={16}>
+                  <Button
+                    onClick={() => {
+                      navigate(
+                        `${PATH.CUSTOMER}/${ComplaintData.isBusiness}&${ComplaintData.customerUUID}`
+                      )
+                    }}
+                  >
+                    Chi tiết khách hàng
+                  </Button>
+                </Row>
               </Card>
             </Col>
             <Col span={12}>
               <Card title={'Thông tin khiếu nại'}>
-                {ComplaintData?.listOfField.map((field, index) => (
+                {ComplaintData?.listOfField?.map((field, index) => (
                   <>
                     <Row key={field.uuid} style={{ paddingBottom: '16px' }}>
                       <Col

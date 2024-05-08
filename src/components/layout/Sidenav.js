@@ -46,11 +46,6 @@ const Sidenav = ({ keySideNav, role }) => {
       <FiUsers size={25} />
     ),
     getItem(
-      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
-      'dashboard',
-      <FiPieChart size={25} />
-    ),
-    getItem(
       <NavLink to={PATH.ACTIVITY}>Quản lý hoạt động</NavLink>,
       'activity',
       <FiRefreshCw size={25} />
@@ -85,6 +80,11 @@ const Sidenav = ({ keySideNav, role }) => {
           'complain-classify'
         )
       ]
+    ),
+    getItem(
+      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
+      'dashboard',
+      <FiPieChart size={25} />
     )
   ]
   const menuItemsEmployee = [
@@ -94,16 +94,10 @@ const Sidenav = ({ keySideNav, role }) => {
       <FiUsers size={25} />
     ),
     getItem(
-      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
-      'dashboard',
-      <FiPieChart size={25} />
-    ),
-    getItem(
       <NavLink to={PATH.ACTIVITY}>Quản lý hoạt động</NavLink>,
       'activity',
       <FiRefreshCw size={25} />
     ),
-
     getItem(
       <NavLink>Quản lý khiếu nại</NavLink>,
       'complain',
@@ -118,6 +112,11 @@ const Sidenav = ({ keySideNav, role }) => {
           'complain-classify'
         )
       ]
+    ),
+    getItem(
+      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
+      'dashboard',
+      <FiPieChart size={25} />
     )
   ]
 

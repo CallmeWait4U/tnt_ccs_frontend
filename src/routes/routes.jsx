@@ -27,6 +27,7 @@ import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import ProductsPage from '../pages/ProductPage'
 import SignInPage from '../pages/SignInPage'
+import TaskDetailPage from '../pages/TaskDetailPage'
 import ClientBillDetailPage from '../pages/clientScreen/BillDetailPage'
 import ClientBillPage from '../pages/clientScreen/BillPage'
 import ClientComplaintDetailPage from '../pages/clientScreen/ComplaintDetailPage'
@@ -122,6 +123,10 @@ const routesLayout = [
   {
     path: PATH.PHASEDETAIL,
     element: withPrivateRoute(PhaseDetailPage)()
+  },
+  {
+    path: PATH.TASKDETAIL,
+    element: withPrivateRoute(TaskDetailPage)()
   },
   {
     path: PATH.NEWPHASE,

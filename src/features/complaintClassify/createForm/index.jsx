@@ -43,7 +43,16 @@ const NewComplaintType = () => {
 
   const handleChange = (index, key, value) => {
     const updatedList = [...listOfField]
-    updatedList[index] = { ...updatedList[index], [key]: value }
+    if (key === 'name' && value === 'Tải tệp lên') {
+      updatedList[index] = {
+        ...updatedList[index],
+        [key]: value,
+        isFieldFile: true,
+        maxNumOfFiles: 1
+      }
+    } else {
+      updatedList[index] = { ...updatedList[index], [key]: value }
+    }
     setListOfField(updatedList)
   }
   const handleOptionChange = (index, optionIndex, e) => {
@@ -89,9 +98,9 @@ const NewComplaintType = () => {
               }
               style={{ marginTop: 10, width: '100%' }}
             >
-              <Option value='.pdf'>.pdf</Option>
-              <Option value='.doc'>.doc</Option>
-              <Option value='.docx'>.docx</Option>
+              <Option value='pdf'>.jpg</Option>
+              <Option value='doc'>.doc</Option>
+              <Option value='docx'>.pdf</Option>
             </Select>
             <Input
               placeholder='Mô tả trường'

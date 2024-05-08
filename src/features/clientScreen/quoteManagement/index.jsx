@@ -142,12 +142,12 @@ const ClientQuoteManagement = () => {
     //   },
     //   minWidth: 300,
     //   filter: AgGridCustomSetFilter,
-    //   filterParams: {
-    //     type: 'text'
-    //   },
-    //   valueFormatter: ({ value }) => {
-    //     return (value = status[value])
-    //   }
+    // filterParams: {
+    //   type: 'text'
+    // },
+    // valueFormatter: ({ value }) => {
+    //   return (value = status[value])
+    // }
     // },
     {
       field: 'action',
