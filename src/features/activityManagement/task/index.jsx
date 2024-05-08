@@ -9,13 +9,14 @@ import {
   Switch,
   Typography
 } from 'antd'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useReadTask } from '../../../api/Admin/activity'
 import { useListCustomer } from '../../../api/Admin/customer'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
-import AgGridTable from '../../../components/aggrid/AgGridTable'
+
 const TaskDetail = () => {
   const [autoAnnounceEmp, setAutoAnnounceEmp] = useState(false)
   const [autoAnnounceCus, setAutoAnnounceCus] = useState(false)
@@ -41,10 +42,12 @@ const TaskDetail = () => {
   useEffect(() => {
     if (taskDetail) {
       form.setFieldsValue({
-        name: taskDetail.name,
-        priority: taskDetail.priority,
-        description: taskDetail.description,
-        customersNumber: taskDetail.customersNumber
+        customerName: taskDetail.customerName,
+        status: taskDetail.status,
+        createdDate: dayjs(taskDetail.createdDate),
+        note: taskDetail.note,
+        startDate: dayjs(taskDetail.startDate),
+        endDate: dayjs(taskDetail.endDate)
       })
     }
   }, [taskDetail, form])
@@ -170,120 +173,104 @@ const TaskDetail = () => {
           <Row gutter={8}>
             <Col span={6} xl={6}>
               <Form.Item label={'Trạng thái'} name={'status'}>
-                <Input value={'Đang trễ'} disabled />
+                <Input disabled />
               </Form.Item>
             </Col>
             <Col span={6} xl={6}>
               <Form.Item label={'Ngày hoàn thành'} name={'doneDate'}>
-                <Input value={''} disabled />
+                <Input disabled />
+              </Form.Item>
+            </Col>
+            <Col span={6} xl={6}>
+              <Form.Item label={'Tên khách hàng'} name={'customerName'}>
+                <Input disabled />
               </Form.Item>
             </Col>
           </Row>
-
           <div>
             <Row gutter={16}>
-              <Col span={14}>
-                <Card className='infoActivity'>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Loại hoạt động'}
-                        name={'activityName'}
-                      >
-                        <Input disabled />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Mô tả hoạt động'}
-                        name={'description'}
-                      >
-                        <Input.TextArea style={{ height: 100 }} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Ngày tạo'}
-                        name={'createdDate'}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Yêu cầu thông tin'
-                          }
-                        ]}
-                      >
-                        <DatePicker />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Ngày bắt đầu'}
-                        name={'startDate'}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Yêu cầu thông tin'
-                          }
-                        ]}
-                      >
-                        <DatePicker />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Ngày kết thúc'}
-                        name={'endDate'}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Yêu cầu thông tin'
-                          }
-                        ]}
-                      >
-                        <DatePicker />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Form.Item
-                        className='customHorizontal'
-                        label={'Ghi chú'}
-                        name={'note'}
-                      >
-                        <Input.TextArea
-                          style={{
-                            height: 100,
-                            color: 'black',
-                            fontSize: 14,
-                            fontWeight: 'normal'
-                          }}
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col
-                      span={12}
+              <Col>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <Form.Item
+                      className='customHorizontal'
+                      label={'Ngày tạo'}
+                      name={'createdDate'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Yêu cầu thông tin'
+                        }
+                      ]}
+                    >
+                      <DatePicker />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item
+                      className='customHorizontal'
+                      label={'Ngày bắt đầu'}
+                      name={'startDate'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Yêu cầu thông tin'
+                        }
+                      ]}
+                    >
+                      <DatePicker />
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item
+                      className='customHorizontal'
+                      label={'Ngày kết thúc'}
+                      name={'endDate'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Yêu cầu thông tin'
+                        }
+                      ]}
+                    >
+                      <DatePicker />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item
+                      className='customHorizontal'
+                      label={'Ghi chú'}
+                      name={'note'}
+                    >
+                      <Input.TextArea
+                        style={{
+                          height: 100,
+                          color: 'black',
+                          fontSize: 14,
+                          fontWeight: 'normal'
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col
+                    span={12}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexFlow: 'inherit'
+                    }}
+                  >
+                    <Row
                       style={{
                         display: 'flex',
-                        alignItems: 'center',
-                        flexFlow: 'inherit'
+                        justifyContent: 'space-between',
+                        width: '80%'
                       }}
                     >
-                      <Row
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          width: '80%'
-                        }}
-                      >
-                        <div>Tự Động Thông Báo Nhân Viên:</div>
+                      <div>Tự Động Thông Báo Nhân Viên:</div>
+                      <Form.Item name='autoAnnounceEmp'>
                         <Switch
                           defaultChecked={false}
                           checked={autoAnnounceEmp}
@@ -291,16 +278,18 @@ const TaskDetail = () => {
                             setAutoAnnounceEmp(value)
                           }}
                         />
-                      </Row>
-                      <Row
-                        className={autoAnnounceCus ? '' : 'off'}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          width: '80%'
-                        }}
-                      >
-                        <div>Tự Động Thông Báo Khách Hàng:</div>
+                      </Form.Item>
+                    </Row>
+                    <Row
+                      className={autoAnnounceCus ? '' : 'off'}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        width: '80%'
+                      }}
+                    >
+                      <div>Tự Động Thông Báo Khách Hàng:</div>
+                      <Form.Item name='autoAnnounceCus'>
                         <Switch
                           defaultChecked={false}
                           checked={autoAnnounceCus}
@@ -308,26 +297,13 @@ const TaskDetail = () => {
                             setAutoAnnounceCus(value)
                           }}
                         />
-                      </Row>
-                    </Col>
-                  </Row>
-                </Card>
+                      </Form.Item>
+                    </Row>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </div>
-          <Row>
-            <div className='table-responsive'>
-              <AgGridTable
-                totalItem={dataCustomer?.total || 0}
-                colDefs={colDefs}
-                rowData={dataCustomer?.items || []}
-                skip={skip}
-                take={take}
-                setTake={setTake}
-                selectedRow={(rows) => setSelectedRowKeys(rows)}
-              />
-            </div>
-          </Row>
         </Card>
       </Form>
     </>

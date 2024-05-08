@@ -98,9 +98,9 @@ const NewComplaintType = () => {
               }
               style={{ marginTop: 10, width: '100%' }}
             >
-              <Option value='pdf'>.jpg</Option>
+              <Option value='jpg'>.jpg</Option>
               <Option value='doc'>.doc</Option>
-              <Option value='docx'>.pdf</Option>
+              <Option value='pdf'>.pdf</Option>
             </Select>
             <Input
               placeholder='Mô tả trường'
