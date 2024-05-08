@@ -94,3 +94,35 @@ export const useDeleteTypeComplaint = async (uuid) => {
     throw error
   }
 }
+export const useGetComplaintActivity = (id) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `${BASE_URL}/complaint/activity/all?complaintUUID=${id}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return useQuery({
+    queryKey: ['ReadComplaintActivity', id],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useCreateComplaintActivity = async (data) => {
+  try {
+    console.log(data)
+    const response = await api.post(
+      `${BASE_URL}/complaint/activity/create`,
+      data
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}

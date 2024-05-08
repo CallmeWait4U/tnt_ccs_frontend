@@ -15,7 +15,10 @@ import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useReadComplaint } from '../../../api/Admin/complaint'
+import {
+  useGetComplaintActivity,
+  useReadComplaint
+} from '../../../api/Admin/complaint'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { PATH } from '../../../contants/common'
 import {
@@ -30,7 +33,8 @@ const ComplaintDetail = () => {
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const { data: ComplaintData } = useReadComplaint(uuid)
-  console.log(ComplaintData)
+  const { data: ComplaintActivity } = useGetComplaintActivity(uuid)
+  console.log(ComplaintActivity)
   const [form] = Form.useForm()
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
@@ -86,56 +90,33 @@ const ComplaintDetail = () => {
   const columns = [
     {
       title: 'Mã nhân viên',
-      dataIndex: 'code',
-      key: 'code',
-      render: (text) => <Input />
+      dataIndex: 'employeeCode',
+      key: 'employeeCode'
     },
     {
       title: 'Tên nhân viên CSKH',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <Input />
+      dataIndex: 'employeeName',
+      key: 'employeeName'
     },
     {
       title: 'Ngày thực hiện',
-      dataIndex: 'date',
-      key: 'date',
-      render: (text) => <Input />
+      dataIndex: 'doneDate',
+      key: 'doneDate',
+      render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: 'Hoạt động',
-      dataIndex: 'action',
-      key: 'action',
-      render: (text) => <Input />
+      dataIndex: 'activityName',
+      key: 'activityName'
     },
     {
       title: 'Ghi chú',
       dataIndex: 'note',
-      key: 'note',
-      render: (text) => <Input />
+      key: 'note'
     }
   ]
 
-  const [dataTable, setDataTable] = useState([
-    {
-      index: 1,
-      key: '1',
-      code: 'NV001',
-      name: 'Nguyễn Văn A',
-      date: '20/10/2021',
-      action: 'Xử lí lại',
-      note: 'Không có ghi chú'
-    },
-    {
-      index: 2,
-      key: '2',
-      code: 'NV002',
-      name: 'Nguyễn Văn B',
-      date: '20/10/2021',
-      action: 'Xử lí lại',
-      note: 'Không có ghi chú'
-    }
-  ])
+  const [dataTable, setDataTable] = useState([])
   const renderFieldInput = (field) => {
     switch (field.name) {
       case 'Trả lời ngắn':
@@ -212,15 +193,7 @@ const ComplaintDetail = () => {
       (max, item) => (item.index > max ? item.index : max),
       0
     )
-    const newItem = {
-      index: maxIndex + 1,
-      key: '2',
-      code: 'NV002',
-      name: 'Nguyễn Văn B',
-      date: '20/10/2021',
-      action: 'Xử lí lại',
-      note: 'Không có ghi chú'
-    }
+    const newItem = {}
 
     setDataTable([...dataTable, newItem])
   }
@@ -412,7 +385,7 @@ const ComplaintDetail = () => {
           open={isOpen}
           footer={null}
         >
-          <Table columns={columns} dataSource={dataTable} />
+          <Table columns={columns} dataSource={ComplaintActivity?.items} />
         </StyledModal>
       )}
     </div>

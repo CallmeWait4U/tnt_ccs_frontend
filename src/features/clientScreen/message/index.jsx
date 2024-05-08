@@ -1,11 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row } from 'antd'
 import React, { useState } from 'react'
 import { Button, Input, MessageList } from 'react-chat-elements'
 import { useGetMessage, useSendMessage } from '../../../api/Customer/chat'
 
 const ClientMessage = () => {
-  const { Title } = Typography
   const { data: messageList, refetch } = useGetMessage()
   const { mutate: sendMessage } = useMutation({
     mutationFn: useSendMessage,
@@ -22,10 +21,12 @@ const ClientMessage = () => {
   const handleMessageSend = () => {
     if (message.trim() !== '') {
       sendMessage({
-        receiverUUID: '9a32a451-dd03-4cff-8ecf-016dec2caab6',
+        // receiverUUID: '0f01e4a8-c28b-417a-868a-ae54cfe20438',
+        receiverUUID: 'ae9911ca-871a-4049-970c-e99e07ac740a',
         content: message
       })
     }
+    setMessage('')
   }
 
   return (
@@ -47,8 +48,11 @@ const ClientMessage = () => {
             }))}
         />
       )}
-      <Row>
-        <Col span={23}>
+      <Row style={{ paddingTop: '8px' }}>
+        <Col
+          span={23}
+          style={{ border: '2px solid #d9d9d9', borderRadius: '6px' }}
+        >
           <Input
             placeholder='Type here...'
             value={message}
@@ -61,7 +65,13 @@ const ClientMessage = () => {
             }}
           />
         </Col>
-        <Col>
+        <Col
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+          }}
+        >
           <Button
             text={'Send'}
             onClick={() => handleMessageSend()}

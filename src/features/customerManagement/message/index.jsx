@@ -16,13 +16,12 @@ const MessageBox = (uuid) => {
       // After sending the message, you can fetch the updated message list if needed
     }
   })
-
   const [message, setMessage] = useState('')
 
   const handleMessageSend = () => {
     if (message.trim() !== '') {
       sendMessage({
-        receiverUUID: uuid,
+        receiverUUID: uuid.uuid,
         content: message
       })
     }
