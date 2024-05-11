@@ -1,6 +1,6 @@
 import Main from '../components/layout/Main'
 import { ROLE } from '../contants/common'
-import Profile from '../features/old/Profile'
+import UserProfile from '../features/profile'
 
 const ProfilePage = () => {
   return (
@@ -15,7 +15,7 @@ const ProfilePage = () => {
         ]
       }}
     >
-      <Profile />
+      <UserProfile />
     </Main>
   )
 }

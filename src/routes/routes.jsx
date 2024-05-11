@@ -1,5 +1,4 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 import { PATH } from '../contants/common'
 import BusinessRegister from '../features/businessRegister/BusinessRegister'
 import LandingPage from '../features/landingPage'
@@ -19,6 +18,7 @@ import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
 import NewComplaintTypePage from '../pages/ComplaintTypeCreatePage'
+import HomePage from '../pages/HomePage'
 import NewAccountPage from '../pages/NewAccountPage'
 import NewPhasePage from '../pages/NewPhasePage'
 import NewProductPage from '../pages/NewProductPage'
@@ -32,6 +32,7 @@ import ClientBillDetailPage from '../pages/clientScreen/BillDetailPage'
 import ClientBillPage from '../pages/clientScreen/BillPage'
 import ClientComplaintDetailPage from '../pages/clientScreen/ComplaintDetailPage'
 import ClientComplaintPage from '../pages/clientScreen/ComplaintPage'
+import ClientHomePage from '../pages/clientScreen/HomePage'
 import ClientMessagePage from '../pages/clientScreen/MessagePage'
 import ClientNewComplaintPage from '../pages/clientScreen/NewComplaintPage'
 import ClientProfilePage from '../pages/clientScreen/ProfilePage'
@@ -54,7 +55,7 @@ const routesLayout = [
   { path: PATH.CUSTOMERLANDINGPAGE, element: <CustomerLanding /> },
   { path: PATH.SIGNIN, element: <SignInPage /> },
   { path: PATH.SIGNUP, element: <BussinessRegisterPage /> },
-  { path: PATH.HOME, element: <Navigate to={PATH.CUSTOMER} /> },
+  { path: PATH.HOME, element: withPrivateRoute(HomePage)() },
   { path: PATH.CUSTOMER, element: withPrivateRoute(Customer)() },
   {
     path: PATH.CUSTOMERDETAIL,
@@ -135,6 +136,10 @@ const routesLayout = [
   {
     path: PATH.PROFILE,
     element: withPrivateRoute(ProfilePage)()
+  },
+  {
+    path: PATH.CUSTOME_URL.HOME,
+    element: withPrivateRoute(ClientHomePage)()
   },
   {
     path: PATH.CUSTOME_URL.COMPLAINT,
