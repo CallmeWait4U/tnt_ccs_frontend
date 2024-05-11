@@ -17,7 +17,7 @@ const PrivateRoute = ({ children }) => {
     )
   }
 
-  const socket = io('http://localhost:4001', {
+  const socket = io('http://localhost:3001', {
     auth: {
       token: localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
     }

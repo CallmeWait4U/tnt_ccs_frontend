@@ -51,22 +51,6 @@ const Sidenav = ({ keySideNav, role }) => {
       <FiRefreshCw size={25} />
     ),
     getItem(
-      <NavLink>Quản lý tổ chức</NavLink>,
-      'organization',
-      <FiFolder size={25} />,
-      [
-        getItem(
-          <NavLink to={PATH.ACCOUNT}>Quản lý tài khoản</NavLink>,
-          'employee'
-        ),
-        getItem(
-          <NavLink to={PATH.PRODUCT}>Quản lý sản phẩm</NavLink>,
-          'product'
-        ),
-        getItem(<NavLink to={PATH.PHASE}>Quản lý giai đoạn</NavLink>, 'phase')
-      ]
-    ),
-    getItem(
       <NavLink>Quản lý khiếu nại</NavLink>,
       'complain',
       <FiAlertCircle size={25} />,
@@ -82,9 +66,25 @@ const Sidenav = ({ keySideNav, role }) => {
       ]
     ),
     getItem(
-      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
+      <NavLink to={PATH.DASHBOARD}>Thống kê</NavLink>,
       'dashboard',
       <FiPieChart size={25} />
+    ),
+    getItem(
+      <NavLink>Quản lý tổ chức</NavLink>,
+      'organization',
+      <FiFolder size={25} />,
+      [
+        getItem(
+          <NavLink to={PATH.ACCOUNT}>Quản lý tài khoản</NavLink>,
+          'employee'
+        ),
+        getItem(
+          <NavLink to={PATH.PRODUCT}>Quản lý sản phẩm</NavLink>,
+          'product'
+        ),
+        getItem(<NavLink to={PATH.PHASE}>Quản lý giai đoạn</NavLink>, 'phase')
+      ]
     )
   ]
   const menuItemsEmployee = [
@@ -114,7 +114,7 @@ const Sidenav = ({ keySideNav, role }) => {
       ]
     ),
     getItem(
-      <NavLink to={PATH.DASHBOARD}>Thống kê - báo cáo</NavLink>,
+      <NavLink to={PATH.DASHBOARD}>Thống kê</NavLink>,
       'dashboard',
       <FiPieChart size={25} />
     )

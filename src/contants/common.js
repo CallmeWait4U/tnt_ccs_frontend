@@ -35,6 +35,7 @@ export const PATH = Object.freeze({
   BILLING: '/billing',
   HOST: 'http://localhost:3000',
   CUSTOME_URL: {
+    HOME: '/client',
     COMPLAINT: '/client/complaints',
     NEWCOMPLAINT: '/client/new-complaint',
     COMPLAINTDETAIL: '/client/complaints/:id',
