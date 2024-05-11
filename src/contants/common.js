@@ -1,8 +1,8 @@
 export const PATH = Object.freeze({
   NOT_FOUND: '*',
   HOME: '/',
-  SIGNIN: '/sign-in',
-  SIGNUP: '/sign-up',
+  SIGNIN: ':domain/sign-in',
+  SIGNUP: ':domain/sign-up',
   LANDINGPAGE: '/landing-page',
   REGISTER: '/register',
   BUSSINESSREGISTER: '/business-register',
