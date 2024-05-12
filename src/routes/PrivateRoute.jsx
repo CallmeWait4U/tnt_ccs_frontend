@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import { LOCAL_STORAGE_ITEM, PATH } from '../contants/common'
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation()
-
-  useEffect(() => {}, [])
 
   if (!localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)) {
     return (

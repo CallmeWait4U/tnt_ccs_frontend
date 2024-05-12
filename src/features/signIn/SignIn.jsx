@@ -59,15 +59,16 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
   const { form } = useForm()
   const { mutate } = useMutation({ mutationFn: useSignin })
+  const domain = window.location.pathname.split('/')[1]
   const onFinish = (values) => {
     setLoading(true)
 
     const data = {
       username: values.username,
       password: values.password,
-      domain: 'cocolala'
+      domain: domain
     }
-    console.log('data', data)
+
     mutate(data, {
       onSuccess: (res) => {
         if (res.accessToken) {

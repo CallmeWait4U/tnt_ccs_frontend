@@ -13,7 +13,6 @@ import ProfilePage from '../pages/ProfilePage'
 
 import AccountDetailPage from '../pages/AccountDetailPage'
 import AccountsPage from '../pages/AccountsPage'
-import BussinessRegisterPage from '../pages/BusinessRegisterPage'
 import ComplaintClassifyPage from '../pages/ComplaintClassifyPage'
 import ComplaintDetailPage from '../pages/ComplaintDetailPage'
 import ComplaintPage from '../pages/ComplaintPage'
@@ -39,6 +38,7 @@ import ClientProfilePage from '../pages/clientScreen/ProfilePage'
 import ClientQuoteDetailPage from '../pages/clientScreen/QuoteDetailPage'
 import ClientQuotePage from '../pages/clientScreen/QuotePage'
 import ClientQuoteRequestDetailPage from '../pages/clientScreen/QuoteRequestDetailPage'
+import CompanyRoute from './CompanyRoute'
 import PrivateRoute from './PrivateRoute'
 
 const withPrivateRoute = (Component) => {
@@ -51,10 +51,11 @@ const withPrivateRoute = (Component) => {
 
 const routesLayout = [
   { path: PATH.LANDINGPAGE, element: <LandingPage /> },
+  { path: PATH.DOMAIN_HOME, element: <CompanyRoute /> },
   { path: PATH.BUSSINESSREGISTER, element: <BusinessRegister /> },
   { path: PATH.CUSTOMERLANDINGPAGE, element: <CustomerLanding /> },
-  { path: PATH.SIGNIN, element: <SignInPage /> },
-  { path: PATH.SIGNUP, element: <BussinessRegisterPage /> },
+  { path: PATH.DOMAIN_SIGNIN, element: <SignInPage /> },
+  { path: PATH.SIGNUP, element: <CustomerLanding /> },
   { path: PATH.HOME, element: withPrivateRoute(HomePage)() },
   { path: PATH.CUSTOMER, element: withPrivateRoute(Customer)() },
   {
