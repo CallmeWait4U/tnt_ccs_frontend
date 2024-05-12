@@ -106,3 +106,14 @@ export const useReadTask = (id) => {
     retry: 2
   })
 }
+export const useSendEmail = async (data) => {
+  try {
+    const response = await api.post(
+      `${BASE_URL}/activities/tasks/sendEmail`,
+      data
+    )
+    return response
+  } catch (error) {
+    throw error
+  }
+}

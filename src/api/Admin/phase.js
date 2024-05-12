@@ -39,7 +39,6 @@ export const useReadPhase = (id) => {
 
 export const useCreatePhase = async (data) => {
   try {
-    console.log(data)
     const response = await api.post(`${BASE_URL}/phases`, data)
     return response.data
   } catch (error) {
@@ -48,7 +47,6 @@ export const useCreatePhase = async (data) => {
 }
 export const useUpdatePhase = async (data) => {
   try {
-    console.log(data)
     const response = await api.put(`${BASE_URL}/phases/${data.uuid}`, data)
     return response.data
   } catch (error) {
@@ -57,7 +55,6 @@ export const useUpdatePhase = async (data) => {
 }
 export const useDeletePhase = async (data) => {
   try {
-    console.log(data)
     const response = await api.delete(`${BASE_URL}/phases/${data}`)
     return response.data
   } catch (error) {

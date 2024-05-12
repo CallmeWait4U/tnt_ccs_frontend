@@ -9,26 +9,18 @@ import React, { useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllTasks } from '../../api/Admin/activity'
-import { useListMyCustomer } from '../../api/Admin/customer'
+import { useGetHomePage } from '../../api/Admin/profile'
 import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 
 const CompanyHome = () => {
-  const { data: MyCustomer } = useListMyCustomer(0, 1)
   const { Title } = Typography
   const navigate = useNavigate()
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { data: tasks } = useGetAllTasks(
-    skip,
-    take,
-    'cf3ce732-a95f-484e-baa7-ccb672374e21'
-  )
+  const { data: HomePageData } = useGetHomePage(skip, take)
 
   const ActionComponent = (data) => {
     return (
@@ -58,11 +50,6 @@ const CompanyHome = () => {
       </div>
     )
   }
-  const status = {
-    OVERDUE: 'Đã trễ',
-    INPROGRESS: 'Đang diễn ra',
-    COMPLETED: 'Hoàn thành'
-  }
   const colDefs = [
     {
       headerName: 'STT',
@@ -83,7 +70,7 @@ const CompanyHome = () => {
     {
       headerName: 'NGÀY TẠO',
       field: 'createDate',
-      minWidth: 200,
+      minWidth: 300,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -99,16 +86,7 @@ const CompanyHome = () => {
     {
       headerName: 'KHÁCH HÀNG CHĂM SÓC',
       field: 'customerName',
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
-    },
-    {
-      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
-      field: 'employeeName',
-      minWidth: 200,
+      minWidth: 350,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -117,7 +95,7 @@ const CompanyHome = () => {
     {
       headerName: 'NGÀY BẮT ĐẦU',
       field: 'startDate',
-      minWidth: 200,
+      minWidth: 300,
       filter: AgGridCustomDateFilter,
       cellStyle: {
         display: 'flex',
@@ -133,7 +111,7 @@ const CompanyHome = () => {
     {
       headerName: 'NGÀY KẾT THÚC',
       field: 'endDate',
-      minWidth: 200,
+      minWidth: 300,
       filter: AgGridCustomDateFilter,
       cellStyle: {
         display: 'flex',
@@ -144,22 +122,6 @@ const CompanyHome = () => {
       },
       valueFormatter: ({ value }) => {
         return moment(value).format('DD-MM-YYYY')
-      }
-    },
-    {
-      headerName: 'TRẠNG THÁI',
-      field: 'status',
-      minWidth: 200,
-      cellStyle: {
-        display: 'flex',
-        justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        type: 'text'
-      },
-      valueFormatter: ({ value }) => {
-        return (value = status[value])
       }
     },
     {
@@ -201,7 +163,7 @@ const CompanyHome = () => {
               <Row align='middle' gutter={[24, 0]}>
                 <Col xs={18}>
                   <span>Khách hàng của tôi</span>
-                  <Title level={3}>{MyCustomer?.total}</Title>
+                  <Title level={3}>{HomePageData?.numCustomers}</Title>
                 </Col>
                 <Col xs={6}>
                   <div className='icon-box'>
@@ -218,7 +180,7 @@ const CompanyHome = () => {
               <Row align='middle' gutter={[24, 0]}>
                 <Col xs={18}>
                   <span>Báo giá đã tạo</span>
-                  <Title level={3}>15</Title>
+                  <Title level={3}>{HomePageData?.numPriceQuotes}</Title>
                 </Col>
                 <Col xs={6}>
                   <div className='icon-box'>
@@ -235,7 +197,7 @@ const CompanyHome = () => {
               <Row align='middle' gutter={[24, 0]}>
                 <Col xs={18}>
                   <span>Số lượng khiếu nại</span>
-                  <Title level={3}>15</Title>
+                  <Title level={3}>{HomePageData?.numComplaints}</Title>
                 </Col>
                 <Col xs={6}>
                   <div className='icon-box' style={{ backgroundColor: 'red' }}>
@@ -254,13 +216,12 @@ const CompanyHome = () => {
             <div className='table-responsive'>
               <AgGridTable
                 colDefs={colDefs}
-                rowData={tasks?.items || []}
+                rowData={HomePageData?.listTask || []}
                 skip={skip}
                 take={take}
                 setTake={setTake}
                 setSkip={setSkip}
-                selectedRow={(rows) => setSelectedRowKeys(rows)}
-                totalItem={tasks?.total || 0}
+                totalItem={HomePageData?.totalTask || 0}
                 //   onDoubleClicked={(params) => {
                 //     setIsShowFormDetail(true)
                 //     setTypeForm('Chi tiết')

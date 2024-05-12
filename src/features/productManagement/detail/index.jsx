@@ -1,7 +1,20 @@
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import {
+  Button,
+  Card,
+  Col,
+  Flex,
+  Form,
+  Image,
+  Input,
+  Row,
+  Typography,
+  Upload,
+  message
+} from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useReadProduct } from '../../../api/Admin/product'
+import { useReadProduct, useUpdateProduct } from '../../../api/Admin/product'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import '../productManagement.css'
 const ProductDetail = () => {
@@ -10,8 +23,8 @@ const ProductDetail = () => {
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
   const uuid = paramsString.split('&')
-
-  const { data: productInfo } = useReadProduct(uuid[0])
+  const [fileList, setFileList] = useState([])
+  const { data: productInfo, refetch } = useReadProduct(uuid[0])
   const [form] = Form.useForm()
   useEffect(() => {
     if (productInfo) {
@@ -26,9 +39,38 @@ const ProductDetail = () => {
       })
     }
   }, [productInfo, form])
+
+  const { mutate: updateProduct } = useMutation({
+    mutationFn: useUpdateProduct,
+    onSuccess: () => {
+      console.log('Update product success')
+      message.success('Cập nhật sản phẩm thành công')
+      refetch()
+      setIsUpdate(false)
+    }
+  })
+  const handleFileChange = ({ fileList }) => {
+    setFileList(fileList)
+  }
+  const onUpdateProduct = (values) => {
+    const formData = new FormData()
+    formData.append('name', values.name)
+    formData.append('code', values.code)
+    formData.append('price', values.price)
+    formData.append('description', values.description)
+    formData.append('unit', values.unit)
+    formData.append('features', values.features)
+    formData.append('quantity', values.quantity)
+    formData.append('isChangeImage', true)
+    fileList.forEach((file) => {
+      formData.append('images', file)
+    })
+    formData.append('uuid', uuid[0])
+    updateProduct(formData)
+  }
   return (
     <div>
-      <Form className='tabled' form={form}>
+      <Form className='tabled' form={form} onFinish={onUpdateProduct}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -162,11 +204,7 @@ const ProductDetail = () => {
                 name='features'
                 label='Mô tả đặc điểm sản phẩm'
               >
-                <Input.TextArea
-                  disabled={!isUpdate}
-                  placeholder='Nhập mô tả'
-                  style={{ height: 220 }}
-                />
+                <Input.TextArea disabled={!isUpdate} placeholder='Nhập mô tả' />
               </Form.Item>
             </Col>
           </Row>
@@ -180,11 +218,41 @@ const ProductDetail = () => {
                 <Input.TextArea
                   disabled={!isUpdate}
                   placeholder='Nhập ghi chú'
-                  style={{ height: 80 }}
                 />
               </Form.Item>
             </Col>
           </Row>
+          {isUpdate === false ? (
+            <Row gutter={16}>
+              <Col>
+                <Form.Item
+                  className='customHorizontal'
+                  name='image'
+                  label='Hình ảnh mô tả'
+                >
+                  <Image src={`${productInfo?.images[0]?.url}`} />
+                </Form.Item>
+              </Col>
+            </Row>
+          ) : (
+            <Row gutter={16}>
+              <Col span={24}>
+                <Form.Item
+                  className='customHorizontal'
+                  label='Tải ảnh lên'
+                  name='images'
+                >
+                  <Upload
+                    fileList={fileList}
+                    onChange={handleFileChange}
+                    beforeUpload={() => false}
+                  >
+                    <Button>Tải lên</Button>
+                  </Upload>
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
         </Card>
       </Form>
     </div>

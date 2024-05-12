@@ -207,12 +207,15 @@ const ProductManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
+                  totalItem={dataProduct?.total || 0}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
                       `${PATH.PRODUCT}/${params.data.uuid}&${params.data.code}`
                     )
                   }}
+                  refetchData={refetch}
                 />
               </div>
             </Card>

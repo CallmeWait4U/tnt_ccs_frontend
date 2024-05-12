@@ -9,7 +9,8 @@ import {
   Input,
   InputNumber,
   Row,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -24,11 +25,14 @@ const PhaseDetail = () => {
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
   const uuid = paramsString.split('&')
+  const [messageApi, contextHolder] = message.useMessage()
   const { data: phase } = useReadPhase(uuid[0])
   const { mutate: mutateUpdate } = useMutation({
     mutationFn: useUpdatePhase,
     onSuccess: () => {
       console.log('Update success')
+      message.success('Cập nhật giai đoạn thành công')
+      setIsUpdate(false)
       setErrorMessage(false)
     },
     onError: (error) => {

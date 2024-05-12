@@ -1,12 +1,9 @@
-import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
 import ClientMassage from '../../features/clientScreen/message'
 
 const ClientMessagePage = () => {
-  const location = useLocation()
-
   return (
     <Main
       role={ROLE.CUSTOMER}
