@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { useListComapny } from '../api/company'
 import { LOCAL_STORAGE_ITEM, PATH } from '../contants/common'
 import HomePage from '../pages/HomePage'
+import NotFoundPage from '../pages/NotFoundPage'
 
 const CompanyRoute = () => {
   const { data: listCompany } = useListComapny()
@@ -13,10 +14,10 @@ const CompanyRoute = () => {
 
   if (
     !listCompany ||
-    listCompany?.total === 0 ||
-    listCompany?.items?.filter((item) => item.domain === path).length === 0
+    listCompany.total === 0 ||
+    listCompany.items?.filter((item) => item.domain === path).length === 0
   )
-    return <div>Không có công ty nào cả!</div>
+    return <NotFoundPage />
   if (token) {
     return <HomePage />
   }

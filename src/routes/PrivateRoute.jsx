@@ -8,10 +8,7 @@ const PrivateRoute = ({ children }) => {
 
   if (!localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)) {
     return (
-      <Navigate
-        to={PATH.CUSTOMERLANDINGPAGE}
-        state={{ path: location.pathname }}
-      />
+      <Navigate to={PATH.LANDINGPAGE} state={{ path: location.pathname }} />
     )
   }
 

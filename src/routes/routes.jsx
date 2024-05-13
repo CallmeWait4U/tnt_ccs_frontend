@@ -21,6 +21,7 @@ import HomePage from '../pages/HomePage'
 import NewAccountPage from '../pages/NewAccountPage'
 import NewPhasePage from '../pages/NewPhasePage'
 import NewProductPage from '../pages/NewProductPage'
+import NotFoundPage from '../pages/NotFoundPage'
 import PhaseDetailPage from '../pages/PhaseDetailPage'
 import PhasePage from '../pages/PhasePage'
 import ProductDetailPage from '../pages/ProductDetailPage'
@@ -57,6 +58,7 @@ const routesLayout = [
   { path: PATH.DOMAIN_SIGNIN, element: <SignInPage /> },
   { path: PATH.SIGNUP, element: <CustomerLanding /> },
   { path: PATH.HOME, element: withPrivateRoute(HomePage)() },
+  { path: PATH.NOT_FOUND, element: <NotFoundPage /> },
   { path: PATH.CUSTOMER, element: withPrivateRoute(Customer)() },
   {
     path: PATH.CUSTOMERDETAIL,

@@ -1,10 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../configs/AxiosConfigs'
-const useListComapny = async () => {
+const useListComapny = () => {
   const fetchData = async () => {
     try {
       const response = await api.get(`/company/all`)
-      console.log('response', response.data)
       return response.data
     } catch (error) {
       throw error
@@ -20,3 +19,4 @@ const useListComapny = async () => {
 }
 
 export { useListComapny }
+
