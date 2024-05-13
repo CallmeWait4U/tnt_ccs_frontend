@@ -48,7 +48,6 @@ export const useCreateActivity = async (data) => {
 }
 export const useUpdateActivity = async (data) => {
   try {
-    console.log(data)
     const response = await api.put(`${BASE_URL}/activities/update`, data)
     return response
   } catch (error) {
@@ -68,7 +67,6 @@ export const useDeleteActivity = async (uuid) => {
 
 export const useGetAllTasks = (offset, limit, uuid) => {
   const fetchData = async () => {
-    console.log(offset, limit, uuid)
     try {
       const response = await api.get(
         `/activities/tasks/all?offset=${offset}&limit=${limit}&activityUUID=${uuid}`
@@ -85,6 +83,14 @@ export const useGetAllTasks = (offset, limit, uuid) => {
     refetchOnWindowFocus: false,
     retry: 2
   })
+}
+export const useCreateTask = async (data) => {
+  try {
+    const response = await api.post(`${BASE_URL}/activities/tasks/create`, data)
+    return response
+  } catch (error) {
+    throw error
+  }
 }
 export const useReadTask = (id) => {
   const fetchData = async () => {
@@ -116,4 +122,26 @@ export const useSendEmail = async (data) => {
   } catch (error) {
     throw error
   }
+}
+export const useListCustomerWithPhase = (offset, limit, searchModel) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/customers/all?offset=${offset}&limit=${limit}&searchModel=${JSON.stringify(
+          searchModel
+        )}`
+      )
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['ListCustomer'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2,
+    enabled: !!searchModel
+  })
 }

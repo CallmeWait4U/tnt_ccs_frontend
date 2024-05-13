@@ -2,7 +2,7 @@ import { Button, Card, Col, Flex, Form, Input, Row } from 'antd'
 
 // Images
 import { useMutation } from '@tanstack/react-query'
-import { Modal, Typography } from 'antd'
+import { Checkbox, Modal, Typography, message } from 'antd'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
@@ -15,6 +15,7 @@ import {
   useReadActivity,
   useUpdateActivity
 } from '../../../api/Admin/activity'
+import { useGetPhaseList } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridCustomDateFilter from '../../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
@@ -24,9 +25,7 @@ import { PATH } from '../../../contants/common'
 import ActivityDetailForm from '../form/ActivityDetailForm'
 
 const ActivityDetail = () => {
-  const [typeForm, setTypeForm] = useState('')
   const [isUpdate, setIsUpdate] = useState(false)
-  const [selectedTaskUUID, setSelectedTaskUUID] = useState('')
   const [isShowFormDetail, setIsShowFormDetail] = useState(false)
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
@@ -38,24 +37,46 @@ const ActivityDetail = () => {
   const uuid = paramsString.split('&')
   const { data: activityDetail } = useReadActivity(uuid[0])
   const { data: tasks } = useGetAllTasks(skip, take, uuid[0])
+  const { data: phaseList } = useGetPhaseList()
   const { mutate: activityUpdate } = useMutation({
     mutationFn: useUpdateActivity,
     onSuccess: () => {
       console.log('Update success')
+      message.success('Cập nhật hoạt động thành công')
+    },
+    onError: (error) => {
+      console.log('Update error', error)
+      message.error('Cập nhật hoạt động thất bại')
     }
   })
   const [form] = Form.useForm()
   useEffect(() => {
     form.setFieldsValue({
       name: activityDetail?.name,
-      description: activityDetail?.description
+      description: activityDetail?.description,
+      phases: activityDetail?.phaseName
     })
   }, [activityDetail, form])
+  const phaseOptions = phaseList?.items?.map((item) => ({
+    label: item.name,
+    value: item.name,
+    uuid: item.uuid
+  }))
   const onFinish = (values) => {
-    console.log(values)
-    activityUpdate({ ...values, uuid: uuid[0] })
+    const mappedValues = {
+      ...values,
+      phases: values.phases?.map((phaseName) => {
+        const phaseOption = phaseOptions.find(
+          (option) => option.label === phaseName
+        )
+        return phaseOption ? phaseOption.uuid : phaseName
+      }),
+      uuid: uuid[0]
+    }
+    activityUpdate(mappedValues)
     setIsUpdate(false)
   }
+
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -320,6 +341,22 @@ const ActivityDetail = () => {
               >
                 <Input disabled={!isUpdate} />
               </Form.Item>
+              <Form.Item
+                label='Giai đoạn'
+                name={'phases'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Yêu cầu thông tin'
+                  }
+                ]}
+              >
+                <Checkbox.Group
+                  options={phaseOptions}
+                  // defaultValue={activityDetail?.phaseName}
+                  disabled={!isUpdate}
+                />
+              </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label='Mô tả hoạt động' name={'description'}>
@@ -354,7 +391,6 @@ const ActivityDetail = () => {
                 icon={<FiPlus />}
                 onClick={() => {
                   setIsShowFormDetail(true)
-                  setTypeForm('Thêm')
                 }}
                 style={{ fontSize: '14px', width: '120px', height: '42px' }}
               >
@@ -390,10 +426,6 @@ const ActivityDetail = () => {
                   setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   totalItem={tasks?.total || 0}
-                  onDoubleClicked={(params) => {
-                    setIsShowFormDetail(true)
-                    setTypeForm('Chi tiết')
-                  }}
                   height='415px'
                 />
               </div>
@@ -404,9 +436,8 @@ const ActivityDetail = () => {
       <ActivityDetailForm
         visible={isShowFormDetail}
         setVisible={setIsShowFormDetail}
-        typeForm={typeForm}
-        nameActivity={activityDetail?.name}
-        selectedTaskUUID={selectedTaskUUID}
+        phaseList={activityDetail?.phaseName}
+        activityUUID={uuid[0]}
       />
     </>
   )

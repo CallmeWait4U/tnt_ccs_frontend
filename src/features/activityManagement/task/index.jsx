@@ -173,7 +173,7 @@ const TaskDetail = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={16}>
               <Form.Item
                 name='autoAnnounceEmp'
                 label='Tư động thông báo nhân viên:'
