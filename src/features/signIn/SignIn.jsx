@@ -79,8 +79,11 @@ const SignIn = () => {
               token: res.accessToken
             }
           }).connect()
-          navigate(`${PATH.HOME}`)
           localStorage.setItem(LOCAL_STORAGE_ITEM.TOKEN, res.accessToken)
+          if (res.type === 'CUSTOMER') {
+            navigate(`${PATH.CUSTOME_URL.HOME}`)
+          }
+          navigate(`${PATH.HOME}`)
         }
         setLoading(false)
       },
@@ -191,7 +194,7 @@ const SignIn = () => {
               </Form.Item>
               <Form.Item style={{ marginBottom: '0px' }}>
                 <div style={styles.footer}>
-                  <a href=''>Quên mật khẩu</a>
+                  <a href='#'>Quên mật khẩu</a>
                 </div>
               </Form.Item>
             </Form>

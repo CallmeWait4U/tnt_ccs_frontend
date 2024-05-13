@@ -46,14 +46,17 @@ export const useCreateProduct = async (data) => {
       throw error
     })
 }
-export const useUpdateProduct = async (id, data) => {
+export const useUpdateProduct = async (data) => {
   try {
-    const response = await api.put(`${BASE_URL}/products/${id}`, data)
+    const uuid = data.get('uuid')
+    const response = await api.put(`${BASE_URL}/products/${uuid}`, data)
     return response
   } catch (error) {
+    console.log(error)
     throw error
   }
 }
+
 export const useDeleteProduct = async (id) => {
   try {
     const response = await api.delete(`${BASE_URL}/products/${id}`)

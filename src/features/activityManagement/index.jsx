@@ -8,7 +8,8 @@ import {
   Form,
   Input,
   Row,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useState } from 'react'
@@ -41,6 +42,7 @@ const ActivityManagement = () => {
     mutationFn: useCreateActivity,
     onSuccess: () => {
       console.log('success create activity')
+      message.success('Thêm mới hoạt động thành công')
       setIsOpen(false)
       refetch()
     }
@@ -49,6 +51,7 @@ const ActivityManagement = () => {
     mutationFn: useDeleteActivity,
     onSuccess: () => {
       console.log('success delete activity')
+      message.success('Xóa hoạt động thành công')
       refetch()
     }
   })
@@ -93,6 +96,7 @@ const ActivityManagement = () => {
   const colDefs = [
     {
       headerName: 'STT',
+      field: 'index',
       valueGetter: (p) => Number(p.node?.rowIndex) + skip + 1,
       minWidth: 120,
       width: 120,
@@ -356,10 +360,9 @@ const ActivityManagement = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <Row>
+            <Row className='infoActivity'>
               <Col span={24}>
                 <Form.Item
-                  className={'customHorizontal'}
                   label='Giai đoạn'
                   name={'phases'}
                   rules={[
@@ -370,7 +373,7 @@ const ActivityManagement = () => {
                   ]}
                 >
                   <Checkbox.Group>
-                    {phaseOption?.items.map((item) => (
+                    {phaseOption?.items?.map((item) => (
                       <Checkbox value={item.uuid}>{item.name}</Checkbox>
                     ))}
                   </Checkbox.Group>

@@ -1,26 +1,54 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Typography,
+  Upload,
+  message
+} from 'antd'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCreateProduct } from '../../../api/Admin/product'
+import { PATH } from '../../../contants/common'
 import '../productManagement.css'
 const NewProduct = () => {
   const { Title } = Typography
-  const { mutate: mutateCreate } = useMutation({ mutationFn: useCreateProduct })
+  const navigate = useNavigate()
+  const { mutate: createProduct } = useMutation({
+    mutationFn: useCreateProduct,
+    onSuccess: () => {
+      console.log('Create product success')
+      message.success('Tạo sản phẩm thành công')
+      navigate(`${PATH.PRODUCT}`)
+    }
+  })
+  const [fileList, setFileList] = useState([])
 
-  const handleFormSubmit = async (values) => {
-    console.log('values', values)
-    mutateCreate(values, {
-      onSuccess: (data) => {
-        console.log('success', data)
-      },
-      onError: (error) => {
-        console.log('error', error)
-      }
-    })
+  const handleFileChange = ({ fileList }) => {
+    setFileList(fileList)
   }
-
+  const onCreateProduct = (values) => {
+    const formData = new FormData()
+    formData.append('name', values.name)
+    formData.append('code', values.code)
+    formData.append('price', values.price)
+    formData.append('description', values.description)
+    formData.append('unit', values.unit)
+    formData.append('features', values.features)
+    formData.append('quantity', values.quantity)
+    fileList.forEach((file) => {
+      formData.append('images', file)
+    })
+    createProduct(formData)
+  }
   return (
     <div>
-      <Form className='tabled' onFinish={handleFormSubmit}>
+      <Form className='tabled' onFinish={onCreateProduct}>
         <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
           <Col md={20}>
             <Title
@@ -47,7 +75,7 @@ const NewProduct = () => {
                   size={40}
                   htmlType='submit'
                 >
-                  Lưu
+                  Tạo
                 </Button>
               </Flex>
             </Flex>
@@ -67,7 +95,7 @@ const NewProduct = () => {
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productName'
+                name='name'
                 label='Tên Sản phẩm'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
@@ -77,7 +105,7 @@ const NewProduct = () => {
             <Col span={8}>
               <Form.Item
                 className='customHorizontal'
-                name='productCode'
+                name='code'
                 label='Mã Sản phẩm'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
@@ -125,7 +153,7 @@ const NewProduct = () => {
               >
                 <Input.TextArea
                   placeholder='Nhập mô tả'
-                  style={{ height: 220 }}
+                  style={{ height: 140 }}
                 />
               </Form.Item>
             </Col>
@@ -139,8 +167,25 @@ const NewProduct = () => {
               >
                 <Input.TextArea
                   placeholder='Nhập ghi chú'
-                  style={{ height: 80 }}
+                  style={{ height: 60 }}
                 />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                className='customHorizontal'
+                label='Tải ảnh lên'
+                name='images'
+              >
+                <Upload
+                  fileList={fileList}
+                  onChange={handleFileChange}
+                  beforeUpload={() => false}
+                >
+                  <Button>Tải lên</Button>
+                </Upload>
               </Form.Item>
             </Col>
           </Row>

@@ -1,15 +1,9 @@
-import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
 import ClientQuoteDetail from '../../features/clientScreen/quoteManagement/detailQuote'
 
 const ClientQuoteDetailPage = () => {
-  const location = useLocation()
-  const getCode = () => {
-    return location.pathname.split('/')[3]
-  }
-
   return (
     <Main
       role={ROLE.CUSTOMER}

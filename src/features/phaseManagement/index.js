@@ -120,7 +120,7 @@ const PhaseManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
+      minWidth: 100,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'number'
@@ -129,7 +129,7 @@ const PhaseManagement = () => {
     {
       headerName: 'TÊN GIAI ĐOẠN',
       field: 'name',
-      minWidth: 400,
+      minWidth: 200,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -138,7 +138,11 @@ const PhaseManagement = () => {
     {
       headerName: 'SỐ LƯỢNG KHÁCH HÀNG',
       field: 'customersNumber',
-      minWidth: 250,
+      minWidth: 100,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'number'
@@ -150,7 +154,7 @@ const PhaseManagement = () => {
       valueGetter: (p) =>
         p.data.description === '' ? 'Không có mô tả' : p.data.description,
       maxWidth: 900,
-      minWidth: 600,
+      minWidth: 350,
       wrapText: true,
       autoHeight: true,
       filter: AgGridCustomTextFilter,
@@ -228,6 +232,7 @@ const PhaseManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(`${PATH.PHASE}/${params.data.uuid}`)
