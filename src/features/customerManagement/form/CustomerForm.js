@@ -8,7 +8,8 @@ import {
   Row,
   Switch,
   Table,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -27,10 +28,14 @@ const CustomerForm = () => {
   const { data: phaseOptions } = useGetPhaseList()
   const [form] = Form.useForm()
   const { mutate: mutateCreate } = useMutation({
-    mutationFn: useCreateCustomer
+    mutationFn: useCreateCustomer,
+    onSuccess: () => {
+      console.log('Create customer success')
+      message.success('Tạo khách hàng thành công')
+    }
   })
   const onFinish = (values) => {
-    mutateCreate(values)
+    mutateCreate({ ...values, employeeUUIDs: [] })
   }
   const phaseList = phaseOptions?.items.map((item) => {
     return { value: item.uuid, label: item.name }
@@ -667,7 +672,7 @@ const CustomerForm = () => {
                       </Col>
                     </Row>
                   </Card>
-                  <Card
+                  {/* <Card
                     title='Nhân viên phụ trách'
                     style={{ marginTop: '16px' }}
                   >
@@ -684,7 +689,7 @@ const CustomerForm = () => {
                     >
                       Thêm nhân viên
                     </Button>
-                  </Card>
+                  </Card> */}
                 </Col>
                 <Col xl={12}>
                   <Card
