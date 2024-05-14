@@ -21,7 +21,7 @@ const useRegister = async (data) => {
 }
 const useSignOut = async () => {
   try {
-    const response = await api.post(`${BASE_URL}/signout`)
+    const response = await api.post(`${BASE_URL}/auth/sign-out`)
     return response.data
   } catch (error) {
     throw error

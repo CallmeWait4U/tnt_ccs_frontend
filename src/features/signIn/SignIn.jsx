@@ -74,7 +74,7 @@ const SignIn = () => {
         if (res.accessToken) {
           message.success('Đăng nhập thành công')
           setLoading(false)
-          io('http://localhost:4001', {
+          io('http://172.16.3.189:3001', {
             auth: {
               token: res.accessToken
             }
@@ -82,8 +82,9 @@ const SignIn = () => {
           localStorage.setItem(LOCAL_STORAGE_ITEM.TOKEN, res.accessToken)
           if (res.type === 'CUSTOMER') {
             navigate(`${PATH.CUSTOME_URL.HOME}`)
+          } else {
+            navigate(`${PATH.HOME}`)
           }
-          navigate(`${PATH.HOME}`)
         }
         setLoading(false)
       },
