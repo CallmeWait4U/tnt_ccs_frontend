@@ -35,7 +35,7 @@ const CompanyHome = () => {
             size={24}
             onClick={() =>
               navigate(
-                `${PATH.ACTIVITY}/'cf3ce732-a95f-484e-baa7-ccb672374e21'/task/${data.uuid}`
+                `${PATH.ACTIVITY}/${data.activityUUID}/task/${data.uuid}`
               )
             }
           />
