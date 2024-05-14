@@ -9,10 +9,11 @@ import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 const Header = ({ name }) => {
   const { data: profile } = useGetProfile()
   useEffect(() => window.scrollTo(0, 0))
+  const domain = window.location.pathname.split('/')[1]
   const navigate = useNavigate()
   const onSignout = () => {
     localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
-    navigate(`${PATH.SIGNIN}`)
+    navigate(`/${domain + PATH.SIGNIN}`)
   }
   const handleProfile = () => {
     if (profile?.type === 'CUSTOMER') {

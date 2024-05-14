@@ -11,7 +11,6 @@ import {
   FiUsers
 } from 'react-icons/fi'
 import { NavLink } from 'react-router-dom'
-import { useDomain } from '../../App'
 import logo from '../../assets/images/logo.jpg'
 import { PATH, ROLE } from '../../contants/common'
 
@@ -40,7 +39,7 @@ const Sidenav = ({ keySideNav, role }) => {
       setOpenKeys(keys)
     }
   }
-  const domain = useDomain()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const menuItemsForAdmin = [
     getItem(
       <NavLink to={domain + PATH.CUSTOMER} replace>

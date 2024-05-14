@@ -1,17 +1,18 @@
 import { jwtDecode } from 'jwt-decode'
 import { Navigate } from 'react-router-dom'
 
+import { Spin } from 'antd'
 import { useListComapny } from '../api/company'
 import { LOCAL_STORAGE_ITEM, PATH } from '../contants/common'
 import HomePage from '../pages/HomePage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 const CompanyRoute = () => {
-  const { data: listCompany } = useListComapny()
+  const { data: listCompany, isLoading } = useListComapny()
   const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
   const domainFromToken = token ? '/' + jwtDecode(token)?.domain : ''
   const path = window.location.pathname
-
+  if (isLoading) return <Spin spinning={isLoading} fullscreen />
   if (
     !listCompany ||
     listCompany.total === 0 ||
