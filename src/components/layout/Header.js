@@ -1,19 +1,37 @@
 import { useEffect } from 'react'
 
-import { Avatar, Badge, Col, Divider, Dropdown, Row } from 'antd'
-import { FiBell, FiChevronDown } from 'react-icons/fi'
+import { useMutation } from '@tanstack/react-query'
+import {
+  Avatar,
+  Badge,
+  Col,
+  Divider,
+  Dropdown,
+  Row,
+  Select,
+  message
+} from 'antd'
+import { FiChevronDown } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useGetProfile } from '../../api/Admin/profile'
+import { useSignOut } from '../../api/auth'
 import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
-
 const Header = ({ name }) => {
   const { data: profile } = useGetProfile()
-  useEffect(() => window.scrollTo(0, 0))
   const domain = '/' + window.location.pathname.split('/')[1]
+  const { mutate: signOut } = useMutation({
+    mutationFn: useSignOut,
+    onSuccess: () => {
+      localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
+      message.success('Đăng xuất thành công')
+      navigate(`${domain + PATH.SIGNIN}`)
+    }
+  })
+  useEffect(() => window.scrollTo(0, 0))
+
   const navigate = useNavigate()
   const onSignout = () => {
-    localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
-    navigate(`${domain + PATH.SIGNIN}`)
+    signOut()
   }
   const handleProfile = () => {
     if (profile?.type === 'CUSTOMER') {
@@ -64,17 +82,9 @@ const Header = ({ name }) => {
             style={{ height: '20px', margin: '0 10px' }}
           />
           <Badge size='small' count={4}>
-            <Dropdown trigger={['click']}>
-              <a
-                href='#pablo'
-                className='ant-dropdown-link'
-                onClick={(e) => e.preventDefault()}
-              >
-                <Avatar size={'small'}>
-                  <FiBell stroke='black' />
-                </Avatar>
-              </a>
-            </Dropdown>
+            <Select
+              options={[{ value: 'sample', label: <div>Notification</div> }]}
+            />
           </Badge>
         </Col>
       </Row>

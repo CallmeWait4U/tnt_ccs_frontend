@@ -75,7 +75,7 @@ const SignIn = () => {
         if (res.accessToken) {
           message.success('Đăng nhập thành công')
           setLoading(false)
-          io('http://localhost:4001', {
+          io('http://172.16.3.189:3001', {
             auth: {
               token: res.accessToken
             }
@@ -84,7 +84,6 @@ const SignIn = () => {
           if (res.type === 'CUSTOMER') {
             navigate(`/${domain + PATH.CUSTOME_URL.HOME}`)
           }
-          const navLink = `${domain + PATH.HOME}`
           navigate(`/${domain + PATH.HOME}`, { replace: true })
         }
         setLoading(false)

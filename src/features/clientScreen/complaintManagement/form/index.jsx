@@ -53,8 +53,7 @@ const ChildrenComponent = ({ uuid }) => {
       formData.append('status', 'PENDING')
       formData.append('typeComplaintUUID', uuid)
       formData.append('sentDate', sentDate)
-      formData.append('billUUID', 'ec6bea58-8362-4483-9685-b0065f43e370')
-      formData.append('customerUUID', '08bce84d-8e57-4d56-9148-07894fc04c1f')
+      formData.append('billUUID', '')
 
       detailType?.listOfField.forEach((field) => {
         switch (field.name) {
