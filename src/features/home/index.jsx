@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
-import { useGetHomePage } from '../../api/Admin/profile'
+import { useGetHomePage, useGetProfile } from '../../api/Admin/profile'
 import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
@@ -21,7 +21,7 @@ const CompanyHome = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const { data: HomePageData } = useGetHomePage(skip, take)
-
+  const { data: profile } = useGetProfile()
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -152,7 +152,7 @@ const CompanyHome = () => {
             }}
           >
             {' '}
-            Xin chào, Xuân Lâm Trần!
+            Xin chào, {profile?.name}!
           </Title>
         </Col>
       </Row>

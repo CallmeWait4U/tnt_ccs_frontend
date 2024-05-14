@@ -56,7 +56,7 @@ export const LOCAL_STORAGE_ITEM = Object.freeze({
   REFRESH_TOKEN: 'tnt.refresh_token'
 })
 export const ROLE = Object.freeze({
-  ADMIN: 'admin',
-  EMPLOYEE: 'employee',
-  CUSTOMER: 'customer'
+  ADMIN: 'ADMIN',
+  EMPLOYEE: 'EMPLOYEE',
+  CUSTOMER: 'CUSTOMER'
 })
