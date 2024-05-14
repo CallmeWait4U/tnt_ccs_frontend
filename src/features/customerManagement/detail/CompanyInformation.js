@@ -350,15 +350,7 @@ const CompanyInformation = (id) => {
                       }
                     ]}
                   >
-                    <StyledSelect
-                      placeholder='Chọn quận/huyện'
-                      options={[
-                        { value: 1, label: 'Quận 1' },
-                        { value: 2, label: 'Quận 2' },
-                        { value: 3, label: 'Quận 3' }
-                      ]}
-                      disabled={!isUpdate}
-                    />
+                    <Input disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -373,15 +365,7 @@ const CompanyInformation = (id) => {
                       }
                     ]}
                   >
-                    <StyledSelect
-                      placeholder='Chọn tỉnh/thành phố'
-                      options={[
-                        { value: 1, label: 'Hồ Chí Minh' },
-                        { value: 2, label: 'Bình Định' },
-                        { value: 3, label: 'Bến Tre' }
-                      ]}
-                      disabled={!isUpdate}
-                    />
+                    <Input disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
               </Row>

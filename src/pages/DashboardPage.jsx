@@ -8,10 +8,10 @@ const DashboardPage = () => {
       role={ROLE.ADMIN}
       pageProps={{
         keySideNav: 'dashboard',
-        namePage: 'Báo cáo - thống kê',
+        namePage: 'Thống kê',
         breadcumbItems: [
           { title: 'Trang chủ', path: '/' },
-          { title: 'Báo cáo - thống kê' }
+          { title: 'Thống kê' }
         ]
       }}
     >

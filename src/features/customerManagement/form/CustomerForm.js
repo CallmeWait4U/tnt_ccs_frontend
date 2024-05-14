@@ -11,7 +11,8 @@ import {
   Typography,
   message
 } from 'antd'
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useCreateCustomer, useGetPhaseList } from '../../../api/Admin/customer'
@@ -22,8 +23,8 @@ const CustomerForm = () => {
   const [isBusiness, setTypeBusiness] = useState(true)
   const [phase, setPhase] = useState(1)
   const [source, setSource] = useState(1)
-  // const [provinces, setProvinces] = useState([])
-  // const [districts, setDistricts] = useState([])
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
   const [hasAccount, setHasAccount] = useState('')
   const { data: phaseOptions } = useGetPhaseList()
   const [form] = Form.useForm()
@@ -40,21 +41,35 @@ const CustomerForm = () => {
   const phaseList = phaseOptions?.items.map((item) => {
     return { value: item.uuid, label: item.name }
   })
-  // useEffect(() => {
-  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-  //     const provincesData = []
-  //     data.data.forEach((item) => {
-  //       provincesData.push({
-  //         label: item.name,
-  //         value: item.code,
-  //         districts: item.districts.map((district) => {
-  //           return { name: district.name, code: district.code }
-  //         })
-  //       })
-  //     })
-  //     setProvinces(provincesData)
-  //   })
-  // }, [])
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
 
   const layout = {
     labelCol: {
@@ -486,12 +501,8 @@ const CustomerForm = () => {
                           ]}
                         >
                           <StyledSelect
-                            placeholder='Chọn quận/huyện'
-                            options={[
-                              { value: 'Quận 1', label: 'Quận 1' },
-                              { value: 'Quận 2', label: 'Quận 2' },
-                              { value: 'Quận 10', label: 'Quận 10' }
-                            ]}
+                            placeholder='Chọn quận huyện'
+                            options={districts}
                           />
                         </Form.Item>
                       </Col>
@@ -508,13 +519,9 @@ const CustomerForm = () => {
                           ]}
                         >
                           <StyledSelect
-                            placeholder='Chọn tỉnh/thành phố'
-                            options={[
-                              { value: 1, label: 'Hồ Chí Minh' },
-                              { value: 2, label: 'Hà Nội' },
-                              { value: 3, label: 'Đà Nẵng' }
-                            ]}
-                            // onChange={onChangeProvince}
+                            placeholder='Chọn thành phố'
+                            options={cities}
+                            onChange={handleCityChange}
                           />
                         </Form.Item>
                       </Col>
@@ -625,7 +632,7 @@ const CustomerForm = () => {
                           <Input />
                         </Form.Item>
                       </Col>
-                      <Col xl={8}>
+                      <Col span={8}>
                         <Form.Item
                           className='customHorizontal customAddress'
                           label={' '}
@@ -638,16 +645,12 @@ const CustomerForm = () => {
                           ]}
                         >
                           <StyledSelect
-                            placeholder='Chọn quận/huyện'
-                            options={[
-                              { value: 'Quận 1', label: 'Quận 1' },
-                              { value: 'Quận 2', label: 'Quận 2' },
-                              { value: 'Quận 10', label: 'Quận 10' }
-                            ]}
+                            placeholder='Chọn quận huyện'
+                            options={districts}
                           />
                         </Form.Item>
                       </Col>
-                      <Col xl={8}>
+                      <Col span={8}>
                         <Form.Item
                           className='customHorizontal customAddress'
                           label={' '}
@@ -660,13 +663,9 @@ const CustomerForm = () => {
                           ]}
                         >
                           <StyledSelect
-                            placeholder='Chọn tỉnh/thành phố'
-                            options={[
-                              { value: 1, label: 'Hồ Chí Minh' },
-                              { value: 2, label: 'Hà Nội' },
-                              { value: 3, label: 'Đà Nẵng' }
-                            ]}
-                            // onChange={onChangeProvince}
+                            placeholder='Chọn thành phố'
+                            options={cities}
+                            onChange={handleCityChange}
                           />
                         </Form.Item>
                       </Col>

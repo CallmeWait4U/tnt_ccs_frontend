@@ -175,7 +175,7 @@ const ClientComplaintManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.CUSTOME_URL.NEWCOMPLAINT}`)}
+              onClick={() => navigate(`/cola${PATH.CUSTOME_URL.NEWCOMPLAINT}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
