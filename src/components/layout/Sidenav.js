@@ -190,7 +190,11 @@ const Sidenav = ({ keySideNav, role }) => {
       <div className='border-b-2 border-slate-300 p-4'>
         <a
           className='flex flex-row items-center'
-          href={role === 'admin' ? PATH.HOME : PATH.CUSTOME_URL.HOME}
+          href={
+            role === 'admin'
+              ? `${domain + PATH.HOME}`
+              : `${domain + PATH.CUSTOME_URL.HOME}`
+          }
         >
           <img src={logo} alt='logo' width={60} />
           <h1 className='font-bold text-black p-2 pl-4 text-2xl'>TNT CCS</h1>

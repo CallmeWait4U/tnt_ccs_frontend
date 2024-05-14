@@ -20,6 +20,7 @@ const ClientComplaintManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataComplaint } = useGetComplaint(skip, take)
@@ -49,7 +50,9 @@ const ClientComplaintManagement = () => {
             size={24}
             onClick={() =>
               navigate(
-                `${PATH.CUSTOME_URL.COMPLAINT}/${data.uuid}&${data.code}`,
+                `${domain + PATH.CUSTOME_URL.COMPLAINT}/${data.uuid}&${
+                  data.code
+                }`,
                 {
                   state: data
                 }
@@ -175,7 +178,9 @@ const ClientComplaintManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.CUSTOME_URL.NEWCOMPLAINT}`)}
+              onClick={() =>
+                navigate(`${domain + PATH.CUSTOME_URL.NEWCOMPLAINT}`)
+              }
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -213,7 +218,9 @@ const ClientComplaintManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(row) =>
                     navigate(
-                      `${PATH.CUSTOME_URL.COMPLAINT}/${row.data.uuid}&${row.data.code}`,
+                      `${domain + PATH.CUSTOME_URL.COMPLAINT}/${
+                        row.data.uuid
+                      }&${row.data.code}`,
                       {
                         state: row.data
                       }

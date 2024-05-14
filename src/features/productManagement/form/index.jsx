@@ -19,12 +19,13 @@ import '../productManagement.css'
 const NewProduct = () => {
   const { Title } = Typography
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { mutate: createProduct } = useMutation({
     mutationFn: useCreateProduct,
     onSuccess: () => {
       console.log('Create product success')
       message.success('Tạo sản phẩm thành công')
-      navigate(`${PATH.PRODUCT}`)
+      navigate(`${domain + PATH.PRODUCT}`)
     }
   })
   const [fileList, setFileList] = useState([])

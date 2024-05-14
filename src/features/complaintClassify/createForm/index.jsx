@@ -5,10 +5,12 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateComplaintType } from '../../../api/Admin/complaint'
 import { ButtonOk } from '../../../assets/styles/button.style'
+import { PATH } from '../../../contants/common'
 
 const { Option } = Select
 const NewComplaintType = () => {
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const [form] = Form.useForm()
   const [listOfField, setListOfField] = useState([])
   const { Title } = Typography
@@ -16,7 +18,7 @@ const NewComplaintType = () => {
     mutationFn: useCreateComplaintType,
     onSuccess: () => {
       console.log('Create complaint type successfully')
-      navigate('/complaint-classify')
+      navigate(`${domain + PATH.COMPLAINTCLASSIFY}`)
     },
     onError: (error) => {
       console.log('Create complaint type failed', error)

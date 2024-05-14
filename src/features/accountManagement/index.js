@@ -21,6 +21,7 @@ import CustomToggleButton from '../component/CustomToggleButton'
 const AccountManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const domain = '/' + window.location.pathname.split('/')[1]
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -62,7 +63,7 @@ const AccountManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${PATH.ACCOUNT}/${data.uuid}&${data.code}`)
+              navigate(`${domain + PATH.ACCOUNT}/${data.uuid}&${data.code}`)
             }}
           />
         </Button>
@@ -99,7 +100,7 @@ const AccountManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${PATH.ACCOUNT}/${data.uuid}&${data.code}`)
+              navigate(`${domain + PATH.ACCOUNT}/${data.uuid}&${data.code}`)
             }}
           />
         </Button>
@@ -417,7 +418,7 @@ const AccountManagement = () => {
               <ButtonOk
                 type='primary'
                 icon={<FiPlus />}
-                onClick={() => navigate(`${PATH.NEWACCOUNT}`)}
+                onClick={() => navigate(`${domain + PATH.NEWACCOUNT}`)}
                 style={{ fontSize: '14px', width: '120px', height: '42px' }}
               >
                 Thêm mới
@@ -477,7 +478,9 @@ const AccountManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.ACCOUNT}/${params.data.uuid}&${params.data.code}`
+                      `${domain + PATH.ACCOUNT}/${params.data.uuid}&${
+                        params.data.code
+                      }`
                     )
                   }}
                 />

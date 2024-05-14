@@ -28,6 +28,7 @@ const ClientQuoteManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [tag, setTag] = useState('Báo giá')
@@ -39,10 +40,12 @@ const ClientQuoteManagement = () => {
 
   const navigateDetail = (data, type) => {
     if (type === 'quote') {
-      navigate(`${PATH.CUSTOME_URL.QUOTE}/${data.uuid}`, { state: data.uuid })
+      navigate(`${domain + PATH.CUSTOME_URL.QUOTE}/${data.uuid}`, {
+        state: data.uuid
+      })
     }
     if (type === 'quoteRequest') {
-      navigate(`${PATH.CUSTOME_URL.QUOTEREQUEST}/${data.uuid}`, {
+      navigate(`${domain + PATH.CUSTOME_URL.QUOTEREQUEST}/${data.uuid}`, {
         state: data.uuid
       })
     }
@@ -358,7 +361,9 @@ const ClientQuoteManagement = () => {
                     selectedRow={(rows) => setSelectedRowKeys(rows)}
                     refetchData={refetch}
                     onDoubleClicked={(rows) =>
-                      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
+                      navigate(`${domain + PATH.CUSTOME_URL.QUOTE}/1`, {
+                        state: rows
+                      })
                     }
                   />
                 )}
@@ -373,7 +378,9 @@ const ClientQuoteManagement = () => {
                     refetchData={refetchPriceQuote}
                     selectedRow={(rows) => setSelectedRowKeys(rows)}
                     onDoubleClicked={(rows) =>
-                      navigate(`${PATH.CUSTOME_URL.QUOTE}/1`, { state: rows })
+                      navigate(`${domain + PATH.CUSTOME_URL.QUOTE}/1`, {
+                        state: rows
+                      })
                     }
                   />
                 )}

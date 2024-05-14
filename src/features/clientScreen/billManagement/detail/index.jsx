@@ -14,6 +14,7 @@ const ClientBillDetail = () => {
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { data: billInfo } = useReadBill(uuid)
   const { Title } = Typography
   const [form] = Form.useForm()
@@ -80,7 +81,7 @@ const ClientBillDetail = () => {
             className='cancelComplainBtn'
             style={{ fontSize: '14px', height: '42px', background: '#F43F5E' }}
             onClick={() =>
-              navigate(`${PATH.CUSTOME_URL.NEWCOMPLAINT}`, {
+              navigate(`${domain + PATH.CUSTOME_URL.NEWCOMPLAINT}`, {
                 state: billInfo
               })
             }

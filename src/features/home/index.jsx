@@ -18,6 +18,7 @@ import { PATH } from '../../contants/common'
 const CompanyHome = () => {
   const { Title } = Typography
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const { data: HomePageData } = useGetHomePage(skip, take)
@@ -35,7 +36,9 @@ const CompanyHome = () => {
             size={24}
             onClick={() =>
               navigate(
-                `${PATH.ACTIVITY}/'cf3ce732-a95f-484e-baa7-ccb672374e21'/task/${data.uuid}`
+                `${
+                  domain + PATH.ACTIVITY
+                }/'cf3ce732-a95f-484e-baa7-ccb672374e21'/task/${data.uuid}`
               )
             }
           />

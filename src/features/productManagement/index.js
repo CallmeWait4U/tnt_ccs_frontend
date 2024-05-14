@@ -17,6 +17,7 @@ const ProductManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataProduct, refetch } = useListProduct(skip, take)
@@ -43,7 +44,7 @@ const ProductManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.PRODUCT}/${data.uuid}&${data.code}`)
+              navigate(`${domain + PATH.PRODUCT}/${data.uuid}&${data.code}`)
             }
           />
         </Button>
@@ -173,7 +174,7 @@ const ProductManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWPRODUCT}`)}
+              onClick={() => navigate(`${domain + PATH.NEWPRODUCT}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -212,7 +213,9 @@ const ProductManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.PRODUCT}/${params.data.uuid}&${params.data.code}`
+                      `${domain + PATH.PRODUCT}/${params.data.uuid}&${
+                        params.data.code
+                      }`
                     )
                   }}
                   refetchData={refetch}
