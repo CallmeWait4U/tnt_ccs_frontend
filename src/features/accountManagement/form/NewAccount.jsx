@@ -1,19 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
-import {
-  Card,
-  Checkbox,
-  Col,
-  Collapse,
-  Flex,
-  Form,
-  Input,
-  Row,
-  Typography
-} from 'antd'
+import { Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { useCreateAccount } from '../../../api/Admin/account'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import '../accountManagement.css'
+
 const NewAccount = () => {
   const { Title } = Typography
   const mutation = useMutation({
@@ -22,131 +15,38 @@ const NewAccount = () => {
   const handleSubmit = (values) => {
     mutation.mutate(values)
   }
-  const items = [
-    {
-      key: 'customerManagement',
-      label: <Title level={5}>Quyền quản lý khách hàng</Title>,
-      children: (
-        <Row gutter={16}>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Khách Hàng</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Chính sửa Khách Hàng</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Khách Hàng</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Báo Giá</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Báo Giá</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Báo Giá</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Hóa Đơn</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Hóa Đơn</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Hóa Đơn</Checkbox>
-          </Col>
-        </Row>
-      )
-    },
-    {
-      key: 'activityManagement',
-      label: <Title level={5}>Quyền quản lý hoạt động</Title>,
-      children: (
-        <Row gutter={16}>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Hoạt Động</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Loại Hoạt Động</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Hoạt Động</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Hoạt Động</Checkbox>
-          </Col>
-        </Row>
-      )
-    },
-    {
-      key: 'organizationManagement',
-      label: <Title level={5}>Quyền quản lý tổ chức</Title>,
-      children: (
-        <Row gutter={16}>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Tài Khoản</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Tài Khoản</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Chỉnh sửa Tài Khoản</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Tài Khoản</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Sản Phẩm</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Sản Phẩm</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Chỉnh Sửa Sản Phẩm</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Sản Phẩm</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Giai Đoạn</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Giai Đoạn</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Giai Đoạn</Checkbox>
-          </Col>
-        </Row>
-      )
-    },
-    {
-      key: 'complaintManagement',
-      label: <Title level={5}>Quyền quản lý khiếu nại</Title>,
-      children: (
-        <Row gutter={16}>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Khiếu Nại</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Khiếu Nại</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xem Chi Tiết Loại Khiếu Nại</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Tạo Loại Khiếu Nại</Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox>Xóa Loại Khiếu Nại</Checkbox>
-          </Col>
-        </Row>
-      )
-    }
-  ]
-
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
+  const [form] = Form.useForm()
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
   return (
     <Form layout='vertical' className='tabled' onFinish={handleSubmit}>
       <Row gutter={16} style={{ marginBottom: '14px' }}>
@@ -338,12 +238,8 @@ const NewAccount = () => {
                     ]}
                   >
                     <StyledSelect
-                      placeholder='Chọn quận/huyện'
-                      options={[
-                        { value: 'Quận 1', label: 'Quận 1' },
-                        { value: 'Quận 2', label: 'Quận 2' },
-                        { value: 'Quận 3', label: 'Quận 3' }
-                      ]}
+                      placeholder='Chọn quận huyện'
+                      options={districts}
                     />
                   </Form.Item>
                 </Col>
@@ -360,12 +256,9 @@ const NewAccount = () => {
                     ]}
                   >
                     <StyledSelect
-                      placeholder='Chọn tỉnh/thành phố'
-                      options={[
-                        { value: 1, label: 'Hồ Chí Minh' },
-                        { value: 2, label: 'Bình Định' },
-                        { value: 3, label: 'Bến Tre' }
-                      ]}
+                      placeholder='Chọn thành phố'
+                      options={cities}
+                      onChange={handleCityChange}
                     />
                   </Form.Item>
                 </Col>
@@ -376,12 +269,6 @@ const NewAccount = () => {
                     <Input.TextArea />
                   </Form.Item>
                 </Col>
-              </Row>
-            </Card>
-          </Col>
-          <Col span={10} xl={12}>
-            <Card>
-              <Row>
                 <Col span={12}>
                   <Form.Item
                     label='Loại tài khoản'
@@ -402,12 +289,6 @@ const NewAccount = () => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
-                <Title level={5}>Danh sách quyền</Title>
-              </Row>
-              <Card>
-                <Collapse items={items} defaultActiveKey={['1']} />
-              </Card>
             </Card>
           </Col>
         </Row>

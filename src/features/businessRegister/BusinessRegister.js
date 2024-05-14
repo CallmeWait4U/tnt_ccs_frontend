@@ -11,14 +11,15 @@ import {
 } from 'antd'
 import { Form } from 'antd/lib'
 import Card from 'antd/lib/card/Card'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // Đường dẫn đến hình ảnh logo
 import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useRegister } from '../../api/auth'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
-import { StyledDatepicker } from '../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../component/ComponentOfForm'
 import '../customerManagement/detail/DetailCustomer.css'
 const { Header, Content, Footer } = Layout
 const BusinessRegister = () => {
@@ -44,6 +45,38 @@ const BusinessRegister = () => {
       }
     }
   })
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
+  const [form] = Form.useForm()
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
   const handleFinish = (values) => {
     console.log(values)
     setDomain(values.domain)
@@ -204,30 +237,37 @@ const BusinessRegister = () => {
                       <Form.Item
                         className='customHorizontal customAddress'
                         label={' '}
+                        name={'district'}
                         rules={[
                           {
                             required: true,
                             message: 'Yêu cầu thông tin'
                           }
                         ]}
-                        name={'district'}
                       >
-                        <Input />
+                        <StyledSelect
+                          placeholder='Chọn quận huyện'
+                          options={districts}
+                        />
                       </Form.Item>
                     </Col>
                     <Col span={8}>
                       <Form.Item
                         className='customHorizontal customAddress'
                         label={' '}
+                        name={'city'}
                         rules={[
                           {
                             required: true,
                             message: 'Yêu cầu thông tin'
                           }
                         ]}
-                        name={'city'}
                       >
-                        <Input />
+                        <StyledSelect
+                          placeholder='Chọn thành phố'
+                          options={cities}
+                          onChange={handleCityChange}
+                        />
                       </Form.Item>
                     </Col>
                   </Row>
