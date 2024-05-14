@@ -1,7 +1,9 @@
 import { Button, Col, Image, Layout, Row, theme } from 'antd'
 import React from 'react'
 // Đường dẫn đến hình ảnh logo
+import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
+import { PATH } from '../../contants/common'
 
 const { Header, Content, Footer } = Layout
 
@@ -9,6 +11,7 @@ const LandingPage = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
+  const navigate = useNavigate()
   return (
     <Layout
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
@@ -33,7 +36,12 @@ const LandingPage = () => {
           <Button style={{ marginRight: '16px' }} danger>
             Về chúng tôi
           </Button>
-          <Button style={{ background: '#7364FF', color: 'white' }}>
+          <Button
+            style={{ background: '#7364FF', color: 'white' }}
+            onClick={() => {
+              navigate(`${PATH.BUSSINESSREGISTER}`)
+            }}
+          >
             Đăng kí
           </Button>
         </div>
@@ -76,8 +84,11 @@ const LandingPage = () => {
                   color: 'white',
                   fontSize: 20
                 }}
+                onClick={() => {
+                  navigate(`${PATH.BUSSINESSREGISTER}`)
+                }}
               >
-                Đăng ký{' '}
+                Đăng ký
               </Button>
             </div>
           </Col>
