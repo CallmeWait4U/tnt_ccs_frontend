@@ -32,7 +32,7 @@ const LandingPage = () => {
           <img src={logo} alt='Logo' style={{ width: '40px' }} />
           <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
-        <div style={{ paddingRight: '20px' }}>
+        <div style={{ paddingRight: '20px', display: 'flex' }}>
           <Button style={{ marginRight: '16px' }} danger>
             Về chúng tôi
           </Button>

@@ -14,6 +14,7 @@ import Card from 'antd/lib/card/Card'
 import React, { useEffect, useState } from 'react'
 // Đường dẫn đến hình ảnh logo
 import { useMutation } from '@tanstack/react-query'
+import { notification } from 'antd'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useRegister } from '../../api/auth'
@@ -27,16 +28,26 @@ const BusinessRegister = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
-  const navigate = useNavigate()
+
   const { Title } = Typography
   const [domain, setDomain] = useState('')
+  const navigate = useNavigate()
+
+  const openNotification = () => {
+    notification.open({
+      type: 'success',
+      message: 'Create account success!',
+      description:
+        "Check your email to get your company's domain . Thank you for choosing us!"
+    })
+  }
   const { mutate: register } = useMutation({
     mutationFn: useRegister,
     onSuccess: () => {
       console.log('Register success')
       message.success('Tạo thành công')
       setErrorMessage(false)
-      navigate(`${domain}/${PATH.SIGNIN}`)
+      openNotification()
     },
     onError: (error) => {
       console.log(error.response.data.message)
@@ -112,7 +123,10 @@ const BusinessRegister = () => {
           <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px' }}>
-          <Button style={{ background: '#7364FF', color: 'white' }}>
+          <Button
+            style={{ background: '#7364FF', color: 'white' }}
+            onClick={() => navigate(PATH.LANDINGPAGE)}
+          >
             Trang chủ
           </Button>
         </div>
@@ -414,7 +428,6 @@ const BusinessRegister = () => {
                   }}
                   htmlType='submit'
                 >
-                  {' '}
                   Tạo tài khoản
                 </Button>
               </Col>
