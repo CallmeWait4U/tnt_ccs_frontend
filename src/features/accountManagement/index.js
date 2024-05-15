@@ -475,6 +475,7 @@ const AccountManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(

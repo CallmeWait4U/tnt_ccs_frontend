@@ -184,6 +184,7 @@ const ClientBillManagement = () => {
                   skip={skip}
                   take={take}
                   setTake={setTake}
+                  setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(rows) =>
                     navigate(
