@@ -30,6 +30,7 @@ const BusinessRegister = () => {
   } = theme.useToken()
 
   const { Title } = Typography
+  // eslint-disable-next-line no-unused-vars
   const [domain, setDomain] = useState('')
   const navigate = useNavigate()
 
