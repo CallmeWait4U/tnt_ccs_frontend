@@ -1,13 +1,13 @@
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 import Main from '../components/layout/Main'
 import { PATH, ROLE } from '../contants/common'
 import ActivityDetail from '../features/activityManagement/detail'
 
 const ActivityDetailPage = () => {
-  const location = useLocation()
-  const getCode = () => {
-    return location.pathname.split('/')[2]
-  }
+  // const location = useLocation()
+  // const getCode = () => {
+  //   return location.pathname.split('/')[2]
+  // }
 
   return (
     <Main

@@ -34,7 +34,7 @@ const ActivityDetail = () => {
   const domain = '/' + window.location.pathname.split('/')[1]
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
   const { data: activityDetail } = useReadActivity(uuid[0])
   const { data: tasks } = useGetAllTasks(skip, take, uuid[0])

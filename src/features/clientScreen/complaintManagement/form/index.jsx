@@ -196,6 +196,7 @@ const ChildrenComponent = ({ uuid }) => {
 const ClientNewComplaint = () => {
   const [selectedOption, setSelectedOption] = useState(null)
   const [hasBill, setHasBill] = useState(false)
+  const [complaintList, setComplaintList] = useState([])
   const location = useLocation()
   const params = location.state
   useEffect(() => {
@@ -205,10 +206,16 @@ const ClientNewComplaint = () => {
   }, [params])
   const { Title } = Typography
   const { data: typeComplaint } = useGetTypeComplaint()
-  const typeComplaintOptions = typeComplaint?.item?.map((item) => ({
-    value: item.uuid,
-    label: item.name
-  }))
+
+  useEffect(() => {
+    if (typeComplaint) {
+      const typeComplaintOptions = typeComplaint?.item?.map((item) => ({
+        value: item.uuid,
+        label: item.name
+      }))
+      setComplaintList(typeComplaintOptions)
+    }
+  }, [typeComplaint])
   const handleSelectChange = (value) => {
     console.log(value)
     setSelectedOption(value)
@@ -246,7 +253,7 @@ const ClientNewComplaint = () => {
         <Row gutter={16}>
           <Col span={8} offset={1}>
             <StyledSelect
-              options={typeComplaintOptions}
+              options={complaintList}
               placeholder='Chọn loại yêu cầu'
               onChange={handleSelectChange}
             />

@@ -24,7 +24,7 @@ const TaskDetail = () => {
   const [showCreateEmailModal, setShowCreateEmailModal] = useState(false)
   const { Title } = Typography
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[4]
+  const paramsString = location.pathname.split('/')[5]
   const uuid = paramsString.split('&')
   const { data: taskDetail } = useReadTask(uuid[0])
   const [fileList, setFileList] = useState([])

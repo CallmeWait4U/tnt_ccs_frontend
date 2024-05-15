@@ -30,6 +30,7 @@ const ClientQuoteManagement = () => {
   const navigate = useNavigate()
   const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
+  // eslint-disable-next-line no-unused-vars
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [tag, setTag] = useState('Báo giá')
   const optionTags = ['Báo giá', 'Yêu cầu báo giá']

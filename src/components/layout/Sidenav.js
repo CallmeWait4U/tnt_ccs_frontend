@@ -1,5 +1,5 @@
 import { Menu } from 'antd'
-import { useState } from 'react'
+// import { useState } from 'react'
 import {
   FiAlertCircle,
   FiFileMinus,
@@ -28,17 +28,17 @@ const Sidenav = ({ keySideNav, role }) => {
     }
   }
 
-  const rootSubmenuKeys = ['organization', 'complain']
-  const [openKeys, setOpenKeys] = useState(['organization'])
+  // const rootSubmenuKeys = ['organization', 'complain']
+  // const [openKeys, setOpenKeys] = useState(['organization'])
 
-  const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
-    if (rootSubmenuKeys.indexOf(latestOpenKey) !== -1) {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
-    } else {
-      setOpenKeys(keys)
-    }
-  }
+  // const onOpenChange = (keys) => {
+  //   const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+  //   if (rootSubmenuKeys.indexOf(latestOpenKey) !== -1) {
+  //     setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
+  //   } else {
+  //     setOpenKeys(keys)
+  //   }
+  // }
   const domain = '/' + window.location.pathname.split('/')[1]
   const menuItemsForAdmin = [
     getItem(
@@ -191,9 +191,9 @@ const Sidenav = ({ keySideNav, role }) => {
         <a
           className='flex flex-row items-center'
           href={
-            role === 'admin'
-              ? `${domain + PATH.HOME}`
-              : `${domain + PATH.CUSTOME_URL.HOME}`
+            role === 'CUSTOMER'
+              ? `${domain + PATH.CUSTOME_URL.HOME}`
+              : `${domain + PATH.HOME}`
           }
         >
           <img src={logo} alt='logo' width={60} />

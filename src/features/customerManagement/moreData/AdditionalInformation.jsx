@@ -27,11 +27,6 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
   const { Title } = Typography
   const [form] = Form.useForm()
 
-  const data = [
-    { code: 'HT-0001', date: '23-11-2023', status: 'Đã gửi' },
-    { code: 'HT-0001', date: '23-11-2023', status: 'Đã gửi' }
-  ]
-
   const columns = [
     {
       title: 'Tên Nhân viên',
@@ -90,7 +85,7 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
         phoneNumber: customerInfo.representativePhone
       })
     }
-  }, [customerInfo])
+  }, [customerInfo, form])
   const layout = {
     labelCol: {
       span: 8

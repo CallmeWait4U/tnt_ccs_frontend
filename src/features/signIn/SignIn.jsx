@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { Form, Grid, Image, Input, Layout, message, theme } from 'antd'
+import { Button, Form, Grid, Image, Input, Layout, message, theme } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import Card from 'antd/lib/card/Card'
 import React, { useState } from 'react'
@@ -83,15 +83,15 @@ const SignIn = () => {
           localStorage.setItem(LOCAL_STORAGE_ITEM.TOKEN, res.accessToken)
           if (res.type === 'CUSTOMER') {
             navigate(`/${domain + PATH.CUSTOME_URL.HOME}`)
+          } else {
+            navigate(`/${domain + PATH.HOME}`, { replace: true })
           }
-          navigate(`/${domain + PATH.HOME}`, { replace: true })
         }
         setLoading(false)
       },
       onError: (err) => {
-        let msg = err?.message
         console.log('Error sigin', err)
-        message.error(msg || 'Đăng nhập thất bại')
+        message.error('Đăng nhập thất bại')
         setLoading(false)
       }
     })
@@ -193,9 +193,15 @@ const SignIn = () => {
                   Đăng nhập
                 </ButtonOk>
               </Form.Item>
-              <Form.Item style={{ marginBottom: '0px' }}>
-                <div style={styles.footer}>
-                  <a href='#'>Quên mật khẩu</a>
+              <Form.Item
+                style={{
+                  display: 'flex',
+                  marginBottom: '0px',
+                  justifyContent: 'center'
+                }}
+              >
+                <div>
+                  <Button>Quên mật khẩu</Button>
                 </div>
               </Form.Item>
             </Form>

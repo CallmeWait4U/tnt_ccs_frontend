@@ -21,7 +21,7 @@ const ProductDetail = () => {
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
   const [fileList, setFileList] = useState([])
   const { data: productInfo, refetch } = useReadProduct(uuid[0])

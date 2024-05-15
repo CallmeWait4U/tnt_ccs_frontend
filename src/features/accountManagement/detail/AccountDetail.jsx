@@ -11,7 +11,7 @@ const AccountDetail = () => {
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
   const { data: account } = useReadAccount(uuid[0])
   const { mutate: mutateUpdate } = useMutation({

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+// import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -16,10 +16,10 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import { useListCustomer } from '../../../api/Admin/customer'
-import { message } from 'antd'
+// import { message } from 'antd'
 import { AiOutlineCheck } from 'react-icons/ai'
 import {
-  useCreateTask,
+  // useCreateTask,
   useListCustomerWithPhase
 } from '../../../api/Admin/activity'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
@@ -45,14 +45,15 @@ const ActivityDetailForm = ({
     take,
     searchModel
   )
+  // eslint-disable-next-line no-unused-vars
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const { mutate: createTask } = useMutation({
-    mutationFn: useCreateTask,
-    onSuccess: () => {
-      console.log('Create task success')
-      message.success('Tạo nhiệm vụ thành công')
-    }
-  })
+  // const { mutate: createTask } = useMutation({
+  //   mutationFn: useCreateTask,
+  //   onSuccess: () => {
+  //     console.log('Create task success')
+  //     message.success('Tạo nhiệm vụ thành công')
+  //   }
+  // })
   useEffect(() => {
     if (phaseList) {
       setSearchModel({
