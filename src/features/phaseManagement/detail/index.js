@@ -23,9 +23,8 @@ const PhaseDetail = () => {
 
   const { Title } = Typography
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
-  const [messageApi, contextHolder] = message.useMessage()
   const { data: phase } = useReadPhase(uuid[0])
   const { mutate: mutateUpdate } = useMutation({
     mutationFn: useUpdatePhase,

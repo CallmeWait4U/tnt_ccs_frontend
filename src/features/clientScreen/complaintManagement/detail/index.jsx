@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useReadComplaint } from '../../../../api/Customer/complaint'
 import { ButtonOk } from '../../../../assets/styles/button.style'
@@ -22,13 +22,13 @@ import {
 import '../complaintManagement.css'
 const ClientComplaintDetail = () => {
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[3]
+  const paramsString = location.pathname.split('/')[4]
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const { data: ComplaintData } = useReadComplaint(uuid)
   const [form] = Form.useForm()
   const { Title } = Typography
-  const [isUpdate, setIsUpdate] = useState(false)
+  // const [isUpdate, setIsUpdate] = useState(false)
 
   useEffect(() => {
     if (ComplaintData) {
@@ -185,17 +185,17 @@ const ClientComplaintDetail = () => {
           <Row gutter={16}>
             <Col span={4} offset={1}>
               <Form.Item name='type' label='Loại khiếu nại'>
-                <Input disabled={!isUpdate} />
+                <Input disabled={true} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='date' label='Ngày gửi'>
-                <StyledDatepicker disabled={!isUpdate} />
+                <StyledDatepicker disabled={true} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='code' label='Mã hóa đơn'>
-                <Input disabled={!isUpdate} />
+                <Input disabled={true} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -207,7 +207,7 @@ const ClientComplaintDetail = () => {
                     { value: 'SOLVED', label: 'Đã xử lí' },
                     { value: 'REPROCESS', label: 'Xử lý lại' }
                   ]}
-                  disabled={!isUpdate}
+                  disabled={true}
                 />
               </Form.Item>
             </Col>
