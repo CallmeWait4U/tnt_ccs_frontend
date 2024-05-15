@@ -17,6 +17,7 @@ import {
   Typography,
   message
 } from 'antd'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   useDeleteTypeComplaint,
@@ -308,16 +309,24 @@ const ChildrenComponent = ({ uuid, refetch }) => {
 }
 const ComplaintClassifytManagement = () => {
   const { data: typeComplaint, refetch } = useGetTypeComplaint()
-
+  const [complaintList, setComplaintList] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const domain = '/' + window.location.pathname.split('/')[1]
   const navigate = useNavigate()
+  useEffect(() => {
+    if (typeComplaint) {
+      const items =
+        typeComplaint?.item?.map((complaint) => ({
+          key: complaint.uuid,
+          label: complaint.name,
+          children: (
+            <ChildrenComponent uuid={complaint.uuid} refetch={refetch()} />
+          )
+        })) || []
+      setComplaintList(items)
+    }
+  }, [typeComplaint, refetch])
 
-  const items =
-    typeComplaint?.item?.map((complaint) => ({
-      key: complaint.uuid,
-      label: complaint.name,
-      children: <ChildrenComponent uuid={complaint.uuid} refetch={refetch()} />
-    })) || []
   const { Title } = Typography
   return (
     <div className='tabled'>
@@ -336,14 +345,14 @@ const ComplaintClassifytManagement = () => {
 
               height: '42px'
             }}
-            onClick={() => navigate('/complaint-type-create')}
+            onClick={() => navigate(`${domain}/complaint-type-create`)}
           >
             Thêm loại khiếu nại
           </ButtonOk>
         </Col>
       </Row>
       <Card>
-        <Tabs type='card' defaultActiveKey='2' items={items} />
+        <Tabs type='card' defaultActiveKey='2' items={complaintList} />
       </Card>
       <NewComplaintTypeModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>

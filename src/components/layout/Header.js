@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
 
+import { UserOutlined } from '@ant-design/icons'
 import { useMutation } from '@tanstack/react-query'
 import {
-  Avatar,
-  Badge,
+  Button,
+  Card,
   Col,
-  Divider,
   Dropdown,
   Row,
-  Select,
+  Space,
+  Typography,
   message
 } from 'antd'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiBell } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useGetProfile } from '../../api/Admin/profile'
 import { useSignOut } from '../../api/auth'
@@ -19,6 +20,7 @@ import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 const Header = ({ name }) => {
   const { data: profile } = useGetProfile()
   const domain = '/' + window.location.pathname.split('/')[1]
+  const { Title } = Typography
   const { mutate: signOut } = useMutation({
     mutationFn: useSignOut,
     onSuccess: () => {
@@ -51,41 +53,58 @@ const Header = ({ name }) => {
       onClick: onSignout
     }
   ]
+  const noti = [
+    {
+      label: (
+        <Card>
+          <Title level={5}>Thông báo 1</Title> <Row>Nội dung thông báo 1</Row>
+        </Card>
+      ),
+      value: '1'
+    },
+    {
+      label: (
+        <Card>
+          <Title level={5}>Thông báo 2</Title> <Row>Nội dung thông báo 2</Row>
+        </Card>
+      ),
+      value: '2'
+    }
+  ]
   return (
     <>
       <Row gutter={[24, 0]}>
-        <Col span={24} md={16}>
-          <div className='ant-page-header-heading'>
-            <p
-              style={{ fontSize: 22, fontWeight: 'bold', paddingLeft: '20px' }}
-            >
-              {name}
-            </p>
-          </div>
+        <Col span={18}>
+          <p style={{ fontSize: 22, fontWeight: 'bold', paddingLeft: '20px' }}>
+            {name}
+          </p>
         </Col>
 
-        <Col span={24} md={8} className='header-control'>
-          <div
-            className='btn-sign-in'
-            style={{ display: 'flex', gap: '5px', alignItems: 'center' }}
-          >
-            <Avatar size='small' src='' />
-
-            <span>{profile?.name}</span>
-
-            <Dropdown menu={{ items }} trigger={['click']}>
-              <FiChevronDown />
-            </Dropdown>
-          </div>
-          <Divider
-            type='vertical'
-            style={{ height: '20px', margin: '0 10px' }}
-          />
-          <Badge size='small' count={4}>
-            <Select
-              options={[{ value: 'sample', label: <div>Notification</div> }]}
-            />
-          </Badge>
+        <Col span={6}>
+          <Row justify='end'>
+            <Col className='pr-2'>
+              <Dropdown
+                menu={{ items: noti }}
+                trigger={['click']}
+                placement='bottomLeft'
+              >
+                <Button>
+                  <Space>
+                    <FiBell />
+                  </Space>
+                </Button>
+              </Dropdown>
+            </Col>
+            <Col>
+              <Dropdown.Button
+                menu={{ items }}
+                trigger={['click']}
+                icon={<UserOutlined />}
+              >
+                <span>{profile?.name}</span>
+              </Dropdown.Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>
