@@ -1,14 +1,14 @@
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 import { PATH, ROLE } from '../../contants/common'
 
 import Main from '../../components/layout/Main'
 import ClientComplaintDetail from '../../features/clientScreen/complaintManagement/detail'
 
 const ClientComplaintDetailPage = () => {
-  const location = useLocation()
-  const getCode = () => {
-    return location.pathname.split('/')[2]
-  }
+  // const location = useLocation()
+  // const getCode = () => {
+  //   return location.pathname.split('/')[2]
+  // }
 
   return (
     <Main

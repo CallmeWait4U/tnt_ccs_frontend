@@ -22,7 +22,7 @@ const CustomerDetail = () => {
   const [isShowActivityForm, setIsShowActivityForm] = useState(false)
   const { Title } = Typography
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const paramsArray = paramsString.split('&')
   const isBusiness = paramsArray[0]
   const uuid = paramsArray[1]

@@ -10,7 +10,7 @@ import { StyledDatepicker } from '../../../component/ComponentOfForm'
 
 const ClientBillDetail = () => {
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[3]
+  const paramsString = location.pathname.split('/')[4]
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const navigate = useNavigate()

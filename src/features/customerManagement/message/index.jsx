@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row } from 'antd'
 import React, { useState } from 'react'
 import { Button, Input, MessageList } from 'react-chat-elements'
 import { useGetMessage, useSendMessage } from '../../../api/Customer/chat'
 
 const MessageBox = (uuid) => {
-  const { Title } = Typography
+  // const { Title } = Typography
   const { data: messageList, refetch } = useGetMessage()
   const { mutate: sendMessage } = useMutation({
     mutationFn: useSendMessage,

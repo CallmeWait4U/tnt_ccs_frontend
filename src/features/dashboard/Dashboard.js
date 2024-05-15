@@ -65,6 +65,7 @@ const Dashboard = () => {
       }))
       setChartData3(transformedData)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerFollowingSource])
   useEffect(() => {
     if (customerByLocation) {

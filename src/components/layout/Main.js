@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Affix, Layout } from 'antd'
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -10,12 +11,11 @@ const { Header: AntHeader, Content, Sider } = Layout
 
 const Main = ({ children, pageProps, role }) => {
   const [visible, setVisible] = useState(false)
-  const [placement, setPlacement] = useState('right')
+  // const [placement, setPlacement] = useState('right')
   const [sidenavColor, setSidenavColor] = useState('#1890ff')
   const [sidenavType, setSidenavType] = useState('transparent')
 
   const { keySideNav, namePage, breadcumbItems } = pageProps
-
   const openDrawer = () => setVisible(!visible)
   const handleSidenavType = (type) => setSidenavType(type)
   const handleSidenavColor = (color) => setSidenavColor(color)
@@ -25,7 +25,7 @@ const Main = ({ children, pageProps, role }) => {
   document.title = namePage
 
   return (
-    <Layout className={`layout-dashboard ${role}`}>
+    <Layout className={`layout-dashboard ${role.toLowerCase()}`}>
       <Sider
         breakpoint='lg'
         collapsedWidth='0'

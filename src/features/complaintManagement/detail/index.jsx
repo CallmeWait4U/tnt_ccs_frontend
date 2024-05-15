@@ -29,15 +29,14 @@ import {
 import '../complaintManagement.css'
 const ComplaintDetail = () => {
   const location = useLocation()
-  const paramsString = location.pathname.split('/')[2]
+  const paramsString = location.pathname.split('/')[3]
   const paramsArray = paramsString.split('&')
   const uuid = paramsArray[0]
   const { data: ComplaintData } = useReadComplaint(uuid)
   const { data: ComplaintActivity } = useGetComplaintActivity(uuid)
-  console.log(ComplaintActivity)
   const [form] = Form.useForm()
   const { Title } = Typography
-  const [isUpdate, setIsUpdate] = useState(false)
+  // const [isUpdate, setIsUpdate] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -189,10 +188,10 @@ const ComplaintDetail = () => {
     }
   }
   const addRow = () => {
-    const maxIndex = dataTable.reduce(
-      (max, item) => (item.index > max ? item.index : max),
-      0
-    )
+    // const maxIndex = dataTable.reduce(
+    //   (max, item) => (item.index > max ? item.index : max),
+    //   0
+    // )
     const newItem = {}
 
     setDataTable([...dataTable, newItem])
@@ -244,17 +243,17 @@ const ComplaintDetail = () => {
           <Row gutter={16}>
             <Col span={4} offset={1}>
               <Form.Item name='type' label='Loại khiếu nại'>
-                <Input disabled={!isUpdate} />
+                <Input disabled={false} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='date' label='Ngày gửi'>
-                <StyledDatepicker disabled={!isUpdate} />
+                <StyledDatepicker disabled={false} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
               <Form.Item name='code' label='Mã hóa đơn'>
-                <Input disabled={!isUpdate} />
+                <Input disabled={false} />
               </Form.Item>
             </Col>
             <Col span={4} offset={2}>
@@ -266,7 +265,7 @@ const ComplaintDetail = () => {
                     { value: 'SOLVED', label: 'Đã xử lí' },
                     { value: 'REPROCESS', label: 'Xử lý lại' }
                   ]}
-                  disabled={!isUpdate}
+                  disabled={false}
                 />
               </Form.Item>
             </Col>
@@ -282,10 +281,7 @@ const ComplaintDetail = () => {
                       name='name'
                       label='Tên khách hàng'
                     >
-                      <Input
-                        placeholder='Tên khách hàng'
-                        disabled={!isUpdate}
-                      />
+                      <Input placeholder='Tên khách hàng' disabled={false} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -296,7 +292,7 @@ const ComplaintDetail = () => {
                       name='cccd'
                       label='CCCD'
                     >
-                      <Input placeholder='Nhập CCCD' disabled={!isUpdate} />
+                      <Input placeholder='Nhập CCCD' disabled={false} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -305,7 +301,7 @@ const ComplaintDetail = () => {
                       name='email'
                       label='Email'
                     >
-                      <Input placeholder='Nhập email' disabled={!isUpdate} />
+                      <Input placeholder='Nhập email' disabled={false} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -316,7 +312,7 @@ const ComplaintDetail = () => {
                     >
                       <Input
                         placeholder='Nhập số điện thoại'
-                        disabled={!isUpdate}
+                        disabled={false}
                       />
                     </Form.Item>
                   </Col>
