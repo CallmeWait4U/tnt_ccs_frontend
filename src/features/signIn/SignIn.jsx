@@ -18,6 +18,7 @@ const { useBreakpoint } = Grid
 const SignIn = () => {
   const { token } = useToken()
   const navigate = useNavigate()
+  const domain = window.location.pathname.split('/')[1]
   const screens = useBreakpoint()
 
   const styles = {
@@ -59,7 +60,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
   const { form } = useForm()
   const { mutate } = useMutation({ mutationFn: useSignin })
-  const domain = window.location.pathname.split('/')[1]
+
   const onFinish = (values) => {
     setLoading(true)
 
@@ -81,10 +82,9 @@ const SignIn = () => {
           }).connect()
           localStorage.setItem(LOCAL_STORAGE_ITEM.TOKEN, res.accessToken)
           if (res.type === 'CUSTOMER') {
-            navigate(`${PATH.CUSTOME_URL.HOME}`)
-          } else {
-            navigate(`${PATH.HOME}`)
+            navigate(`/${domain + PATH.CUSTOME_URL.HOME}`)
           }
+          navigate(`/${domain + PATH.HOME}`, { replace: true })
         }
         setLoading(false)
       },

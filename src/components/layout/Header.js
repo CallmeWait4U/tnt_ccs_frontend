@@ -18,24 +18,26 @@ import { useSignOut } from '../../api/auth'
 import { LOCAL_STORAGE_ITEM, PATH } from '../../contants/common'
 const Header = ({ name }) => {
   const { data: profile } = useGetProfile()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { mutate: signOut } = useMutation({
     mutationFn: useSignOut,
     onSuccess: () => {
       localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
       message.success('Đăng xuất thành công')
-      navigate(`${PATH.SIGNIN}`)
+      navigate(`${domain + PATH.SIGNIN}`)
     }
   })
   useEffect(() => window.scrollTo(0, 0))
+
   const navigate = useNavigate()
   const onSignout = () => {
     signOut()
   }
   const handleProfile = () => {
     if (profile?.type === 'CUSTOMER') {
-      navigate(`${PATH.CUSTOME_URL.PROFILE}`)
+      navigate(`${domain + PATH.CUSTOME_URL.PROFILE}`)
     } else {
-      navigate(`${PATH.PROFILE}`)
+      navigate(`${domain + PATH.PROFILE}`)
     }
   }
   const items = [

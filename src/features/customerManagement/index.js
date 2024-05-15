@@ -25,6 +25,7 @@ const CustomerManagement = () => {
   const [take, setTake] = useState(10)
   const [accountType, setAccountType] = useState('allCustomer')
   const [searchModel, setSearchModel] = useState(undefined)
+  const domain = '/' + window.location.pathname.split('/')[1]
   const navigate = useNavigate()
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -104,7 +105,9 @@ const CustomerManagement = () => {
             size={24}
             onClick={() =>
               navigate(
-                `${PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}&${data.code}`
+                `${domain + PATH.CUSTOMER}/${data.isBusiness}&${data.uuid}&${
+                  data.code
+                }`
               )
             }
           />
@@ -321,7 +324,7 @@ const CustomerManagement = () => {
             <ButtonOk
               type='primary'
               icon={<FiPlus />}
-              onClick={() => navigate(`${PATH.NEWCUSTOMER}`)}
+              onClick={() => navigate(`${domain + PATH.NEWCUSTOMER}`)}
               style={{ fontSize: '14px', width: '120px', height: '42px' }}
             >
               Thêm mới
@@ -386,7 +389,9 @@ const CustomerManagement = () => {
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
                     navigate(
-                      `${PATH.CUSTOMER}/${params.data.isBusiness}&${params.data.uuid}&${params.data.code}`
+                      `${domain + PATH.CUSTOMER}/${params.data.isBusiness}&${
+                        params.data.uuid
+                      }&${params.data.code}`
                     )
                   }}
                   refetchData={

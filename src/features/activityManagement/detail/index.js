@@ -31,6 +31,7 @@ const ActivityDetail = () => {
   const [take, setTake] = useState(10)
   const { Title } = Typography
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const location = useLocation()
   const paramsString = location.pathname.split('/')[2]
@@ -100,7 +101,7 @@ const ActivityDetail = () => {
             color='#00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.ACTIVITY}/${uuid}/task/${data.uuid}`)
+              navigate(`${domain + PATH.ACTIVITY}/${uuid}/task/${data.uuid}`)
             }
           />
         </Button>

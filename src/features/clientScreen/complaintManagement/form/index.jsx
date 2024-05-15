@@ -28,11 +28,12 @@ const ChildrenComponent = ({ uuid }) => {
   const [form] = Form.useForm()
   const { data: detailType } = useGetDetailType(uuid)
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { mutate: createComplaint } = useMutation({
     mutationFn: useCreateComplaint,
     onSuccess: () => {
       console.log('Create complaint success')
-      navigate(`${PATH.CUSTOME_URL.COMPLAINT}`)
+      navigate(`${domain + PATH.CUSTOME_URL.COMPLAINT}`)
     }
   })
 

@@ -17,6 +17,7 @@ const ClientBillManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: billData } = useListBill(skip, take)
@@ -29,7 +30,7 @@ const ClientBillManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${PATH.CUSTOME_URL.BILL}/${data.uuid}`)
+              navigate(`${domain + PATH.CUSTOME_URL.BILL}/${data.uuid}`)
             }}
           />
         </Button>
@@ -185,7 +186,9 @@ const ClientBillManagement = () => {
                   setTake={setTake}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(rows) =>
-                    navigate(`${PATH.CUSTOME_URL.BILL}/${rows.data.uuid}`)
+                    navigate(
+                      `${domain + PATH.CUSTOME_URL.BILL}/${rows.data.uuid}`
+                    )
                   }
                 />
               </div>

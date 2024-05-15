@@ -25,6 +25,7 @@ const PhaseManagement = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [form] = Form.useForm()
   const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [errorMessage, setErrorMessage] = useState(false)
@@ -89,7 +90,7 @@ const PhaseManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.PHASE}/${data.uuid}`)}
+            onClick={() => navigate(`${domain + PATH.PHASE}/${data.uuid}`)}
           />
         </Button>
       </div>
@@ -235,7 +236,7 @@ const PhaseManagement = () => {
                   setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.PHASE}/${params.data.uuid}`)
+                    navigate(`${domain + PATH.PHASE}/${params.data.uuid}`)
                   }}
                 />
               </div>

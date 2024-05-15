@@ -33,6 +33,7 @@ const ActivityManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const domain = '/' + window.location.pathname.split('/')[1]
   const navigate = useNavigate()
   const { Title } = Typography
   const [form] = Form.useForm()
@@ -86,7 +87,7 @@ const ActivityManagement = () => {
           <RiInformationFill
             color='00AEEF'
             size={24}
-            onClick={() => navigate(`${PATH.ACTIVITY}/${data.uuid}`)}
+            onClick={() => navigate(`${domain + PATH.ACTIVITY}/${data.uuid}`)}
           />
         </Button>
       </div>
@@ -266,7 +267,7 @@ const ActivityManagement = () => {
                   setSkip={setSkip}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   onDoubleClicked={(params) => {
-                    navigate(`${PATH.ACTIVITY}/${params.data.uuid}`)
+                    navigate(`${domain + PATH.ACTIVITY}/${params.data.uuid}`)
                   }}
                 />
               </div>
