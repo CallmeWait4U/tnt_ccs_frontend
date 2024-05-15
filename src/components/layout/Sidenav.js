@@ -210,7 +210,7 @@ const Sidenav = ({ keySideNav, role }) => {
           defaultSelectedKeys={[keySideNav]}
           defaultOpenKeys={[openKey]}
           mode='inline'
-          items={role === 'admin' ? menuItems : menuItemsForCustomer}
+          items={menuItems}
         />
       </div>
     </>

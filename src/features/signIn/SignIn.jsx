@@ -67,7 +67,7 @@ const SignIn = () => {
     const data = {
       username: values.username,
       password: values.password,
-      domain: domain
+      domain: 'cocolala'
     }
 
     mutate(data, {
@@ -75,7 +75,7 @@ const SignIn = () => {
         if (res.accessToken) {
           message.success('Đăng nhập thành công')
           setLoading(false)
-          io('http://172.16.3.189:3001', {
+          io('http://localhost:3001', {
             auth: {
               token: res.accessToken
             }

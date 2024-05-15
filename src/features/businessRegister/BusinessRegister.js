@@ -1,14 +1,25 @@
-import { Alert, Button, Col, Input, Layout, Row, message, theme } from 'antd'
+import {
+  Alert,
+  Button,
+  Col,
+  Input,
+  Layout,
+  Row,
+  Typography,
+  message,
+  theme
+} from 'antd'
 import { Form } from 'antd/lib'
 import Card from 'antd/lib/card/Card'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // Đường dẫn đến hình ảnh logo
 import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useRegister } from '../../api/auth'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
-import { StyledDatepicker } from '../component/ComponentOfForm'
+import { StyledDatepicker, StyledSelect } from '../component/ComponentOfForm'
 import '../customerManagement/detail/DetailCustomer.css'
 const { Header, Content, Footer } = Layout
 const BusinessRegister = () => {
@@ -17,13 +28,15 @@ const BusinessRegister = () => {
     token: { colorBgContainer }
   } = theme.useToken()
   const navigate = useNavigate()
+  const { Title } = Typography
+  const [domain, setDomain] = useState('')
   const { mutate: register } = useMutation({
     mutationFn: useRegister,
     onSuccess: () => {
       console.log('Register success')
       message.success('Tạo thành công')
       setErrorMessage(false)
-      setTimeout(navigate(`${PATH.SIGNIN}`), 2000)
+      navigate(`${domain}/${PATH.SIGNIN}`)
     },
     onError: (error) => {
       console.log(error.response.data.message)
@@ -32,8 +45,41 @@ const BusinessRegister = () => {
       }
     }
   })
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
+  const [form] = Form.useForm()
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
   const handleFinish = (values) => {
     console.log(values)
+    setDomain(values.domain)
     register(values)
   }
   return (
@@ -42,8 +88,7 @@ const BusinessRegister = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#E1E5F4',
-        overflow: 'hidden'
+        backgroundColor: '#E1E5F4'
       }}
     >
       <Header
@@ -78,259 +123,284 @@ const BusinessRegister = () => {
           justifyContent: 'center',
           padding: '10px',
           alignContent: 'center',
-          overflow: 'auto'
+          maxHeight: '85vh'
         }}
       >
-        <Card style={{ width: '80vw' }}>
-          <Form layout='vertical' onFinish={handleFinish}>
-            <Row gutter={16} className='detailCustomer'>
+        <Card
+          style={{
+            width: '80vw',
+            overflowY: 'auto'
+          }}
+        >
+          <Title level={2} style={{ textAlign: 'center' }}>
+            Đăng ký thông tin doanh nghiệp
+          </Title>
+          <Form
+            className='detailCustomer'
+            layout='vertical'
+            onFinish={handleFinish}
+          >
+            <Row gutter={[16, 16]}>
               <Col span={12}>
-                <Form.Item
-                  label={'Tên doanh nghiệp'}
-                  name={'tenantName'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label={'Họ và tên'}
-                  name={'name'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Mã số thuế'}
-                  name={'taxCode'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label={'Ngày sinh'} name={'dayOfBirth'}>
-                  <StyledDatepicker />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Mã số đăng ký kinh doanh'}
-                  name={'businessRegistrationNumber'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label={'Số Căn Cước công dân'}
-                  name={'cccd'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Quốc gia'}
-                  name={'country'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
+                <Card title='Thông tin người đại diện'>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Họ và tên'}
+                        name={'name'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Số Căn Cước công dân'}
+                        name={'cccd'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Email'}
+                        name={'email'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
 
-              <Col span={12}>
-                <Form.Item
-                  label={'Số điện thoại'}
-                  name={'phoneNumber'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Lĩnh vực kinh doanh'}
-                  name={'businessIndustry'}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label={'Email'}
-                  name={'email'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Tên đăng nhập'}
-                  name={'username'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item
-                  label={'Địa chỉ'}
-                  name={'addressDetail'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item
-                  className='customHorizontal customAddress'
-                  label={' '}
-                  name={'district'}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item
-                  className='customHorizontal customAddress'
-                  label={' '}
-                  name={'city'}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              {/* <Col span={12}>
-                <Form.Item
-                  label={'Vùng kinh doanh'}
-                  name={'businessNationality'}
-                >
-                  <Input />
-                </Form.Item>
-              </Col> */}
-              <Col span={12}>
-                <Form.Item
-                  label={'Mật khẩu'}
-                  name={'password'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input type='password' />
-                </Form.Item>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Số điện thoại'}
+                        name={'phoneNumber'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Mã số thuế'}
+                        name={'taxCode'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label={'Ngày sinh'} name={'dayOfBirth'}>
+                        <StyledDatepicker />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={8}>
+                      <Form.Item
+                        label={'Địa chỉ'}
+                        name={'addressDetail'}
+                        className='customHorizontal customDetailAddress'
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item
+                        className='customHorizontal customAddress'
+                        label={' '}
+                        name={'district'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <StyledSelect
+                          placeholder='Chọn quận huyện'
+                          options={districts}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item
+                        className='customHorizontal customAddress'
+                        label={' '}
+                        name={'city'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <StyledSelect
+                          placeholder='Chọn thành phố'
+                          options={cities}
+                          onChange={handleCityChange}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Card>
               </Col>
               <Col span={12}>
-                <Form.Item
-                  label={'Domain'}
-                  name={'domain'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label={'Nhập lại mật khẩu'}
-                  name={'passwordConfirm'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <Input type='password' />
-                </Form.Item>
+                <Card title='Thông tin doanh nghiệp'>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Tên doanh nghiệp'}
+                        name={'tenantName'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Quốc gia'}
+                        name={'country'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Lĩnh vực kinh doanh'}
+                        name={'businessIndustry'}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Mã số đăng ký kinh doanh'}
+                        name={'businessRegistrationNumber'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Tên đăng nhập'}
+                        name={'username'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Domain'}
+                        name={'domain'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Mật khẩu'}
+                        name={'password'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input type='password' />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={'Nhập lại mật khẩu'}
+                        name={'passwordConfirm'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Yêu cầu thông tin'
+                          }
+                        ]}
+                      >
+                        <Input type='password' />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Card>
               </Col>
             </Row>
             {errorMessage && (
               <Alert message='Tên domain đã tồn tại' type='error' showIcon />
             )}
-            <Row gutter={16}>
+            <Row gutter={16} style={{ paddingTop: '24px' }}>
               <Col
                 span={24}
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-
                   alignItems: 'flex-end'
                 }}
               >
