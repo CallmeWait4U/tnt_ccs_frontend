@@ -241,6 +241,12 @@ const CustomerManagement = () => {
         field: 'employees',
         onInputChange: (inputValue) =>
           handleFilterInputChange(inputValue, 'employees')
+      },
+      valueGetter: (params) => {
+        if (params.data.employees) {
+          return params.data.employees.map((employee) => employee.name).join()
+        }
+        return ''
       }
     },
     {

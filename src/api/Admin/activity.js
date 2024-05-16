@@ -145,3 +145,11 @@ export const useListCustomerWithPhase = (offset, limit, searchModel) => {
     enabled: !!searchModel
   })
 }
+export const useUpdateTask = async (data) => {
+  try {
+    const response = await api.post(`${BASE_URL}/activities/tasks/update`, data)
+    return response
+  } catch (error) {
+    throw error
+  }
+}
