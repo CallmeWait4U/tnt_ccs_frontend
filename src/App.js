@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './assets/styles/main.css'
 import './assets/styles/responsive.css'
 import { LOCAL_STORAGE_ITEM } from './contants/common'
+import NotFoundPage from './pages/NotFoundPage'
 import routesLayout from './routes'
 
 // Tạo một context để lưu trữ domain
@@ -30,6 +31,7 @@ const App = () => {
       <Router>
         <QueryClientProvider client={queryClient}>
           <Routes>
+            <Route key='unknown' path='*' element={<NotFoundPage />} />
             {routesLayout.map((route, index) => (
               <Route
                 key={index}
