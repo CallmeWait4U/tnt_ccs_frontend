@@ -36,3 +36,7 @@
 .infoActivity .customHorizontal.customAddress .ant-form-item-label >label::after {
     content: '';
 }
+
+.taskForm .notHasAccount button[type='button'] {
+    background-color: rgba(0,0,0,0.45);
+}

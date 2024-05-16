@@ -15,7 +15,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 import { useCreateCustomer, useGetPhaseList } from '../../../api/Admin/customer'
+import { PATH } from '../../../contants/common'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 import './form.css'
 
@@ -28,11 +30,18 @@ const CustomerForm = () => {
   const [hasAccount, setHasAccount] = useState('')
   const { data: phaseOptions } = useGetPhaseList()
   const [form] = Form.useForm()
+  const domain = '/' + window.location.pathname.split('/')[1]
+  const navigate = useNavigate()
   const { mutate: mutateCreate } = useMutation({
     mutationFn: useCreateCustomer,
     onSuccess: () => {
       console.log('Create customer success')
       message.success('Tạo khách hàng thành công')
+      navigate(domain + PATH.CUSTOMER)
+    },
+    onError: (error) => {
+      // message.error(error)
+      console.log(error)
     }
   })
   const onFinish = (values) => {
@@ -81,7 +90,12 @@ const CustomerForm = () => {
   }
 
   const onChangeAccount = (value) => {
-    setHasAccount('PENDING')
+    if (hasAccount === 'NOTAPPROVED') {
+      setHasAccount('PENDING')
+    } else {
+      setHasAccount('NOTAPPROVED')
+    }
+    console.log(hasAccount)
   }
 
   // const onChangeProvince = (value) => {
@@ -309,15 +323,13 @@ const CustomerForm = () => {
             <Col
               span={12}
               xl={8}
-              className={hasAccount ? 'hasAcount' : 'notHasAccount'}
+              className={
+                hasAccount === 'NOTAPPROVED' ? 'hasAcount' : 'notHasAccount'
+              }
             >
               {' '}
               <Form.Item label={'Tài khoản'} name={'hasAccount'}>
-                <Switch
-                  value={hasAccount}
-                  defaultChecked={false}
-                  onChange={onChangeAccount}
-                />
+                <Switch defaultChecked={false} onChange={onChangeAccount} />
               </Form.Item>
             </Col>
           </Row>

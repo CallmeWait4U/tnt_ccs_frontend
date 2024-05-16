@@ -17,6 +17,7 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useReadTask, useSendEmail } from '../../../api/Admin/activity'
+import '../activityManagement.css'
 
 const TaskDetail = () => {
   const [autoAnnounceEmp, setAutoAnnounceEmp] = useState(false)
@@ -96,7 +97,7 @@ const TaskDetail = () => {
         </Col>
       </Row>
       <Form {...layout} form={form} name='control-hooks' key={'activityForm'}>
-        <Card>
+        <Card className='taskForm'>
           <Row gutter={8}>
             <Col span={6} xl={6}>
               <Form.Item label={'Trạng thái'} name={'status'}>
@@ -177,6 +178,9 @@ const TaskDetail = () => {
               <Form.Item
                 name='autoAnnounceEmp'
                 label='Tư động thông báo nhân viên:'
+                className={
+                  autoAnnounceEmp === false ? 'hasAcount' : 'notHasAccount'
+                }
               >
                 <Switch
                   // defaultChecked={false}
@@ -190,6 +194,9 @@ const TaskDetail = () => {
               <Form.Item
                 name='autoAnnounceCus'
                 label='Tự động thông báo khách hàng:'
+                className={
+                  autoAnnounceCus === false ? 'hasAcount' : 'notHasAccount'
+                }
               >
                 <Switch
                   // defaultChecked={false}

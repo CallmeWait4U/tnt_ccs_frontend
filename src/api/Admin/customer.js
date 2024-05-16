@@ -55,8 +55,7 @@ export const useReadCustomer = (id) => {
 export const useCreateCustomer = async (data) => {
   try {
     const type = data.isBusiness ? 'business' : 'individual'
-    console.log(type)
-    console.log(data)
+    data.hasAccount = data.hasAccount ? 'PENDING' : 'NOTAPPROVED'
     const response = await api.post(
       `${BASE_URL}/customers/create/${type}`,
       data
