@@ -125,3 +125,20 @@ export const usePriceQuoteByMonth = (option) => {
     retry: 2
   })
 }
+export const useComplaint = () => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/statistic/complaints`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ComplaintStatistic'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}

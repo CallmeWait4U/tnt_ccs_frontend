@@ -27,3 +27,20 @@ export const useSendMessage = async (data) => {
     throw error
   }
 }
+export const useGetMessageByCustomer = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/chats/getChatForEmployee/${uuid}`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['GetMessageByCustomer'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}

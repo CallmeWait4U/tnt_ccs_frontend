@@ -137,12 +137,11 @@ export const useListCustomerWithPhase = (offset, limit, searchModel) => {
     }
   }
   return useQuery({
-    queryKey: ['ListCustomer'],
+    queryKey: ['ListCustomer', searchModel],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
-    retry: 2,
-    enabled: !!searchModel
+    retry: 2
   })
 }
 export const useUpdateTask = async (data) => {

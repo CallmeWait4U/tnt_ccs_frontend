@@ -22,6 +22,8 @@ const ComplaintManagement = () => {
   const { Title } = Typography
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: dataComplaint } = useGetComplaint(skip, take)
+  const domain = '/' + window.location.pathname.split('/')[1]
+
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -45,7 +47,7 @@ const ComplaintManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() =>
-              navigate(`${PATH.COMPLAINT}/${data.uuid}&${data.code}`, {
+              navigate(`${domain + PATH.COMPLAINT}/${data.uuid}&${data.code}`, {
                 state: data
               })
             }

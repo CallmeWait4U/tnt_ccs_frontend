@@ -61,7 +61,7 @@ const CustomerDetail = () => {
     {
       label: 'Khiếu nại',
       key: 'complain',
-      children: <CustomerComplaint />
+      children: <CustomerComplaint uuid={uuid} />
     },
     {
       label: 'Gửi tin nhắn',

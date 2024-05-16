@@ -1,6 +1,7 @@
-import { Card, Col, Row, Select, Typography } from 'antd'
+import { Card, Col, Row, Select, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import {
+  useComplaint,
   useCustomerByLocation,
   useCustomerFollowingSource,
   useCustomerPhaseByMonth,
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const [chartData2, setChartData2] = useState([])
   const [chartData3, setChartData3] = useState([])
   const [chartData4, setChartData4] = useState([])
+  const [chartData5, setChartData5] = useState([])
   const { data: customerPerPhase } = useGetCustomerPerPhase()
   const { data: customerFollowingSource } = useCustomerFollowingSource()
   const sourceMap = {
@@ -28,6 +30,7 @@ const Dashboard = () => {
   const { data: customerPhaseByMonth, refetch } = useCustomerPhaseByMonth(time)
   const { data: priceQuoteByMonth } = usePriceQuoteByMonth(time2)
   const { data: customerByLocation } = useCustomerByLocation()
+  const { data: complaints } = useComplaint()
   useEffect(() => {
     if (customerPhaseByMonth) {
       const transformedData = customerPhaseByMonth.items.flatMap((item) =>
@@ -76,7 +79,18 @@ const Dashboard = () => {
       setChartData4(mappedData)
     }
   }, [customerByLocation])
-
+  useEffect(() => {
+    if (complaints) {
+      const mappedData = complaints.items.flatMap((complaint) =>
+        complaint.classification.map((classification) => ({
+          typeComplaintName: complaint.typeComplaintName,
+          numComplaint: classification.numComplaint,
+          status: classification.status
+        }))
+      )
+      setChartData5(mappedData)
+    }
+  }, [complaints])
   const handleTimeChange = async (value) => {
     setTime(value)
     await refetch()
@@ -144,6 +158,14 @@ const Dashboard = () => {
       }
     }
   }
+  const chart5 = {
+    data: chartData5,
+    xField: 'typeComplaintName',
+    yField: 'numComplaint',
+    colorField: 'status',
+    group: true
+  }
+
   return (
     <>
       <Row>
@@ -174,33 +196,40 @@ const Dashboard = () => {
                   </Col>
                   <Col xs={6}>
                     {item.isIncreased ? (
-                      <div
-                        className='icon-box font-bold'
-                        style={{
-                          backgroundColor: 'limegreen',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center'
-                        }}
+                      <Tooltip
+                        title='Tăng so với tháng trước'
+                        color={'limegreen'}
                       >
-                        +
-                        {item.ratioPreviousMonth === -1
-                          ? 0
-                          : item.ratioPreviousMonth}
-                        %
-                      </div>
+                        <div
+                          className='icon-box font-bold'
+                          style={{
+                            backgroundColor: 'limegreen',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}
+                        >
+                          +
+                          {item.ratioPreviousMonth === -1
+                            ? 0
+                            : item.ratioPreviousMonth}
+                          %
+                        </div>
+                      </Tooltip>
                     ) : (
-                      <div
-                        className='icon-box font-bold'
-                        style={{
-                          backgroundColor: 'red',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center'
-                        }}
-                      >
-                        -{item.ratioPreviousMonth}%
-                      </div>
+                      <Tooltip title='Giảm so với tháng trước' color={'red'}>
+                        <div
+                          className='icon-box font-bold'
+                          style={{
+                            backgroundColor: 'red',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}
+                        >
+                          -{item.ratioPreviousMonth}%
+                        </div>
+                      </Tooltip>
                     )}
                   </Col>
                 </Row>
@@ -274,6 +303,16 @@ const Dashboard = () => {
               <Title level={5}>Khách hàng phân theo khu vực</Title>
             </div>
             <Pie {...chart4} />
+          </Card>
+        </Col>
+      </Row>
+      <Row gutter={[24, 0]}>
+        <Col span={10}>
+          <Card bordered={false}>
+            <div>
+              <Title level={5}>Số lượng khiếu nại</Title>
+            </div>
+            <Column {...chart5} />
           </Card>
         </Col>
       </Row>

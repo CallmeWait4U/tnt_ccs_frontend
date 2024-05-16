@@ -178,3 +178,41 @@ export const useGetBills = (uuid) => {
     retry: 2
   })
 }
+export const useGetTask = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/activities/tasks/allbycustomer?customerUUID=${uuid}$history=true`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListTask', uuid],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useGetComplaint = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/complaint/selector/byCustomer?customerUUID=${uuid}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListComplaint', uuid],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}

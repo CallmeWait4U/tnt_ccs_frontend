@@ -37,7 +37,7 @@ const ActivityDetail = () => {
   const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
   const { data: activityDetail } = useReadActivity(uuid[0])
-  const { data: tasks } = useGetAllTasks(skip, take, uuid[0])
+  const { data: tasks, refetch } = useGetAllTasks(skip, take, uuid[0])
   const { data: phaseList } = useGetPhaseList()
   const { mutate: activityUpdate } = useMutation({
     mutationFn: useUpdateActivity,
@@ -425,6 +425,7 @@ const ActivityDetail = () => {
                   take={take}
                   setTake={setTake}
                   setSkip={setSkip}
+                  refetchData={refetch}
                   selectedRow={(rows) => setSelectedRowKeys(rows)}
                   totalItem={tasks?.total || 0}
                   height='415px'

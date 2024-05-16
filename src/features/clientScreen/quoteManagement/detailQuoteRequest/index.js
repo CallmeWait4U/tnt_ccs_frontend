@@ -1,16 +1,37 @@
-import { Col, Form, Input, Row, Select, Table, Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import {
+  Button,
+  Col,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Select,
+  Table,
+  Typography,
+  message
+} from 'antd'
 import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useReadPriceQuoteRequest } from '../../../../api/Customer/priceQuote'
+import {
+  useReadPriceQuoteRequest,
+  useSendPriceQuoteRequest
+} from '../../../../api/Customer/priceQuote'
 import { StyledDatepicker } from '../../../component/ComponentOfForm'
-
 const ClientQuoteRequestDetail = () => {
   const { state } = useLocation()
   const { data: priceQuoteRequest } = useReadPriceQuoteRequest(state)
   const { Title } = Typography
   const [form] = Form.useForm()
+  const { mutate: sendRequest } = useMutation({
+    mutationFn: useSendPriceQuoteRequest,
+    onSuccess: () => {
+      console.log('Gửi thành công')
+      message.success('Gửi yêu cầu báo giá thành công')
+    }
+  })
   const columns = [
     {
       title: 'STT',
@@ -43,6 +64,9 @@ const ClientQuoteRequestDetail = () => {
       })
     }
   }, [form, priceQuoteRequest])
+  const handleSend = () => {
+    sendRequest({ uuid: priceQuoteRequest?.uuid })
+  }
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '14px' }}>
@@ -58,6 +82,26 @@ const ClientQuoteRequestDetail = () => {
             Chi tiết yêu cầu báo giá
           </Title>
         </Col>
+        {priceQuoteRequest?.status === 'UNSENT' && (
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            <Flex gap='small' align='flex-start' vertical>
+              <Flex gap='small' wrap='wrap'>
+                <Button
+                  style={{
+                    background: '#F58220',
+                    color: 'white',
+                    width: '80px',
+                    height: '40px'
+                  }}
+                  size={40}
+                  onClick={handleSend}
+                >
+                  Gửi
+                </Button>
+              </Flex>
+            </Flex>
+          </Col>
+        )}
       </Row>
       <div
         style={{
