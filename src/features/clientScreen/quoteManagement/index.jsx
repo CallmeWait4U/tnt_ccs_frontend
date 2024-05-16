@@ -2,11 +2,14 @@ import { Button, Card, Col, Row, Table } from 'antd'
 import React, { useState } from 'react'
 
 // Images
-import { Form, Input, Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Form, InputNumber, Typography, message } from 'antd'
 import moment from 'moment'
 import { RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import {
+  useCreatePriceQuoteRequest,
+  useGetProductList,
   useListPriceQuote,
   useListPriceQuoteRequest
 } from '../../../api/Customer/priceQuote'
@@ -16,17 +19,14 @@ import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFil
 import AgGridCustomTextFilter from '../../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import { PATH } from '../../../contants/common'
-import {
-  StyledDatepicker,
-  StyledModal,
-  StyledSelect
-} from '../../component/ComponentOfForm'
+import { StyledModal } from '../../component/ComponentOfForm'
 import CustomToggleButton from '../../component/CustomToggleButton'
 import './quoteManagement.css'
 
 const ClientQuoteManagement = () => {
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
+  const [selectedProducts, setSelectedProducts] = useState([])
   const navigate = useNavigate()
   const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
@@ -37,8 +37,15 @@ const ClientQuoteManagement = () => {
   const { data: priceQuoteData, refetch } = useListPriceQuote(skip, take)
   const { data: priceQuoteRequestData, refetch: refetchPriceQuote } =
     useListPriceQuoteRequest(skip, take)
+  const { data: productList } = useGetProductList()
   const [isOpen, setIsOpen] = useState(false)
-
+  const { mutate: createPriceQuoteRequest } = useMutation({
+    mutationFn: useCreatePriceQuoteRequest,
+    onSuccess: () => {
+      refetchPriceQuote()
+      message.success('Tạo yêu cầu báo giá thành công')
+    }
+  })
   const navigateDetail = (data, type) => {
     if (type === 'quote') {
       navigate(`${domain + PATH.CUSTOME_URL.QUOTE}/${data.uuid}`, {
@@ -257,54 +264,57 @@ const ClientQuoteManagement = () => {
       }
     }
   ]
-
+  const handleQuantityChange = (uuid, quantity) => {
+    setSelectedProducts((prevSelectedProducts) => {
+      const updatedProducts = prevSelectedProducts.filter(
+        (product) => product.uuid !== uuid
+      )
+      if (quantity > 0) {
+        updatedProducts.push({ uuid, quantity })
+      }
+      return updatedProducts
+    })
+  }
   const columnsModal = [
     {
-      key: 'name',
-      title: 'Tên sản phẩm',
-      render: (text) => <StyledSelect />
+      title: 'Sản phẩm',
+      dataIndex: 'name',
+      key: 'name'
     },
     {
-      key: 'code',
-      title: 'Mã sản phẩm',
-      render: (text) => <Input />
-    },
-    {
-      key: 'amount',
       title: 'Số lượng',
-      render: (text) => <Input />
-    },
-    {
-      key: 'price',
-      title: 'Giá tiền',
-      render: (text) => <Input />
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (_, record) => (
+        <InputNumber
+          min={1}
+          defaultValue={0}
+          onChange={(value) => handleQuantityChange(record.uuid, value)}
+        />
+      )
     }
   ]
 
-  const dataModal = [
-    {
-      key: '1',
-      name: 'John Brown',
-      code: 32,
-      amount: 'New York No. 1 Lake Park',
-      price: '100.000'
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      code: 42,
-      amount: 'London No. 1 Lake Park',
-      price: '100.000'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      code: 32,
-      amount: 'Sidney No. 1 Lake Park',
-      price: '100.000'
+  const handleSubmit1 = () => {
+    const productList = {
+      createdDate: new Date().toISOString(),
+      status: 'UNSENT',
+      sentDate: new Date().toISOString(),
+      products: selectedProducts
     }
-  ]
-
+    createPriceQuoteRequest(productList)
+    setIsOpen(false)
+  }
+  const handleSubmit2 = () => {
+    const productList = {
+      createdDate: new Date().toISOString(),
+      status: 'SENT',
+      sentDate: new Date().toISOString(),
+      products: selectedProducts
+    }
+    createPriceQuoteRequest(productList)
+    setIsOpen(false)
+  }
   return (
     <>
       <div className='tabled'>
@@ -343,7 +353,6 @@ const ClientQuoteManagement = () => {
                   options={optionTags}
                   onChange={(tag) => {
                     setTag(tag)
-                    console.log(tag)
                   }}
                 />
               }
@@ -396,7 +405,8 @@ const ClientQuoteManagement = () => {
                 style={{
                   display: 'flex',
                   gap: '5px',
-                  alignContent: 'space-between'
+                  alignContent: 'space-between',
+                  maxHeight: '70vh'
                 }}
               >
                 <div style={{ width: '90%' }}>
@@ -405,7 +415,18 @@ const ClientQuoteManagement = () => {
                 <div style={{ display: 'flex', gap: '5px' }}>
                   <Button onClick={() => setIsOpen(false)}>Hủy </Button>
 
-                  <Button style={{ background: '#F58220' }}>Tạo</Button>
+                  <Button
+                    onClick={handleSubmit1}
+                    style={{ background: '#F58220' }}
+                  >
+                    Tạo
+                  </Button>
+                  <Button
+                    onClick={handleSubmit2}
+                    style={{ background: '#F58220' }}
+                  >
+                    Tạo và gửi
+                  </Button>
                 </div>
               </div>
             }
@@ -415,29 +436,17 @@ const ClientQuoteManagement = () => {
           >
             {' '}
             <Form layout='vertical'>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Form.Item label='Mã Yêu cầu báo giá'>
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item label='Người tạo '>
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item label='Ngày tạo'>
-                    <StyledDatepicker />
-                  </Form.Item>
+              <Row>
+                <Col span={24}>
+                  <Table
+                    columns={columnsModal}
+                    dataSource={productList?.items || []}
+                    rowKey='uuid'
+                    style={{ overflow: 'auto' }}
+                  />
                 </Col>
               </Row>
             </Form>
-            <Row>
-              <Col span={24}>
-                <Table columns={columnsModal} dataSource={dataModal} />
-              </Col>
-            </Row>
           </StyledModal>
         )}
       </div>
