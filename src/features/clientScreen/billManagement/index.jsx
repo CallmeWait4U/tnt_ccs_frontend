@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, Row } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
 import React, { useState } from 'react'
 
 // Images
@@ -19,6 +19,7 @@ const ClientBillManagement = () => {
   const navigate = useNavigate()
   const domain = '/' + window.location.pathname.split('/')[1]
   const { Title } = Typography
+  // eslint-disable-next-line no-unused-vars
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { data: billData } = useListBill(skip, take)
 
@@ -159,24 +160,7 @@ const ClientBillManagement = () => {
         </Row>
         <Row gutter={[24, 0]} style={{ height: '650px' }}>
           <Col xs='24' xl={24} style={{ height: '650px' }}>
-            <Card
-              bordered={false}
-              className='criclebox tablespace mb-24'
-              extra={
-                <>
-                  <Button type='primary' danger className='customDeleteButton'>
-                    <Flex wrap='wrap' gap={3}>
-                      Xóa
-                      {selectedRowKeys.length > 0 ? (
-                        <span>({selectedRowKeys.length})</span>
-                      ) : (
-                        ''
-                      )}
-                    </Flex>
-                  </Button>
-                </>
-              }
-            >
+            <Card bordered={false} className='criclebox tablespace mb-24'>
               <div className='table-responsive'>
                 <AgGridTable
                   colDefs={colDefs}

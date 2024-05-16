@@ -75,9 +75,9 @@ export const useReadPriceQuoteRequest = (id) => {
     retry: 2
   })
 }
-export const useCreatePriceQuote = async (data) => {
+export const useCreatePriceQuoteRequest = async (data) => {
   return api
-    .post(`${BASE_URL}/price-quotess`, data)
+    .post(`${BASE_URL}/price-quote-requests`, data)
     .then((response) => response.data)
     .catch((error) => {
       throw error
@@ -98,4 +98,22 @@ export const useDeletePriceQuote = async (id) => {
   } catch (error) {
     throw error
   }
+}
+
+export const useGetProductList = () => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(`/products/list-product-options/all`)
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListProductOptions'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
 }

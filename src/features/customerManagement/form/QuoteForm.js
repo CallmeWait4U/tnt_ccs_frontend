@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { StyledModal } from '../../component/ComponentOfForm'
 
-const QuoteForm = ({ visible, setVisible }) => {
+const QuoteForm = ({ visible, setVisible, uuid }) => {
   const [tableData, setTableData] = useState([
     {
       index: 1,

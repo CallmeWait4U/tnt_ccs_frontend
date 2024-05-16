@@ -5,24 +5,31 @@ import {
   Card,
   Col,
   DatePicker,
+  Flex,
   Form,
   Input,
   Modal,
   Row,
   Switch,
   Typography,
-  Upload
+  Upload,
+  message
 } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useReadTask, useSendEmail } from '../../../api/Admin/activity'
+import {
+  useReadTask,
+  useSendEmail,
+  useUpdateTask
+} from '../../../api/Admin/activity'
 import '../activityManagement.css'
 
 const TaskDetail = () => {
   const [autoAnnounceEmp, setAutoAnnounceEmp] = useState(false)
   const [autoAnnounceCus, setAutoAnnounceCus] = useState(false)
   const [showCreateEmailModal, setShowCreateEmailModal] = useState(false)
+  const [status, setStatus] = useState('INPROGRESS')
   const { Title } = Typography
   const location = useLocation()
   const paramsString = location.pathname.split('/')[5]
@@ -35,6 +42,13 @@ const TaskDetail = () => {
       console.log('Send email success')
     }
   })
+  const { mutate: updateTask } = useMutation({
+    mutationFn: useUpdateTask,
+    onSuccess: () => {
+      console.log('Cập nhật thành công')
+      message.success('Cập nhật thành công')
+    }
+  })
   const layout = {
     labelCol: {
       span: 10
@@ -43,18 +57,24 @@ const TaskDetail = () => {
       span: 14
     }
   }
+  const statusMap = {
+    INPROGRESS: 'Đang thực hiện',
+    COMPLETED: 'Đã hoàn thành',
+    OVERDUE: 'Đã trễ'
+  }
   const [form] = Form.useForm()
   useEffect(() => {
     if (taskDetail) {
       form.setFieldsValue({
         customerName: taskDetail.customerName,
-        status: taskDetail.status,
+        status: statusMap[taskDetail.status],
         createdDate: dayjs(taskDetail.createdDate),
         note: taskDetail.note,
         startDate: dayjs(taskDetail.startDate),
         endDate: dayjs(taskDetail.endDate)
       })
     }
+    setStatus(taskDetail?.status)
   }, [taskDetail, form])
   const handleCreateEmailClick = () => {
     setShowCreateEmailModal(true)
@@ -66,6 +86,12 @@ const TaskDetail = () => {
 
   const handleFileChange = ({ fileList }) => {
     setFileList(fileList)
+  }
+  const handleUpdateTask = () => {
+    const body = {
+      uuid: uuid
+    }
+    updateTask(body)
   }
   const handleCreateEmail = (values) => {
     const formData = new FormData()
@@ -95,6 +121,26 @@ const TaskDetail = () => {
             Chi tiết nhiệm vụ
           </Title>
         </Col>
+        {status === 'INPROGRESS' && (
+          <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
+            <Flex gap='small' align='flex-start' vertical>
+              <Flex gap='small' wrap='wrap'>
+                <Button
+                  style={{
+                    background: '#F58220',
+                    color: 'white',
+                    width: '80px',
+                    height: '40px'
+                  }}
+                  size={40}
+                  onClick={handleUpdateTask}
+                >
+                  Hoàn thành
+                </Button>
+              </Flex>
+            </Flex>
+          </Col>
+        )}
       </Row>
       <Form {...layout} form={form} name='control-hooks' key={'activityForm'}>
         <Card className='taskForm' style={{ width: '60%', margin: 'auto' }}>

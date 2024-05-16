@@ -1,4 +1,4 @@
-// import { useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -16,10 +16,10 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import { useListCustomer } from '../../../api/Admin/customer'
-// import { message } from 'antd'
+import { message } from 'antd'
 import { AiOutlineCheck } from 'react-icons/ai'
 import {
-  // useCreateTask,
+  useCreateTask,
   useListCustomerWithPhase
 } from '../../../api/Admin/activity'
 import AgGridCustomSetFilter from '../../../components/aggrid/AgGridCustomSetFilter'
@@ -47,13 +47,13 @@ const ActivityDetailForm = ({
   )
   // eslint-disable-next-line no-unused-vars
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  // const { mutate: createTask } = useMutation({
-  //   mutationFn: useCreateTask,
-  //   onSuccess: () => {
-  //     console.log('Create task success')
-  //     message.success('Tạo nhiệm vụ thành công')
-  //   }
-  // })
+  const { mutate: createTask } = useMutation({
+    mutationFn: useCreateTask,
+    onSuccess: () => {
+      console.log('Create task success')
+      message.success('Tạo nhiệm vụ thành công')
+    }
+  })
   useEffect(() => {
     if (phaseList) {
       setSearchModel({
@@ -83,10 +83,12 @@ const ActivityDetailForm = ({
           shape='circle'
           style={{ backgroundColor: '#FEF3E9' }}
           onClick={() => {
+            console.log(data.employees)
             const newRequest = {
               ...request,
               customerUUID: data.uuid,
-              employees: data.employees
+              employees: data.employees,
+              activityUUID: activityUUID
             }
             setRequest(newRequest)
             console.log(request)
@@ -190,6 +192,7 @@ const ActivityDetailForm = ({
       const newRequest = { ...request, ...values }
       setRequest(newRequest)
       console.log('request', request)
+      createTask({ ...newRequest })
     })
   }
   const today = dayjs(new Date())
@@ -263,7 +266,7 @@ const ActivityDetailForm = ({
               <Col span={8}>
                 <Form.Item
                   label={'Ngày tạo'}
-                  name={'createdDate'}
+                  name={'createDate'}
                   rules={[
                     {
                       required: true,

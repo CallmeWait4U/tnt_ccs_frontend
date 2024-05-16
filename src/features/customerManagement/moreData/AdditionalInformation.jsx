@@ -10,20 +10,7 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const { data: customerInfo } = useReadCustomer(id)
 
-  const [tableData, setTableData] = useState([
-    {
-      index: 1,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      key: 1
-    },
-    {
-      index: 2,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      key: 2
-    }
-  ])
+  const [tableData, setTableData] = useState([])
   const { Title } = Typography
   const [form] = Form.useForm()
 
@@ -84,6 +71,7 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
         email: customerInfo.representativeEmail,
         phoneNumber: customerInfo.representativePhone
       })
+      setTableData(customerInfo.employees)
     }
   }, [customerInfo, form])
   const layout = {

@@ -1,17 +1,36 @@
 import { SendOutlined } from '@ant-design/icons'
 import { Button, Col, Row, Typography } from 'antd'
-import { useState } from 'react'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
+import {
+  useGetBills,
+  useGetPriceQuote,
+  useGetPriceQuoteRequest
+} from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import './quoteBill.css'
 
-const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
+const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm, uuid }) => {
   const [take, setTake] = useState(100)
+  const [priceQuoteRequestData, setPriceQuoteRequestData] = useState([])
+  const [priceQuoteData, setPriceQuoteData] = useState([])
+  const [billData, setBillData] = useState([])
   const { Title } = Typography
+  const { data: priceQuoteRequestDataFetch } = useGetPriceQuoteRequest(uuid)
+  const { data: priceQuoteDataFetch } = useGetPriceQuote(uuid)
+  const { data: billDataFetch } = useGetBills(uuid)
 
+  useEffect(() => {
+    if (priceQuoteRequestDataFetch && priceQuoteDataFetch && billDataFetch) {
+      setPriceQuoteRequestData(priceQuoteRequestDataFetch.items)
+      setPriceQuoteData(priceQuoteDataFetch.items)
+      setBillData(billDataFetch.items)
+    }
+  }, [priceQuoteRequestDataFetch, priceQuoteDataFetch, billDataFetch])
   const ActionComponent = (type) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -61,23 +80,10 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
     )
   }
 
-  const dataPriceQuoteRequest = [
-    {
-      id: '1',
-      priceQuoteRequestCode: 'YCBG-00001',
-      receivedDate: '23-11-2023'
-    },
-    {
-      id: '2',
-      priceQuoteRequestCode: 'YCBG-00002',
-      receivedDate: '23-11-2023'
-    }
-  ]
-
   const colPriceQuoteRequest = [
     {
       headerName: 'MÃ YÊU CẦU BÁO GIÁ',
-      field: 'priceQuoteRequestCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -87,11 +93,14 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       resizable: false
     },
     {
-      headerName: 'NGÀY NHẬN',
-      field: 'receivedDate',
+      headerName: 'NGÀY TẠO',
+      field: 'createdDate',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       },
       minWidth: 200,
       suppressMovable: true,
@@ -114,25 +123,10 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
     }
   ]
 
-  const dataPriceQuote = [
-    {
-      id: '1',
-      priceQuoteCode: 'BG-00001',
-      createdDate: '23-11-2023',
-      status: 'Đã gửi'
-    },
-    {
-      id: '2',
-      priceQuoteCode: 'BG-00002',
-      createdDate: '23-11-2023',
-      status: 'Đã hủy'
-    }
-  ]
-
   const colPriceQuote = [
     {
       headerName: 'MÃ BÁO GIÁ',
-      field: 'priceQuoteCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -148,6 +142,23 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
         display: 'flex',
         justifyContent: 'center'
       },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      },
+      minWidth: 200,
+      suppressMovable: true,
+      resizable: false
+    },
+    {
+      headerName: 'NGÀY HIỆU LỰC',
+      field: 'effectiveDate',
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      },
       minWidth: 200,
       suppressMovable: true,
       resizable: false
@@ -155,21 +166,20 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
     {
       headerName: 'TRẠNG THÁI',
       field: 'status',
-      minWidth: 120,
-      width: 120,
-      suppressMovable: true,
-      resizable: false,
-      sortable: false,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      }
+      },
+      minWidth: 200,
+      suppressMovable: true,
+      resizable: false
     },
     {
       headerName: 'THAO TÁC',
       field: 'action',
       cellRenderer: () => ActionComponent('PriceQuote'),
       minWidth: 150,
+
       width: 150,
       suppressMovable: true,
       resizable: false,
@@ -182,25 +192,10 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
     }
   ]
 
-  const dataBill = [
-    {
-      id: '1',
-      billCode: 'HD-00001',
-      createdDate: '23-11-2023',
-      status: 'Chưa thanh toán'
-    },
-    {
-      id: '2',
-      billCode: 'HD-00002',
-      createdDate: '23-11-2023',
-      status: 'Đã thanh toán'
-    }
-  ]
-
   const colBill = [
     {
       headerName: 'MÃ HÓA ĐƠN',
-      field: 'billCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -215,6 +210,9 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       },
       minWidth: 200,
       suppressMovable: true,
@@ -260,7 +258,7 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colPriceQuoteRequest}
-          rowData={dataPriceQuoteRequest}
+          rowData={priceQuoteRequestData}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {
@@ -295,7 +293,7 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colPriceQuote}
-          rowData={dataPriceQuote}
+          rowData={priceQuoteData}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {
@@ -305,7 +303,7 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
             console.log(params)
           }}
           showPagination={false}
-          width='700px'
+          width='1000px'
           height='100%'
           autoHeight={true}
           customCustomer='customCustomer'
@@ -337,7 +335,7 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm }) => {
       >
         <AgGridTable
           colDefs={colBill}
-          rowData={dataBill}
+          rowData={billData}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {

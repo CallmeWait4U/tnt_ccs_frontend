@@ -53,6 +53,7 @@ const CustomerDetail = () => {
       children: (
         <CustomerQuoteBill
           setIsShowBillForm={setIsShowBillForm}
+          uuid={uuid}
           setIsShowQuoteForm={setIsShowQuoteForm}
         />
       )
@@ -111,7 +112,11 @@ const CustomerDetail = () => {
           />
         </Col>
       </Row>
-      <QuoteForm visible={isShowQuoteForm} setVisible={setIsShowQuoteForm} />
+      <QuoteForm
+        visible={isShowQuoteForm}
+        uuid={uuid}
+        setVisible={setIsShowQuoteForm}
+      />
       <BillForm visible={isShowBillForm} setVisible={setIsShowBillForm} />
       <ActivityForm
         visible={isShowActivityForm}

@@ -120,3 +120,61 @@ export const useGetPhaseList = () => {
     retry: 2
   })
 }
+
+export const useGetPriceQuoteRequest = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/price-quote-requests/selector/byCustomer?customerUUID=${uuid}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListPriceQuoteRequest', uuid],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useGetPriceQuote = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/price-quotes/selector/byCustomer?customerUUID=${uuid}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListPriceQuote'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
+export const useGetBills = (uuid) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/bills/selector/byCustomer?customerUUID=${uuid}`
+      )
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+  return useQuery({
+    queryKey: ['ListBills', uuid],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
