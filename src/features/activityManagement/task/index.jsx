@@ -97,19 +97,19 @@ const TaskDetail = () => {
         </Col>
       </Row>
       <Form {...layout} form={form} name='control-hooks' key={'activityForm'}>
-        <Card className='taskForm'>
+        <Card className='taskForm' style={{ width: '60%', margin: 'auto' }}>
           <Row gutter={8}>
-            <Col span={6} xl={6}>
+            <Col span={8} xl={8}>
               <Form.Item label={'Trạng thái'} name={'status'}>
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col span={6} xl={6}>
+            <Col span={8} xl={8}>
               <Form.Item label={'Ngày hoàn thành'} name={'doneDate'}>
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col span={6} xl={6}>
+            <Col span={8} xl={8}>
               <Form.Item label={'Tên khách hàng'} name={'customerName'}>
                 <Input disabled />
               </Form.Item>
@@ -117,7 +117,7 @@ const TaskDetail = () => {
           </Row>
 
           <Row gutter={8}>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item
                 label={'Ngày tạo'}
                 name={'createdDate'}
@@ -131,7 +131,7 @@ const TaskDetail = () => {
                 <DatePicker />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item
                 label={'Ngày bắt đầu'}
                 name={'startDate'}
@@ -145,7 +145,7 @@ const TaskDetail = () => {
                 <DatePicker />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item
                 label={'Ngày kết thúc'}
                 name={'endDate'}
@@ -162,7 +162,7 @@ const TaskDetail = () => {
           </Row>
 
           <Row gutter={8}>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label={'Ghi chú'} name={'note'}>
                 <Input.TextArea
                   style={{
@@ -177,9 +177,9 @@ const TaskDetail = () => {
             <Col span={16}>
               <Form.Item
                 name='autoAnnounceEmp'
-                label='Tư động thông báo nhân viên:'
+                label='Tự động thông báo nhân viên:'
                 className={
-                  autoAnnounceEmp === false ? 'hasAcount' : 'notHasAccount'
+                  autoAnnounceEmp === true ? 'hasAcount' : 'notHasAccount'
                 }
               >
                 <Switch
@@ -195,7 +195,7 @@ const TaskDetail = () => {
                 name='autoAnnounceCus'
                 label='Tự động thông báo khách hàng:'
                 className={
-                  autoAnnounceCus === false ? 'hasAcount' : 'notHasAccount'
+                  autoAnnounceCus === true ? 'hasAcount' : 'notHasAccount'
                 }
               >
                 <Switch

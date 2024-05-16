@@ -1,38 +1,25 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
+import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useReadCustomer } from '../../../api/Admin/customer'
+import { useGetPhaseList, useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
+
 const PersonalInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [hasAccount, setHasAccount] = useState(false)
-  const [phase, setPhase] = useState(1)
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
   const [source, setSource] = useState(1)
-  // const [provinces, setProvinces] = useState([])
-  // const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
   const { data: customerInfo } = useReadCustomer(id.id)
-  console.log(customerInfo)
-  // useEffect(() => {
-  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-  //     const provincesData = []
-  //     data.data.forEach((item) => {
-  //       provincesData.push({
-  //         label: item.name,
-  //         value: item.code,
-  //         districts: item.districts.map((district) => {
-  //           return { name: district.name, code: district.code }
-  //         })
-  //       })
-  //     })
-  //     setProvinces(provincesData)
-  //   })
-  // }, [])
+  const { data: phaseList } = useGetPhaseList()
   useEffect(() => {
     if (customerInfo) {
       form.setFieldsValue({
         customerName: customerInfo.name,
+        phaseName: customerInfo.phaseName,
         customerCode: customerInfo.code,
         source: customerInfo.source,
         cccd: customerInfo.cccd,
@@ -49,6 +36,36 @@ const PersonalInformation = (id) => {
       })
     }
   }, [customerInfo, form])
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
+
   const layout = {
     labelCol: {
       span: 12
@@ -58,28 +75,11 @@ const PersonalInformation = (id) => {
     }
   }
 
-  const phaseList = [
-    {
-      value: 1,
-      label: 'Tiềm năng'
-    },
-    {
-      value: 2,
-      label: 'Đang liên lạc'
-    },
-    {
-      value: 3,
-      label: 'Đã báo giá'
-    },
-    {
-      value: 4,
-      label: 'Chính thức'
-    },
-    {
-      value: 5,
-      label: 'Thân thiết'
-    }
-  ]
+  const phaseOptions = phaseList?.items?.map((item) => ({
+    label: item.name,
+    value: item.name,
+    uuid: item.uuid
+  }))
 
   const onFinish = (values) => {
     console.log(values)
@@ -89,16 +89,6 @@ const PersonalInformation = (id) => {
   const onChangeAccount = (value) => {
     setHasAccount(value)
   }
-
-  // const onChangeProvince = (value) => {
-  //   const p = provinces.find((province) => province.value == value)
-  //   if (p) {
-  //     const districtsData = p.districts.map((district) => {
-  //       return { label: district.name, value: district.code }
-  //     })
-  //     setDistricts(districtsData)
-  //   }
-  // }
 
   return (
     <Col xl={24} xxl={13}>
@@ -178,7 +168,7 @@ const PersonalInformation = (id) => {
             <Col span={8}>
               <Form.Item
                 label={'Giai đoạn'}
-                name={'phase'}
+                name={'phaseName'}
                 rules={[
                   {
                     required: true,
@@ -186,12 +176,7 @@ const PersonalInformation = (id) => {
                   }
                 ]}
               >
-                <StyledSelect
-                  value={phase}
-                  onChange={setPhase}
-                  options={phaseList}
-                  disabled={!isUpdate}
-                />
+                <StyledSelect options={phaseOptions} disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -387,12 +372,8 @@ const PersonalInformation = (id) => {
                     ]}
                   >
                     <StyledSelect
-                      placeholder='Chọn quận/huyện'
-                      options={[
-                        { value: 1, label: 'Quận 1' },
-                        { value: 2, label: 'Quận 2' },
-                        { value: 3, label: 'Quận 3' }
-                      ]}
+                      placeholder='Chọn quận huyện'
+                      options={districts}
                       disabled={!isUpdate}
                     />
                   </Form.Item>
@@ -410,13 +391,9 @@ const PersonalInformation = (id) => {
                     ]}
                   >
                     <StyledSelect
-                      placeholder='Chọn tỉnh/thành phố'
-                      options={[
-                        { value: 1, label: 'Hồ Chí Minh' },
-                        { value: 2, label: 'Bình Định' },
-                        { value: 3, label: 'Bến Tre' }
-                      ]}
-                      // onChange={onChangeProvince}
+                      placeholder='Chọn thành phố'
+                      options={cities}
+                      onChange={handleCityChange}
                       disabled={!isUpdate}
                     />
                   </Form.Item>

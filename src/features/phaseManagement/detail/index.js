@@ -7,7 +7,7 @@ import {
   Flex,
   Form,
   Input,
-  InputNumber,
+  // InputNumber,
   Row,
   Typography,
   message
@@ -68,7 +68,7 @@ const PhaseDetail = () => {
                 fontWeight: '700'
               }}
             >
-              Chi tiết giai đoạn Tiềm năng
+              Chi tiết giai đoạn {phase.name ? phase.name : ''}
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>
@@ -140,7 +140,7 @@ const PhaseDetail = () => {
                 label='Thứ tự giai đoạn'
                 rules={[{ required: true, message: 'Yêu cầu thông tin' }]}
               >
-                <InputNumber
+                <Input
                   placeholder='Thứ tự giai đoạn'
                   disabled={!isUpdate}
                   size='large'

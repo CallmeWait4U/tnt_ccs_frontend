@@ -1,5 +1,4 @@
 import { Spin, notification } from 'antd'
-import { jwtDecode } from 'jwt-decode'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
@@ -10,7 +9,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 const PrivateRoute = ({ children }) => {
   const { data: listCompany, isLoading } = useListComapny()
   const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
-  const domainFromToken = token ? '/' + jwtDecode(token)?.domain : ''
+  const domainFromToken = token ? '/' + token?.domain : ''
   const domain = window.location.pathname.split('/')[1]
 
   const socket = io('http://localhost:3001', {

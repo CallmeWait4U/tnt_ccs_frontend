@@ -121,6 +121,7 @@ const PhaseManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
+      valueGetter: (p) => p.data.priority + 1,
       minWidth: 100,
       filter: AgGridCustomTextFilter,
       filterParams: {
