@@ -16,7 +16,7 @@ const CompanyRoute = () => {
   if (
     !listCompany ||
     listCompany.total === 0 ||
-    listCompany.items?.filter((item) => item.domain === path).length === 0
+    !listCompany.items?.filter((item) => item.domain === path).length === 0
   )
     return <NotFoundPage />
   if (token) {

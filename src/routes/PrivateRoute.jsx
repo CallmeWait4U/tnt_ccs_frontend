@@ -11,11 +11,11 @@ const PrivateRoute = ({ children }) => {
   const { data: listCompany, isLoading } = useListComapny()
   const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
   const domainFromToken = token ? '/' + jwtDecode(token)?.domain : ''
-  const path = window.location.pathname
+  const domain = window.location.pathname.split('/')[1]
 
   const socket = io('http://localhost:3001', {
     auth: {
-      token: localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
+      token: token
     }
   }).connect()
 
@@ -26,23 +26,23 @@ const PrivateRoute = ({ children }) => {
       description: message.content
     })
   })
-
+  if (domain === '') {
+    return <Navigate to={PATH.LANDINGPAGE} replace={true} />
+  }
   if (isLoading) return <Spin spinning={isLoading} fullscreen />
   console.log(
-    'private route',
-    listCompany,
-    listCompany.total,
-    listCompany.items?.filter((item) => item.domain === path).length
+    'ddd',
+    listCompany.items?.filter((item) => item.domain === domain)
   )
   if (
     !listCompany ||
     listCompany.total === 0 ||
-    listCompany.items?.filter((item) => item.domain === path).length === 0
+    listCompany.items?.filter((item) => item.domain === domain).length === 0
   )
     return <NotFoundPage />
-  if (!token) {
-    return <Navigate to={`${path + PATH.SIGNIN}`} replace={true} />
-  }
+  // if (!token) {
+  //   return <Navigate to={`${'/' + domain + PATH.SIGNIN}`} replace={true} />
+  // }
   return children
 }
 
