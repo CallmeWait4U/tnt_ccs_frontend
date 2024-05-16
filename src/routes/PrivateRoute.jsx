@@ -1,17 +1,17 @@
-import { notification } from 'antd'
+import { Spin, notification } from 'antd'
+import { jwtDecode } from 'jwt-decode'
 import React from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
+import { useListComapny } from '../api/company'
 import { LOCAL_STORAGE_ITEM, PATH } from '../contants/common'
+import NotFoundPage from '../pages/NotFoundPage'
 
 const PrivateRoute = ({ children }) => {
-  const location = useLocation()
-
-  if (!localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)) {
-    return (
-      <Navigate to={PATH.LANDINGPAGE} state={{ path: location.pathname }} />
-    )
-  }
+  const { data: listCompany, isLoading } = useListComapny()
+  const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
+  const domainFromToken = token ? '/' + jwtDecode(token)?.domain : ''
+  const path = window.location.pathname
 
   const socket = io('http://localhost:3001', {
     auth: {
@@ -27,6 +27,22 @@ const PrivateRoute = ({ children }) => {
     })
   })
 
+  if (isLoading) return <Spin spinning={isLoading} fullscreen />
+  console.log(
+    'private route',
+    listCompany,
+    listCompany.total,
+    listCompany.items?.filter((item) => item.domain === path).length
+  )
+  if (
+    !listCompany ||
+    listCompany.total === 0 ||
+    listCompany.items?.filter((item) => item.domain === path).length === 0
+  )
+    return <NotFoundPage />
+  if (!token) {
+    return <Navigate to={`${path + PATH.SIGNIN}`} replace={true} />
+  }
   return children
 }
 
