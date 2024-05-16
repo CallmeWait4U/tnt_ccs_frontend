@@ -12,7 +12,7 @@ export const PATH = Object.freeze({
   NEWCUSTOMER: '/new-customer',
   ACTIVITY: '/activity',
   ACTIVITYDETAIL: '/activity/:id',
-  TASKDETAIL: 'activity/:id/task/:id',
+  TASKDETAIL: '/activity/:id/task/:id',
   ABOUT: '/about',
   PROFILE: '/profile',
   DASHBOARD: '/dashboard',

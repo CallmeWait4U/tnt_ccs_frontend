@@ -1,32 +1,19 @@
 import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
+import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useReadCustomer } from '../../../api/Admin/customer'
+import { useGetPhaseList, useReadCustomer } from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
+
 const CompanyInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [hasAccount, setHasAccount] = useState(false)
-  const [phase, setPhase] = useState(1)
-  // const [provinces, setProvinces] = useState([])
-  // const [districts, setDistricts] = useState([])
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
+  const { data: phaseList } = useGetPhaseList()
   const { data: customerInfo } = useReadCustomer(id.id)
-  // useEffect(() => {
-  //   axios.get('https://provinces.open-api.vn/api/?depth=2').then((data) => {
-  //     const provincesData = []
-  //     data.data.forEach((item) => {
-  //       provincesData.push({
-  //         label: item.name,
-  //         value: item.code,
-  //         districts: item.districts.map((district) => {
-  //           return { name: district.name, code: district.code }
-  //         })
-  //       })
-  //     })
-  //     setProvinces(provincesData)
-  //   })
-  // }, [])
 
   const layout = {
     labelCol: {
@@ -36,29 +23,11 @@ const CompanyInformation = (id) => {
       span: 12
     }
   }
-
-  const phaseList = [
-    {
-      value: 1,
-      label: 'Tiềm năng'
-    },
-    {
-      value: 2,
-      label: 'Đang liên lạc'
-    },
-    {
-      value: 3,
-      label: 'Đã báo giá'
-    },
-    {
-      value: 4,
-      label: 'Chính thức'
-    },
-    {
-      value: 5,
-      label: 'Thân thiết'
-    }
-  ]
+  const phaseOptions = phaseList?.items?.map((item) => ({
+    label: item.name,
+    value: item.name,
+    uuid: item.uuid
+  }))
 
   const onFinish = (values) => {
     console.log(values)
@@ -74,6 +43,7 @@ const CompanyInformation = (id) => {
     if (customerInfo) {
       form.setFieldsValue({
         source: customerInfo.source,
+        phaseName: customerInfo.phaseName,
         businessName: customerInfo.name,
         customerCode: customerInfo.code,
         cccd: customerInfo.id,
@@ -91,15 +61,35 @@ const CompanyInformation = (id) => {
       })
     }
   }, [customerInfo, form])
-  // const onChangeProvince = (value) => {
-  //   const p = provinces.find((province) => province.value == value)
-  //   if (p) {
-  //     const districtsData = p.districts.map((district) => {
-  //       return { label: district.name, value: district.code }
-  //     })
-  //     setDistricts(districtsData)
-  //   }
-  // }
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
 
   return (
     <Col xl={24} xxl={13}>
@@ -183,7 +173,7 @@ const CompanyInformation = (id) => {
             <Col span={8}>
               <Form.Item
                 label={'Giai đoạn'}
-                name={'phase'}
+                name={'phaseName'}
                 // rules={[
                 //   {
                 //     required: true,
@@ -191,12 +181,7 @@ const CompanyInformation = (id) => {
                 //   }
                 // ]}
               >
-                <StyledSelect
-                  value={phase}
-                  onChange={setPhase}
-                  options={phaseList}
-                  disabled={!isUpdate}
-                />
+                <StyledSelect options={phaseOptions} disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -350,7 +335,11 @@ const CompanyInformation = (id) => {
                       }
                     ]}
                   >
-                    <Input disabled={!isUpdate} />
+                    <StyledSelect
+                      placeholder='Chọn quận huyện'
+                      options={districts}
+                      disabled={!isUpdate}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -365,7 +354,12 @@ const CompanyInformation = (id) => {
                       }
                     ]}
                   >
-                    <Input disabled={!isUpdate} />
+                    <StyledSelect
+                      placeholder='Chọn thành phố'
+                      options={cities}
+                      onChange={handleCityChange}
+                      disabled={!isUpdate}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
