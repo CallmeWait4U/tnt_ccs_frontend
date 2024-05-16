@@ -26,7 +26,7 @@ const Header = ({ name }) => {
     onSuccess: () => {
       localStorage.removeItem(`${LOCAL_STORAGE_ITEM.TOKEN}`)
       message.success('Đăng xuất thành công')
-      navigate(`${domain + PATH.SIGNIN}`)
+      navigate(`${domain + PATH.SIGNIN}`, { replace: true })
     }
   })
   useEffect(() => window.scrollTo(0, 0))
