@@ -1,48 +1,25 @@
-import { CheckOutlined } from '@ant-design/icons'
 import { Button, Col, Row, Typography } from 'antd'
+import moment from 'moment'
 import React, { useState } from 'react'
-import { FiPlus } from 'react-icons/fi'
 import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
+import { useGetTask } from '../../../api/Admin/customer'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { PATH } from '../../../contants/common'
 import './activityHistory.css'
 
-const ActivityHistory = ({ setIsShowActivityForm }) => {
+const ActivityHistory = ({ uuid }) => {
   const [take, setTake] = useState(100)
   const { Title } = Typography
-
-  const CustomHeader = () => {
-    return (
-      <div style={{ fontWeight: 650 }}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          NHÂN VIÊN
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          PHỤ TRÁCH
-        </div>
-      </div>
-    )
-  }
+  const { data: allTasks } = useGetTask(uuid, 'false')
+  const { data: allTasksDone } = useGetTask(uuid, 'true')
+  const navigate = useNavigate()
+  const domain = '/' + window.location.pathname.split('/')[1]
 
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <Button
-          type='primary'
-          shape='circle'
-          style={{ backgroundColor: 'rgba(253,238,200, 0.4)' }}
-        >
-          <CheckOutlined
-            style={{
-              color: 'rgb(235, 180, 37)',
-              fontSize: 'large',
-              fontWeight: '1000'
-            }}
-            onClick={() => {
-              //
-            }}
-          />
-        </Button>
         <Button
           type='primary'
           shape='circle'
@@ -63,35 +40,29 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              //
+              navigate(
+                `${domain + PATH.ACTIVITY}/${data.activityUUID}/task/${
+                  data.uuid
+                }`
+              )
             }}
           />
         </Button>
       </div>
     )
   }
-
-  const dataActivities = [
-    {
-      nameActivity: 'Cuộc họp',
-      endDate: '23-11-2023',
-      nameEmployees: ['Lê Huy Ngọ', 'Phạm Hồng Thịnh'],
-      status: 'Đã gửi'
-    },
-    {
-      nameActivity: 'Gọi điện',
-      endDate: '23-11-2023',
-      nameEmployees: ['Lê Huy Ngọ'],
-      status: 'Đã gửi'
-    }
-  ]
+  const status = {
+    INPROGRESS: 'Đang diễn ra',
+    OVERDUE: 'Đã trễ',
+    COMPLETED: 'Hoàn thành'
+  }
 
   const colDefsActivities = [
     {
       headerName: 'HOẠT ĐỘNG',
-      field: 'nameActivity',
-      minWidth: 130,
-      width: 130,
+      field: 'title',
+      minWidth: 240,
+      width: 240,
       suppressMovable: true,
       resizable: false,
       sortable: false,
@@ -111,28 +82,23 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
       }
     },
     {
-      headerName: 'NHÂN VIÊN PHỤ TRÁCH',
-      headerComponent: CustomHeader,
-      field: 'nameEmployees',
-      autoHeight: true,
-      cellRenderer: (p) =>
-        p.data.nameEmployees.map((item, index) => (
-          <div
-            key={`employeeName${index}`}
-            style={{ display: 'flex', justifyContent: 'center' }}
-          >
-            {' '}
-            {item}{' '}
-          </div>
-        )),
-      minWidth: 150,
-      width: 150,
+      headerName: 'MÔ TẢ',
+      field: 'note',
+      minWidth: 240,
+      width: 240,
       suppressMovable: true,
       resizable: false,
-      sortable: false
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      }
     },
     {
       headerName: 'TRẠNG THÁI',
@@ -145,6 +111,9 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
       }
     },
     {
@@ -164,33 +133,28 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
     }
   ]
 
-  const dataHistoryActivities = [
-    {
-      doneDate: '23-11-2023',
-      nameEmployees: ['Lê Huy Ngọ', 'Phạm Hồng Thịnh'],
-      nameActivity: 'Thay đổi giai đoạn',
-      note: 'Đã báo giá chuyển sang Tiềm năng'
-    },
-    {
-      doneDate: '23-11-2023',
-      nameEmployees: ['Lê Huy Ngọ'],
-      nameActivity: 'Cuộc họp',
-      note: 'Hoàn thành'
-    },
-    {
-      doneDate: '23-11-2023',
-      nameEmployees: ['Lê Huy Ngọ'],
-      nameActivity: 'Gọi điện',
-      note: 'Hoàn thành'
-    }
-  ]
-
   const colDefsHistoryActivities = [
     {
       headerName: '',
       field: 'doneDate',
       minWidth: 150,
       width: 150,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      }
+    },
+    {
+      headerName: 'HOẠT ĐỘNG',
+      field: 'title',
+      minWidth: 250,
+      width: 250,
       suppressMovable: true,
       resizable: false,
       sortable: false,
@@ -207,9 +171,9 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       autoHeight: true,
       cellRenderer: (p) => (
         <>
-          {p.data.nameEmployees.map((item, index) => (
+          {p.data.employeeName.map((item, index) => (
             <div
-              key={`nameEmployee${index}`}
+              key={`employeeName${index}`}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -221,15 +185,6 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
               {item}{' '}
             </div>
           ))}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              height: '35px'
-            }}
-          >
-            {p.data.nameActivity}
-          </div>
         </>
       ),
       resizable: false,
@@ -237,7 +192,7 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       sortable: false
     },
     {
-      headerName: '',
+      headerName: 'MÔ TẢ',
       field: 'note',
       minWidth: 350,
       width: 350,
@@ -248,6 +203,22 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
         display: 'flex',
         justifyContent: 'center'
       }
+    },
+    {
+      headerName: 'TRẠNG THÁI',
+      field: 'status',
+      minWidth: 120,
+      width: 120,
+      suppressMovable: true,
+      resizable: false,
+      sortable: false,
+      cellStyle: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return (value = status[value])
+      }
     }
   ]
 
@@ -257,20 +228,11 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
         <Col span={19}>
           <Title level={3}>Hoạt động sắp tới</Title>
         </Col>
-        <Col span={5} style={{ display: 'flex', justifyContent: 'right' }}>
-          <Button
-            className='activityCurrent'
-            icon={<FiPlus />}
-            onClick={() => setIsShowActivityForm(true)}
-          >
-            Thêm hoạt động
-          </Button>
-        </Col>
       </Row>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colDefsActivities}
-          rowData={dataActivities}
+          rowData={allTasks?.items || []}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {
@@ -303,7 +265,7 @@ const ActivityHistory = ({ setIsShowActivityForm }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colDefsHistoryActivities}
-          rowData={dataHistoryActivities}
+          rowData={allTasksDone?.items || []}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {

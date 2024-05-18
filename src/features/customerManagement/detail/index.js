@@ -44,7 +44,10 @@ const CustomerDetail = () => {
       label: 'Hoạt động',
       key: 'activity',
       children: (
-        <ActivityHistory setIsShowActivityForm={setIsShowActivityForm} />
+        <ActivityHistory
+          uuid={uuid}
+          setIsShowActivityForm={setIsShowActivityForm}
+        />
       )
     },
     {
@@ -61,7 +64,7 @@ const CustomerDetail = () => {
     {
       label: 'Khiếu nại',
       key: 'complain',
-      children: <CustomerComplaint />
+      children: <CustomerComplaint uuid={uuid} />
     },
     {
       label: 'Gửi tin nhắn',

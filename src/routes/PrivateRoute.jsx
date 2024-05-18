@@ -9,7 +9,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 const PrivateRoute = ({ children }) => {
   const { data: listCompany, isLoading } = useListComapny()
   const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
-  const domainFromToken = token ? '/' + token?.domain : ''
+  // const domainFromToken = token ? '/' + token?.domain : ''
   const domain = window.location.pathname.split('/')[1]
 
   const socket = io('http://localhost:3001', {
@@ -29,10 +29,10 @@ const PrivateRoute = ({ children }) => {
     return <Navigate to={PATH.LANDINGPAGE} replace={true} />
   }
   if (isLoading) return <Spin spinning={isLoading} fullscreen />
-  console.log(
-    'ddd',
-    listCompany.items?.filter((item) => item.domain === domain)
-  )
+  // console.log(
+  //   'ddd',
+  //   listCompany.items?.filter((item) => item.domain === domain)
+  // )
   if (
     !listCompany ||
     listCompany.total === 0 ||

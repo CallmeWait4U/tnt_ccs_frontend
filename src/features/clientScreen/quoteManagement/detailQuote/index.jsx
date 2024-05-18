@@ -66,6 +66,7 @@ const ClientQuoteDetail = () => {
           </Title>
         </Col>
       </Row>
+
       <div
         style={{
           alignContent: 'center',
@@ -98,7 +99,7 @@ const ClientQuoteDetail = () => {
               <Table
                 bordered
                 style={{ border: '2px solid' }}
-                dataSource={priceQuote?.products.map((item, index) => ({
+                dataSource={priceQuote?.products?.map((item, index) => ({
                   ...item,
                   key: index
                 }))}

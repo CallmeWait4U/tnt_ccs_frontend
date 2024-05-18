@@ -1,12 +1,24 @@
 import { Button, Col, Row, Typography } from 'antd'
+import moment from 'moment'
 import { useState } from 'react'
 import { RiInformationFill } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
+import { useGetComplaint } from '../../../api/Admin/customer'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
+import { PATH } from '../../../contants/common'
 
-const CustomerComplaint = () => {
+const CustomerComplaint = (uuid) => {
   const [take, setTake] = useState(100)
   const { Title } = Typography
-
+  const domain = '/' + window.location.pathname.split('/')[1]
+  const statusName = {
+    PENDING: 'Chưa xử lý',
+    PROCESSING: 'Đang xử lý',
+    SOLVED: 'Đã xử lý',
+    REPROCESS: 'Xử lý lại'
+  }
+  const navigate = useNavigate()
+  const { data: complaints } = useGetComplaint(uuid.uuid)
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
@@ -19,35 +31,19 @@ const CustomerComplaint = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              //
+              navigate(`${domain + PATH.COMPLAINT}/${data.uuid}&${data.code}`, {
+                state: data
+              })
             }}
           />
         </Button>
       </div>
     )
   }
-
-  const dataComplaint = [
-    {
-      id: '1',
-      complaintCode: 'KN-00001',
-      complaintType: 'Sản phẩm',
-      sentDate: '23-11-2023',
-      status: 'Đang xử lý'
-    },
-    {
-      id: '2',
-      complaintCode: 'KN-00002',
-      complaintType: 'Nhân viên',
-      sentDate: '23-11-2023',
-      status: 'Đã xử lý'
-    }
-  ]
-
   const colComplaint = [
     {
       headerName: 'MÃ KHIẾU NẠI',
-      field: 'complaintCode',
+      field: 'code',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -58,7 +54,7 @@ const CustomerComplaint = () => {
     },
     {
       headerName: 'LOẠI KHIẾU NẠI',
-      field: 'complaintType',
+      field: 'typeComplaintName',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -75,6 +71,9 @@ const CustomerComplaint = () => {
         justifyContent: 'center'
       },
       minWidth: 130,
+      valueFormatter: ({ value }) => {
+        return moment(value).format('DD-MM-YYYY')
+      },
       suppressMovable: true,
       resizable: false
     },
@@ -89,12 +88,18 @@ const CustomerComplaint = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueGetter: (params) => {
+        if (params.data.status) {
+          return statusName[params.data.status.status]
+        }
+        return ''
       }
     },
     {
       headerName: 'THAO TÁC',
       field: 'action',
-      cellRenderer: () => ActionComponent('PriceQuoteRequest'),
+      cellRenderer: (e) => ActionComponent(e.data),
       minWidth: 100,
       width: 100,
       suppressMovable: true,
@@ -119,7 +124,7 @@ const CustomerComplaint = () => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <AgGridTable
           colDefs={colComplaint}
-          rowData={dataComplaint}
+          rowData={complaints?.items || []}
           take={take}
           setTake={setTake}
           selectedRow={(rows) => {

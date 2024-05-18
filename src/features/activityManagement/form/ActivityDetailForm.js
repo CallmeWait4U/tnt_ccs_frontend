@@ -14,7 +14,6 @@ import {
 } from 'antd'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 // import { useListCustomer } from '../../../api/Admin/customer'
 import { message } from 'antd'
 import { AiOutlineCheck } from 'react-icons/ai'
@@ -35,11 +34,11 @@ const ActivityDetailForm = ({
   const [autoAnnounceEmp, setAutoAnnounceEmp] = useState(false)
   const [autoAnnounceCus, setAutoAnnounceCus] = useState(false)
   const { Title } = Typography
-  const [form] = Form.useForm()
+  const [form1] = Form.useForm()
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [searchModel, setSearchModel] = useState(null)
-  const [request, setRequest] = useState(null)
+
   const { data: dataCustomer, refetch } = useListCustomerWithPhase(
     skip,
     take,
@@ -83,15 +82,10 @@ const ActivityDetailForm = ({
           shape='circle'
           style={{ backgroundColor: '#FEF3E9' }}
           onClick={() => {
-            console.log(data.employees)
-            const newRequest = {
-              ...request,
+            form1.setFieldsValue({
               customerUUID: data.uuid,
-              employees: data.employees,
-              activityUUID: activityUUID
-            }
-            setRequest(newRequest)
-            console.log(request)
+              employees: data.employees.map((employee) => employee.uuid)
+            })
           }}
         >
           <AiOutlineCheck color='#EBB425' size={24} />
@@ -157,6 +151,12 @@ const ActivityDetailForm = ({
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
+      },
+      valueGetter: (params) => {
+        if (params.data.employees) {
+          return params.data.employees.map((employee) => employee.name).join()
+        }
+        return ''
       }
     },
     {
@@ -187,25 +187,25 @@ const ActivityDetailForm = ({
     }
   ]
   const onFinish = () => {
-    form.validateFields().then((values) => {
-      console.log(values)
-      const newRequest = { ...request, ...values }
-      setRequest(newRequest)
-      console.log('request', request)
-      createTask({ ...newRequest })
+    form1.validateFields().then((values) => {
+      createTask({ ...values, activityUUID: activityUUID })
     })
   }
   const today = dayjs(new Date())
   return (
     <Form
       {...layout}
-      form={form}
-      initialValues={{ createdDate: today }}
+      form={form1}
+      initialValues={{
+        createdDate: today,
+        autoAnnounceCus: false,
+        autoAnnounceEmp: false
+      }}
       onFinish={onFinish}
       key={'activityForm'}
     >
-      <ModalStyle
-        style={{ width: '1000px', maxHeight: '80%', overflowY: 'auto' }}
+      <Modal
+        style={{ minWidth: '70hw', maxHeight: '80%', overflowY: 'auto' }}
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
@@ -222,21 +222,21 @@ const ActivityDetailForm = ({
             </div>
             <Flex gap='small' align='flex-start' vertical>
               <Flex gap='small' wrap='wrap'>
-                <Form.Item>
-                  <Button
-                    style={{
-                      background: '#F58220',
-                      color: 'white',
-                      width: '80px',
-                      height: '40px'
-                    }}
-                    size={40}
-                    htmlType='submit'
-                    onClick={() => onFinish()}
-                  >
-                    Thêm
-                  </Button>
-                </Form.Item>
+                <Button
+                  style={{
+                    background: '#F58220',
+                    color: 'white',
+                    width: '80px',
+                    height: '40px'
+                  }}
+                  size={40}
+                  htmlType='submit'
+                  onClick={() => {
+                    onFinish()
+                  }}
+                >
+                  Thêm
+                </Button>
                 <Button
                   size={40}
                   style={{
@@ -260,114 +260,124 @@ const ActivityDetailForm = ({
         }}
         footer={<></>}
       >
-        <Col className='activityForm'>
-          <Card>
-            <Row gutter={8}>
-              <Col span={8}>
-                <Form.Item
-                  label={'Ngày tạo'}
-                  name={'createDate'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <DatePicker />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  label={'Ngày bắt đầu'}
-                  name={'startDate'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <DatePicker />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  label={'Ngày kết thúc'}
-                  name={'endDate'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Yêu cầu thông tin'
-                    }
-                  ]}
-                >
-                  <DatePicker />
-                </Form.Item>
-              </Col>
-            </Row>
+        <Card>
+          <Row gutter={8}>
+            <Col span={8}>
+              <Form.Item
+                label={'Ngày tạo'}
+                name={'createDate'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Yêu cầu thông tin'
+                  }
+                ]}
+              >
+                <DatePicker />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                label={'Ngày bắt đầu'}
+                name={'startDate'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Yêu cầu thông tin'
+                  }
+                ]}
+              >
+                <DatePicker />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                label={'Ngày kết thúc'}
+                name={'endDate'}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Yêu cầu thông tin'
+                  }
+                ]}
+              >
+                <DatePicker />
+              </Form.Item>
+            </Col>
+          </Row>
 
-            <Row gutter={8}>
-              <Col span={8}>
-                <Form.Item label={'Ghi chú'} name={'note'}>
-                  <Input.TextArea
-                    style={{
-                      height: 100,
-                      color: 'black',
-                      fontSize: 14,
-                      fontWeight: 'normal'
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={16}>
-                <Form.Item
-                  name='autoAnnounceEmp'
-                  label='Tư động thông báo nhân viên:'
-                >
-                  <Switch
-                    // defaultChecked={false}
-                    // style={{ backgroundColor: '#f5f5f5' }}
-                    checked={autoAnnounceEmp}
-                    onChange={(value) => {
-                      setAutoAnnounceEmp(value)
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item
-                  name='autoAnnounceCus'
-                  label='Tự động thông báo khách hàng:'
-                >
-                  <Switch
-                    // defaultChecked={false}
-                    checked={autoAnnounceCus}
-                    onChange={(value) => {
-                      setAutoAnnounceCus(value)
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <AgGridTable
-                totalItem={dataCustomer?.total || 0}
-                colDefs={colDefs}
-                rowData={dataCustomer?.items || []}
-                skip={skip}
-                take={take}
-                setTake={setTake}
-                setSkip={setSkip}
-                selectedRow={(rows) => setSelectedRowKeys(rows)}
-              />
-            </Row>
-          </Card>
-        </Col>
-      </ModalStyle>
+          <Row gutter={8}>
+            <Col span={8}>
+              <Form.Item label={'Ghi chú'} name={'note'}>
+                <Input.TextArea
+                  style={{
+                    height: 100,
+                    color: 'black',
+                    fontSize: 14,
+                    fontWeight: 'normal'
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={16}>
+              <Form.Item
+                name='autoAnnounceEmp'
+                label='Tư động thông báo nhân viên:'
+              >
+                <Switch
+                  // defaultChecked={false}
+                  // style={{ backgroundColor: '#f5f5f5' }}
+                  checked={autoAnnounceEmp}
+                  onChange={(value) => {
+                    setAutoAnnounceEmp(value)
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name='autoAnnounceCus'
+                label='Tự động thông báo khách hàng:'
+              >
+                <Switch
+                  // defaultChecked={false}
+                  checked={autoAnnounceCus}
+                  onChange={(value) => {
+                    setAutoAnnounceCus(value)
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={8}>
+            <Col span={8}>
+              <Form.Item name='customerUUID' label='Khách hàng:'>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Form.Item
+              name='employees'
+              label='Nhân viên:'
+              style={{ display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
+          </Row>
+          <Row span={24}>
+            <AgGridTable
+              totalItem={dataCustomer?.total || 0}
+              colDefs={colDefs}
+              rowData={dataCustomer?.items || []}
+              skip={skip}
+              take={take}
+              setTake={setTake}
+              setSkip={setSkip}
+              selectedRow={(rows) => setSelectedRowKeys(rows)}
+              refetchData={refetch}
+            />
+          </Row>
+        </Card>
+      </Modal>
     </Form>
   )
 }
-const ModalStyle = styled(Modal)`
-  width: 70vw !important;
-`
 
 export default ActivityDetailForm

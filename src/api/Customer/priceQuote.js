@@ -42,7 +42,9 @@ export const useListPriceQuoteRequest = (offset, limit) => {
 export const useReadPriceQuote = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/price-quotes/${id}`)
+      const response = await api.get(
+        `${BASE_URL}/price-quotes/detail/byCustomer?uuid=${id}`
+      )
       return response.data
     } catch (error) {
       throw error
@@ -116,4 +118,13 @@ export const useGetProductList = () => {
     refetchOnWindowFocus: false,
     retry: 2
   })
+}
+
+export const useSendPriceQuoteRequest = async (data) => {
+  return api
+    .post(`${BASE_URL}/price-quote-requests/send`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error
+    })
 }

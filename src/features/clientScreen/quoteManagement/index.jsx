@@ -106,7 +106,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 400,
+      minWidth: 200,
       filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
@@ -115,7 +115,7 @@ const ClientQuoteManagement = () => {
     {
       headerName: 'NGÀY TẠO',
       field: 'createdDate',
-      minWidth: 450,
+      minWidth: 250,
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -135,7 +135,7 @@ const ClientQuoteManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 450,
+      minWidth: 250,
       filter: AgGridCustomDateFilter,
       filterParams: {
         type: 'date'

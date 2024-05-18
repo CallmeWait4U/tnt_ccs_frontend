@@ -137,17 +137,28 @@ export const useListCustomerWithPhase = (offset, limit, searchModel) => {
     }
   }
   return useQuery({
-    queryKey: ['ListCustomer'],
+    queryKey: ['ListCustomer', searchModel],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
-    retry: 2,
-    enabled: !!searchModel
+    retry: 2
   })
 }
-export const useUpdateTask = async (data) => {
+export const useUpdateTask = async (uuid) => {
   try {
-    const response = await api.post(`${BASE_URL}/activities/tasks/update`, data)
+    const response = await api.post(`${BASE_URL}/activities/tasks/update`, {
+      uuid
+    })
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+export const useDeleteTask = async (uuid) => {
+  try {
+    const response = await api.delete(`${BASE_URL}/activities/tasks/delete`, {
+      data: { uuid }
+    })
     return response
   } catch (error) {
     throw error

@@ -40,6 +40,7 @@ const TaskDetail = () => {
     mutationFn: useSendEmail,
     onSuccess: () => {
       console.log('Send email success')
+      message.success('Gửi email thành công')
     }
   })
   const { mutate: updateTask } = useMutation({
@@ -75,6 +76,7 @@ const TaskDetail = () => {
       })
     }
     setStatus(taskDetail?.status)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskDetail, form])
   const handleCreateEmailClick = () => {
     setShowCreateEmailModal(true)
@@ -88,16 +90,13 @@ const TaskDetail = () => {
     setFileList(fileList)
   }
   const handleUpdateTask = () => {
-    const body = {
-      uuid: uuid
-    }
-    updateTask(body)
+    updateTask(uuid[0])
   }
   const handleCreateEmail = (values) => {
     const formData = new FormData()
     formData.append('subject', values.subject)
     formData.append('content', values.content)
-    formData.append('activityUUID', uuid[0])
+    formData.append('taskUUID', uuid[0])
     fileList.forEach((file) => {
       formData.append('files', file)
     })
