@@ -22,7 +22,6 @@ const AgGridCustomTextFilter = ({ field, onInputChange, onDeleteInput }) => {
   }
 
   const handleApply = async () => {
-    console.log(field, '-', searchWord)
     onInputChange(searchWord)
   }
 

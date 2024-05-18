@@ -40,6 +40,7 @@ const TaskDetail = () => {
     mutationFn: useSendEmail,
     onSuccess: () => {
       console.log('Send email success')
+      message.success('Gửi email thành công')
     }
   })
   const { mutate: updateTask } = useMutation({
@@ -89,10 +90,7 @@ const TaskDetail = () => {
     setFileList(fileList)
   }
   const handleUpdateTask = () => {
-    const body = {
-      uuid: uuid
-    }
-    updateTask(body)
+    updateTask(uuid[0])
   }
   const handleCreateEmail = (values) => {
     const formData = new FormData()

@@ -196,12 +196,16 @@ const ActivityDetailForm = ({
     <Form
       {...layout}
       form={form1}
-      initialValues={{ createdDate: today }}
+      initialValues={{
+        createdDate: today,
+        autoAnnounceCus: false,
+        autoAnnounceEmp: false
+      }}
       onFinish={onFinish}
       key={'activityForm'}
     >
       <Modal
-        style={{ minWidth: '70vw', maxHeight: '80%', overflowY: 'auto' }}
+        style={{ minWidth: '70hw', maxHeight: '80%', overflowY: 'auto' }}
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
@@ -341,25 +345,33 @@ const ActivityDetailForm = ({
                   }}
                 />
               </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={8}>
+            <Col span={8}>
               <Form.Item name='customerUUID' label='Khách hàng:'>
                 <Input />
               </Form.Item>
-              <Form.Item name='employees' label='Nhân viên:'>
-                <Input />
-              </Form.Item>
             </Col>
+            <Form.Item
+              name='employees'
+              label='Nhân viên:'
+              style={{ display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
           </Row>
           <Row span={24}>
             <AgGridTable
               totalItem={dataCustomer?.total || 0}
               colDefs={colDefs}
               rowData={dataCustomer?.items || []}
-              width='100%'
               skip={skip}
               take={take}
               setTake={setTake}
               setSkip={setSkip}
               selectedRow={(rows) => setSelectedRowKeys(rows)}
+              refetchData={refetch}
             />
           </Row>
         </Card>

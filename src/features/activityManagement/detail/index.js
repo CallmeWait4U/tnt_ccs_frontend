@@ -11,6 +11,7 @@ import { RiInformationFill } from 'react-icons/ri'
 import { TbTrashFilled } from 'react-icons/tb'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
+  useDeleteTask,
   useGetAllTasks,
   useReadActivity,
   useUpdateActivity
@@ -48,6 +49,18 @@ const ActivityDetail = () => {
     onError: (error) => {
       console.log('Update error', error)
       message.error('Cập nhật hoạt động thất bại')
+    }
+  })
+  const { mutate: taskDelete } = useMutation({
+    mutationFn: useDeleteTask,
+    onSuccess: () => {
+      console.log('Delete success')
+      message.success('Xóa nhiệm vụ thành công')
+      refetch()
+    },
+    onError: (error) => {
+      console.log('Delete error', error)
+      message.error('Xóa nhiệm vụ thất bại')
     }
   })
   const [form] = Form.useForm()
@@ -89,7 +102,7 @@ const ActivityDetail = () => {
           <TbTrashFilled
             color='red'
             size={18}
-            onClick={() => console.log('trash')}
+            onClick={() => taskDelete(data.uuid)}
           />
         </Button>
         <Button
@@ -109,6 +122,7 @@ const ActivityDetail = () => {
           type='primary'
           shape='circle'
           style={{ backgroundColor: '#FEF3E9' }}
+          disabled={data.status !== 'INPROGRESS'}
         >
           <AiOutlineCheck color='#EBB425' size={24} />
         </Button>

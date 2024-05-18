@@ -11,7 +11,12 @@ const CustomerComplaint = (uuid) => {
   const [take, setTake] = useState(100)
   const { Title } = Typography
   const domain = '/' + window.location.pathname.split('/')[1]
-
+  const statusName = {
+    PENDING: 'Chưa xử lý',
+    PROCESSING: 'Đang xử lý',
+    SOLVED: 'Đã xử lý',
+    REPROCESS: 'Xử lý lại'
+  }
   const navigate = useNavigate()
   const { data: complaints } = useGetComplaint(uuid.uuid)
   const ActionComponent = (data) => {
@@ -49,7 +54,7 @@ const CustomerComplaint = (uuid) => {
     },
     {
       headerName: 'LOẠI KHIẾU NẠI',
-      field: 'complaintType',
+      field: 'typeComplaintName',
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
@@ -83,6 +88,12 @@ const CustomerComplaint = (uuid) => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueGetter: (params) => {
+        if (params.data.status) {
+          return statusName[params.data.status.status]
+        }
+        return ''
       }
     },
     {

@@ -99,9 +99,6 @@ const CompanyInformation = (id) => {
         name='control-hooks'
         onFinish={onFinish}
         key={'companyInfo'}
-        initialValues={{
-          hasAccount: false
-        }}
       >
         <Card
           title={'Thông tin Doanh nghiệp'}
