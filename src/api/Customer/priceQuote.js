@@ -42,9 +42,7 @@ export const useListPriceQuoteRequest = (offset, limit) => {
 export const useReadPriceQuote = (id) => {
   const fetchData = async () => {
     try {
-      const response = await api.get(
-        `${BASE_URL}/price-quotes/detail/byCustomer?uuid=${id}`
-      )
+      const response = await api.get(`${BASE_URL}/price-quotes/${id}`)
       return response.data
     } catch (error) {
       throw error

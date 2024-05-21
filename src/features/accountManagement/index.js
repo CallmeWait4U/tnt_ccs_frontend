@@ -345,7 +345,7 @@ const AccountManagement = () => {
     },
     {
       headerName: 'GIAI ĐOẠN',
-      field: 'phase',
+      field: 'phaseName',
       minWidth: 150,
       cellStyle: {
         display: 'flex',

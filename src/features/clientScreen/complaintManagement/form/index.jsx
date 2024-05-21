@@ -6,7 +6,8 @@ import {
   Input,
   Radio,
   Row,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import Card from 'antd/lib/card/Card'
 
@@ -19,7 +20,6 @@ import {
 } from '../../../../api/Admin/complaint'
 import { useCreateComplaint } from '../../../../api/Customer/complaint'
 import { ButtonOk } from '../../../../assets/styles/button.style'
-import { PATH } from '../../../../contants/common'
 import { StyledSelect } from '../../../component/ComponentOfForm'
 import '../complaintManagement.css'
 
@@ -33,7 +33,8 @@ const ChildrenComponent = ({ uuid }) => {
     mutationFn: useCreateComplaint,
     onSuccess: () => {
       console.log('Create complaint success')
-      navigate(`${domain + PATH.CUSTOME_URL.COMPLAINT}`)
+      message.success('Tạo khiếu nại thành công')
+      // navigate(`${domain + PATH.CUSTOME_URL.COMPLAINT}`)
     }
   })
 

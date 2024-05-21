@@ -31,7 +31,9 @@ const ClientBillManagement = () => {
             color='00AEEF'
             size={24}
             onClick={() => {
-              navigate(`${domain + PATH.CUSTOME_URL.BILL}/${data.uuid}`)
+              navigate(`${domain + PATH.CUSTOME_URL.BILL}/${data.uuid}`, {
+                state: data.uuid
+              })
             }}
           />
         </Button>
