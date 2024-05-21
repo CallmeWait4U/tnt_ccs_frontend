@@ -42,7 +42,7 @@ const ClientComplaintDetail = () => {
         code: ComplaintData.code,
         status: ComplaintData.status
       })
-      ComplaintData?.listOfField.forEach((field, index) => {
+      ComplaintData?.listOfField?.forEach((field, index) => {
         const valueField = ComplaintData?.valueFieldComplaint.find(
           (valueField) => valueField.fieldComplaintUUID === field.uuid
         )

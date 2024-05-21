@@ -68,7 +68,7 @@ const PhaseDetail = () => {
                 fontWeight: '700'
               }}
             >
-              Chi tiết giai đoạn {phase.name ? phase.name : ''}
+              Chi tiết giai đoạn {phase?.name ? phase?.name : ''}
             </Title>
           </Col>
           <Col md={4} style={{ display: 'flex', justifyContent: 'right' }}>

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useListProduct } from '../../../api/Customer/product'
 
 const ClientHome = () => {
-  const [skip, setSkip] = useState(20)
+  const [skip, setSkip] = useState(42)
   const [take, setTake] = useState(8)
   const { data: ProductList } = useListProduct(skip, take)
   const { Title } = Typography
