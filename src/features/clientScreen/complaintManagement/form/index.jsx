@@ -13,7 +13,7 @@ import Card from 'antd/lib/card/Card'
 
 import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import {
   useGetDetailType,
   useGetTypeComplaint
@@ -27,8 +27,8 @@ const ChildrenComponent = ({ uuid }) => {
   const [fileList, setFileList] = useState([])
   const [form] = Form.useForm()
   const { data: detailType } = useGetDetailType(uuid)
-  const navigate = useNavigate()
-  const domain = '/' + window.location.pathname.split('/')[1]
+  // const navigate = useNavigate()
+  // const domain = '/' + window.location.pathname.split('/')[1]
   const { mutate: createComplaint } = useMutation({
     mutationFn: useCreateComplaint,
     onSuccess: () => {

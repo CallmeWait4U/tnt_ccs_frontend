@@ -1,5 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Card, Col, Flex, Form, Input, Row, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Typography,
+  message
+} from 'antd'
+import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -10,13 +21,17 @@ import '../accountManagement.css'
 const AccountDetail = () => {
   const { Title } = Typography
   const [isUpdate, setIsUpdate] = useState(false)
+  const [cities, setCities] = useState([])
+  const [districts, setDistricts] = useState([])
   const location = useLocation()
   const paramsString = location.pathname.split('/')[3]
   const uuid = paramsString.split('&')
+  console.log(uuid[2])
   const { data: account } = useReadAccount(uuid[0])
   const { mutate: mutateUpdate } = useMutation({
     mutationFn: useUpdateAccount,
     onSuccess: () => {
+      message.success('Cập nhật thành công')
       console.log('Update success')
     }
   })
@@ -42,10 +57,41 @@ const AccountDetail = () => {
         dayOfBirth: dayjs(account.dayOfBirth),
         gender: account.gender,
         nationality: account.nationality,
-        cccd: account.cccd
+        cccd: account.cccd,
+        description: account.description
       })
     }
   }, [account, form])
+
+  useEffect(() => {
+    axios
+      .get('https://esgoo.net/api-tinhthanh/1/0.htm')
+      .then((response) => {
+        const cityOptions = response.data.data.map((city) => ({
+          value: city.id,
+          label: city.name
+        }))
+        setCities(cityOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+  }, [])
+  const handleCityChange = (value) => {
+    form.setFieldsValue({ district: undefined }) // Clear selected district
+    axios
+      .get(`https://esgoo.net/api-tinhthanh/2/${value}.htm`)
+      .then((response) => {
+        const districtOptions = response.data.data.map((district) => ({
+          value: district.id,
+          label: district.name
+        }))
+        setDistricts(districtOptions)
+      })
+      .catch((error) => {
+        console.error('Error fetching districts:', error)
+      })
+  }
   return (
     <Form layout='vertical' form={form} onFinish={onFinish}>
       <Row gutter={16} style={{ marginBottom: '14px' }}>
@@ -112,210 +158,318 @@ const AccountDetail = () => {
         </Col>
       </Row>
       <Card title='Thông tin Chủ tài khoản'>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item
-              label='Tên chủ tài khoản'
-              name={'name'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label='Mã nhân viên'
-              name={'code'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label='Vị trí'
-              name={'position'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item
-              label='Ngày sinh'
-              name={'dayOfBirth'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <StyledDatepicker disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label='Giới tính'
-              name={'gender'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <StyledSelect
-                placeholder={'Chọn giới tính'}
-                options={[
-                  { value: 'MALE', label: 'Nam' },
-                  { value: 'FEMALE', label: 'Nữ' }
-                ]}
-                disabled={!isUpdate}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label='Quốc tịch' name={'nationality'}>
-              <StyledSelect
-                placeholder='Chọn quốc tịch'
-                options={[{ value: 1, label: 'Việt Nam' }]}
-                disabled={!isUpdate}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={14}>
-          <Col span={8}>
-            <Form.Item
-              label='CCCD'
-              name={'cccd'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label='Số điện thoại' name={'phoneNumber'}>
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label='Email'
-              name={'email'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={14}>
-          <Col span={8}>
-            <Form.Item
-              className='customHorizontal customDetailAddress'
-              label={'Địa chỉ'}
-              name={'detailAddress'}
-            >
-              <Input disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              className='customHorizontal customAddress'
-              label={' '}
-              name={'district'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <StyledSelect
-                placeholder='Chọn quận/huyện'
-                disabled={!isUpdate}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              className='customHorizontal customAddress'
-              label={' '}
-              name={'city'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <StyledSelect
-                placeholder='Chọn tỉnh/thành phố'
-                options={[
-                  { value: 1, label: 'Hồ Chí Minh' },
-                  { value: 2, label: 'Bình Định' },
-                  { value: 3, label: 'Bến Tre' }
-                ]}
-                disabled={!isUpdate}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={14}>
-          <Col span={8}>
-            <Form.Item label='Ghi chú' name={'description'}>
-              <Input.TextArea disabled={!isUpdate} />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              label='Loại tài khoản'
-              name={'type'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Yêu cầu thông tin'
-                }
-              ]}
-            >
-              <StyledSelect
-                options={[
-                  { value: 'ADMIN', label: 'Quản trị viên' },
-                  { value: 'EMPLOYEE', label: 'Nhân viên' }
-                ]}
-                disabled={!isUpdate}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+        {uuid[2] === 'customer' ? (
+          <>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label='Tên chủ tài khoản'
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Mã khách hàng'
+                  name={'code'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Số điện thoại' name={'phoneNumber'}>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customDetailAddress'
+                  label={'Địa chỉ'}
+                  name={'detailAddress'}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'district'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn quận huyện'
+                    options={districts}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'city'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn thành phố'
+                    options={cities}
+                    onChange={handleCityChange}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  label='Email'
+                  name={'email'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Ghi chú' name={'description'}>
+                  <Input.TextArea disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label='Tên chủ tài khoản'
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Mã nhân viên'
+                  name={'code'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Vị trí'
+                  name={'position'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label='Ngày sinh'
+                  name={'dayOfBirth'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledDatepicker disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Giới tính'
+                  name={'gender'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder={'Chọn giới tính'}
+                    options={[
+                      { value: 'MALE', label: 'Nam' },
+                      { value: 'FEMALE', label: 'Nữ' },
+                      { value: 'UNKNOWN', label: 'Khác' }
+                    ]}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Quốc tịch' name={'nationality'}>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  label='CCCD'
+                  name={'cccd'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Số điện thoại' name={'phoneNumber'}>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Email'
+                  name={'email'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customDetailAddress'
+                  label={'Địa chỉ'}
+                  name={'detailAddress'}
+                >
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'district'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn quận huyện'
+                    options={districts}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'city'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn thành phố'
+                    options={cities}
+                    onChange={handleCityChange}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item label='Ghi chú' name={'description'}>
+                  <Input.TextArea disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Loại tài khoản'
+                  name={'type'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    options={[
+                      { value: 'ADMIN', label: 'Quản trị viên' },
+                      { value: 'EMPLOYEE', label: 'Nhân viên' }
+                    ]}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </>
+        )}
       </Card>
     </Form>
   )

@@ -162,21 +162,15 @@ const NewAccount = () => {
                       placeholder={'Chọn giới tính'}
                       options={[
                         { value: 'MALE', label: 'Nam' },
-                        { value: 'FEMALE', label: 'Nữ' }
+                        { value: 'FEMALE', label: 'Nữ' },
+                        { value: 'UNKNOWN', label: 'Khác' }
                       ]}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label='Quốc tịch' name={'nationality'}>
-                    <StyledSelect
-                      placeholder='Chọn quốc tịch'
-                      options={[
-                        { value: 'Việt Nam', label: 'Việt Nam' },
-                        { value: 'Lào', label: 'Lào' },
-                        { value: 'Campuchia', label: 'Campuchia' }
-                      ]}
-                    />
+                    <Input />
                   </Form.Item>
                 </Col>
               </Row>

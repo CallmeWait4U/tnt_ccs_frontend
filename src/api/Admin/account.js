@@ -20,6 +20,25 @@ export const useGetAllAccounts = (offset, limit, type) => {
     retry: 2
   })
 }
+export const useGetPendingAccounts = (offset, limit) => {
+  const fetchData = async () => {
+    try {
+      const response = await api.get(
+        `/accounts/approvalCustomers?offset=${offset}&limit=${limit}`
+      )
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return useQuery({
+    queryKey: ['ListPendingAccount'],
+    queryFn: () => fetchData(),
+    staleTime: 3 * 1000,
+    refetchOnWindowFocus: false,
+    retry: 2
+  })
+}
 export const useReadAccount = (id) => {
   const fetchData = async () => {
     try {
@@ -50,7 +69,6 @@ export const useCreateAccount = async (data) => {
 
 export const useDeleteAccount = async (uuid) => {
   try {
-    console.log(uuid)
     const response = await api.delete(`${BASE_URL}/accounts/delete`, uuid)
     return response.data
   } catch (error) {
@@ -60,6 +78,25 @@ export const useDeleteAccount = async (uuid) => {
 export const useUpdateAccount = async (data) => {
   try {
     const response = await api.put(`${BASE_URL}/accounts/update`, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+export const useAcceptAccount = async (data) => {
+  try {
+    const response = await api.post(
+      `${BASE_URL}/accounts/createForCustomer`,
+      data
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+export const useRejectAccount = async (data) => {
+  try {
+    const response = await api.put(`${BASE_URL}/accounts/rejectCustomer`, data)
     return response.data
   } catch (error) {
     throw error
