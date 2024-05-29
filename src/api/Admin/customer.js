@@ -247,3 +247,11 @@ export const useGetProductList = () => {
     retry: 2
   })
 }
+export const useConfirmTask = async (data) => {
+  try {
+    const response = await api.post(`${BASE_URL}/activities/tasks/update`, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
