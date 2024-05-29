@@ -1,20 +1,29 @@
-import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Button, Card, Col, Flex, Form, Input, Row, message } from 'antd'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useGetPhaseList, useReadCustomer } from '../../../api/Admin/customer'
+import {
+  useGetPhaseList,
+  useReadCustomer,
+  useUpdateBusiness
+} from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
-
 const CompanyInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
-  const [hasAccount, setHasAccount] = useState(false)
   const [cities, setCities] = useState([])
   const [districts, setDistricts] = useState([])
   const [form] = Form.useForm()
   const { data: phaseList } = useGetPhaseList()
   const { data: customerInfo } = useReadCustomer(id.id)
-
+  const { mutate: updateBusiness } = useMutation({
+    mutationFn: useUpdateBusiness,
+    onSuccess: () => {
+      console.log('Update business success')
+      message.success('Cập nhật thông tin doanh nghiệp thành công')
+    }
+  })
   const layout = {
     labelCol: {
       span: 12
@@ -30,34 +39,28 @@ const CompanyInformation = (id) => {
   }))
 
   const onFinish = (values) => {
-    console.log(values)
+    updateBusiness({ ...customerInfo, ...values, uuid: id.id })
     setIsUpdate(false)
-  }
-  const handleChangeCustomerInfo = (values) => {
-    console.log(values)
-  }
-  const onChangeAccount = (value) => {
-    setHasAccount(value)
   }
   useEffect(() => {
     if (customerInfo) {
       form.setFieldsValue({
         source: customerInfo.source,
         phaseName: customerInfo.phaseName,
-        businessName: customerInfo.name,
-        customerCode: customerInfo.code,
-        cccd: customerInfo.id,
+        name: customerInfo.name,
+        code: customerInfo.code,
         phoneNumber: customerInfo.phoneNumber,
         description: customerInfo.description,
         email: customerInfo.email,
         detailAddress: customerInfo.detailAddress,
         city: customerInfo.city,
         district: customerInfo.district,
-        businessRegistrationNumber: customerInfo.registrationNumber,
+        registrationNumber: customerInfo.registrationNumber,
         taxCode: customerInfo.taxCode,
-        businessIndustryId: customerInfo.industry,
-        businessNationality: customerInfo.representativeNationality,
-        createdDate: dayjs(customerInfo.createdDate)
+        industry: customerInfo.industry,
+        representativeNationality: customerInfo.representativeNationality,
+        createdDate: dayjs(customerInfo.createdDate),
+        hasAccount: customerInfo.hasAccount
       })
     }
   }, [customerInfo, form])
@@ -127,7 +130,6 @@ const CompanyInformation = (id) => {
                     }}
                     size={40}
                     htmlType='submit'
-                    onClick={handleChangeCustomerInfo}
                   >
                     Lưu
                   </Button>
@@ -153,7 +155,7 @@ const CompanyInformation = (id) => {
             )
           }
         >
-          <Row gutter={16}>
+          <Row gutter={8}>
             <Col span={8}>
               <Form.Item
                 label={'Loại khách hàng'}
@@ -168,26 +170,17 @@ const CompanyInformation = (id) => {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item
-                label={'Giai đoạn'}
-                name={'phaseName'}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: 'Yêu cầu thông tin'
-                //   }
-                // ]}
-              >
+              <Form.Item label={'Giai đoạn'} name={'phaseName'}>
                 <StyledSelect options={phaseOptions} disabled={!isUpdate} />
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label={'Mã khách hàng'} name={'customerCode'}>
+              <Form.Item label={'Mã khách hàng'} name={'code'}>
                 <Input disabled={true} />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={16}>
+          <Row gutter={8}>
             <Col span={8}>
               <Form.Item
                 label={'Nguồn khách hàng'}
@@ -217,13 +210,16 @@ const CompanyInformation = (id) => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12} xl={8} className={hasAccount ? '' : 'notHasAccount'}>
+            <Col span={8}>
               {' '}
               <Form.Item label={'Tài khoản'} name={'hasAccount'}>
-                <Switch
-                  checked={hasAccount}
-                  onChange={onChangeAccount}
-                  defaultChecked={false}
+                <StyledSelect
+                  options={[
+                    { value: 'NOTAPPROVED', label: 'Không' },
+                    { value: 'PENDING', label: 'Chờ duyệt' },
+                    { value: 'APPROVED', label: 'Đã duyệt' }
+                  ]}
+                  disabled={!isUpdate}
                 />
               </Form.Item>
             </Col>
@@ -235,7 +231,7 @@ const CompanyInformation = (id) => {
                   <Form.Item
                     className='customHorizontal'
                     label={'Tên Công ty'}
-                    name={'businessName'}
+                    name={'name'}
                     rules={[
                       {
                         required: true,
@@ -265,7 +261,7 @@ const CompanyInformation = (id) => {
                   <Form.Item
                     className='customHorizontal'
                     label={'Số ĐKKD'}
-                    name={'businessRegistrationNumber'}
+                    name={'registrationNumber'}
                     rules={[
                       {
                         required: true,
@@ -282,20 +278,16 @@ const CompanyInformation = (id) => {
                   <Form.Item
                     className='customHorizontal'
                     label={'Quốc gia'}
-                    name={'businessNationality'}
+                    name={'representativeNationality'}
                   >
-                    <StyledSelect
-                      placeholder='Chọn quốc gia'
-                      options={[{ value: 1, label: 'Việt Nam' }]}
-                      disabled={!isUpdate}
-                    />
+                    <Input disabled={!isUpdate} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item
                     className='customHorizontal'
                     label={'Lĩnh vực kinh doanh'}
-                    name={'businessIndustryId'}
+                    name={'industry'}
                   >
                     <Input disabled={!isUpdate} />
                   </Form.Item>

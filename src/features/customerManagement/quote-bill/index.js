@@ -79,7 +79,11 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm, uuid }) => {
       </div>
     )
   }
-
+  const statusPriceQuote = {
+    SENT: 'Đã gửi',
+    UNSENT: 'Chưa gửi',
+    CANCELED: 'Đã hủy'
+  }
   const colPriceQuoteRequest = [
     {
       headerName: 'MÃ YÊU CẦU BÁO GIÁ',
@@ -172,7 +176,10 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm, uuid }) => {
       },
       minWidth: 200,
       suppressMovable: true,
-      resizable: false
+      resizable: false,
+      valueFormatter: ({ value }) => {
+        return (value = statusPriceQuote[value])
+      }
     },
     {
       headerName: 'THAO TÁC',
@@ -229,6 +236,9 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm, uuid }) => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
+      },
+      valueFormatter: ({ value }) => {
+        return value === 'PAID' ? 'Đã thanh toán' : 'Chưa thanh toán'
       }
     },
     {
@@ -303,7 +313,7 @@ const CustomerQuoteBill = ({ setIsShowQuoteForm, setIsShowBillForm, uuid }) => {
             console.log(params)
           }}
           showPagination={false}
-          width='1000px'
+          width='700px'
           height='100%'
           autoHeight={true}
           customCustomer='customCustomer'
