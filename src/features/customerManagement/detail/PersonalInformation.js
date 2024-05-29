@@ -1,26 +1,36 @@
-import { Button, Card, Col, Flex, Form, Input, Row, Switch } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Button, Card, Col, Flex, Form, Input, Row, message } from 'antd'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useGetPhaseList, useReadCustomer } from '../../../api/Admin/customer'
+import {
+  useGetPhaseList,
+  useReadCustomer,
+  useUpdateIndividual
+} from '../../../api/Admin/customer'
 import { ButtonOk } from '../../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../../component/ComponentOfForm'
 
 const PersonalInformation = (id) => {
   const [isUpdate, setIsUpdate] = useState(false)
-  const [hasAccount, setHasAccount] = useState(false)
   const [cities, setCities] = useState([])
   const [districts, setDistricts] = useState([])
   const [source, setSource] = useState(1)
   const [form] = Form.useForm()
   const { data: customerInfo } = useReadCustomer(id.id)
   const { data: phaseList } = useGetPhaseList()
+  const { mutate: updateIndividual } = useMutation({
+    mutationFn: useUpdateIndividual,
+    onSuccess: () => {
+      message.success('Cập nhật thông tin thành công')
+    }
+  })
   useEffect(() => {
     if (customerInfo) {
       form.setFieldsValue({
         customerName: customerInfo.name,
         phaseName: customerInfo.phaseName,
-        customerCode: customerInfo.code,
+        code: customerInfo.code,
         source: customerInfo.source,
         cccd: customerInfo.cccd,
         phoneNumber: customerInfo.phoneNumber,
@@ -32,7 +42,8 @@ const PersonalInformation = (id) => {
         gender: customerInfo.gender,
         createdDate: dayjs(customerInfo.createdDate),
         dayOfBirth: dayjs(customerInfo.dayOfBirth),
-        nationality: customerInfo.nationality
+        nationality: customerInfo.nationality,
+        hasAccount: customerInfo.hasAccount
       })
     }
   }, [customerInfo, form])
@@ -82,12 +93,8 @@ const PersonalInformation = (id) => {
   }))
 
   const onFinish = (values) => {
-    console.log(values)
+    updateIndividual({ ...values, uuid: id.id })
     setIsUpdate(false)
-  }
-
-  const onChangeAccount = (value) => {
-    setHasAccount(value)
   }
 
   return (
@@ -180,7 +187,7 @@ const PersonalInformation = (id) => {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label={'Mã khách hàng'} name={'customerCode'}>
+              <Form.Item label={'Mã khách hàng'} name={'code'}>
                 <Input disabled={true} />
               </Form.Item>
             </Col>
@@ -218,13 +225,16 @@ const PersonalInformation = (id) => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12} xl={8} className={hasAccount ? '' : 'notHasAccount'}>
+            <Col span={8}>
               {' '}
               <Form.Item label={'Tài khoản'} name={'hasAccount'}>
-                <Switch
-                  checked={hasAccount}
-                  onChange={onChangeAccount}
-                  defaultChecked={false}
+                <StyledSelect
+                  options={[
+                    { value: 'NOTAPPROVED', label: 'Không' },
+                    { value: 'PENDING', label: 'Chờ duyệt' },
+                    { value: 'APPROVED', label: 'Đã duyệt' }
+                  ]}
+                  disabled={!isUpdate}
                 />
               </Form.Item>
             </Col>

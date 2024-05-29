@@ -65,10 +65,24 @@ export const useCreateCustomer = async (data) => {
     throw error
   }
 }
-export const useUpdateCustomer = async (id, data) => {
+export const useUpdateBusiness = async (data) => {
   try {
-    const response = await api.put(`${BASE_URL}/customers/${id}`, data)
-    return response
+    const response = await api.put(
+      `${BASE_URL}/customers/update/business`,
+      data
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+export const useUpdateIndividual = async (data) => {
+  try {
+    const response = await api.put(
+      `${BASE_URL}/customers/update/individual`,
+      data
+    )
+    return response.data
   } catch (error) {
     throw error
   }
