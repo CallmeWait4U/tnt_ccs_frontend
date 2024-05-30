@@ -3,7 +3,7 @@ import { Col, Row, Tabs } from 'antd'
 import { Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-
+import { useReadCustomer } from '../../../api/Admin/customer'
 import CustomerComplaint from '../complaint'
 import ActivityForm from '../form/ActivityForm'
 import BillForm from '../form/BillForm'
@@ -23,9 +23,11 @@ const CustomerDetail = () => {
   const { Title } = Typography
   const location = useLocation()
   const paramsString = location.pathname.split('/')[3]
+
   const paramsArray = paramsString.split('&')
   const isBusiness = paramsArray[0]
   const uuid = paramsArray[1]
+  const { data: customer } = useReadCustomer(uuid)
   const typeCustomer = isBusiness === 'true' ? 1 : 2
   const items = [
     {
@@ -69,7 +71,8 @@ const CustomerDetail = () => {
     {
       label: 'Gửi tin nhắn',
       key: 'chat',
-      children: <MessageBox uuid={uuid} />
+      children: <MessageBox uuid={uuid} />,
+      disabled: customer?.hasAccount === 'APPROVED' ? false : true
     }
   ]
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Card, Col, Row, Select, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import {
@@ -26,6 +27,12 @@ const Dashboard = () => {
     1: 'Landing Page',
     2: 'Tự khai thác',
     3: 'Khác'
+  }
+  const statusComplaintMap = {
+    PENDING: 'Chờ xử lý',
+    PROCESSING: 'Đang xử lý',
+    REPROCESS: 'Xử lý lại',
+    SOLVED: 'Đã xử lý'
   }
   const { data: customerPhaseByMonth, refetch } = useCustomerPhaseByMonth(time)
   const { data: priceQuoteByMonth } = usePriceQuoteByMonth(time2)
@@ -68,7 +75,6 @@ const Dashboard = () => {
       }))
       setChartData3(transformedData)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerFollowingSource])
   useEffect(() => {
     if (customerByLocation) {
@@ -85,7 +91,7 @@ const Dashboard = () => {
         complaint.classification.map((classification) => ({
           typeComplaintName: complaint.typeComplaintName,
           numComplaint: classification.numComplaint,
-          status: classification.status
+          status: statusComplaintMap[classification.status]
         }))
       )
       setChartData5(mappedData)
@@ -288,7 +294,7 @@ const Dashboard = () => {
               </Col>
               </Row> */}
       </Row>
-      <Row gutter={[24, 0]}>
+      <Row gutter={[24, 0]} className='pb-8'>
         <Col span={10}>
           <Card bordered={false}>
             <div>

@@ -1,26 +1,34 @@
+import { useMutation } from '@tanstack/react-query'
 import { Button, Col, Row, Typography } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { RiInformationFill } from 'react-icons/ri'
-import { TbTrashFilled } from 'react-icons/tb'
+import { RiCheckLine, RiInformationFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
-import { useGetTask } from '../../../api/Admin/customer'
+import { useConfirmTask, useGetTask } from '../../../api/Admin/customer'
 import AgGridTable from '../../../components/aggrid/AgGridTable'
 import { PATH } from '../../../contants/common'
 import './activityHistory.css'
-
 const ActivityHistory = ({ uuid }) => {
   const [take, setTake] = useState(100)
   const { Title } = Typography
-  const { data: allTasks } = useGetTask(uuid, 'false')
-  const { data: allTasksDone } = useGetTask(uuid, 'true')
+  const { data: allTasks, refetch: refetchTask } = useGetTask(uuid, 'false')
+  const { data: allTasksDone, refetch: refetchHistory } = useGetTask(
+    uuid,
+    'true'
+  )
   const navigate = useNavigate()
   const domain = '/' + window.location.pathname.split('/')[1]
-
+  const { mutate: confirmTask } = useMutation({
+    mutationFn: useConfirmTask,
+    onSuccess: () => {
+      refetchTask()
+      refetchHistory()
+    }
+  })
   const ActionComponent = (data) => {
     return (
       <div style={{ gap: '15px', display: 'flex' }}>
-        <Button
+        {/* <Button
           type='primary'
           shape='circle'
           style={{ backgroundColor: 'rgb(255,225,225)' }}
@@ -29,6 +37,19 @@ const ActivityHistory = ({ uuid }) => {
             color='red'
             size={18}
             onClick={() => console.log('trash')}
+          />
+        </Button> */}
+        <Button
+          type='primary'
+          shape='circle'
+          style={{ backgroundColor: 'greenyellow' }}
+        >
+          <RiCheckLine
+            color='green'
+            size={18}
+            onClick={() => {
+              confirmTask({ uuid: data.uuid })
+            }}
           />
         </Button>
         <Button

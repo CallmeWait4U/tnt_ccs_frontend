@@ -208,7 +208,8 @@ const AdditionalInformation = ({ id, typeCustomer }) => {
                     placeholder={'Chọn giới tính'}
                     options={[
                       { value: 'MALE', label: 'Nam' },
-                      { value: 'FEMALE', label: 'Nữ' }
+                      { value: 'FEMALE', label: 'Nữ' },
+                      { value: 'UNKNOWN', label: 'Khác' }
                     ]}
                     disabled={!isUpdate}
                   />
