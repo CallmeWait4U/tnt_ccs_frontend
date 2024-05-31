@@ -12,7 +12,12 @@ const PrivateRoute = ({ children }) => {
   // const domainFromToken = token ? '/' + token?.domain : ''
   const domain = window.location.pathname.split('/')[1]
 
-  const socket = io('http://localhost:3001', {
+  // const socket = io('http://localhost:3001', {
+  //   auth: {
+  //     token: token
+  //   }
+  // }).connect()
+  const socket = io('http://backend_tntccs.infotechacademy.vn:3001', {
     auth: {
       token: token
     }
