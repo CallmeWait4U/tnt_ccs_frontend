@@ -37,16 +37,14 @@ const BusinessRegister = () => {
   const openNotification = () => {
     notification.open({
       type: 'success',
-      message: 'Create account success!',
-      description:
-        "Check your email to get your company's domain . Thank you for choosing us!"
+      message: 'Tạo tài khoản thành công!',
+      description: 'Vui lòng kiểm tra email để nhận domain của bạn!'
     })
   }
   const { mutate: register } = useMutation({
     mutationFn: useRegister,
     onSuccess: () => {
-      console.log('Register success')
-      message.success('Tạo thành công')
+      message.destroy()
       setErrorMessage(false)
       openNotification()
     },
@@ -90,7 +88,7 @@ const BusinessRegister = () => {
       })
   }
   const handleFinish = (values) => {
-    console.log(values)
+    message.loading('Đang xử lý...', 0)
     setDomain(values.domain)
     register(values)
   }

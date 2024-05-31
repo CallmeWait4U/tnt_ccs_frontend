@@ -30,7 +30,7 @@ export const PATH = Object.freeze({
   BOARD: '/board',
   ORGANIZATION: '/organization',
   COMPLAINT: '/complaints',
-  COMPLAINTDETAIL: 'complaints/:id',
+  COMPLAINTDETAIL: '/complaints/:id',
   COMPLAINTCLASSIFY: '/complaint-classify',
   COMPLAINTTYPECREATE: '/complaint-type-create',
   TABLE: '/tables',
