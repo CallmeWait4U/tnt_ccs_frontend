@@ -81,212 +81,207 @@ const NewAccount = () => {
           </Flex>
         </Col>
       </Row>
-      <Card
-        className='accountForm'
-        style={{ height: 680, maxHeight: 680, overflowX: 'hidden' }}
-      >
-        <Row gutter={[16, 16]}>
-          <Col span={14} xl={12}>
-            <Card title='Thông tin Chủ tài khoản'>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Form.Item
-                    label='Tên chủ tài khoản'
-                    name={'name'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Card title='Thông tin Chủ tài khoản'>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label='Tên chủ tài khoản'
+                  name={'name'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Mã nhân viên'
+                  name={'code'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Vị trí'
+                  name={'position'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label='Ngày sinh'
+                  name={'dayOfBirth'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledDatepicker />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Giới tính'
+                  name={'gender'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder={'Chọn giới tính'}
+                    options={[
+                      { value: 'MALE', label: 'Nam' },
+                      { value: 'FEMALE', label: 'Nữ' },
+                      { value: 'UNKNOWN', label: 'Khác' }
                     ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label='Mã nhân viên'
-                    name={'code'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Quốc tịch' name={'nationality'}>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  label='CCCD'
+                  name={'cccd'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label='Số điện thoại' name={'phoneNumber'}>
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Email'
+                  name={'email'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customDetailAddress'
+                  label={'Địa chỉ'}
+                  name={'detailAddress'}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'district'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn quận huyện'
+                    options={districts}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  className='customHorizontal customAddress'
+                  label={' '}
+                  name={'city'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    placeholder='Chọn thành phố'
+                    options={cities}
+                    onChange={handleCityChange}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={14}>
+              <Col span={8}>
+                <Form.Item label='Ghi chú' name={'description'}>
+                  <Input.TextArea />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label='Loại tài khoản'
+                  name={'type'}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Yêu cầu thông tin'
+                    }
+                  ]}
+                >
+                  <StyledSelect
+                    options={[
+                      { value: 'ADMIN', label: 'Quản trị viên' },
+                      { value: 'EMPLOYEE', label: 'Nhân viên' }
                     ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label='Vị trí'
-                    name={'position'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <Form.Item
-                    label='Ngày sinh'
-                    name={'dayOfBirth'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <StyledDatepicker />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label='Giới tính'
-                    name={'gender'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      placeholder={'Chọn giới tính'}
-                      options={[
-                        { value: 'MALE', label: 'Nam' },
-                        { value: 'FEMALE', label: 'Nữ' },
-                        { value: 'UNKNOWN', label: 'Khác' }
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item label='Quốc tịch' name={'nationality'}>
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={14}>
-                <Col span={8}>
-                  <Form.Item
-                    label='CCCD'
-                    name={'cccd'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item label='Số điện thoại' name={'phoneNumber'}>
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label='Email'
-                    name={'email'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={14}>
-                <Col span={8}>
-                  <Form.Item
-                    className='customHorizontal customDetailAddress'
-                    label={'Địa chỉ'}
-                    name={'detailAddress'}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    className='customHorizontal customAddress'
-                    label={' '}
-                    name={'district'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      placeholder='Chọn quận huyện'
-                      options={districts}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    className='customHorizontal customAddress'
-                    label={' '}
-                    name={'city'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      placeholder='Chọn thành phố'
-                      options={cities}
-                      onChange={handleCityChange}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={14}>
-                <Col span={8}>
-                  <Form.Item label='Ghi chú' name={'description'}>
-                    <Input.TextArea />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    label='Loại tài khoản'
-                    name={'type'}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Yêu cầu thông tin'
-                      }
-                    ]}
-                  >
-                    <StyledSelect
-                      options={[
-                        { value: 'ADMIN', label: 'Quản trị viên' },
-                        { value: 'EMPLOYEE', label: 'Nhân viên' }
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-      </Card>
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
     </Form>
   )
 }

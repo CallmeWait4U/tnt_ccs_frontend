@@ -13,7 +13,7 @@ export const useListProduct = (offset, limit) => {
     }
   }
   return useQuery({
-    queryKey: ['ListProduct'],
+    queryKey: ['ListProduct', offset],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
