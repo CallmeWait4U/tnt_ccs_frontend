@@ -33,6 +33,9 @@ const PrivateRoute = ({ children }) => {
   if (domain === '') {
     return <Navigate to={PATH.LANDINGPAGE} replace={true} />
   }
+  if (!token) {
+    return <Navigate to={`${'/' + domain + PATH.SIGNIN}`} replace={true} />
+  }
   if (isLoading) return <Spin spinning={isLoading} fullscreen />
   if (
     !listCompany ||
