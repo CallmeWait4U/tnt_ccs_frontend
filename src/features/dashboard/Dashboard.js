@@ -218,7 +218,7 @@ const Dashboard = () => {
                           +
                           {item.ratioPreviousMonth === -1
                             ? 0
-                            : item.ratioPreviousMonth}
+                            : item.ratioPreviousMonth.toFixed(2)}
                           %
                         </div>
                       </Tooltip>
@@ -233,7 +233,7 @@ const Dashboard = () => {
                             alignItems: 'center'
                           }}
                         >
-                          -{item.ratioPreviousMonth}%
+                          -{item.ratioPreviousMonth.toFixed(2)}%
                         </div>
                       </Tooltip>
                     )}

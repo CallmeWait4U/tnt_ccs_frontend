@@ -1,8 +1,10 @@
-import { Button, Col, Form, Input, Modal, Row, Switch, Typography } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { Button, Col, Form, Input, Modal, Row, Typography, message } from 'antd'
 import Card from 'antd/lib/card/Card'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useGetProfile } from '../../api/Admin/profile'
+import { useChangePassword } from '../../api/auth'
 import { ButtonOk } from '../../assets/styles/button.style'
 import { StyledDatepicker, StyledSelect } from '../component/ComponentOfForm'
 const UserProfile = () => {
@@ -10,6 +12,18 @@ const UserProfile = () => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const { data: userInfo } = useGetProfile()
+  const { mutate: changePassword } = useMutation({
+    mutationFn: useChangePassword,
+    onSuccess: () => {
+      setIsOpen(false)
+      message.success('Đổi mật khẩu thành công')
+    },
+    onError: (error) => {
+      if (error.response.message === 'Old password wrong') {
+        message.error('Mật khẩu cũ không đúng')
+      } else message.error('Đổi mật khẩu thất bại')
+    }
+  })
   const [form] = Form.useForm()
   useEffect(() => {
     if (userInfo) {
@@ -24,11 +38,15 @@ const UserProfile = () => {
         position: userInfo.position,
         phoneNumber: userInfo.phoneNumber,
         email: userInfo.email,
-        description: userInfo.description
+        description: userInfo.description,
+        cccd: userInfo.cccd,
+        nationality: userInfo.nationality
       })
     }
   }, [userInfo, form])
-
+  const handleChangePassword = (values) => {
+    changePassword(values)
+  }
   return (
     <div>
       <Row gutter={[24, 0]} style={{ marginBottom: '5px' }}>
@@ -42,7 +60,7 @@ const UserProfile = () => {
             }}
           >
             {' '}
-            Thông tin chi tiết
+            Thông tin tài khoản
           </Title>
         </Col>
       </Row>
@@ -54,126 +72,77 @@ const UserProfile = () => {
         }}
       >
         <Card>
-          <Form className='tabled'>
-            <Row gutter={16}>
-              <Col>
-                <Form.Item name={'typecus'} label='Loại khách hàng'>
-                  <Input disabled={true} />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item name={'phase'} label='Giai đoạn'>
-                  <Input disabled={true} />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item name={'code'} label='Mã khách hàng'>
-                  <Input disabled={true} />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item label='Nhận email từ hệ thống'>
-                  <Switch />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
           <Form form={form} layout='vertical'>
             <Row gutter={[8, 16]}>
-              <Col span={12}>
-                <Card title={'Thông tin Doanh nghiệp'}>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name={'name'} label='Tên Công ty'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name={'tax'} label='Mã số thuế'>
-                        <StyledSelect disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='businessnumber' label='Số ĐKKD'>
-                        <StyledDatepicker disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name={'address'} label='Địa chỉ'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name={'district'} label=' '>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name={'city'} label=' '>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name='business' label='Lĩnh vực kinh doanh'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Card>
+              <Col span={8}>
+                <Form.Item name={'name'} label='Tên chủ tài khoản'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
               </Col>
-              <Col span={12}>
-                <Card title={'Thông tin Người đại diện doanh nghiệp'}>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name='name' label='Tên Người đại diện'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='tax' label='Giới tính'>
-                        <StyledSelect disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='birthday' label='Ngày sinh'>
-                        <StyledDatepicker disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name='id' label='CCCD'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='nationality' label='Quốc tịch'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='position' label='Chức vụ'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={8}>
-                      <Form.Item name='phoneNumber' label='Số điện thoại'>
-                        <Input disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name='email' label='Email'>
-                        <Input placeholder='Nhập Email' disabled={!isUpdate} />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Card>
+              <Col span={8}>
+                <Form.Item name={'code'} label='Mã tài khoản'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='position' label='Chức vụ'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='gender' label='Giới tính'>
+                  <StyledSelect
+                    placeholder={'Chọn giới tính'}
+                    options={[
+                      { value: 'MALE', label: 'Nam' },
+                      { value: 'FEMALE', label: 'Nữ' },
+                      { value: 'UNKNOWN', label: 'Khác' }
+                    ]}
+                    disabled={!isUpdate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='birthday' label='Ngày sinh'>
+                  <StyledDatepicker disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+
+              <Col span={8}>
+                <Form.Item name='cccd' label='CCCD'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='nationality' label='Quốc tịch'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+
+              <Col span={8}>
+                <Form.Item name='phoneNumber' label='Số điện thoại'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name='email' label='Email'>
+                  <Input placeholder='Nhập Email' disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name={'address'} label='Địa chỉ'>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name={'district'} label=' '>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item name={'city'} label=' '>
+                  <Input disabled={!isUpdate} />
+                </Form.Item>
               </Col>
             </Row>
           </Form>
@@ -221,16 +190,27 @@ const UserProfile = () => {
               justifyContent: 'flex-end'
             }}
           >
-            <ButtonOk onClick={() => setIsOpen(false)}>Hủy</ButtonOk>
+            <ButtonOk onClick={() => setIsOpen(false)} type='primary'>
+              Hủy
+            </ButtonOk>
             <Form.Item>
-              <ButtonOk onClick={() => setIsOpen(false)} htmlType='submit'>
+              <ButtonOk
+                form='changePasswordForm'
+                key='submit'
+                htmlType='submit'
+                type='primary'
+              >
                 Thay đổi mật khẩu
               </ButtonOk>
             </Form.Item>
           </div>
         }
       >
-        <Form layout='vertical'>
+        <Form
+          layout='vertical'
+          id='changePasswordForm'
+          onFinish={handleChangePassword}
+        >
           <Form.Item
             name='oldPassword'
             label='Nhập mật khẩu cũ'
@@ -241,7 +221,7 @@ const UserProfile = () => {
               }
             ]}
           >
-            <Input />
+            <Input type='password' />
           </Form.Item>
           <Form.Item
             name='newPassword'
@@ -253,7 +233,7 @@ const UserProfile = () => {
               }
             ]}
           >
-            <Input />
+            <Input type='password' />
           </Form.Item>
           <Form.Item
             name='confirmPassword'
@@ -265,7 +245,7 @@ const UserProfile = () => {
               }
             ]}
           >
-            <Input />
+            <Input type='password' />
           </Form.Item>
         </Form>
       </Modal>

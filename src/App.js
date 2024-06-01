@@ -3,14 +3,13 @@ import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './assets/styles/main.css'
 import './assets/styles/responsive.css'
-import { LOCAL_STORAGE_ITEM } from './contants/common'
 import { routesLayout, routesLayoutNoDomain } from './routes/routes'
 
 const queryClient = new QueryClient()
 
 const App = () => {
   // Lấy token từ localStorage
-  const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
+  // const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
   // Lấy domain từ token sử dụng jwtDecode, hoặc mặc định là ''
   const domain = '/:domain'
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react'
 // Images
 import { useMutation } from '@tanstack/react-query'
@@ -325,7 +326,7 @@ const ComplaintClassifytManagement = () => {
         })) || []
       setComplaintList(items)
     }
-  }, [typeComplaint, refetch])
+  }, [typeComplaint])
 
   const { Title } = Typography
   return (
