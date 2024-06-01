@@ -192,4 +192,3 @@ const routesLayout = [
 ]
 
 export { routesLayout, routesLayoutNoDomain }
-
