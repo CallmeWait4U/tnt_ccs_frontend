@@ -33,20 +33,16 @@ const PrivateRoute = ({ children }) => {
   if (domain === '') {
     return <Navigate to={PATH.LANDINGPAGE} replace={true} />
   }
+  if (!token) {
+    return <Navigate to={`${'/' + domain + PATH.SIGNIN}`} replace={true} />
+  }
   if (isLoading) return <Spin spinning={isLoading} fullscreen />
-  // console.log(
-  //   'ddd',
-  //   listCompany.items?.filter((item) => item.domain === domain)
-  // )
   if (
     !listCompany ||
     listCompany.total === 0 ||
     listCompany.items?.filter((item) => item.domain === domain).length === 0
   )
     return <NotFoundPage />
-  // if (!token) {
-  //   return <Navigate to={`${'/' + domain + PATH.SIGNIN}`} replace={true} />
-  // }
   return children
 }
 

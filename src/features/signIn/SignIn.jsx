@@ -16,9 +16,14 @@ const { useToken } = theme
 const { useBreakpoint } = Grid
 // const { Text, Link } = Typography
 const SignIn = () => {
-  const { token } = useToken()
-  const navigate = useNavigate()
+  const tokenFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
   const domain = window.location.pathname.split('/')[1]
+  const navigate = useNavigate()
+  if (tokenFromLocalStorage) {
+    navigate(`/${domain + PATH.HOME}`, { replace: true })
+  }
+
+  const { token } = useToken()
   const screens = useBreakpoint()
 
   const styles = {

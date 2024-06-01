@@ -49,16 +49,20 @@ const withPrivateRoute = (Component) => {
     </PrivateRoute>
   )
 }
-
-const routesLayout = [
+const routesLayoutNoDomain = [
   { path: PATH.LANDINGPAGE, element: <LandingPage /> },
   { path: PATH.DOMAIN_HOME, element: <CompanyRoute /> },
   { path: PATH.BUSSINESSREGISTER, element: <BusinessRegister /> },
   { path: PATH.CUSTOMERLANDINGPAGE, element: <CustomerLanding /> },
-  { path: PATH.DOMAIN_SIGNIN, element: withPrivateRoute(SignInPage)() },
   { path: PATH.SIGNUP, element: <CustomerLanding /> },
+  { path: PATH.HOME, element: <LandingPage /> },
+  { path: PATH.NOT_FOUND, element: <NotFoundPage /> }
+]
+
+const routesLayout = [
+  { path: PATH.SIGNIN, element: <SignInPage /> },
   { path: PATH.HOME, element: withPrivateRoute(HomePage)() },
-  { path: PATH.NOT_FOUND, element: <NotFoundPage /> },
+
   { path: PATH.CUSTOMER, element: withPrivateRoute(Customer)() },
   {
     path: PATH.CUSTOMERDETAIL,
@@ -187,4 +191,5 @@ const routesLayout = [
   }
 ]
 
-export default routesLayout
+export { routesLayout, routesLayoutNoDomain }
+
