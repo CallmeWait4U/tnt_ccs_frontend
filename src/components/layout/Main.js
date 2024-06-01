@@ -23,7 +23,6 @@ const Main = ({ children, pageProps, role }) => {
   let { pathname } = useLocation()
   pathname = pathname.replace('/', '')
   document.title = namePage
-  console.log('role', role)
   return (
     <Layout className={`layout-dashboard ${role.toLowerCase()}`}>
       <Sider
