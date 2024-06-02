@@ -9,7 +9,14 @@ const useSignin = async (data) => {
     throw error
   }
 }
-
+const useChangePassword = async (data) => {
+  try {
+    const response = await api.post(`${BASE_URL}/auth/changePassword`, data)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 const useRegister = async (data) => {
   try {
     console.log(data)
@@ -28,4 +35,4 @@ const useSignOut = async () => {
   }
 }
 
-export { useRegister, useSignOut, useSignin }
+export { useChangePassword, useRegister, useSignOut, useSignin }
