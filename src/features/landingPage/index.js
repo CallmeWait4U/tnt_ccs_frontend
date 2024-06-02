@@ -2,6 +2,7 @@ import { Button, Col, Image, Layout, Row, theme } from 'antd'
 import React from 'react'
 // Đường dẫn đến hình ảnh logo
 import { useNavigate } from 'react-router-dom'
+import landingpage_image from '../../assets/images/landingpage_image.png'
 import logo from '../../assets/images/logo.jpg'
 import { PATH } from '../../contants/common'
 
@@ -93,7 +94,7 @@ const LandingPage = () => {
             </div>
           </Col>
           <Col span={12} style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src='https://fastwork.vn/wp-content/uploads/2020/11/Thi%E1%BA%BFt-k%E1%BA%BF-kh%C3%B4ng-t%C3%AAn-39.png' />
+            <Image src={landingpage_image} preview={false} />
           </Col>
         </Row>
       </Content>

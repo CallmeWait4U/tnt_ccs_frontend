@@ -193,3 +193,4 @@ const routesLayout = [
 
 export { routesLayout, routesLayoutNoDomain }
 
+// Path: src/routes/index.js
