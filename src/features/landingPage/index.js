@@ -34,11 +34,14 @@ const LandingPage = () => {
           <h1 className='font-bold text-black p-2 text-2xl'>TNT CCS</h1>
         </div>
         <div style={{ paddingRight: '20px', display: 'flex' }}>
-          <Button style={{ marginRight: '16px' }} danger>
-            Về chúng tôi
-          </Button>
           <Button
-            style={{ background: '#7364FF', color: 'white' }}
+            style={{
+              background: '#7364FF',
+              color: 'white',
+              height: '40px',
+              width: '100px',
+              fontSize: 17
+            }}
             onClick={() => {
               navigate(`${PATH.BUSSINESSREGISTER}`)
             }}
