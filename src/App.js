@@ -8,9 +8,6 @@ import { routesLayout, routesLayoutNoDomain } from './routes/routes'
 const queryClient = new QueryClient()
 
 const App = () => {
-  // Lấy token từ localStorage
-  // const token = localStorage.getItem(LOCAL_STORAGE_ITEM.TOKEN)
-  // Lấy domain từ token sử dụng jwtDecode, hoặc mặc định là ''
   const domain = '/:domain'
 
   return (
