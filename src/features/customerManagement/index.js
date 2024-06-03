@@ -14,7 +14,6 @@ import {
   useListMyCustomer
 } from '../../api/Admin/customer'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
 import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
@@ -48,7 +47,6 @@ const CustomerManagement = () => {
 
   const refetchData = async () => {
     try {
-      // setSearchModel(undefined)
       await refetch()
     } catch (error) {
       console.error('Error while refetching customer data:', error)
@@ -65,14 +63,12 @@ const CustomerManagement = () => {
     try {
       const newSearchModel = {
         [field]: {
-          isCustom: false,
+          isCustom: field === 'phoneNumber' ? true : false,
           value: inputValue,
           valueType: 'text'
         }
       }
-      console.log('fe', inputValue, searchModel)
       setSearchModel(newSearchModel)
-      console.log(searchModel)
       await refetch()
     } catch (error) {
       console.error('Error while refetching customer data:', error)
@@ -174,7 +170,8 @@ const CustomerManagement = () => {
       filterParams: {
         field: 'code',
         onInputChange: (inputValue) =>
-          handleFilterInputChange(inputValue, 'code')
+          handleFilterInputChange(inputValue, 'code'),
+        onDeleteInput: () => refetchData()
       }
     },
     {
@@ -220,12 +217,6 @@ const CustomerManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        field: 'phoneNumber',
-        onInputChange: (inputValue) =>
-          handleFilterInputChange(inputValue, 'phoneNumber')
       }
     },
     {
@@ -236,7 +227,7 @@ const CustomerManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         field: 'employees',
         onInputChange: (inputValue) =>
@@ -257,7 +248,7 @@ const CustomerManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomSetFilter,
+      // filter: AgGridCustomSetFilter,
       filterParams: {
         itemList: [
           {
@@ -290,7 +281,7 @@ const CustomerManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomSetFilter,
+      // filter: AgGridCustomSetFilter,
       filterParams: {
         param: phaseOptions
       }

@@ -3,7 +3,6 @@ import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
 export const useListCustomer = (offset, limit, searchModel) => {
   const fetchData = async () => {
-    console.log('searchModel in cus', searchModel)
     if (searchModel) {
       try {
         const response = await api.get(
@@ -27,7 +26,7 @@ export const useListCustomer = (offset, limit, searchModel) => {
     }
   }
   return useQuery({
-    queryKey: ['ListCustomer'],
+    queryKey: ['ListCustomer', searchModel, offset, limit],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,
@@ -254,4 +253,20 @@ export const useConfirmTask = async (data) => {
   } catch (error) {
     throw error
   }
+}
+export const useCreateBill = async (data) => {
+  return api
+    .post(`${BASE_URL}/bills`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error
+    })
+}
+export const useCreatePriceQuote = async (data) => {
+  return api
+    .post(`${BASE_URL}/price-quotes`, data)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error
+    })
 }

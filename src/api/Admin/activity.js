@@ -1,19 +1,32 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../configs/AxiosConfigs'
 import { BASE_URL } from '../../contants/endpoints'
-export const useGetAllActivities = (offset, limit) => {
+export const useGetAllActivities = (offset, limit, searchModel) => {
   const fetchData = async () => {
-    try {
-      const response = await api.get(
-        `/activities/all?offset=${offset}&limit=${limit}`
-      )
-      return response.data
-    } catch (error) {
-      console.log(error)
+    if (searchModel) {
+      try {
+        const response = await api.get(
+          `/activities/all?offset=${offset}&limit=${limit}&searchModel=${JSON.stringify(
+            searchModel
+          )}`
+        )
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        const response = await api.get(
+          `/activities/all?offset=${offset}&limit=${limit}`
+        )
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
   return useQuery({
-    queryKey: ['ListActivity'],
+    queryKey: ['ListActivity', searchModel, offset, limit],
     queryFn: () => fetchData(),
     staleTime: 3 * 1000,
     refetchOnWindowFocus: false,

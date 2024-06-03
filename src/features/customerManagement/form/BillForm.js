@@ -1,115 +1,99 @@
-import { Button, Col, Form, Input, Row, Table } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Table,
+  message
+} from 'antd'
 import { useState } from 'react'
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
-
+import { useCreateBill, useGetProductList } from '../../../api/Admin/customer'
 import { StyledModal } from '../../component/ComponentOfForm'
+const BillForm = ({ visible, setVisible, customerUUID }) => {
+  const { data: productList } = useGetProductList()
+  const [selectedProducts, setSelectedProducts] = useState([])
 
-const BillForm = ({ visible, setVisible }) => {
-  const [tableData, setTableData] = useState([
-    {
-      index: 1,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      quantity: 12,
-      price: '12.000.000'
-    },
-    {
-      index: 2,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      quantity: 12,
-      price: '12.000.000'
+  const { mutate: createBill } = useMutation({
+    mutationFn: useCreateBill,
+    onSuccess: () => {
+      message.success('Tạo hóa đơn thành công')
+      setVisible(false)
     }
-  ])
-
-  const addRow = () => {
-    const maxIndex = tableData.reduce(
-      (max, item) => (item.index > max ? item.index : max),
-      0
-    )
-    const newItem = {
-      index: maxIndex + 1,
-      name: '',
-      code: '',
-      quantity: 0,
-      price: ''
-    }
-
-    setTableData([...tableData, newItem])
+  })
+  const handleQuantityChange = (uuid, quantity) => {
+    setSelectedProducts((prevSelectedProducts) => {
+      const updatedProducts = prevSelectedProducts.filter(
+        (product) => product.uuid !== uuid
+      )
+      if (quantity > 0) {
+        updatedProducts.push({ uuid, quantity })
+      }
+      return updatedProducts
+    })
+  }
+  const handleFixedPriceChange = (uuid, fixedPrice) => {
+    setSelectedProducts((prevSelectedProducts) => {
+      const updatedProducts = prevSelectedProducts.map((product) =>
+        product.uuid === uuid ? { ...product, fixedPrice } : product
+      )
+      return updatedProducts
+    })
   }
 
-  const columns = [
+  const handleAddProduct = (uuid) => {
+    if (!selectedProducts.find((product) => product.uuid === uuid)) {
+      setSelectedProducts((prevSelectedProducts) => [
+        ...prevSelectedProducts,
+        { uuid, quantity: 0, fixedPrice: 0 }
+      ])
+    }
+  }
+  const columnsModal = [
     {
-      title: 'Tên sản phẩm',
+      title: 'Sản phẩm',
       dataIndex: 'name',
-      key: 'name',
-      width: '30%',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'name', e.target.value)}
-        />
-      )
+      key: 'name'
     },
     {
-      title: 'Mã sản phẩm',
-      dataIndex: 'code',
-      key: 'code',
-      width: '15%',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'code', e.target.value)}
-        />
-      )
-    },
-    {
-      width: '10%',
       title: 'Số lượng',
       dataIndex: 'quantity',
       key: 'quantity',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'quantity', e.target.value)}
+      render: (_, record) => (
+        <InputNumber
+          min={1}
+          defaultValue={0}
+          onChange={(value) => handleQuantityChange(record.uuid, value)}
         />
       )
     },
     {
-      title: 'Giá tiền',
-      dataIndex: 'price',
-      key: 'price',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'price', e.target.value)}
-        />
-      )
-    },
-    {
-      title: 'Action',
-      width: '7%',
-      render: (item) => (
-        <Button
-          type='link'
-          icon={<FiTrash2 size={24} />}
-          onClick={() => handleDeleteRow(item.index)}
+      title: 'Giá cố định',
+      dataIndex: 'fixedPrice',
+      key: 'fixedPrice',
+      render: (_, record) => (
+        <InputNumber
+          min={0}
+          defaultValue={0}
+          onChange={(value) => handleFixedPriceChange(record.uuid, value)}
         />
       )
     }
   ]
-
-  const handleCellChange = (index, field, value) => {
-    const updatedTableData = [...tableData]
-    updatedTableData[index][field] = value
-    setTableData(updatedTableData)
+  const handleSubmit = (values) => {
+    console.log(values)
+    const requestBody = {
+      ...values,
+      createdDate: new Date().toISOString(),
+      customerUUID: customerUUID,
+      priceQuoteUUID: 'eb2c6110-cc9c-4a73-ab6a-fc70d511ee96',
+      products: selectedProducts
+    }
+    createBill(requestBody)
   }
-  const handleDeleteRow = (index) => {
-    const updatedData = tableData.filter((item) => item.index !== index)
-    setTableData(updatedData)
-    console.log('table', tableData)
-  }
-
   return (
     <StyledModal
       title={
@@ -121,7 +105,14 @@ const BillForm = ({ visible, setVisible }) => {
           </div>
           <div style={{ display: 'flex', gap: '5px' }}>
             <Button onClick={() => setVisible(false)}>Hủy </Button>
-            <Button style={{ background: '#F58220' }}>Thêm </Button>
+            <Button
+              style={{ background: '#F58220' }}
+              form='BillForm'
+              key='submit'
+              htmlType='submit'
+            >
+              Thêm{' '}
+            </Button>
           </div>
         </div>
       }
@@ -132,36 +123,38 @@ const BillForm = ({ visible, setVisible }) => {
       }}
       footer={<></>}
     >
-      <Form layout='vertical'>
+      <Form layout='vertical' id='BillForm' onFinish={handleSubmit}>
         <Row gutter={16}>
           <Col span={8}>
-            <Form.Item label={'Mã Báo giá'}>
+            <Form.Item name='code' label={'Mã hóa đơn'}>
               <Input />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='status' label={'Trạng thái'}>
+              <Select
+                options={[
+                  { label: 'Đã thanh toán', value: 'PAID' },
+                  { label: 'Chưa thanh toán', value: 'UNPAID' }
+                ]}
+              />
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item label={'Nhân viên tạo'}>
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label={'Mã nhân viên tạo'}>
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label={'Ngày tạo'}>
-              <Input />
-            </Form.Item>
+        <Row>
+          <Col span={24}>
+            <Table
+              columns={columnsModal}
+              dataSource={productList?.items || []}
+              rowKey='uuid'
+              style={{ overflow: 'auto' }}
+              onRow={(record) => ({
+                onClick: () => handleAddProduct(record.uuid)
+              })}
+            />
           </Col>
         </Row>
       </Form>
-      <Table columns={columns} dataSource={tableData} pagination={false} />
-      <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
-        Thêm sản phẩm
-      </Button>
     </StyledModal>
   )
 }

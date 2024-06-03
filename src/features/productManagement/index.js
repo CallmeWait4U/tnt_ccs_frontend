@@ -9,7 +9,6 @@ import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { useListProduct } from '../../api/Admin/product'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 const ProductManagement = () => {
@@ -76,20 +75,12 @@ const ProductManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 200
     },
     {
       headerName: 'TÊN SẢN PHẨM',
       field: 'name',
-      minWidth: 400,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 400
     },
     {
       headerName: 'ĐƠN VỊ',
@@ -98,11 +89,7 @@ const ProductManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 230,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 230
     },
     {
       headerName: 'GIÁ TIỀN',
@@ -115,11 +102,7 @@ const ProductManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
-      }
+      minWidth: 300
     },
     {
       headerName: 'SỐ LƯỢNG',
@@ -132,11 +115,7 @@ const ProductManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
-      }
+      minWidth: 200
     },
     {
       headerName: 'THAO TÁC',
