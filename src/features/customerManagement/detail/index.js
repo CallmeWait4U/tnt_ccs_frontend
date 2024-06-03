@@ -123,7 +123,11 @@ const CustomerDetail = () => {
         uuid={uuid}
         setVisible={setIsShowQuoteForm}
       />
-      <BillForm visible={isShowBillForm} setVisible={setIsShowBillForm} />
+      <BillForm
+        visible={isShowBillForm}
+        setVisible={setIsShowBillForm}
+        customerUUID={uuid}
+      />
       <ActivityForm
         visible={isShowActivityForm}
         setVisible={setIsShowActivityForm}

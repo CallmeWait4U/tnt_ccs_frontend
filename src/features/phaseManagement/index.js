@@ -14,7 +14,6 @@ import {
   useGetAllPhases
 } from '../../api/Admin/phase'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 
@@ -122,20 +121,12 @@ const PhaseManagement = () => {
         justifyContent: 'center'
       },
       valueGetter: (p) => p.data.priority + 1,
-      minWidth: 100,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
-      }
+      minWidth: 100
     },
     {
       headerName: 'TÊN GIAI ĐOẠN',
       field: 'name',
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 200
     },
     {
       headerName: 'SỐ LƯỢNG KHÁCH HÀNG',
@@ -144,10 +135,6 @@ const PhaseManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
       }
     },
     {
@@ -158,11 +145,7 @@ const PhaseManagement = () => {
       maxWidth: 900,
       minWidth: 350,
       wrapText: true,
-      autoHeight: true,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      autoHeight: true
     },
     {
       headerName: 'THAO TÁC',

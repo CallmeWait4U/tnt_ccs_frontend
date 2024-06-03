@@ -21,9 +21,6 @@ import {
   useRejectAccount
 } from '../../api/Admin/account'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 import CustomToggleButton from '../component/CustomToggleButton'
@@ -218,7 +215,7 @@ const AccountManagement = () => {
         justifyContent: 'center'
       },
       minWidth: 120,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -227,7 +224,7 @@ const AccountManagement = () => {
       headerName: 'TÊN TÀI KHOẢN',
       field: 'name',
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -249,7 +246,7 @@ const AccountManagement = () => {
       headerName: 'EMAIL',
       field: 'email',
       minWidth: 250,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -261,7 +258,7 @@ const AccountManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -273,7 +270,7 @@ const AccountManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -317,7 +314,7 @@ const AccountManagement = () => {
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -326,7 +323,7 @@ const AccountManagement = () => {
       headerName: 'TÊN CHỦ TÀI KHOẢN',
       field: 'name',
       minWidth: 300,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }
@@ -339,22 +336,22 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 0,
-            label: 'Nam'
-          },
-          {
-            id: '2',
-            value: 1,
-            label: 'Nữ'
-          }
-        ]
       }
+      // filter: AgGridCustomSetFilter,
+      // filterParams: {
+      //   itemList: [
+      //     {
+      //       id: '1',
+      //       value: 0,
+      //       label: 'Nam'
+      //     },
+      //     {
+      //       id: '2',
+      //       value: 1,
+      //       label: 'Nữ'
+      //     }
+      //   ]
+      // }
     },
     {
       headerName: 'VỊ TRÍ',
@@ -363,11 +360,11 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
       }
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'NGÀY SINH',
@@ -376,17 +373,17 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomDateFilter
+      }
+      // filter: AgGridCustomDateFilter
     },
     {
       headerName: 'EMAIL',
       field: 'email',
-      minWidth: 250,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 250
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'SỐ ĐIỆN THOẠI',
@@ -394,11 +391,11 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
       }
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'THAO TÁC',
@@ -438,20 +435,20 @@ const AccountManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 120,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 120
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'TÊN KHÁCH HÀNG',
       field: 'name',
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 200
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'LOẠI KHÁCH HÀNG',
@@ -461,31 +458,31 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomSetFilter,
-      filterParams: {
-        itemList: [
-          {
-            id: '1',
-            value: 0,
-            label: 'Doanh nghiệp'
-          },
-          {
-            id: '2',
-            value: 1,
-            label: 'Cá nhân'
-          }
-        ]
       }
+      // filter: AgGridCustomSetFilter,
+      // filterParams: {
+      //   itemList: [
+      //     {
+      //       id: '1',
+      //       value: 0,
+      //       label: 'Doanh nghiệp'
+      //     },
+      //     {
+      //       id: '2',
+      //       value: 1,
+      //       label: 'Cá nhân'
+      //     }
+      //   ]
+      // }
     },
     {
       headerName: 'EMAIL',
       field: 'email',
-      minWidth: 250,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 250
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'SỐ ĐIỆN THOẠI',
@@ -493,11 +490,11 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
       }
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'GIAI ĐOẠN',
@@ -506,11 +503,11 @@ const AccountManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
       }
+      // filter: AgGridCustomTextFilter,
+      // filterParams: {
+      //   type: 'text'
+      // }
     },
     {
       headerName: 'THAO TÁC',

@@ -9,9 +9,6 @@ import { TbTrashFilled } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { useGetComplaint } from '../../api/Admin/complaint'
 import { ButtonOk } from '../../assets/styles/button.style'
-import AgGridCustomDateFilter from '../../components/aggrid/AgGridCustomDateFilter'
-import AgGridCustomSetFilter from '../../components/aggrid/AgGridCustomSetFilter'
-import AgGridCustomTextFilter from '../../components/aggrid/AgGridCustomTextFilter'
 import AgGridTable from '../../components/aggrid/AgGridTable'
 import { PATH } from '../../contants/common'
 const ComplaintManagement = () => {
@@ -116,20 +113,12 @@ const ComplaintManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 300
     },
     {
       headerName: 'TÊN KHÁCH HÀNG',
       field: 'customerName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 300
     },
     {
       headerName: 'MÃ KHÁCH HÀNG',
@@ -138,11 +127,7 @@ const ComplaintManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 200,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 200
     },
     {
       headerName: 'LOẠI KHIẾU NẠI',
@@ -151,8 +136,7 @@ const ComplaintManagement = () => {
         display: 'flex',
         justifyContent: 'center'
       },
-      minWidth: 250,
-      filter: AgGridCustomTextFilter
+      minWidth: 250
     },
     {
       headerName: 'NGÀY GỬI',
@@ -162,7 +146,6 @@ const ComplaintManagement = () => {
         justifyContent: 'center'
       },
       minWidth: 200,
-      filter: AgGridCustomDateFilter,
       valueFormatter: ({ value }) => {
         return moment(value).format('DD-MM-YYYY')
       }
@@ -170,11 +153,7 @@ const ComplaintManagement = () => {
     {
       headerName: 'NHÂN VIÊN PHỤ TRÁCH',
       field: 'employeeName',
-      minWidth: 300,
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'text'
-      }
+      minWidth: 300
     },
     {
       headerName: 'TRẠNG THÁI',
@@ -184,7 +163,6 @@ const ComplaintManagement = () => {
         justifyContent: 'center'
       },
       minWidth: 250,
-      filter: AgGridCustomSetFilter,
       valueFormatter: ({ value }) => {
         return (value = status[value])
       }

@@ -30,6 +30,7 @@ import { PATH } from '../../contants/common'
 import './activityManagement.css'
 
 const ActivityManagement = () => {
+  const [searchModel, setSearchModel] = useState(undefined)
   const [skip, setSkip] = useState(0)
   const [take, setTake] = useState(10)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -37,7 +38,11 @@ const ActivityManagement = () => {
   const navigate = useNavigate()
   const { Title } = Typography
   const [form] = Form.useForm()
-  const { data: dataActivity, refetch } = useGetAllActivities(skip, take)
+  const { data: dataActivity, refetch: refetchData } = useGetAllActivities(
+    skip,
+    take,
+    searchModel
+  )
   const { data: phaseOption } = useGetPhaseList()
   const { mutate: createActivity } = useMutation({
     mutationFn: useCreateActivity,
@@ -45,7 +50,7 @@ const ActivityManagement = () => {
       console.log('success create activity')
       message.success('Thêm mới hoạt động thành công')
       setIsOpen(false)
-      refetch()
+      refetchData()
     }
   })
   const { mutate: deleteActivity } = useMutation({
@@ -53,7 +58,7 @@ const ActivityManagement = () => {
     onSuccess: () => {
       console.log('success delete activity')
       message.success('Xóa hoạt động thành công')
-      refetch()
+      refetchData()
     }
   })
   const layout = {
@@ -93,7 +98,22 @@ const ActivityManagement = () => {
       </div>
     )
   }
-
+  const handleFilterInputChange = async (inputValue, field) => {
+    try {
+      const newSearchModel = {
+        [field]: {
+          isCustom: field === 'phoneNumber' ? true : false,
+          value: inputValue,
+          valueType: 'text'
+        }
+      }
+      console.log('fe', inputValue, searchModel)
+      setSearchModel(newSearchModel)
+      await refetchData()
+    } catch (error) {
+      console.error('Error while refetching customer data:', error)
+    }
+  }
   const colDefs = [
     {
       headerName: 'STT',
@@ -117,7 +137,10 @@ const ActivityManagement = () => {
       minWidth: 350,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        field: 'name',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'name'),
+        onDeleteInput: () => refetchData()
       }
     },
     {
@@ -128,7 +151,10 @@ const ActivityManagement = () => {
       autoHeight: true,
       filter: AgGridCustomTextFilter,
       filterParams: {
-        type: 'text'
+        field: 'description',
+        onInputChange: (inputValue) =>
+          handleFilterInputChange(inputValue, 'description'),
+        onDeleteInput: () => refetchData()
       }
     },
     {
@@ -138,17 +164,13 @@ const ActivityManagement = () => {
       cellStyle: {
         display: 'flex',
         justifyContent: 'center'
-      },
-      filter: AgGridCustomTextFilter,
-      filterParams: {
-        type: 'number'
       }
     },
     {
       headerName: 'GIAI ĐOẠN',
       field: 'phaseName',
       minWidth: 350,
-      filter: AgGridCustomTextFilter,
+      // filter: AgGridCustomTextFilter,
       filterParams: {
         type: 'text'
       }

@@ -1,114 +1,104 @@
-import { Button, Col, Form, Input, Row, Table } from 'antd'
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Table,
+  InputNumber,
+  DatePicker,
+  Select,
+  message
+} from 'antd'
 
 import { useState } from 'react'
-import { FiPlus, FiTrash2 } from 'react-icons/fi'
 import { StyledModal } from '../../component/ComponentOfForm'
+import {
+  useGetProductList,
+  useCreatePriceQuote
+} from '../../../api/Admin/customer'
+import { useMutation } from '@tanstack/react-query'
+const QuoteForm = ({ visible, setVisible, uuid, refetch }) => {
+  const { data: productList } = useGetProductList()
+  const [selectedProduct, setSelectedProduct] = useState([])
 
-const QuoteForm = ({ visible, setVisible, uuid }) => {
-  const [tableData, setTableData] = useState([
-    {
-      index: 1,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      quantity: 12,
-      price: '12.000.000'
-    },
-    {
-      index: 2,
-      name: 'Lê Huy Ngọ',
-      code: 'SP-001',
-      quantity: 12,
-      price: '12.000.000'
+  const { mutate: createPriceQuote } = useMutation({
+    mutationFn: useCreatePriceQuote,
+    onSuccess: () => {
+      message.success('Tạo báo giá thành công')
+      refetch()
+      setVisible(false)
     }
-  ])
-
-  const addRow = () => {
-    const maxIndex = tableData.reduce(
-      (max, item) => (item.index > max ? item.index : max),
-      0
-    )
-    const newItem = {
-      index: maxIndex + 1,
-      name: '',
-      code: '',
-      quantity: 0,
-      price: ''
-    }
-
-    setTableData([...tableData, newItem])
-    console.log('table', tableData)
+  })
+  const handleQuantityChange = (uuid, quantity) => {
+    setSelectedProduct((prevSelectedProducts) => {
+      const updatedProducts = prevSelectedProducts.filter(
+        (product) => product.uuid !== uuid
+      )
+      if (quantity > 0) {
+        updatedProducts.push({ uuid, quantity })
+      }
+      return updatedProducts
+    })
+  }
+  const handleNegotiatedPriceChange = (uuid, negotiatedPrice) => {
+    setSelectedProduct((prevSelectedProducts) => {
+      const updatedProducts = prevSelectedProducts.map((product) =>
+        product.uuid === uuid ? { ...product, negotiatedPrice } : product
+      )
+      return updatedProducts
+    })
   }
 
-  const columns = [
+  const handleAddProduct = (uuid) => {
+    if (!selectedProduct.find((product) => product.uuid === uuid)) {
+      setSelectedProduct((prevSelectedProducts) => [
+        ...prevSelectedProducts,
+        { uuid, quantity: 0, negotiatedPrice: 0 }
+      ])
+    }
+  }
+  const columnModal = [
     {
-      title: 'Tên sản phẩm',
+      title: 'Sản phẩm',
       dataIndex: 'name',
-      key: 'name',
-      width: '30%',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'name', e.target.value)}
-        />
-      )
+      key: 'name'
     },
     {
-      title: 'Mã sản phẩm',
-      dataIndex: 'code',
-      key: 'code',
-      width: '15%',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'code', e.target.value)}
-        />
-      )
-    },
-    {
-      width: '10%',
       title: 'Số lượng',
       dataIndex: 'quantity',
       key: 'quantity',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'quantity', e.target.value)}
+      render: (_, record) => (
+        <InputNumber
+          min={1}
+          defaultValue={0}
+          onChange={(value) => handleQuantityChange(record.uuid, value)}
         />
       )
     },
     {
-      title: 'Giá tiền',
-      dataIndex: 'price',
-      key: 'price',
-      render: (item, record, index) => (
-        <Input
-          defaultValue={item}
-          onChange={(e) => handleCellChange(index, 'price', e.target.value)}
-        />
-      )
-    },
-    {
-      title: 'Action',
-      width: '7%',
-      render: (item) => (
-        <Button
-          type='link'
-          icon={<FiTrash2 size={24} />}
-          onClick={() => handleDeleteRow(item.index)}
+      title: 'Giá thương lượng',
+      dataIndex: 'negotiatedPrice',
+      key: 'negotiatedPrice',
+      render: (_, record) => (
+        <InputNumber
+          min={0}
+          defaultValue={0}
+          onChange={(value) => handleNegotiatedPriceChange(record.uuid, value)}
         />
       )
     }
   ]
-
-  const handleCellChange = (index, field, value) => {
-    const updatedTableData = [...tableData]
-    updatedTableData[index][field] = value
-    setTableData(updatedTableData)
-  }
-  const handleDeleteRow = (index) => {
-    const updatedData = tableData.filter((item) => item.index !== index)
-    setTableData(updatedData)
-    console.log('table', tableData)
+  const handleSubmit = (values) => {
+    console.log(values)
+    const requestBody = {
+      ...values,
+      createdDate: new Date().toISOString(),
+      sentDate: new Date().toISOString(),
+      customerUUID: uuid,
+      products: selectedProduct
+    }
+    createPriceQuote(requestBody)
   }
 
   return (
@@ -122,7 +112,14 @@ const QuoteForm = ({ visible, setVisible, uuid }) => {
           </div>
           <div style={{ display: 'flex', gap: '5px' }}>
             <Button onClick={() => setVisible(false)}>Hủy </Button>
-            <Button style={{ background: '#F58220' }}>Thêm </Button>
+            <Button
+              style={{ background: '#F58220' }}
+              form='PQForm'
+              key='submit'
+              htmlType='submit'
+            >
+              Thêm{' '}
+            </Button>
           </div>
         </div>
       }
@@ -133,36 +130,48 @@ const QuoteForm = ({ visible, setVisible, uuid }) => {
       }}
       footer={<></>}
     >
-      <Form layout='vertical'>
+      <Form layout='vertical' id='PQForm' onFinish={handleSubmit}>
         <Row gutter={16}>
           <Col span={8}>
-            <Form.Item label={'Mã Báo giá'}>
+            <Form.Item name='code' label={'Mã báo giá'}>
               <Input />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='priceQuoteUUID' label={'Mã yêu cầu báo giá'}>
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='status' label={'Trạng thái'}>
+              <Select
+                options={[
+                  { label: 'Đã gửi', value: 'SENT' },
+                  { label: 'Chưa gửi', value: 'UNSENT' }
+                ]}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='effectiveDate' label={'Ngày hiệu lực'}>
+              <DatePicker />
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item label={'Nhân viên tạo'}>
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label={'Mã nhân viên tạo'}>
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label={'Ngày tạo'}>
-              <Input />
-            </Form.Item>
+        <Row>
+          <Col span={24}>
+            <Table
+              columns={columnModal}
+              dataSource={productList?.items || []}
+              rowKey='uuid'
+              style={{ overflow: 'auto' }}
+              onRow={(record) => ({
+                onClick: () => handleAddProduct(record.uuid)
+              })}
+            />
           </Col>
         </Row>
       </Form>
-      <Table columns={columns} dataSource={tableData} pagination={false} />
-      <Button type='dashed' onClick={addRow} block icon={<FiPlus />}>
-        Thêm sản phẩm
-      </Button>
     </StyledModal>
   )
 }
